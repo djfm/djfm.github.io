@@ -107,3 +107,45 @@ Et on ajoute aux plugins dans le .eslintrc l'entrée :
 `"plugin:node/recommended"`
 
 Voilà, on est à peu près prêts à travailler.
+
+## Configuration de webpack et du serveur local
+
+J'ai parlé un peu vite, on a tout de suite besoin de webpack
+pour travailler, donc c'est reparti pour du setup !
+
+J'installe donc :
+
+```bash
+yarn add -D ts-loader babel-loader @babel/core webpack webpack-cli
+```
+
+Puis je crée une config webpack minimale et un script build dans
+mon package.json que j'invoquerai avec :
+
+```
+yarn build
+```
+
+Il me manque encore la configuration de babel.
+
+J'installe :
+
+```bash
+yarn add -D @babel/plugin-transform-react-jsx @babel/preset-env
+```
+
+Et je crée une config babel minimale :
+
+Enfin j'installe React pour avoir quelque chose à mettre sous la dent de webpack :
+
+```bash
+yarn add react react-dom @types/react
+```
+
+Et je crée un composant minimal.
+
+Enfin, encore un déboire avec le fichier tsconfig.json que
+je n'avais pas installé, et enfin, `yarn build` fait son oeuvre.
+
+
+Il est grand temps de faire un commit.
