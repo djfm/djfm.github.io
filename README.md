@@ -119,7 +119,7 @@ J'installe donc :
 yarn add -D ts-loader babel-loader @babel/core webpack webpack-cli
 ```
 
-Puis je crée une config webpack minimale et un script build dans
+Puis je crée [une config webpack minimale](https://github.com/djfm/djfm.github.io/blob/d259695204c81d2baedc1ef71e1b0b83ca8cf8ba/webpack.config.ts) et un [script build](https://github.com/djfm/djfm.github.io/blob/d259695204c81d2baedc1ef71e1b0b83ca8cf8ba/package.json#L10) dans
 mon package.json que j'invoquerai avec :
 
 ```
@@ -134,7 +134,7 @@ J'installe :
 yarn add -D @babel/plugin-transform-react-jsx @babel/preset-env
 ```
 
-Et je crée une config babel minimale :
+Et je crée [une config babel minimale](https://github.com/djfm/djfm.github.io/blob/d259695204c81d2baedc1ef71e1b0b83ca8cf8ba/babel.config.json).
 
 Enfin j'installe React pour avoir quelque chose à mettre sous la dent de webpack :
 
@@ -142,10 +142,10 @@ Enfin j'installe React pour avoir quelque chose à mettre sous la dent de webpac
 yarn add react react-dom @types/react
 ```
 
-Et je crée un composant minimal.
+Et je crée [un composant minimal](https://github.com/djfm/djfm.github.io/blob/d259695204c81d2baedc1ef71e1b0b83ca8cf8ba/src/client/index.tsx).
 
 Enfin, encore un déboire avec le fichier tsconfig.json que
-je n'avais pas installé, et enfin, `yarn build` fait son oeuvre.
+je n'avais pas créé, donc j'en mets [un minimal](https://github.com/djfm/djfm.github.io/blob/d259695204c81d2baedc1ef71e1b0b83ca8cf8ba/tsconfig.json), et enfin, `yarn build` fait son oeuvre.
 
 
 Il est grand temps de faire un commit.
