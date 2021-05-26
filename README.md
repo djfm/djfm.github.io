@@ -19,3 +19,7 @@ Je me crée donc le repo djfm.github.io
 J'ajoute un fichier index.html à la raçine pour voir si le site marche.
 
 Je commit, j'ajoute le remote qui va bien, et je push sur djfm.github.io.
+
+Et donc ça marche, quand je vais sur [mon site](https://djfm.github.io/) après avoir fait
+ce commit : [085b264](https://github.com/djfm/djfm.github.io/commit/085b264),
+je vois bien hello qui s'affiche !
