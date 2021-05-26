@@ -50,3 +50,14 @@ J'ajoute également le .gitignore recommandé par Yarn 2 dans le cas du Zéro In
 qui est le mien. Zéro Install c'est à dire que sitôt clôné, le projet est prêt à tourner.
 Oui on commite les node_modules. On s'en fout, la bande passante et le stockage ne coûtent
 rien. Moi je trouve ça très bien comme approche, on a des programmes parfaitement reproductibles.
+
+## Setup du Linter
+
+On va faire du TypeScript, du React, et du SSR - au moins.
+
+Donc j'installe ce qu'il faut pour typescript :
+
+```
+yarn add typescript
+yarn add ts-node @types/node
+```
