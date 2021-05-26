@@ -11,3 +11,11 @@ Mon site perso, pas encore construit, où je tâcherai quand même de publier me
 - je veux tout faire à la main
 - je veux que ce soit facile à maintenir
 
+## Étude de solutions
+
+Je n'ai pas cherché très longtemps, je pense que GitHub pages fera très bien l'affaire.
+Je me crée donc le repo djfm.github.io
+
+J'ajoute un fichier index.html à la raçine pour voir si le site marche.
+
+Je commit, j'ajoute le remote qui va bien, et je push sur djfm.github.io.
