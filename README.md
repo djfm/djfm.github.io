@@ -55,9 +55,29 @@ rien. Moi je trouve ça très bien comme approche, on a des programmes parfaitem
 
 On va faire du TypeScript, du React, et du SSR - au moins.
 
+### Typescript
+
 Donc j'installe ce qu'il faut pour typescript :
 
 ```
 yarn add typescript
 yarn add ts-node @types/node
 ```
+
+### Eslint
+
+#### Côté JS
+
+Et j'enchaîne sur eslint.
+
+Comme d'hab, je pars de la doc sur [le site](https://yarnpkg.com/package/eslint-config-airbnb) du paquet.
+
+```bash
+npm info "eslint-config-airbnb@latest" peerDependencies
+# use the appropriate versions when installing, as given by the previous command
+yarn add -D eslint-config-airbnb@latest
+yarn add -D eslint@7.2.0 eslint-plugin-import@^2.22.1 eslint-plugin-jsx-a11y@^6.4.1
+yarn add -D eslint-plugin-react@^7.21.5 eslint-plugin-react-hooks@^4
+```
+
+Et là je prépare un peu la config d'eslint.
