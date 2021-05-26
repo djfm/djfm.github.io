@@ -91,3 +91,19 @@ Je suis la [doc officielle](https://github.com/typescript-eslint/typescript-esli
 ```bash
 yarn add -D @typescript-eslint/parser @typescript-eslint/eslint-plugin
 ```
+
+Vous pouvez voir le nouveau .eslintrc.json dans [le commit qui correspond](https://github.com/djfm/djfm.github.io/blob/f6a503aaef023f1e41a24576e802054be411bbb5/.eslintrc.json)...
+
+#### A last plugin for eslint
+
+I'm gonna do some node-side things so:
+
+```
+yarn add -D eslint-plugin-node
+```
+
+Et on ajoute aux plugins dans le .eslintrc l'entrée :
+
+`"plugin:node/recommended"`
+
+Voilà, on est à peu près prêts à travailler.
