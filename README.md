@@ -83,3 +83,11 @@ yarn add -D eslint-plugin-react@^7.21.5 eslint-plugin-react-hooks@^4
 Et là je prépare un peu la config d'eslint.
 
 Vous pouvez retrouver l'état du .eslintrc dans l'[historique de GitHub](https://github.com/djfm/djfm.github.io/blob/1c3ce0204dd0dc9c06b85f37fec435580856fcbb/.eslintrc.json).
+
+#### Côté TypeScript
+
+Je suis la [doc officielle](https://github.com/typescript-eslint/typescript-eslint/blob/master/docs/getting-started/linting/README.md) de typescript-eslint :
+
+```bash
+yarn add -D @typescript-eslint/parser @typescript-eslint/eslint-plugin
+```
