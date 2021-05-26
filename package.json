@@ -1,0 +1,10 @@
+{
+  "name": "djfm-site-perso",
+  "version": "1.0.0",
+  "description": "Mon site web.",
+  "main": "index.js",
+  "repository": "git@github.com:djfm/djfm-site-perso.git",
+  "author": "François-Marie de Jouvencel <fm.de.jouvencel@gmail.com>",
+  "license": "MIT",
+  "private": false
+}

@@ -33,3 +33,20 @@ En 5 minutes après 2 clics dans l'interface de GitHub et deux clics dans l'inte
 À mon agréable surprise, GitHub me génère un certificat SSL, et annonce que ça devrait prendre 30 minutes au plus.
 
 Dès que ce sera bon, il faudra que je pense à aller cocher la case "Enforce HTTPs".
+
+## Préparation de l'environnement de travail
+
+Pour utiliser yarn 2 en Zéro-Install mais en conservant le familier
+dossier node_modules :
+
+```bash
+yarn init
+yarn set version berry
+echo 'nodeLinker: node-modules' >> .yarnrc.yml
+yarn set version latest
+```
+
+J'ajoute également le .gitignore recommandé par Yarn 2 dans le cas du Zéro Install,
+qui est le mien. Zéro Install c'est à dire que sitôt clôné, le projet est prêt à tourner.
+Oui on commite les node_modules. On s'en fout, la bande passante et le stockage ne coûtent
+rien. Moi je trouve ça très bien comme approche, on a des programmes parfaitement reproductibles.
