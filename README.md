@@ -149,3 +149,59 @@ je n'avais pas créé, donc j'en mets [un minimal](https://github.com/djfm/djfm.
 
 
 Il est grand temps de faire un commit.
+
+# Configuration du hot-reloading de React
+
+On installe :
+
+```bash
+yarn add -D webpack-dev-middleware @types/webpack-dev-middleware
+yarn add -D webpack-hot-middleware @types/webpack-hot-middleware
+```
+
+On ajoute dans le code du serveur:
+
+```typescript
+import webpackConfig from '../../webpack.config';
+import createDevMiddleware from 'webpack-dev-middleware';
+import createHotMiddleWare from 'webpack-hot-middleware';
+
+const webpackCompiler = webpack(webpackConfig);
+const devMiddleware = createDevMiddleware(webpackCompiler);
+const hotMiddleware = createDevMiddleware(webpackCompiler);
+```
+
+puis :
+
+```typescript
+app.use(devMiddleware);
+app.use(hotMiddleware);
+```
+
+Dans la config de webpack j'ai du ruser:
+
+```typescript
+type Mode = 'production' | 'development' | 'none';
+
+const mode: Mode = 'production';
+
+export default {
+  mode,
+  ...
+}
+```
+
+Sinon ma configuration n'était pas acceptée par le compilo
+si je mettais une string
+directement dans `mode`.
+
+Ensuite on s'occupe de `react-refresh` :
+
+```
+yarn add -D react-refresh type-fest
+yarn add @pmmmwh/react-refresh-webpack-plugin
+```
+
+Et on met à jour le webpack.config.ts.
+
+Enfin, ça marche! On a le hot-reload du React.
