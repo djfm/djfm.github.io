@@ -3,12 +3,30 @@
   "parser": "@typescript-eslint/parser",
   "plugins": [
     "@typescript-eslint",
-    "plugin:node/recommended"
+    "node"
   ],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "airbnb",
-    "airbnb/hooks"
-  ]
+    "airbnb/hooks",
+    "plugin:node/recommended"
+  ],
+  "rules": {
+
+    "node/no-unsupported-features/es-syntax": 0,
+    "react/jsx-filename-extension": [1, {
+      "allow": "as-needed",
+      "extensions": [".tsx"]
+    }],
+    "import/extensions": [
+      1, {
+        ".ts": "never",
+        ".tsx": "never"
+      }
+    ],
+    "node/no-missing-import": 0,
+    "import/no-unresolved": 0,
+    "no-use-before-define": 0
+  }
 }
