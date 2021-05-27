@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { ReactElement } from 'react';
 
 import {
   Link,
@@ -11,7 +11,7 @@ import Home from './Home';
 import About from './About';
 import Tutorials from './Tutorials';
 
-const App = () => (
+const App = (): ReactElement => (
   <Router>
     <div>
       <nav>
@@ -22,7 +22,7 @@ const App = () => (
         </ul>
         <ul>
           <li>
-            <Link to="/a-propos">Qu'est-ce que ce site ?</Link>
+            <Link to="/a-propos">Qu&apos;est-ce que ce site ?</Link>
           </li>
         </ul>
         <ul>

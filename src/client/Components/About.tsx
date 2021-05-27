@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
-const About = () => (
+const About = (): ReactElement => (
   <main>
     <h1>À propos de ce site</h1>
   </main>
