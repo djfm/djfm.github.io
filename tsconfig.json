@@ -3,6 +3,8 @@
     "esModuleInterop": true,
     "sourceMap": true,
     "jsx": "react",
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "target": "ESNext",
+    "module": "CommonJS"
   },
 }
