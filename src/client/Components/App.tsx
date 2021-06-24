@@ -9,12 +9,13 @@ import Home from './Home';
 import MiscTypeScript from './MiscTypeScript';
 
 import {
+  AppRoot,
   HUList,
   NLink,
 } from './Styled';
 
 const App: React.FC = () => (
-  <div>
+  <AppRoot>
     <div>
       <nav>
         <HUList>
@@ -31,7 +32,7 @@ const App: React.FC = () => (
       <Route exact path="/"><Home /></Route>
       <Route path="/typescript"><MiscTypeScript /></Route>
     </Switch>
-  </div>
+  </AppRoot>
 );
 
 export default App;

@@ -2,14 +2,20 @@ import { NavLink } from 'react-router-dom';
 
 import styled from 'styled-components';
 
+const linkColor = '#ff5722';
+
+export const AppRoot = styled.div`
+  font-family: monospace;
+`;
+
 export const NLink = styled(NavLink)`
   text-decoration: none;
-  color: blue;
+  color: ${linkColor};
   &:visited {
-    color: blue;
+    color: ${linkColor};
   }
   &.active {
-    text-decoration: underline;
+    font-weight: bold;
   }
 `;
 
@@ -44,4 +50,9 @@ export const TwoColumnsRM = styled.div`
       flex: 1;
     }
   }
+`;
+
+export const H1 = styled.h1`
+  margin-top: 1.7em;
+  margin-bottom: 1.7em;
 `;
