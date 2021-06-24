@@ -22,6 +22,9 @@ app.use(hotMiddleware);
 
 app.use(express.static(
   path.resolve(__dirname, '..', '..', 'docs'),
+  {
+    extensions: ['html'],
+  },
 ));
 
 const port = process.env.port || 3000;
