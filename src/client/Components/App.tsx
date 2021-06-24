@@ -3,7 +3,6 @@ import React from 'react';
 import {
   Link,
   Route,
-  BrowserRouter as Router,
   Switch,
 } from 'react-router-dom';
 
@@ -12,7 +11,7 @@ import About from './About';
 import MiscTypeScript from './MiscTypeScript';
 
 const App: React.FC = () => (
-  <Router>
+  <div>
     <div>
       <nav>
         <ul>
@@ -37,7 +36,7 @@ const App: React.FC = () => (
       <Route path="/a-propos"><About /></Route>
       <Route path="/typescript"><MiscTypeScript /></Route>
     </Switch>
-  </Router>
+  </div>
 );
 
 export default App;
