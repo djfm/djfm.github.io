@@ -35,25 +35,6 @@ const MiscTypeScript: React.FC = () => {
     <main>
       <h1>Des trucs autour de TypeScript, ma nouvelle passion</h1>
       <TwoColumnsRM>
-        <Switch>
-          <Route path={`${path}/${typesVsInterfaces}`}>
-            <section>
-              <h1>{tviTitle}</h1>
-            </section>
-          </Route>
-
-          <Route path={`${path}/${typeNarrowing}`}>
-            <section>
-              <h1>{tnTitle}</h1>
-            </section>
-          </Route>
-
-          <Route path={`${path}`}>
-            <section>
-              <h1>{defaultTitle}</h1>
-            </section>
-          </Route>
-        </Switch>
         <nav>
           <VUList>
             <li>
@@ -75,6 +56,25 @@ const MiscTypeScript: React.FC = () => {
             </li>
           </VUList>
         </nav>
+        <Switch>
+          <Route path={`${path}/${typesVsInterfaces}`}>
+            <section>
+              <h1>{tviTitle}</h1>
+            </section>
+          </Route>
+
+          <Route path={`${path}/${typeNarrowing}`}>
+            <section>
+              <h1>{tnTitle}</h1>
+            </section>
+          </Route>
+
+          <Route path={`${path}`}>
+            <section>
+              <h1>{defaultTitle}</h1>
+            </section>
+          </Route>
+        </Switch>
       </TwoColumnsRM>
     </main>
   );

@@ -37,9 +37,11 @@ export const VUList = styled.nav`
 
 export const TwoColumnsRM = styled.div`
   max-width: 1500px;
-  display: flex;
-  flex-direction: row;
-  *:first-child {
-    flex: 1;
+  @media (min-width: 850px) {
+    display: flex;
+    flex-direction: row-reverse;
+    *:last-child {
+      flex: 1;
+    }
   }
 `;
