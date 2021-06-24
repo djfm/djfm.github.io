@@ -100,7 +100,7 @@ const MiscTypeScript: React.FC = () => {
               </p>
               <p>
                 Il faut noter que TypeScript n&apos;ajoute pas de fonctionnalités au
-                langage Javascript lors de l&apos;exécution. J&apos; mis un moment à le
+                langage Javascript lors de l&apos;exécution. J&apos;ai mis un moment à le
                 comprendre: lors de la compilation, toute référence à TypeScript est
                 supprimée.
               </p>
