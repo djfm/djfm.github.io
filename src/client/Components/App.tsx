@@ -9,7 +9,7 @@ import {
 
 import Home from './Home';
 import About from './About';
-import Tutorials from './Tutorials';
+import MiscTypeScript from './MiscTypeScript';
 
 const App = (): ReactElement => (
   <Router>
@@ -27,7 +27,7 @@ const App = (): ReactElement => (
         </ul>
         <ul>
           <li>
-            <Link to="/tutos">Tutos informatique & programmation</Link>
+            <Link to="/typescript">TypeScript c&apos;est chouette</Link>
           </li>
         </ul>
       </nav>
@@ -35,7 +35,7 @@ const App = (): ReactElement => (
     <Switch>
       <Route exact path="/"><Home /></Route>
       <Route path="/a-propos"><About /></Route>
-      <Route path="/tutos"><Tutorials /></Route>
+      <Route path="/typescript"><MiscTypeScript /></Route>
     </Switch>
   </Router>
 );
