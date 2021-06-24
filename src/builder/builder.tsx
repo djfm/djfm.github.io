@@ -12,6 +12,7 @@ import {
   stat,
   mkdir,
   unlink,
+  rmdir,
 } from 'fs/promises';
 
 import React from 'react';
@@ -81,6 +82,11 @@ const extractAllLinks = () => {
 const main = async () => {
   console.log('Pre-rendering all pages...');
   const allLinks = extractAllLinks();
+
+  // it is very important for correct directory creation
+  // that a link like "a/b" be processed before just "a"
+  allLinks.sort().reverse();
+
   console.log(`found pages: ${allLinks.map((l) => `"${l}"`).join(', ')}.\n`);
 
   const indexBuffer = await readFile(path.resolve(__dirname, 'index.template.html'));
@@ -112,32 +118,40 @@ const main = async () => {
       }
     }
 
-    return path.join(docsRootPath, ...dirs, `${fileBasename}.html`);
+    const baseNamePath = path.join(docsRootPath, ...dirs, fileBasename);
+    try {
+      // if a route has the same name as a directory,
+      // use an index.html file in that directory for that route
+      const maybeDir = await stat(baseNamePath);
+      if (maybeDir.isDirectory) {
+        return `${baseNamePath}/index.html`;
+      }
+    } catch (err) {
+      if (err.code !== 'ENOENT') {
+        throw err;
+      }
+    }
+
+    return `${baseNamePath}.html`;
   };
 
-  const cleanupDocs = async (dirPath: string, currentDepth = 0): Promise<void> => {
+  const cleanupDocs = async (dirPath: string): Promise<void> => {
     const entries = await readdir(dirPath);
     const kept = [];
-
-    const rm = async (p: string): Promise<void> => {
-      console.log(`  - unlinking "${p}"...`);
-      await unlink(p);
-    };
 
     for (const entry of entries) {
       const entryPath = path.join(dirPath, entry);
       const s = await stat(entryPath);
       if (s.isDirectory()) {
-        await cleanupDocs(entryPath, currentDepth + 1);
-        await rm(entryPath);
+        await cleanupDocs(entryPath);
+        console.log(`  - unlinking "${entryPath}"...`);
+        await rmdir(entryPath);
       } else if (/\.html$/.test(entry)) {
-        await rm(entryPath);
+        console.log(`  - unlinking "${entryPath}"...`);
+        await unlink(entryPath);
       } else {
         kept.push(entryPath);
       }
-    }
-    if (kept.length === 0 && currentDepth > 0) {
-      await rm(dirPath);
     }
   };
 
