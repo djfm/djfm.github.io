@@ -6,6 +6,8 @@ import {
 
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 
+import CompressionPlugin from 'compression-webpack-plugin';
+
 const babelLoaderPlugins = [];
 const plugins = [];
 
@@ -23,6 +25,10 @@ if (mode === 'development') {
   babelLoaderPlugins.push(require.resolve('react-refresh/babel'));
   plugins.push(new HotModuleReplacementPlugin());
   plugins.push(new ReactRefreshWebpackPlugin());
+} else {
+  plugins.push(new CompressionPlugin({
+    test: /\.js$/,
+  }));
 }
 
 export default {
