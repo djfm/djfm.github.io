@@ -20,6 +20,8 @@ import ReactDOMServer from 'react-dom/server';
 import ReactTestRenderer from 'react-test-renderer';
 import { StaticRouter } from 'react-router';
 
+import { ServerStyleSheet } from 'styled-components';
+
 import App from '../client/Components/App';
 
 const createAppForURL = (url: string): [React.ReactElement, Record<string, unknown>] => {
@@ -94,6 +96,7 @@ const main = async () => {
 
   const docsRootPath = path.resolve(__dirname, '..', '..', 'docs');
   const appPlaceholder = '#APP#';
+  const stylesPlaceholder = '#STYLES#';
 
   const createDocPath = async (link: string): Promise<string> => {
     if (link === '/') {
@@ -161,13 +164,24 @@ const main = async () => {
   console.log('\nNow generating the static pages...');
   for (const link of allLinks) {
     console.log(`  # processing "${link}"`);
+    const sheet = new ServerStyleSheet();
+
     console.log(`    1. rendering "${link}"...`);
     const [app] = createAppForURL(link);
-    const markup = ReactDOMServer.renderToString(app);
-    console.log('    2. creating directory structure if necessary');
+    const markup = ReactDOMServer.renderToString(sheet.collectStyles(app));
+
+    console.log('    2. getting the style tags');
+    const styleTags = sheet.getStyleTags();
+
+    console.log('    3. creating directory structure if necessary');
     const docPath = await createDocPath(link);
-    console.log(`    3. writing template file "${docPath}"...`);
-    await writeFile(docPath, indexTemplate.replace(appPlaceholder, markup));
+
+    console.log(`    4. writing template file "${docPath}"...`);
+    const finalCode = indexTemplate
+      .replace(appPlaceholder, markup)
+      .replace(stylesPlaceholder, styleTags);
+
+    await writeFile(docPath, finalCode);
   }
 };
 
