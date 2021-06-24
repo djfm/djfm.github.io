@@ -18,13 +18,9 @@ const App: React.FC = () => (
           <li>
             <Link to="/">Accueil</Link>
           </li>
-        </ul>
-        <ul>
           <li>
             <Link to="/a-propos">Qu&apos;est-ce que ce site ?</Link>
           </li>
-        </ul>
-        <ul>
           <li>
             <Link to="/typescript">TypeScript c&apos;est chouette</Link>
           </li>
