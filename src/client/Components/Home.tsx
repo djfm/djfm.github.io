@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Home = () => (
+const Home: React.FC = () => (
   <main>
-    <h1>Page d'accueil</h1>
+    <h1>Page d&apos;accueil</h1>
   </main>
 );
 

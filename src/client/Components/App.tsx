@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 
 import {
   Link,
@@ -11,7 +11,7 @@ import Home from './Home';
 import About from './About';
 import MiscTypeScript from './MiscTypeScript';
 
-const App = (): ReactElement => (
+const App: React.FC = () => (
   <Router>
     <div>
       <nav>

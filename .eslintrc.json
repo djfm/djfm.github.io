@@ -13,7 +13,6 @@
     "plugin:node/recommended"
   ],
   "rules": {
-
     "node/no-unsupported-features/es-syntax": 0,
     "react/jsx-filename-extension": [1, {
       "allow": "as-needed",
