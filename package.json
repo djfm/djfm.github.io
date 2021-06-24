@@ -7,7 +7,7 @@
   "author": "François-Marie de Jouvencel <fm.de.jouvencel@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "NODE_ENV=production webpack",
+    "build": "NODE_ENV=production webpack && yarn render",
     "render": "ts-node src/builder/builder.tsx",
     "start": "ts-node-dev src/server/server.ts"
   },

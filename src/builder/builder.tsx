@@ -79,9 +79,9 @@ const extractAllLinks = () => {
 };
 
 const main = async () => {
+  console.log('Pre-rendering all pages...')
   const allLinks = extractAllLinks();
-
-  console.log(`Found links: ${allLinks.map((l) => `"${l}"`).join(', ')}.`);
+  console.log(`found pages: ${allLinks.map((l) => `"${l}"`).join(', ')}.\n`);
 
   const indexBuffer = await readFile(path.resolve(__dirname, 'index.template.html'));
   const indexTemplate = indexBuffer.toString();
@@ -120,7 +120,7 @@ const main = async () => {
     const kept = [];
 
     const rm = async (p: string): Promise<void> => {
-      console.log(`Unlinking "${p}"...`);
+      console.log(`  - unlinking "${p}"...`);
       await unlink(p);
     };
 
@@ -141,18 +141,18 @@ const main = async () => {
     }
   };
 
-  console.log('Cleaning up previously generated pages...');
+  console.log('\nCleaning up previously generated pages...');
   await cleanupDocs(docsRootPath);
 
-  console.log('Now generating the static pages...');
+  console.log('\nNow generating the static pages...');
   for (const link of allLinks) {
-    console.log(`Processing "${link}"...`);
+    console.log(`  # processing "${link}"`);
+    console.log(`    1. rendering "${link}"...`);
     const [app] = createAppForURL(link);
     const markup = ReactDOMServer.renderToString(app);
-    console.log(markup);
-
+    console.log('    2. creating directory structure if necessary');
     const docPath = await createDocPath(link);
-    console.log(`Writing template file "${docPath}"...`);
+    console.log(`    3. writing template file "${docPath}"...`);
     await writeFile(docPath, indexTemplate.replace(appPlaceholder, markup));
   }
 };
