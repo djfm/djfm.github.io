@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {
-  Link,
+  NavLink,
   Route,
   Switch,
 } from 'react-router-dom';
@@ -16,13 +16,13 @@ const App: React.FC = () => (
       <nav>
         <ul>
           <li>
-            <Link to="/">Accueil</Link>
+            <NavLink to="/" activeClassName="active">Accueil</NavLink>
           </li>
           <li>
-            <Link to="/a-propos">Qu&apos;est-ce que ce site ?</Link>
+            <NavLink to="/a-propos" activeClassName="active">Qu&apos;est-ce que ce site ?</NavLink>
           </li>
           <li>
-            <Link to="/typescript">TypeScript c&apos;est chouette</Link>
+            <NavLink to="/typescript" activeClassName="active">TypeScript c&apos;est chouette</NavLink>
           </li>
         </ul>
       </nav>

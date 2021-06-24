@@ -1,11 +1,19 @@
 import React from 'react';
 
 import {
-  Link,
+  NavLink,
   Route,
   Switch,
   useRouteMatch,
 } from 'react-router-dom';
+
+const buildURL = (base: string, additionalSegment: string): string => {
+  if (base[base.length - 1] === '/') {
+    return `${base}${additionalSegment}`;
+  }
+
+  return `${base}/${additionalSegment}`;
+};
 
 const MiscTypeScript: React.FC = () => {
   const { url, path } = useRouteMatch();
@@ -24,21 +32,21 @@ const MiscTypeScript: React.FC = () => {
       <nav>
         <ul>
           <li>
-            <Link to={`${url}`}>
+            <NavLink exact to={`${url}`} activeClassName="active">
               {defaultTitle}
-            </Link>
+            </NavLink>
           </li>
 
           <li>
-            <Link to={`${url}/${typesVsInterfaces}`}>
+            <NavLink to={buildURL(url, typesVsInterfaces)} activeClassName="active">
               {tviTitle}
-            </Link>
+            </NavLink>
           </li>
 
           <li>
-            <Link to={`${url}/${typeNarrowing}`}>
+            <NavLink to={buildURL(url, typeNarrowing)} activeClassName="active">
               {tnTitle}
-            </Link>
+            </NavLink>
           </li>
         </ul>
       </nav>
