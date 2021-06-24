@@ -79,7 +79,7 @@ const extractAllLinks = () => {
 };
 
 const main = async () => {
-  console.log('Pre-rendering all pages...')
+  console.log('Pre-rendering all pages...');
   const allLinks = extractAllLinks();
   console.log(`found pages: ${allLinks.map((l) => `"${l}"`).join(', ')}.\n`);
 
