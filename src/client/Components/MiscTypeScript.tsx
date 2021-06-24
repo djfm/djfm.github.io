@@ -1,11 +1,16 @@
 import React from 'react';
 
 import {
-  NavLink,
   Route,
   Switch,
   useRouteMatch,
 } from 'react-router-dom';
+
+import {
+  VUList,
+  NLink,
+  TwoColumnsRM,
+} from './Styled';
 
 const buildURL = (base: string, additionalSegment: string): string => {
   if (base[base.length - 1] === '/') {
@@ -29,46 +34,48 @@ const MiscTypeScript: React.FC = () => {
   return (
     <main>
       <h1>Des trucs autour de TypeScript, ma nouvelle passion</h1>
-      <nav>
-        <ul>
-          <li>
-            <NavLink exact to={`${url}`} activeClassName="active">
-              {defaultTitle}
-            </NavLink>
-          </li>
+      <TwoColumnsRM>
+        <Switch>
+          <Route path={`${path}/${typesVsInterfaces}`}>
+            <section>
+              <h1>{tviTitle}</h1>
+            </section>
+          </Route>
 
-          <li>
-            <NavLink to={buildURL(url, typesVsInterfaces)} activeClassName="active">
-              {tviTitle}
-            </NavLink>
-          </li>
+          <Route path={`${path}/${typeNarrowing}`}>
+            <section>
+              <h1>{tnTitle}</h1>
+            </section>
+          </Route>
 
-          <li>
-            <NavLink to={buildURL(url, typeNarrowing)} activeClassName="active">
-              {tnTitle}
-            </NavLink>
-          </li>
-        </ul>
-      </nav>
-      <Switch>
-        <Route path={`${path}/${typesVsInterfaces}`}>
-          <section>
-            <h1>{tviTitle}</h1>
-          </section>
-        </Route>
+          <Route path={`${path}`}>
+            <section>
+              <h1>{defaultTitle}</h1>
+            </section>
+          </Route>
+        </Switch>
+        <nav>
+          <VUList>
+            <li>
+              <NLink exact to={`${url}`} activeClassName="active">
+                {defaultTitle}
+              </NLink>
+            </li>
 
-        <Route path={`${path}/${typeNarrowing}`}>
-          <section>
-            <h1>{tnTitle}</h1>
-          </section>
-        </Route>
+            <li>
+              <NLink to={buildURL(url, typesVsInterfaces)} activeClassName="active">
+                {tviTitle}
+              </NLink>
+            </li>
 
-        <Route path={`${path}`}>
-          <section>
-            <h1>{defaultTitle}</h1>
-          </section>
-        </Route>
-      </Switch>
+            <li>
+              <NLink to={buildURL(url, typeNarrowing)} activeClassName="active">
+                {tnTitle}
+              </NLink>
+            </li>
+          </VUList>
+        </nav>
+      </TwoColumnsRM>
     </main>
   );
 };

@@ -1,7 +1,7 @@
 import React from 'react';
+import styled from 'styled-components';
 
 import {
-  NavLink,
   Route,
   Switch,
 } from 'react-router-dom';
@@ -10,21 +10,26 @@ import Home from './Home';
 import About from './About';
 import MiscTypeScript from './MiscTypeScript';
 
+import {
+  HUList,
+  NLink,
+} from './Styled';
+
 const App: React.FC = () => (
   <div>
     <div>
       <nav>
-        <ul>
+        <HUList>
           <li>
-            <NavLink to="/" activeClassName="active">Accueil</NavLink>
+            <NLink exact to="/" activeClassName="active">Accueil</NLink>
           </li>
           <li>
-            <NavLink to="/a-propos" activeClassName="active">Qu&apos;est-ce que ce site ?</NavLink>
+            <NLink to="/a-propos" activeClassName="active">Qu&apos;est-ce que ce site ?</NLink>
           </li>
           <li>
-            <NavLink to="/typescript" activeClassName="active">TypeScript c&apos;est chouette</NavLink>
+            <NLink to="/typescript" activeClassName="active">TypeScript c&apos;est chouette</NLink>
           </li>
-        </ul>
+        </HUList>
       </nav>
     </div>
     <Switch>
