@@ -17,7 +17,7 @@ export const MainNav = styled.nav`
   justify-content: center;
   background-color: ${darkBG};
   ul {
-    padding-left: 0;
+    padding-left: 4px;
   }
 `;
 
