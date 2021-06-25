@@ -7,9 +7,10 @@ import {
 } from 'react-router-dom';
 
 import {
-  VUList,
-  NLink,
-  TwoColumnsRM,
+  VerticalUnorderedList,
+  StyledNavLink,
+  TwoColumnsRightMenu,
+  Main,
   H1,
 } from './Styled';
 
@@ -33,33 +34,33 @@ const MiscTypeScript: React.FC = () => {
   const defaultTitle = "Mais c'est quoi, TypeScript?";
 
   return (
-    <main>
+    <Main>
       <H1>Des trucs autour de TypeScript, ma nouvelle passion</H1>
-      <TwoColumnsRM>
+      <TwoColumnsRightMenu>
         <nav>
-          <VUList>
+          <VerticalUnorderedList>
             <li>
-              <NLink exact to={`${url}`} activeClassName="active">
+              <StyledNavLink exact to={`${url}`} activeClassName="active">
                 {defaultTitle}
-              </NLink>
+              </StyledNavLink>
             </li>
 
             <li>
-              <NLink to={buildURL(url, typesVsInterfaces)} activeClassName="active">
+              <StyledNavLink to={buildURL(url, typesVsInterfaces)} activeClassName="active">
                 {tviTitle}
-              </NLink>
+              </StyledNavLink>
             </li>
 
             <li>
-              <NLink to={buildURL(url, typeNarrowing)} activeClassName="active">
+              <StyledNavLink to={buildURL(url, typeNarrowing)} activeClassName="active">
                 {tnTitle}
-              </NLink>
+              </StyledNavLink>
             </li>
-          </VUList>
+          </VerticalUnorderedList>
         </nav>
         <Switch>
           <Route path={`${path}/${typesVsInterfaces}`}>
-            <section>
+            <article>
               <H1>{tviTitle}</H1>
               <p>
                 En fait, c&apos;est à peu de choses près la même chose.
@@ -77,17 +78,17 @@ const MiscTypeScript: React.FC = () => {
                   intersection (<i>&</i>)
                 </li>
               </ul>
-            </section>
+            </article>
           </Route>
 
           <Route path={`${path}/${typeNarrowing}`}>
-            <section>
+            <article>
               <H1>{tnTitle}</H1>
-            </section>
+            </article>
           </Route>
 
           <Route path={`${path}`}>
-            <section>
+            <article>
               <H1>{defaultTitle}</H1>
               <p>
                 TypeScript est un sur-ensemble de Javascript qui
@@ -114,11 +115,11 @@ const MiscTypeScript: React.FC = () => {
                 si on les enregistre via des moyens légaux en Javascript. On fait souvent ça en
                 annotant les objets avec une propriété <i>type</i>.
               </p>
-            </section>
+            </article>
           </Route>
         </Switch>
-      </TwoColumnsRM>
-    </main>
+      </TwoColumnsRightMenu>
+    </Main>
   );
 };
 

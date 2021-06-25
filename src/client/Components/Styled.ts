@@ -18,9 +18,11 @@ export const MainNavDesktop = styled.nav`
 
   @media (min-width: ${desktopBreakpoint}) {
     display: flex;
+
     flex-direction: row;
     justify-content: center;
     background-color: ${darkBG};
+
     ul {
       padding-left: 4px;
     }
@@ -30,73 +32,82 @@ export const MainNavDesktop = styled.nav`
 export const MainNavMobileWrapper = styled.div`
   display: none;
 
-  .open-menu,.closed-menu {
-    position: fixed;
-    top: 0;
-    right: 0;
-  }
-
-  .closed-menu {
-    padding-top: 5px;
-    padding-right: 5px;
-  }
-
-  .open-menu {
-    width: 100%;
-
-    background-color: ${darkBG};
-
-    .input-container {
-      padding-top: 5px;
-      text-align: right;
-    }
-  }
-
   @media (max-width: ${desktopBreakpointLow}) {
     display: block;
+
+    .open-menu,.closed-menu {
+      position: fixed;
+      top: 0;
+      right: 0;
+    }
+
+    .closed-menu {
+      padding-top: 5px;
+      padding-right: 5px;
+    }
+
+    .open-menu {
+      width: 100%;
+
+      background-color: ${darkBG};
+
+      input {
+        position: fixed;
+        top: 10px;
+        right: 2px;
+      }
+    }
   }
 `;
 
-export const NLink = styled(NavLink)`
+export const StyledNavLink = styled(NavLink)`
   text-decoration: none;
   color: ${linkColor};
+
   &:visited {
     color: ${linkColor};
   }
+
   &.active {
     font-weight: bold;
   }
 `;
 
-export const HUList = styled.ul`
+export const HorizontalUnorderedList = styled.ul`
   display: flex;
   flex-direction: row;
+
   li {
     list-style: none;
   }
+
   li:not(:first-child) {
     margin-left: 1.2em;
   }
 `;
 
-export const VUList = styled.ul`
+export const VerticalUnorderedList = styled.ul`
   display: flex;
+
   flex-direction: column;
+
   li {
     list-style: none;
   }
+
   li:not(:first-child) {
     margin-top: 1.2em;
   }
 `;
 
-export const TwoColumnsRM = styled.div`
+export const TwoColumnsRightMenu = styled.div`
   > *:first-child ul {
     padding-left: 0;
   }
 
   @media (min-width: ${desktopBreakpoint}) {
     display: flex;
+
     flex-direction: row-reverse;
 
     > *:last-child {
@@ -117,7 +128,13 @@ export const H1 = styled.h1`
   margin-bottom: 1.7em;
 `;
 
-export const WithHMargin = styled.div`
+export const WithHorizontalMargin = styled.div`
   margin-left: 4px;
   margin-right: 4px;
+`;
+
+export const Main = styled.main`
+  h1 {
+    margin-top: 10px;
+  }
 `;

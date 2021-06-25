@@ -12,12 +12,12 @@ import MiscTypeScript from './MiscTypeScript';
 
 import {
   AppRoot,
-  HUList,
-  VUList,
-  NLink,
+  HorizontalUnorderedList,
+  VerticalUnorderedList,
+  StyledNavLink,
   MainNavDesktop,
   MainNavMobileWrapper,
-  WithHMargin,
+  WithHorizontalMargin,
 } from './Styled';
 
 const menuLinks = [
@@ -52,32 +52,30 @@ const MainNavMobile: React.FC = () => {
 
   const openMarkup = (
     <div className="open-menu">
-      <div className="input-container">
-        <input
-          alt="open menu"
-          type="image"
-          src="/img/menu-open.png"
-          width="48px"
-          onClick={closeMenu}
-        />
-      </div>
+      <input
+        alt="open menu"
+        type="image"
+        src="/img/menu-open.png"
+        width="48px"
+        onClick={closeMenu}
+      />
       <nav>
-        <VUList>
+        <VerticalUnorderedList>
           {menuLinks.map(
             ({ to, title, exact }) => (
               <li key={to}>
-                <NLink
+                <StyledNavLink
                   exact={exact}
                   to={to}
                   activeClassName="active"
                   onClick={closeMenu}
                 >
                   {title}
-                </NLink>
+                </StyledNavLink>
               </li>
             ),
           )}
-        </VUList>
+        </VerticalUnorderedList>
       </nav>
     </div>
   );
@@ -92,25 +90,25 @@ const App: React.FC = () => (
         <MainNavMobile />
       </MainNavMobileWrapper>
       <MainNavDesktop>
-        <HUList>
+        <HorizontalUnorderedList>
           {menuLinks.map(
             ({ to, title, exact }) => (
               <li key={to}>
-                <NLink exact={exact} to={to} activeClassName="active">
+                <StyledNavLink exact={exact} to={to} activeClassName="active">
                   {title}
-                </NLink>
+                </StyledNavLink>
               </li>
             ),
           )}
-        </HUList>
+        </HorizontalUnorderedList>
       </MainNavDesktop>
     </header>
-    <WithHMargin>
+    <WithHorizontalMargin>
       <Switch>
         <Route exact path="/"><Home /></Route>
         <Route path="/typescript"><MiscTypeScript /></Route>
       </Switch>
-    </WithHMargin>
+    </WithHorizontalMargin>
   </AppRoot>
 );
 

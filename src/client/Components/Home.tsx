@@ -1,11 +1,12 @@
 import React from 'react';
 
 import {
+  Main,
   H1,
 } from './Styled';
 
 const Home: React.FC = () => (
-  <main>
+  <Main>
     <H1>Qu&apos;est-ce que ce site?</H1>
 
     <p>
@@ -23,7 +24,7 @@ const Home: React.FC = () => (
       <li>d&apos;avoir du coup un site statique mais avec du progressive-enhancement</li>
       <li>d&apos;avoir plus de 90% à Google PageSpeed</li>
     </ul>
-  </main>
+  </Main>
 );
 
 export default Home;
