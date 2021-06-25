@@ -67,16 +67,16 @@ const MiscTypeScript: React.FC = () => {
               <p>
                 La différence principale vient de la façon dont on peut les
                 combiner :
-                <ul>
-                  <li>
-                    une interface peut étendre une autre interface
-                  </li>
-                  <li>
-                    les types peuvent être combinés par union (<i>|</i>) ou par
-                    intersection (<i>&</i>)
-                  </li>
-                </ul>
               </p>
+              <ul>
+                <li>
+                  une interface peut étendre une autre interface
+                </li>
+                <li>
+                  les types peuvent être combinés par union (<i>|</i>) ou par
+                  intersection (<i>&</i>)
+                </li>
+              </ul>
             </section>
           </Route>
 

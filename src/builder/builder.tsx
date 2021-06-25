@@ -42,6 +42,10 @@ const extractLinks = (
   node: ReactTestRenderer.ReactTestRendererNode
     | ReactTestRenderer.ReactTestRendererNode[],
 ): string[] => {
+  if (!node) {
+    return [];
+  }
+
   if (typeof node === 'string') {
     return [];
   }
@@ -87,7 +91,7 @@ const main = async () => {
 
   // it is very important for correct directory creation
   // that a link like "a/b" be processed before just "a"
-  allLinks.sort().reverse();
+  allLinks.filter((link) => link.startsWith('/')).sort().reverse();
 
   console.log(`found pages: ${allLinks.map((l) => `"${l}"`).join(', ')}.\n`);
 
@@ -140,20 +144,19 @@ const main = async () => {
 
   const cleanupDocs = async (dirPath: string): Promise<void> => {
     const entries = await readdir(dirPath);
-    const kept = [];
 
     for (const entry of entries) {
-      const entryPath = path.join(dirPath, entry);
-      const s = await stat(entryPath);
-      if (s.isDirectory()) {
-        await cleanupDocs(entryPath);
-        console.log(`  - unlinking "${entryPath}"...`);
-        await rmdir(entryPath);
-      } else if (/\.html$/.test(entry)) {
-        console.log(`  - unlinking "${entryPath}"...`);
-        await unlink(entryPath);
-      } else {
-        kept.push(entryPath);
+      if (entry !== 'img') {
+        const entryPath = path.join(dirPath, entry);
+        const s = await stat(entryPath);
+        if (s.isDirectory()) {
+          await cleanupDocs(entryPath);
+          console.log(`  - unlinking "${entryPath}"...`);
+          await rmdir(entryPath);
+        } else if (/\.html$/.test(entry)) {
+          console.log(`  - unlinking "${entryPath}"...`);
+          await unlink(entryPath);
+        }
       }
     }
   };

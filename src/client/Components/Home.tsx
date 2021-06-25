@@ -17,12 +17,12 @@ const Home: React.FC = () => (
     </p>
     <p>
       Pour ce site, le cahier des charges que je me suis fixé est:
-      <ul>
-        <li>de ne pas payer un centime d&apos;hébergement : merci GitHub pages</li>
-        <li>d&apos;avoir du coup un site statique mais avec du progressive-enhancement</li>
-        <li>d&apos;avoir plus de 90% à Google PageSpeed</li>
-      </ul>
     </p>
+    <ul>
+      <li>de ne pas payer un centime d&apos;hébergement : merci GitHub pages</li>
+      <li>d&apos;avoir du coup un site statique mais avec du progressive-enhancement</li>
+      <li>d&apos;avoir plus de 90% à Google PageSpeed</li>
+    </ul>
   </main>
 );
 
