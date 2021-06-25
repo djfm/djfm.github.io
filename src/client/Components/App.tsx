@@ -12,12 +12,13 @@ import {
   AppRoot,
   HUList,
   NLink,
+  MainNav,
 } from './Styled';
 
 const App: React.FC = () => (
   <AppRoot>
     <div>
-      <nav>
+      <MainNav>
         <HUList>
           <li>
             <NLink exact to="/" activeClassName="active">Qu&apos;est-ce que ce site?</NLink>
@@ -26,7 +27,7 @@ const App: React.FC = () => (
             <NLink to="/typescript" activeClassName="active">TypeScript c&apos;est chouette</NLink>
           </li>
         </HUList>
-      </nav>
+      </MainNav>
     </div>
     <Switch>
       <Route exact path="/"><Home /></Route>
