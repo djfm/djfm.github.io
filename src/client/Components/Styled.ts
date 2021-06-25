@@ -1,8 +1,9 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, Switch } from 'react-router-dom';
 
 import styled from 'styled-components';
 
 const linkColor = '#ff5722';
+const darkBG = '#222';
 
 export const AppRoot = styled.div`
   font-family: monospace;
@@ -11,7 +12,13 @@ export const AppRoot = styled.div`
 `;
 
 export const MainNav = styled.nav`
-  border-bottom: 1px solid black;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-color: ${darkBG};
+  ul {
+    padding-left: 0;
+  }
 `;
 
 export const NLink = styled(NavLink)`
@@ -49,12 +56,23 @@ export const VUList = styled.ul`
 
 export const TwoColumnsRM = styled.div`
   max-width: 1500px;
+
+  > *:first-child ul {
+    padding-left: 0;
+  }
+
   @media (min-width: 850px) {
     display: flex;
     flex-direction: row-reverse;
     > *:last-child {
       flex: 1;
-      margin-right: 5px;
+      padding-right: 10px;
+    }
+
+    > *:first-child ul {
+      background-color: ${darkBG};
+      padding-left: 10px;
+      padding-right: 10px;
     }
   }
 `;
@@ -62,4 +80,8 @@ export const TwoColumnsRM = styled.div`
 export const H1 = styled.h1`
   margin-top: 1.7em;
   margin-bottom: 1.7em;
+`;
+
+export const MarginLeft = styled.div`
+  margin-left: 4px;
 `;

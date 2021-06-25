@@ -13,6 +13,7 @@ import {
   HUList,
   NLink,
   MainNav,
+  MarginLeft,
 } from './Styled';
 
 const App: React.FC = () => (
@@ -29,10 +30,12 @@ const App: React.FC = () => (
         </HUList>
       </MainNav>
     </div>
-    <Switch>
-      <Route exact path="/"><Home /></Route>
-      <Route path="/typescript"><MiscTypeScript /></Route>
-    </Switch>
+    <MarginLeft>
+      <Switch>
+        <Route exact path="/"><Home /></Route>
+        <Route path="/typescript"><MiscTypeScript /></Route>
+      </Switch>
+    </MarginLeft>
   </AppRoot>
 );
 
