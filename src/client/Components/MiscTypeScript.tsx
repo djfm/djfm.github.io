@@ -111,7 +111,7 @@ const MiscTypeScript: React.FC = () => {
               </p>
               <p>
                 Par exemple les types qu&apos;on définit sont invisibles à l&apos;exécution - sauf
-                si on les enregistres via des moyens légaux en Javascript. On fait souvent ça en
+                si on les enregistre via des moyens légaux en Javascript. On fait souvent ça en
                 annotant les objets avec une propriété <i>type</i>.
               </p>
             </section>
