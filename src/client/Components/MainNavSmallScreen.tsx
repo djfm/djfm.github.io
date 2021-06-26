@@ -55,7 +55,7 @@ const Wrapper = styled.div`
       bottom: 0;
       left: 0;
 
-      background: linear-gradient(${darkBG}, rgba(0,0,0,0.5));
+      background-color: rgba(0,0,0,.5);
       z-index: 0;
     }
   }
@@ -64,8 +64,15 @@ const Wrapper = styled.div`
 const MainNavSmallScreen: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const openMenu = () => setIsOpen(true);
-  const closeMenu = () => setIsOpen(false);
+  const openMenu = () => {
+    setIsOpen(true);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeMenu = () => {
+    setIsOpen(false);
+    document.body.style.overflow = 'auto';
+  };
 
   const closedMarkup = () => (
     <div className="closed-menu">
