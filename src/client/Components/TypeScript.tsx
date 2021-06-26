@@ -22,7 +22,7 @@ const buildURL = (base: string, additionalSegment: string): string => {
   return `${base}/${additionalSegment}`;
 };
 
-const MiscTypeScript: React.FC = () => {
+const TypeScript: React.FC = () => {
   const { url, path } = useRouteMatch();
 
   const typesVsInterfaces = 'types-vs-interfaces';
@@ -123,4 +123,4 @@ const MiscTypeScript: React.FC = () => {
   );
 };
 
-export default MiscTypeScript;
+export default TypeScript;

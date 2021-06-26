@@ -1613,6 +1613,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/highlight.js@npm:^10.1.0":
+  version: 10.1.0
+  resolution: "@types/highlight.js@npm:10.1.0"
+  dependencies:
+    highlight.js: "*"
+  checksum: 6b38530be355752198cf93912bbc2ed0aa7d2276445a091fe6515bf5c53590a0a4054b398126f8ecffc46db154ea8b750296377a5a5cefa80233e0145588fffd
+  languageName: node
+  linkType: hard
+
 "@types/history@npm:*":
   version: 4.7.8
   resolution: "@types/history@npm:4.7.8"
@@ -3171,6 +3180,7 @@ __metadata:
     "@babel/preset-env": ^7.14.2
     "@pmmmwh/react-refresh-webpack-plugin": ^0.4.3
     "@types/express": ^4.17.12
+    "@types/highlight.js": ^10.1.0
     "@types/node": ^15.6.1
     "@types/react": ^17.0.8
     "@types/react-dom": ^17.0.8
@@ -3196,6 +3206,7 @@ __metadata:
     eslint-plugin-react: ^7.21.5
     eslint-plugin-react-hooks: ^4
     express: ^4.17.1
+    highlight.js: ^11.0.1
     react: ^17.0.2
     react-dom: ^17.0.2
     react-refresh: ^0.10.0
@@ -4189,6 +4200,13 @@ fsevents@~2.3.1:
   dependencies:
     function-bind: ^1.1.1
   checksum: c686e15300d41364486c099a9259d9c418022c294244843dcd712c4c286ff839d4f23a25413baa28c4d2c1e828afc2aaab70f685400b391533980223c71fa1ca
+  languageName: node
+  linkType: hard
+
+"highlight.js@npm:*, highlight.js@npm:^11.0.1":
+  version: 11.0.1
+  resolution: "highlight.js@npm:11.0.1"
+  checksum: 1c9f474ab83cb9bbb7df581f5a0c10058ca62358171753c2f5be604b6188363d9af8975b0527c354091660224fac5d3b73b1a4fad9590d066e601e63715a694b
   languageName: node
   linkType: hard
 
