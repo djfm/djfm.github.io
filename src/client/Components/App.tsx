@@ -10,9 +10,6 @@ import styled from 'styled-components';
 import MainNavSmallScreen from './MainNavSmallScreen';
 import MainNavLargeScreen from './MainNavLargeScreen';
 
-import About from './About';
-import TypeScript from './TypeScript';
-
 import {
   WithHorizontalMargin,
 } from './common/Styled';
