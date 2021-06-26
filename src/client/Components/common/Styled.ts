@@ -83,5 +83,6 @@ export const WithHorizontalMargin = styled.div`
 export const Main = styled.main`
   h1 {
     margin-top: 10px;
+    margin-bottom: 10px;
   }
 `;
