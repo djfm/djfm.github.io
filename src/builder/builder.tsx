@@ -87,11 +87,11 @@ const extractAllLinks = () => {
 
 const main = async () => {
   console.log('Pre-rendering all pages...');
-  const allLinks = extractAllLinks();
+  const allLinks = extractAllLinks().filter((link) => link.startsWith('/'));
 
   // it is very important for correct directory creation
   // that a link like "a/b" be processed before just "a"
-  allLinks.filter((link) => link.startsWith('/')).sort().reverse();
+  allLinks.sort().reverse();
 
   console.log(`found pages: ${allLinks.map((l) => `"${l}"`).join(', ')}.\n`);
 
