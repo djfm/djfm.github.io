@@ -1,6 +1,8 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-console */
 
+// TODO add static title to pages on compile, and add it in React too btw.
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { inspect } from 'util';
 
