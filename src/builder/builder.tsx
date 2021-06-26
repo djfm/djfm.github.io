@@ -146,7 +146,7 @@ const main = async () => {
     const entries = await readdir(dirPath);
 
     for (const entry of entries) {
-      if (entry !== 'img') {
+      if (entry !== 'img' && entry !== 'assets') {
         const entryPath = path.join(dirPath, entry);
         const s = await stat(entryPath);
         if (s.isDirectory()) {

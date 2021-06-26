@@ -47,13 +47,24 @@ data-styled.g9[id="sc-fujyAs"]{content:"bRoHOH,"}/*!sc*/
 .dkeEhS{font-family:monospace;font-size:1.2em;line-height:1.5;}/*!sc*/
 data-styled.g10[id="sc-pNWdM"]{content:"dkeEhS,"}/*!sc*/
 </style>
+    <link rel="preload" href="/assets/styles/atom-one-dark.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/assets/styles/atom-one-dark.min.css"></noscript>
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M3CJRL4"
       height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <!-- End Google Tag Manager (noscript) -->
-    <div id="root"><div class="sc-pNWdM dkeEhS"><div><div class="sc-iCoGMd bgDmUa"><div class="closed-menu"><input type="image" alt="open menu" src="/img/menu-closed.png" width="48px"/></div><div class="overlay" style="display:none"> </div></div><ul class="sc-gtsrHT sc-fujyAs fhxecm bRoHOH"><li><a class="sc-bdnxRM bPOfNy" href="/">Qu&#x27;est-ce que ce site?</a></li><li><a aria-current="page" class="sc-bdnxRM bPOfNy active" href="/typescript">TypeScript, c&#x27;est chouette !</a></li></ul></div><div class="sc-jSFjdj eEOIDW"><main class="sc-gKAaRy bAziFC"><h1 class="sc-eCApnc gsSinM">Des trucs autour de TypeScript, ma nouvelle passion</h1><div class="sc-hKFxyN eQMqrv"><nav><ul class="sc-dlnjwi kiSlZI"><li><a class="sc-bdnxRM bPOfNy" href="/typescript">Mais c&#x27;est quoi, TypeScript?</a></li><li><a aria-current="page" class="sc-bdnxRM bPOfNy active" href="/typescript/types-vs-interfaces">Types vs. Interfaces</a></li><li><a class="sc-bdnxRM bPOfNy" href="/typescript/type-narrowing">Le «narrowing» ou l&#x27;«affinage» de types</a></li></ul></nav><article><h1 class="sc-eCApnc gsSinM">Types vs. Interfaces</h1><p>En fait, c&#x27;est à peu de choses près la même chose.</p><p>La différence principale vient de la façon dont on peut les combiner :</p><ul><li>une interface peut étendre une autre interface</li><li>les types peuvent être combinés par union (<i>|</i>) ou par intersection (<i>&amp;</i>)</li></ul></article></div></main></div></div></div>
+    <div id="root"><div class="sc-pNWdM dkeEhS"><div><div class="sc-iCoGMd bgDmUa"><div class="closed-menu"><input type="image" alt="open menu" src="/img/menu-closed.png" width="48px"/></div><div class="overlay" style="display:none"> </div></div><ul class="sc-gtsrHT sc-fujyAs fhxecm bRoHOH"><li><a class="sc-bdnxRM bPOfNy" href="/">Qu&#x27;est-ce que ce site?</a></li><li><a aria-current="page" class="sc-bdnxRM bPOfNy active" href="/typescript">TypeScript, c&#x27;est chouette !</a></li></ul></div><div class="sc-jSFjdj eEOIDW"><main class="sc-gKAaRy bAziFC"><h1 class="sc-eCApnc gsSinM">Des trucs autour de TypeScript, ma nouvelle passion</h1><div class="sc-hKFxyN eQMqrv"><nav><ul class="sc-dlnjwi kiSlZI"><li><a class="sc-bdnxRM bPOfNy" href="/typescript">Mais c&#x27;est quoi, TypeScript?</a></li><li><a aria-current="page" class="sc-bdnxRM bPOfNy active" href="/typescript/types-vs-interfaces">Types vs. Interfaces</a></li><li><a class="sc-bdnxRM bPOfNy" href="/typescript/type-narrowing">Le «narrowing» ou l&#x27;«affinage» de types</a></li></ul></nav><article><header><h1 class="sc-eCApnc gsSinM">Types vs. Interfaces</h1><p>En fait, c&#x27;est à peu de choses près la même chose.</p></header><section>La différence principale vient de la façon dont on peut les combiner :<ul><li>une interface peut étendre une autre interface<pre><code class="language-typescript">interface Node {
+  type: string
+}
+
+interface TextNode extends Node {
+  type: &#x27;TextNode&#x27;
+  value: string
+}</code></pre></li><li>les types peuvent être combinés par union (<i>|</i>) ou par intersection (<i>&amp;</i>)</li></ul></section></article></div></main></div></div></div>
+    <script src="/assets/highlight.min.js"></script>
     <script src="/bundle.js"></script>
+    <script>hljs.highlightAll();</script>
   </body>
 </html>

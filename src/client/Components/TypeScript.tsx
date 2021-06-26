@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {
+  useEffect,
+} from 'react';
 
 import {
   Route,
@@ -22,6 +24,18 @@ const buildURL = (base: string, additionalSegment: string): string => {
   return `${base}/${additionalSegment}`;
 };
 
+const hasOwnProperty = <Y extends PropertyKey>(obj: unknown, prop: Y):
+  obj is Record<Y, unknown> => Object.prototype.hasOwnProperty.call(obj, prop);
+
+const extendExample = `interface Node {
+  type: string
+}
+
+interface TextNode extends Node {
+  type: 'TextNode'
+  value: string
+}`;
+
 const TypeScript: React.FC = () => {
   const { url, path } = useRouteMatch();
 
@@ -32,6 +46,16 @@ const TypeScript: React.FC = () => {
   const tnTitle = 'Le «narrowing» ou l\'«affinage» de types';
 
   const defaultTitle = "Mais c'est quoi, TypeScript?";
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      if (hasOwnProperty(window, 'hljs')) {
+        if (hasOwnProperty(window.hljs, 'highlightAll') && typeof window.hljs.highlightAll === 'function') {
+          window.hljs.highlightAll();
+        }
+      }
+    }
+  });
 
   return (
     <Main>
@@ -61,23 +85,26 @@ const TypeScript: React.FC = () => {
         <Switch>
           <Route path={`${path}/${typesVsInterfaces}`}>
             <article>
-              <H1>{tviTitle}</H1>
-              <p>
-                En fait, c&apos;est à peu de choses près la même chose.
-              </p>
-              <p>
+              <header>
+                <H1>{tviTitle}</H1>
+                <p>
+                  En fait, c&apos;est à peu de choses près la même chose.
+                </p>
+              </header>
+              <section>
                 La différence principale vient de la façon dont on peut les
                 combiner :
-              </p>
-              <ul>
-                <li>
-                  une interface peut étendre une autre interface
-                </li>
-                <li>
-                  les types peuvent être combinés par union (<i>|</i>) ou par
-                  intersection (<i>&</i>)
-                </li>
-              </ul>
+                <ul>
+                  <li>
+                    une interface peut étendre une autre interface
+                    <pre><code className="language-typescript">{extendExample}</code></pre>
+                  </li>
+                  <li>
+                    les types peuvent être combinés par union (<i>|</i>) ou par
+                    intersection (<i>&</i>)
+                  </li>
+                </ul>
+              </section>
             </article>
           </Route>
 
