@@ -20,8 +20,7 @@ display: none;
   justify-content: space-evenly;
 
   margin-top: 0;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding: 5px;
 
   background-color: ${darkBG};
 }

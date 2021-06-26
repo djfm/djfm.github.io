@@ -14,8 +14,8 @@ export const Introduction: React.FC<{
     <Article>
       <H1>{title}</H1>
       <p>
-        TypeScript est un sur-ensemble de Javascript qui
-        ajoute un système de types au langage.
+        TypeScript est un <strong>sur-ensemble de Javascript</strong> qui
+        ajoute un <strong>système</strong> de types au langage.
       </p>
       <p>
         Le code en TypeScript doit être compilé par

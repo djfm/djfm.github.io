@@ -11,7 +11,7 @@ import MainNavSmallScreen from './MainNavSmallScreen';
 import MainNavLargeScreen from './MainNavLargeScreen';
 
 import {
-  WithHorizontalMargin,
+  WithHorizontalPadding,
 } from './common/Styled';
 
 import routes from './common/mainMenuRoutes';
@@ -28,7 +28,7 @@ const App: React.FC = () => (
       <MainNavSmallScreen />
       <MainNavLargeScreen />
     </div>
-    <WithHorizontalMargin>
+    <WithHorizontalPadding>
       <Switch>
         {routes.map(({
           to,
@@ -44,7 +44,7 @@ const App: React.FC = () => (
           </Route>
         ))}
       </Switch>
-    </WithHorizontalMargin>
+    </WithHorizontalPadding>
   </AppRoot>
 );
 

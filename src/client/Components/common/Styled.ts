@@ -48,28 +48,30 @@ export const VerticalUnorderedList = styled.ul`
 `;
 
 export const TwoColumnsRightMenu = styled.div`
-  > *:first-child ul {
-    padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  > *:first-child > ul {
+    background-color: ${darkBG};
+    padding: 5px;
+    width 250px;
+  }
+
+  > *:last-child {
+    padding: 5px;
+    max-width: 800px;
   }
 
   @media (min-width: ${desktopBreakpointMin}) {
-    display: flex;
-
     flex-direction: row-reverse;
 
-    > *:last-child {
-      flex: 1;
-      padding-right: 10px;
+    > *:first-child {
+      flex-basis: 250px;
     }
 
-    > *:first-child {
-      flex-basis: 300px;
-
-      ul {
-        background-color: ${darkBG};
-        padding-left: 10px;
-        padding-right: 10px;
-      }
+    > *:last-child {
+      margin: 0 auto;
     }
   }
 `;
@@ -79,15 +81,15 @@ export const H1 = styled.h1`
   margin-bottom: 1.7em;
 `;
 
-export const WithHorizontalMargin = styled.div`
-  margin-left: 4px;
-  margin-right: 4px;
+export const WithHorizontalPadding = styled.div`
+  padding: 5px;
 `;
 
 export const Main = styled.main`
   > h1 {
     margin-top: 10px;
     margin-bottom: 10px;
+    margin-right: 48px;
 
     text-align: center;
   }
@@ -98,6 +100,5 @@ export const Pre = styled.pre`
 `;
 
 export const Article = styled.article`
-  max-width: 800px;
-  margin: 0 auto;
+
 `;
