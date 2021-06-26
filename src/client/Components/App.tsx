@@ -17,6 +17,8 @@ import {
   WithHorizontalMargin,
 } from './common/Styled';
 
+import routes from './data/mainMenuRoutes';
+
 const AppRoot = styled.div`
   font-family: monospace;
   font-size: 1.2em;
@@ -31,10 +33,19 @@ const App: React.FC = () => (
     </div>
     <WithHorizontalMargin>
       <Switch>
-        <Route exact path="/"><About /></Route>
-        <Route path="/typescript">
-          <TypeScript />
-        </Route>
+        {routes.map(({
+          to,
+          exact,
+          Component,
+        }) => (
+          <Route
+            key={to}
+            exact={exact}
+            path={to}
+          >
+            <Component />
+          </Route>
+        ))}
       </Switch>
     </WithHorizontalMargin>
   </AppRoot>

@@ -9,7 +9,7 @@ import {
   StyledNavLink,
 } from './common/Styled';
 
-import menuLinks from './data/mainMenuLinks';
+import routes from './data/mainMenuRoutes';
 
 const HUL = styled(HorizontalUnorderedList)`
 display: none;
@@ -29,7 +29,7 @@ display: none;
 
 const MainNavLargeScreen: React.FC = () => (
   <HUL>
-    {menuLinks.map(
+    {routes.map(
       ({ to, title, exact }) => (
         <li key={to}>
           <StyledNavLink exact={exact} to={to} activeClassName="active">

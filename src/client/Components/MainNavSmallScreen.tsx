@@ -11,7 +11,7 @@ import {
   StyledNavLink,
 } from './common/Styled';
 
-import menuLinks from './data/mainMenuLinks';
+import routes from './data/mainMenuRoutes';
 
 const Wrapper = styled.div`
   display: none;
@@ -74,7 +74,7 @@ const MainNavSmallScreen: React.FC = () => {
       />
       <nav>
         <VerticalUnorderedList>
-          {menuLinks.map(
+          {routes.map(
             ({ to, title, exact }) => (
               <li key={to}>
                 <StyledNavLink
