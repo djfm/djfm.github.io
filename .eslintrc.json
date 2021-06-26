@@ -29,6 +29,7 @@
     "import/no-unresolved": 0,
     "no-use-before-define": 0,
     "no-restricted-syntax": 0,
-    "no-unused-vars": 0 // use typescript's rule
+    "no-unused-vars": 0, // use typescript's rule
+    "implicit-arrow-linebreak": 0
   }
 }

@@ -14,27 +14,23 @@ import {
   TwoColumnsRightMenu,
   Main,
   H1,
+  Pre,
 } from './common/Styled';
 
-const buildURL = (base: string, additionalSegment: string): string => {
-  if (base[base.length - 1] === '/') {
-    return `${base}${additionalSegment}`;
-  }
-
-  return `${base}/${additionalSegment}`;
-};
-
-const hasOwnProperty = <Y extends PropertyKey>(obj: unknown, prop: Y):
-  obj is Record<Y, unknown> => Object.prototype.hasOwnProperty.call(obj, prop);
+import {
+  hasOwnProperty,
+  buildURL,
+} from './common/util';
 
 const extendExample = `interface Node {
   type: string
 }
 
-interface TextNode extends Node {
-  type: 'TextNode'
-  value: string
-}`;
+interface TextNode
+  extends Node {
+    type: 'TextNode'
+    value: string
+  }`;
 
 const TypeScript: React.FC = () => {
   const { url, path } = useRouteMatch();
@@ -97,7 +93,11 @@ const TypeScript: React.FC = () => {
                 <ul>
                   <li>
                     une interface peut étendre une autre interface
-                    <pre><code className="language-typescript">{extendExample}</code></pre>
+                    <Pre>
+                      <code className="language-typescript">
+                        {extendExample}
+                      </code>
+                    </Pre>
                   </li>
                   <li>
                     les types peuvent être combinés par union (<i>|</i>) ou par

@@ -2,8 +2,8 @@ import { NavLink } from 'react-router-dom';
 
 import styled from 'styled-components';
 
-export const linkColor = '#ff5722';
-export const darkBG = '#222';
+export const linkColor = '#ffa657';
+export const darkBG = '#0d1117';
 export const desktopBreakpointMin = '1200px';
 export const desktopBreakpointMax = '1199px';
 
@@ -62,10 +62,12 @@ export const TwoColumnsRightMenu = styled.div`
       padding-right: 10px;
     }
 
-    > *:first-child ul {
-      background-color: ${darkBG};
-      padding-left: 10px;
-      padding-right: 10px;
+    > *:first-child {
+      ul {
+        background-color: ${darkBG};
+        padding-left: 10px;
+        padding-right: 10px;
+      }
     }
   }
 `;
@@ -85,4 +87,8 @@ export const Main = styled.main`
     margin-top: 10px;
     margin-bottom: 10px;
   }
+`;
+
+export const Pre = styled.pre`
+  width: fit-content;
 `;
