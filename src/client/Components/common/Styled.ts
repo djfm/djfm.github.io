@@ -63,6 +63,8 @@ export const TwoColumnsRightMenu = styled.div`
     }
 
     > *:first-child {
+      flex-basis: 300px;
+
       ul {
         background-color: ${darkBG};
         padding-left: 10px;
@@ -83,12 +85,19 @@ export const WithHorizontalMargin = styled.div`
 `;
 
 export const Main = styled.main`
-  h1 {
+  > h1 {
     margin-top: 10px;
     margin-bottom: 10px;
+
+    text-align: center;
   }
 `;
 
 export const Pre = styled.pre`
   width: fit-content;
+`;
+
+export const Article = styled.article`
+  max-width: 800px;
+  margin: 0 auto;
 `;

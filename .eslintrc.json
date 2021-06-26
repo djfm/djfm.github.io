@@ -3,6 +3,7 @@
   "parser": "@typescript-eslint/parser",
   "plugins": [
     "@typescript-eslint",
+    "eslint-plugin-react",
     "node"
   ],
   "extends": [
@@ -10,7 +11,8 @@
     "plugin:@typescript-eslint/recommended",
     "airbnb",
     "airbnb/hooks",
-    "plugin:node/recommended"
+    "plugin:node/recommended",
+    "plugin:react/recommended"
   ],
   "rules": {
     "node/no-unsupported-features/es-syntax": 0,

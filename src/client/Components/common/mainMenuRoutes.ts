@@ -1,14 +1,7 @@
-import React from 'react';
+import { RouteSpec } from './RouteSpec';
 
 import About from '../About';
 import TypeScript from '../TypeScript';
-
-type RouteSpec = {
-  to: string,
-  title: string,
-  exact?: true,
-  Component: React.FunctionComponent
-}
 
 const routes: RouteSpec[] = [
   {

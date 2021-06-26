@@ -17,7 +17,7 @@ display: none;
 @media (min-width: ${desktopBreakpointMin}) {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-evenly;
 
   margin-top: 0;
   padding-top: 5px;
