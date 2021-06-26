@@ -2,63 +2,10 @@ import { NavLink } from 'react-router-dom';
 
 import styled from 'styled-components';
 
-const linkColor = '#ff5722';
-const darkBG = '#222';
-const desktopBreakpoint = '1200px';
-const desktopBreakpointLow = '1199px';
-
-export const AppRoot = styled.div`
-  font-family: monospace;
-  font-size: 1.2em;
-  line-height: 1.5;
-`;
-
-export const MainNavDesktop = styled.nav`
-  display: none;
-
-  @media (min-width: ${desktopBreakpoint}) {
-    display: flex;
-
-    flex-direction: row;
-    justify-content: center;
-    background-color: ${darkBG};
-
-    ul {
-      padding-left: 4px;
-    }
-  }
-`;
-
-export const MainNavMobileWrapper = styled.div`
-  display: none;
-
-  @media (max-width: ${desktopBreakpointLow}) {
-    display: block;
-
-    .open-menu,.closed-menu {
-      position: fixed;
-      top: 0;
-      right: 0;
-    }
-
-    .closed-menu {
-      padding-top: 5px;
-      padding-right: 5px;
-    }
-
-    .open-menu {
-      width: 100%;
-
-      background-color: ${darkBG};
-
-      input {
-        position: fixed;
-        top: 10px;
-        right: 2px;
-      }
-    }
-  }
-`;
+export const linkColor = '#ff5722';
+export const darkBG = '#222';
+export const desktopBreakpointMin = '1200px';
+export const desktopBreakpointMax = '1199px';
 
 export const StyledNavLink = styled(NavLink)`
   text-decoration: none;
@@ -105,7 +52,7 @@ export const TwoColumnsRightMenu = styled.div`
     padding-left: 0;
   }
 
-  @media (min-width: ${desktopBreakpoint}) {
+  @media (min-width: ${desktopBreakpointMin}) {
     display: flex;
 
     flex-direction: row-reverse;

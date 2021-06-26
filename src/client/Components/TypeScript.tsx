@@ -12,7 +12,7 @@ import {
   TwoColumnsRightMenu,
   Main,
   H1,
-} from './Styled';
+} from './common/Styled';
 
 const buildURL = (base: string, additionalSegment: string): string => {
   if (base[base.length - 1] === '/') {

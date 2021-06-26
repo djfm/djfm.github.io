@@ -3,7 +3,7 @@ import React from 'react';
 import {
   Main,
   H1,
-} from './Styled';
+} from './common/Styled';
 
 const Home: React.FC = () => (
   <Main>

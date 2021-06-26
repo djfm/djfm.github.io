@@ -1,112 +1,40 @@
-import React, {
-  useState,
-} from 'react';
+import React from 'react';
 
 import {
   Route,
   Switch,
 } from 'react-router-dom';
 
-import Home from './Home';
-import MiscTypeScript from './MiscTypeScript';
+import styled from 'styled-components';
+
+import MainNavSmallScreen from './MainNavSmallScreen';
+import MainNavLargeScreen from './MainNavLargeScreen';
+
+import About from './About';
+import TypeScript from './TypeScript';
 
 import {
-  AppRoot,
-  HorizontalUnorderedList,
-  VerticalUnorderedList,
-  StyledNavLink,
-  MainNavDesktop,
-  MainNavMobileWrapper,
   WithHorizontalMargin,
-} from './Styled';
+} from './common/Styled';
 
-const menuLinks = [
-  {
-    to: '/',
-    title: "Qu'est-ce que ce site?",
-    exact: true,
-  },
-  {
-    to: '/typescript',
-    title: "TypeScript, c'est chouette !",
-  },
-];
-
-const MainNavMobile: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const openMenu = () => setIsOpen(true);
-  const closeMenu = () => setIsOpen(false);
-
-  const closedMarkup = (
-    <div className="closed-menu">
-      <input
-        alt="open menu"
-        type="image"
-        src="/img/menu-closed.png"
-        width="48px"
-        onClick={openMenu}
-      />
-    </div>
-  );
-
-  const openMarkup = (
-    <div className="open-menu">
-      <input
-        alt="open menu"
-        type="image"
-        src="/img/menu-open.png"
-        width="48px"
-        onClick={closeMenu}
-      />
-      <nav>
-        <VerticalUnorderedList>
-          {menuLinks.map(
-            ({ to, title, exact }) => (
-              <li key={to}>
-                <StyledNavLink
-                  exact={exact}
-                  to={to}
-                  activeClassName="active"
-                  onClick={closeMenu}
-                >
-                  {title}
-                </StyledNavLink>
-              </li>
-            ),
-          )}
-        </VerticalUnorderedList>
-      </nav>
-    </div>
-  );
-
-  return isOpen ? openMarkup : closedMarkup;
-};
+const AppRoot = styled.div`
+  font-family: monospace;
+  font-size: 1.2em;
+  line-height: 1.5;
+`;
 
 const App: React.FC = () => (
   <AppRoot>
-    <header>
-      <MainNavMobileWrapper>
-        <MainNavMobile />
-      </MainNavMobileWrapper>
-      <MainNavDesktop>
-        <HorizontalUnorderedList>
-          {menuLinks.map(
-            ({ to, title, exact }) => (
-              <li key={to}>
-                <StyledNavLink exact={exact} to={to} activeClassName="active">
-                  {title}
-                </StyledNavLink>
-              </li>
-            ),
-          )}
-        </HorizontalUnorderedList>
-      </MainNavDesktop>
-    </header>
+    <div>
+      <MainNavSmallScreen />
+      <MainNavLargeScreen />
+    </div>
     <WithHorizontalMargin>
       <Switch>
-        <Route exact path="/"><Home /></Route>
-        <Route path="/typescript"><MiscTypeScript /></Route>
+        <Route exact path="/"><About /></Route>
+        <Route path="/typescript">
+          <TypeScript />
+        </Route>
       </Switch>
     </WithHorizontalMargin>
   </AppRoot>

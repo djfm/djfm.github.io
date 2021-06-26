@@ -1,0 +1,44 @@
+import React from 'react';
+
+import styled from 'styled-components';
+
+import {
+  darkBG,
+  desktopBreakpointMin,
+  HorizontalUnorderedList,
+  StyledNavLink,
+} from './common/Styled';
+
+import menuLinks from './data/mainMenuLinks';
+
+const HUL = styled(HorizontalUnorderedList)`
+display: none;
+
+@media (min-width: ${desktopBreakpointMin}) {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  margin-top: 0;
+  padding-top: 5px;
+  padding-bottom: 5px;
+
+  background-color: ${darkBG};
+}
+`;
+
+const MainNavLargeScreen: React.FC = () => (
+  <HUL>
+    {menuLinks.map(
+      ({ to, title, exact }) => (
+        <li key={to}>
+          <StyledNavLink exact={exact} to={to} activeClassName="active">
+            {title}
+          </StyledNavLink>
+        </li>
+      ),
+    )}
+  </HUL>
+);
+
+export default MainNavLargeScreen;
