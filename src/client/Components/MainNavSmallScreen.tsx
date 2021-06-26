@@ -36,11 +36,27 @@ const Wrapper = styled.div`
 
       background-color: ${darkBG};
 
+      z-index: 1;
+
       input {
         position: fixed;
         top: 8px;
         right: -2px;
       }
+    }
+
+    .overlay {
+      display: none;
+
+      position: absolute;
+
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+
+      background: linear-gradient(${darkBG}, rgba(0,0,0,0.5));
+      z-index: 0;
     }
   }
 `;
@@ -96,6 +112,14 @@ const MainNavSmallScreen: React.FC = () => {
   return (
     <Wrapper>
       {isOpen ? openMarkup() : closedMarkup()}
+      <div
+        className="overlay"
+        style={{
+          display: isOpen ? 'block' : 'none',
+        }}
+      >
+        &nbsp;
+      </div>
     </Wrapper>
   );
 };
