@@ -9,7 +9,7 @@ import {
   StyledNavLink,
 } from './common/Styled';
 
-import routes from './data/mainMenuRoutes';
+import routes from './common/mainMenuRoutes';
 
 const HUL = styled(HorizontalUnorderedList)`
 display: none;

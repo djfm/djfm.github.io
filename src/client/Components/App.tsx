@@ -14,7 +14,7 @@ import {
   WithHorizontalMargin,
 } from './common/Styled';
 
-import routes from './data/mainMenuRoutes';
+import routes from './common/mainMenuRoutes';
 
 const AppRoot = styled.div`
   font-family: monospace;
