@@ -12,6 +12,7 @@
     "start": "ts-node-dev src/server/server.ts",
     "analyze-bundle": "webpack-bundle-analyzer stats.json docs -m server -p 4000"
   },
+  "browserslist": "defaults",
   "dependencies": {
     "@babel/core": "^7.14.3",
     "@babel/plugin-transform-react-jsx": "^7.14.3",
