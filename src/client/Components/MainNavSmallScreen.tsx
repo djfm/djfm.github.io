@@ -16,8 +16,6 @@ import {
   StyledNavLink,
 } from './common/Styled';
 
-import Clock from './Clock';
-
 import routes from './common/mainMenuRoutes';
 
 const Wrapper = styled.div`
@@ -126,13 +124,6 @@ const MainNavSmallScreen: React.FC = () => {
 
   return (
     <Wrapper>
-      <div style={{
-        marginRight: 100,
-        fontSize: '1em',
-      }}
-      >
-        <Clock />
-      </div>
       {isOpen ? openMarkup() : closedMarkup()}
     </Wrapper>
   );

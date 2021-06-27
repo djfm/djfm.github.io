@@ -11,8 +11,6 @@ import {
 
 import routes from './common/mainMenuRoutes';
 
-import Clock from './Clock';
-
 const HUL = styled(HorizontalUnorderedList)`
 display: none;
 
@@ -30,9 +28,6 @@ display: none;
 
 const MainNavLargeScreen: React.FC = () => (
   <HUL>
-    <li>
-      <Clock />
-    </li>
     {routes.map(
       ({ to, title, exact }) => (
         <li key={to}>
