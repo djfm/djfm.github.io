@@ -52,18 +52,17 @@ export const TwoColumnsRightMenu = styled.div`
   flex-direction: column;
   align-items: flex-start;
 
-  > *:first-child > ul {
-    background-color: ${darkColor};
-    padding: 5px;
-    width 250px;
-    @media (max-width: 500px) {
-      width: 100%;
-    }
-  }
+  > *:first-child {
+    align-self: stretch;
+    margin-left: -5px;
 
-  > *:last-child {
-    padding: 5px;
-    max-width: 800px;
+    ul {
+      background-color: ${darkColor};
+      padding: 5px;
+      width 100%;
+      @media (max-width: 500px) {
+        width: 100%;
+    }
   }
 
   @media (min-width: ${desktopBreakpointMin}) {
@@ -73,7 +72,7 @@ export const TwoColumnsRightMenu = styled.div`
       flex-basis: 250px;
     }
 
-    > *:last-child {
+    > *:last-child TODO {
       margin: 0 auto;
     }
   }
@@ -102,5 +101,6 @@ export const Pre = styled.pre`
 `;
 
 export const Article = styled.article`
-
+  max-width: 800px;
+  margin: 0 auto;
 `;
