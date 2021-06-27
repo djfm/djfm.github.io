@@ -42,7 +42,7 @@ const TypesVSInterfaces: React.FC<{
       </header>
       <section>
         La différence principale vient de la façon dont on peut les
-        combiner :
+        combiner&nbsp;:
         <ul>
           <li>
             une interface peut étendre une autre interface
