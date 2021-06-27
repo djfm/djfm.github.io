@@ -3,20 +3,17 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-
   margin-top: 50px;
 
   position: relative;
   left: 0;
   right: 0;
-  bottom: 0;
-
-  justify-content: center;
+  bottom: 5px;
 
   > div {
+    display: inline-block;
     text-align: center;
+    margin-left: 5px;
   }
 `;
 
