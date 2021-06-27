@@ -6,8 +6,32 @@ export const brightColor = '#ffa657';
 export const brightColor2 = '#c9d1d9';
 export const darkColor = '#0d1117';
 
-export const breakpointLargeScreenMin = '1200px';
-export const breakpointSmallScreenMax = '1199px';
+/**
+ * breakpoints
+ */
+
+export const bp3min = '1200px';
+export const bp2Max = '1199px';
+
+export const bp2Min = '800px';
+export const bp1Max = '799px';
+
+export const bp1Min = '400px';
+export const bp0Max = '399px';
+
+// end breakpoints
+
+export const NotTooWide = styled.div`
+  @media(min-width: ${bp2Min}) {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  @media(max-width: ${bp1Max}) {
+    max-width: calc(100vw - 20px);
+    margin: 0 auto;
+  }
+`;
 
 export const StyledNavLink = styled(NavLink)`
   text-decoration: none;
@@ -26,6 +50,8 @@ export const HorizontalUnorderedList = styled.ul`
   display: flex;
   flex-direction: row;
 
+  padding: 0 10px 0 10px;
+
   li {
     list-style: none;
   }
@@ -37,8 +63,9 @@ export const HorizontalUnorderedList = styled.ul`
 
 export const VerticalUnorderedList = styled.ul`
   display: flex;
-
   flex-direction: column;
+
+  padding: 0 10px 0 10px;
 
   li {
     list-style: none;
@@ -57,7 +84,7 @@ export const TwoColumnsRightMenu = styled.div`
     padding: 5px;
   }
 
-  @media (max-width: ${breakpointSmallScreenMax}) {
+  @media (max-width: ${bp2Max}) {
     flex-direction: column;
     align-items: flex-start;
 
@@ -71,7 +98,7 @@ export const TwoColumnsRightMenu = styled.div`
     }
   }
 
-  @media (min-width: ${breakpointLargeScreenMin}) {
+  @media (min-width: ${bp3min}) {
     flex-direction: row-reverse;
 
     > *:first-child {
@@ -102,34 +129,9 @@ export const Main = styled.main`
   }
 `;
 
-export const Pre = styled.pre`
-  max-width: 100%;
-`;
-
-export const Figure = styled.figure`
-  margin-left: 0;
-  margin-right: 0;
-  width: fit-content;`;
-
 export const Article = styled.article`
-  max-width: 800px;
-  margin: 0 auto;
 `;
 
 export const NoWrap = styled.span`
   white-space: nowrap;
 `;
-
-export const OnlyOnSmallScreen = styled.div`
-  display: none;
-
-  @media (max-width: ${breakpointSmallScreenMax}) {
-    display: block;
-  }`;
-
-export const OnlyOnLargeScreen = styled.div`
-display: none;
-
-@media (min-width: ${breakpointLargeScreenMin}) {
-  display: block;
-}`;

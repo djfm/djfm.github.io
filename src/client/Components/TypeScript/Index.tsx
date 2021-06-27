@@ -9,11 +9,12 @@ import {
 } from 'react-router-dom';
 
 import {
-  VerticalUnorderedList,
+  H1,
+  Main,
+  NotTooWide,
   StyledNavLink,
   TwoColumnsRightMenu,
-  Main,
-  H1,
+  VerticalUnorderedList,
 } from '../common/Styled';
 
 import {
@@ -105,7 +106,9 @@ const TypeScript: React.FC = () => {
               exact={exact}
               path={`${path}/${to}`}
             >
-              <Component {...{ title, docTitle }} />
+              <NotTooWide>
+                <Component {...{ title, docTitle }} />
+              </NotTooWide>
             </Route>
           ))}
         </Switch>

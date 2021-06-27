@@ -2,18 +2,27 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import {
-  Figure,
-  Pre,
-} from './Styled';
-
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  width: auto;
-  max-width: 100%;
-  overflow: hidden;
+
+  > figure {
+    max-width: 100%;
+
+    > figcaption {
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    pre {
+      max-width: 100%;
+      overflow: scroll;
+    }
+
+    margin-left: 0;
+    margin-right: 0;
+  }
 `;
 
 export const CodeSample: React.FC<{
@@ -27,12 +36,12 @@ export const CodeSample: React.FC<{
 }) => {
   const markup = (
     <Wrapper>
-      <Figure>
+      <figure>
         <figcaption>{title}</figcaption>
-        <Pre className={`language-${language || 'typescript'}`}>
+        <pre className={`language-${language || 'typescript'}`}>
           <code>{children}</code>
-        </Pre>
-      </Figure>
+        </pre>
+      </figure>
     </Wrapper>
   );
 

@@ -23,6 +23,8 @@ const AppRoot = styled.div`
   line-height: 1.5;
   word-break: normal;
   overflow-wrap: break-word;
+
+  width: 100vw;
 `;
 
 const App: React.FC = () => (

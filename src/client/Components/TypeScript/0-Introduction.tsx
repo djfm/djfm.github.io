@@ -46,7 +46,7 @@ export const Introduction: React.FC<{
           on écrit alors du JavaScript standard.
         </p>
         <CodeSample
-          title="Exemple de déclaration de types sur une arrow-function :"
+          title={'Exemple de déclaration de types sur une arrow-function\u00a0:'}
         >
           {basicTypeExample}
         </CodeSample>
@@ -57,8 +57,8 @@ export const Introduction: React.FC<{
           <p>
             J&apos;utilise le bien-connu linter <i>eslint</i> pour vérifier mon code en TypeScript
             (il faut juste le configurer un peu différemment de pour le JavaScript) et les règles de
-            base (<i><NoWrap>plugin:@typescript-eslint/recommended</NoWrap></i>) nous signalent
-            comme un problème de déclarer les types qui peuvent être inférés.
+            base de plugin:@typescript-eslint/recommended
+            nous signalent comme un problème de déclarer les types qui peuvent être inférés.
           </p>
           <p>
             Les <strong>bonnes pratiques en matière de déclaration de types</strong> semblent être :

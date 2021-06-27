@@ -3,8 +3,9 @@ import React from 'react';
 import {
   Article,
   H1,
-  Pre,
 } from '../common/Styled';
+
+import CodeSample from '../common/CodeSample';
 
 import {
   useDocument,
@@ -45,11 +46,9 @@ const TypesVSInterfaces: React.FC<{
         <ul>
           <li>
             une interface peut étendre une autre interface
-            <Pre>
-              <code className="language-typescript">
-                {extendExample}
-              </code>
-            </Pre>
+            <CodeSample title={"Un exemple d'interface\u00a0:"}>
+              {extendExample}
+            </CodeSample>
           </li>
           <li>
             les types peuvent être combinés par union (<i>|</i>) ou par
