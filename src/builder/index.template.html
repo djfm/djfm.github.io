@@ -15,19 +15,8 @@
     <style>
       body {
         margin: 0;
+        margin-bottom: 80px;
       }
-    </style>
-    #STYLES#
-    <link rel="preload" href="/assets/hljs/styles/github-dark.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/assets/hljs/styles/github-dark.min.css"></noscript>
-  </head>
-  <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M3CJRL4"
-      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-      <!-- End Google Tag Manager (noscript) -->
-
-    <style>
       #overlay {
         display: none;
         position: absolute;
@@ -43,9 +32,25 @@
           rgba(13,17,23,.1)
         );
       }
+      #footer {
+        position: relative;
+        bottom: -80px;
+        left: 0;
+        right: 0;
+      }
     </style>
+    #STYLES#
+    <link rel="preload" href="/assets/hljs/styles/github-dark.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/assets/hljs/styles/github-dark.min.css"></noscript>
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M3CJRL4"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+      <!-- End Google Tag Manager (noscript) -->
     <div id="overlay">&nbsp;</div>
     <div id="root">#APP#</div>
+    <div id="footer"></div>
     <script src="/assets/hljs/highlight.min.js"></script>
     <script src="/bundle.js"></script>
     <script>hljs.highlightAll();</script>

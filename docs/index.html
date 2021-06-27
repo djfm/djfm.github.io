@@ -15,6 +15,28 @@
     <style>
       body {
         margin: 0;
+        margin-bottom: 80px;
+      }
+      #overlay {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: -5px;
+        bottom: 0;
+        left: 0;
+        z-index: 0;
+        background: linear-gradient(
+          rgb(13,17,23),
+          rgba(13,17,23,.9) 50%,
+          rgba(13,17,23,.4) 80%,
+          rgba(13,17,23,.1)
+        );
+      }
+      #footer {
+        position: relative;
+        bottom: -80px;
+        left: 0;
+        right: 0;
       }
     </style>
     <style data-styled="true" data-styled-version="5.3.0">.krfEVi{-webkit-text-decoration:none;text-decoration:none;color:#ffa657;}/*!sc*/
@@ -52,26 +74,9 @@ data-styled.g13[id="sc-iqAclL"]{content:"gSlWro,"}/*!sc*/
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M3CJRL4"
       height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <!-- End Google Tag Manager (noscript) -->
-
-    <style>
-      #overlay {
-        display: none;
-        position: absolute;
-        top: 0;
-        right: -5px;
-        bottom: 0;
-        left: 0;
-        z-index: 0;
-        background: linear-gradient(
-          rgb(13,17,23),
-          rgba(13,17,23,.9) 50%,
-          rgba(13,17,23,.4) 80%,
-          rgba(13,17,23,.1)
-        );
-      }
-    </style>
     <div id="overlay">&nbsp;</div>
-    <div id="root"><div class="sc-iqAclL gSlWro"><div><div class="sc-jrsJWt fopSV"><div style="margin-right:100px;font-size:1em"><div class="sc-pNWdM cvlYZB">[<!-- -->dim. 27 juin 2021, 15:59:24 UTC+2<!-- -->]</div></div><div class="closed-menu"><input type="image" alt="open menu" src="/img/menu-closed.png" width="48px"/></div></div><ul class="sc-gtsrHT sc-kEqXSa fhxecm jfWbII"><li><a aria-current="page" class="sc-bdnxRM krfEVi active" href="/">Qu&#x27;est-ce que ce site?</a></li><li><a class="sc-bdnxRM krfEVi" href="/typescript">TypeScript, c&#x27;est chouette !</a></li></ul></div><div class="sc-jSFjdj nXVxS"><main class="sc-gKAaRy jQnfJv"><article class="sc-fujyAs dpqzBC"><h1 class="sc-eCApnc gsSinM">Qu&#x27;est-ce que ce site?</h1><p>C&#x27;est une sorte de blog autour des sujets informatiques qui m&#x27;intéressent.</p><p>C&#x27;est aussi une façon pour moi d&#x27;expérimenter avec des technologies utiles pour mon travail.</p><p>Pour ce site, le cahier des charges que je me suis fixé est:</p><ul><li>de ne pas payer un centime d&#x27;hébergement : merci GitHub pages</li><li>d&#x27;avoir du coup un site statique mais avec du progressive-enhancement</li><li>d&#x27;avoir plus de 90% à Google PageSpeed</li></ul></article></main></div></div></div>
+    <div id="root"><div class="sc-iqAclL gSlWro"><div><div class="sc-jrsJWt fopSV"><div style="margin-right:100px;font-size:1em"><div class="sc-pNWdM cvlYZB">[<!-- -->dim. 27 juin 2021, 16:24:36 UTC+2<!-- -->]</div></div><div class="closed-menu"><input type="image" alt="open menu" src="/img/menu-closed.png" width="48px"/></div></div><ul class="sc-gtsrHT sc-kEqXSa fhxecm jfWbII"><li><a aria-current="page" class="sc-bdnxRM krfEVi active" href="/">Qu&#x27;est-ce que ce site?</a></li><li><a class="sc-bdnxRM krfEVi" href="/typescript">TypeScript, c&#x27;est chouette !</a></li></ul></div><div class="sc-jSFjdj nXVxS"><main class="sc-gKAaRy jQnfJv"><article class="sc-fujyAs dpqzBC"><h1 class="sc-eCApnc gsSinM">Qu&#x27;est-ce que ce site?</h1><p>C&#x27;est une sorte de blog autour des sujets informatiques qui m&#x27;intéressent.</p><p>C&#x27;est aussi une façon pour moi d&#x27;expérimenter avec des technologies utiles pour mon travail.</p><p>Pour ce site, le cahier des charges que je me suis fixé est:</p><ul><li>de ne pas payer un centime d&#x27;hébergement : merci GitHub pages</li><li>d&#x27;avoir du coup un site statique mais avec du progressive-enhancement</li><li>d&#x27;avoir plus de 90% à Google PageSpeed</li></ul></article></main></div></div></div>
+    <div id="footer"></div>
     <script src="/assets/hljs/highlight.min.js"></script>
     <script src="/bundle.js"></script>
     <script>hljs.highlightAll();</script>
