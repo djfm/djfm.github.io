@@ -10,11 +10,13 @@ import {
 import styled from 'styled-components';
 
 import {
-  darkBG,
+  darkColor,
   desktopBreakpointMax,
   VerticalUnorderedList,
   StyledNavLink,
 } from './common/Styled';
+
+import Clock from './Clock';
 
 import routes from './common/mainMenuRoutes';
 
@@ -44,7 +46,7 @@ const Wrapper = styled.div`
 
       width: 100%;
 
-      background-color: ${darkBG};
+      background-color: ${darkColor};
 
       z-index: 1;
 
@@ -124,7 +126,13 @@ const MainNavSmallScreen: React.FC = () => {
 
   return (
     <Wrapper>
-      <StyledNavLink to="/">https://fmdj.fr</StyledNavLink>
+      <div style={{
+        marginRight: 100,
+        fontSize: '1em',
+      }}
+      >
+        <Clock />
+      </div>
       {isOpen ? openMarkup() : closedMarkup()}
     </Wrapper>
   );

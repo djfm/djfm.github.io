@@ -188,6 +188,10 @@ const main = async () => {
 
     await writeFile(docPath, finalCode);
   }
+
+  // it seems the function doesn't return if I don't do that...
+  // eslint-disable-next-line no-process-exit
+  process.exit(0);
 };
 
 main();

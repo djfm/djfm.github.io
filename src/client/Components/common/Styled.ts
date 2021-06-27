@@ -2,17 +2,17 @@ import { NavLink } from 'react-router-dom';
 
 import styled from 'styled-components';
 
-export const linkColor = '#ffa657';
-export const darkBG = '#0d1117';
+export const brightColor = '#ffa657';
+export const darkColor = '#0d1117';
 export const desktopBreakpointMin = '1200px';
 export const desktopBreakpointMax = '1199px';
 
 export const StyledNavLink = styled(NavLink)`
   text-decoration: none;
-  color: ${linkColor};
+  color: ${brightColor};
 
   &:visited {
-    color: ${linkColor};
+    color: ${brightColor};
   }
 
   &.active {
@@ -53,7 +53,7 @@ export const TwoColumnsRightMenu = styled.div`
   align-items: flex-start;
 
   > *:first-child > ul {
-    background-color: ${darkBG};
+    background-color: ${darkColor};
     padding: 5px;
     width 250px;
     @media (max-width: 500px) {

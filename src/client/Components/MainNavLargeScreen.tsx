@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import {
-  darkBG,
+  darkColor,
   desktopBreakpointMin,
   HorizontalUnorderedList,
   StyledNavLink,
@@ -22,7 +22,7 @@ display: none;
   margin-top: 0;
   padding: 5px;
 
-  background-color: ${darkBG};
+  background-color: ${darkColor};
 }
 `;
 
