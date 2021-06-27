@@ -56,6 +56,9 @@ export const TwoColumnsRightMenu = styled.div`
     background-color: ${darkBG};
     padding: 5px;
     width 250px;
+    @media (max-width: 500px) {
+      width: 100%;
+    }
   }
 
   > *:last-child {
@@ -89,7 +92,6 @@ export const Main = styled.main`
   > h1 {
     margin-top: 10px;
     margin-bottom: 10px;
-    margin-right: 48px;
 
     text-align: center;
   }

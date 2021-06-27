@@ -1,6 +1,11 @@
 import React, {
   useState,
+  useEffect,
 } from 'react';
+
+import {
+  useHistory,
+} from 'react-router-dom';
 
 import styled from 'styled-components';
 
@@ -17,10 +22,15 @@ const Wrapper = styled.div`
   display: none;
 
   @media (max-width: ${desktopBreakpointMax}) {
-    display: block;
+    display: flex;
+    align-items: center;
+    padding-left: 5px;
+
+    height: 50px;
+    position: relative;
 
     .closed-menu {
-      position: fixed;
+      position: absolute;
       top: 0;
       right: 0;
       padding-top: 5px;
@@ -41,38 +51,34 @@ const Wrapper = styled.div`
       input {
         position: fixed;
         top: 8px;
-        right: -2px;
+        right: 0;
       }
-    }
-
-    .overlay {
-      display: none;
-
-      position: absolute;
-
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-
-      background-color: rgba(0,0,0,.5);
-      z-index: 0;
     }
   }
 `;
 
 const MainNavSmallScreen: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const history = useHistory();
 
   const openMenu = () => {
     setIsOpen(true);
     document.body.style.overflow = 'hidden';
+    document.getElementById('overlay').style.display = 'block';
   };
 
   const closeMenu = () => {
     setIsOpen(false);
     document.body.style.overflow = 'auto';
+    document.getElementById('overlay').style.display = 'none';
   };
+
+  useEffect(() =>
+    history.listen(() => {
+      if (isOpen) {
+        closeMenu();
+      }
+    }));
 
   const closedMarkup = () => (
     <div className="closed-menu">
@@ -118,15 +124,8 @@ const MainNavSmallScreen: React.FC = () => {
 
   return (
     <Wrapper>
+      <StyledNavLink to="/">https://fmdj.fr</StyledNavLink>
       {isOpen ? openMarkup() : closedMarkup()}
-      <div
-        className="overlay"
-        style={{
-          display: isOpen ? 'block' : 'none',
-        }}
-      >
-        &nbsp;
-      </div>
     </Wrapper>
   );
 };
