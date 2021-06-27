@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import {
   darkColor,
-  desktopBreakpointMin,
+  breakpoint1Min,
   HorizontalUnorderedList,
   StyledNavLink,
 } from './common/Styled';
@@ -14,7 +14,7 @@ import routes from './common/mainMenuRoutes';
 const HUL = styled(HorizontalUnorderedList)`
 display: none;
 
-@media (min-width: ${desktopBreakpointMin}) {
+@media (min-width: ${breakpoint1Min}) {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;

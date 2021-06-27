@@ -4,8 +4,9 @@ import styled from 'styled-components';
 
 export const brightColor = '#ffa657';
 export const darkColor = '#0d1117';
-export const desktopBreakpointMin = '1200px';
-export const desktopBreakpointMax = '1199px';
+
+export const breakpoint1Min = '1200px';
+export const breakpoint1Max = '1199px';
 
 export const StyledNavLink = styled(NavLink)`
   text-decoration: none;
@@ -49,31 +50,35 @@ export const VerticalUnorderedList = styled.ul`
 
 export const TwoColumnsRightMenu = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
 
-  > *:first-child {
-    align-self: stretch;
-    margin-left: -5px;
+  > *:first-child ul {
+    background-color: ${darkColor};
+    padding: 5px;
+  }
 
-    ul {
-      background-color: ${darkColor};
-      padding: 5px;
-      width 100%;
-      @media (max-width: 500px) {
-        width: 100%;
+  @media (max-width: ${breakpoint1Max}) {
+    flex-direction: column;
+    align-items: flex-start;
+
+    > *:first-child {
+      align-self: stretch;
+      margin-left: -5px;
+
+      ul {
+        width 100%;
+      }
     }
   }
 
-  @media (min-width: ${desktopBreakpointMin}) {
+  @media (min-width: ${breakpoint1Min}) {
     flex-direction: row-reverse;
 
     > *:first-child {
       flex-basis: 250px;
     }
 
-    > *:last-child TODO {
-      margin: 0 auto;
+    > *:last-child {
+      flex: 1;
     }
   }
 `;

@@ -104,7 +104,6 @@ const main = async () => {
   const docsRootPath = path.resolve(__dirname, '..', '..', 'docs');
   const appPlaceholder = '#APP#';
   const stylesPlaceholder = '#STYLES#';
-  const footerPlaceholder = '#FOOTER#';
 
   const createDocPath = async (link: string): Promise<string> => {
     if (link === '/') {
@@ -173,11 +172,6 @@ const main = async () => {
     console.log(`  # processing "${link}"`);
     const sheet = new ServerStyleSheet();
 
-    // render each time so as to get the styles together with that of the page if any
-    // CPU time is cheap
-    console.log('    0. rendering footer...');
-    const footerMarkup = ReactDOMServer.renderToString(sheet.collectStyles(<Footer />));
-
     console.log(`    1. rendering "${link}"...`);
     const [app] = createAppForURL(link);
     const markup = ReactDOMServer.renderToString(sheet.collectStyles(app));
@@ -191,7 +185,6 @@ const main = async () => {
     console.log(`    4. writing template file "${docPath}"...`);
     const finalCode = indexTemplate
       .replace(appPlaceholder, markup)
-      .replace(footerPlaceholder, footerMarkup)
       .replace(stylesPlaceholder, styleTags);
 
     await writeFile(docPath, finalCode);

@@ -20,7 +20,12 @@ export const useDocument = (fn: (doc: typeof document) => void): CancelFunction 
 
   useEffect(() => {
     if (performUpdate) {
-      fn(document);
+      if (typeof document !== 'undefined' && document) {
+        // won't happen in the browser, but without this,
+        // the test renderer used for the static pages generation
+        // encounters an error
+        fn(document);
+      }
     }
   });
 
