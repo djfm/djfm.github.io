@@ -43,6 +43,7 @@ export const StyledNavLink = styled(NavLink)`
 
   &.active {
     font-weight: bold;
+    color: ${brightColor2}
   }
 `;
 
