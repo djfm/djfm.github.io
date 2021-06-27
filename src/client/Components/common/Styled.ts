@@ -3,10 +3,11 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const brightColor = '#ffa657';
+export const brightColor2 = '#c9d1d9';
 export const darkColor = '#0d1117';
 
-export const breakpoint1Min = '1200px';
-export const breakpoint1Max = '1199px';
+export const breakpointLargeScreenMin = '1200px';
+export const breakpointSmallScreenMax = '1199px';
 
 export const StyledNavLink = styled(NavLink)`
   text-decoration: none;
@@ -56,7 +57,7 @@ export const TwoColumnsRightMenu = styled.div`
     padding: 5px;
   }
 
-  @media (max-width: ${breakpoint1Max}) {
+  @media (max-width: ${breakpointSmallScreenMax}) {
     flex-direction: column;
     align-items: flex-start;
 
@@ -70,7 +71,7 @@ export const TwoColumnsRightMenu = styled.div`
     }
   }
 
-  @media (min-width: ${breakpoint1Min}) {
+  @media (min-width: ${breakpointLargeScreenMin}) {
     flex-direction: row-reverse;
 
     > *:first-child {
@@ -113,3 +114,17 @@ export const Article = styled.article`
 export const NoWrap = styled.span`
   white-space: nowrap;
 `;
+
+export const OnlyOnSmallScreen = styled.div`
+  display: none;
+
+  @media (max-width: ${breakpointSmallScreenMax}) {
+    display: block;
+  }`;
+
+export const OnlyOnLargeScreen = styled.div`
+display: none;
+
+@media (min-width: ${breakpointLargeScreenMin}) {
+  display: block;
+}`;

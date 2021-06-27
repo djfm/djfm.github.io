@@ -4,17 +4,19 @@ import styled from 'styled-components';
 
 import {
   darkColor,
-  breakpoint1Min,
+  breakpointLargeScreenMin,
   HorizontalUnorderedList,
   StyledNavLink,
 } from './common/Styled';
 
 import routes from './common/mainMenuRoutes';
 
+import Clock from './Clock';
+
 const HUL = styled(HorizontalUnorderedList)`
 display: none;
 
-@media (min-width: ${breakpoint1Min}) {
+@media (min-width: ${breakpointLargeScreenMin}) {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
@@ -28,6 +30,9 @@ display: none;
 
 const MainNavLargeScreen: React.FC = () => (
   <HUL>
+    <li>
+      <Clock />
+    </li>
     {routes.map(
       ({ to, title, exact }) => (
         <li key={to}>

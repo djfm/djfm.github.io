@@ -2,8 +2,8 @@ import React from 'react';
 
 import styled from 'styled-components';
 import {
-  breakpoint1Min,
-  breakpoint1Max,
+  breakpointLargeScreenMin,
+  breakpointSmallScreenMax,
 } from './common/Styled';
 
 const Wrapper = styled.div`
@@ -17,11 +17,11 @@ const Wrapper = styled.div`
   right: 0;
   bottom: 0;
 
-  @media (max-width: ${breakpoint1Max}) {
+  @media (max-width: ${breakpointSmallScreenMax}) {
     justify-content: center;
   }
 
-  @media (min-width: ${breakpoint1Min}) {
+  @media (min-width: ${breakpointLargeScreenMin}) {
     justify-content: flex-start;
   }
 

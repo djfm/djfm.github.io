@@ -11,7 +11,7 @@ import styled from 'styled-components';
 
 import {
   darkColor,
-  breakpoint1Max,
+  breakpointSmallScreenMax,
   VerticalUnorderedList,
   StyledNavLink,
 } from './common/Styled';
@@ -23,7 +23,7 @@ import routes from './common/mainMenuRoutes';
 const Wrapper = styled.div`
   display: none;
 
-  @media (max-width: ${breakpoint1Max}) {
+  @media (max-width: ${breakpointSmallScreenMax}) {
     display: flex;
     align-items: center;
     padding-left: 5px;

@@ -5,11 +5,22 @@ import React, {
 
 import styled from 'styled-components';
 import {
-  brightColor,
+  brightColor2,
+  darkColor,
+  breakpointSmallScreenMax,
+  breakpointLargeScreenMin,
+  OnlyOnSmallScreen,
+  OnlyOnLargeScreen,
 } from './common/Styled';
 
 const Wrapper = styled.div`
-  color: ${brightColor};
+  @media (min-width: ${breakpointLargeScreenMin}) {
+    color: ${brightColor2};
+  }
+
+  @media (max-width: ${breakpointSmallScreenMax}) {
+    color: ${darkColor}
+  }
 `;
 
 export const Clock: React.FC = () => {
@@ -47,9 +58,16 @@ export const Clock: React.FC = () => {
     return willUpdateClock();
   });
 
+  const [day, time] = formattedDate.split(',').map((str) => str.trim());
+
   const markup = (
     <Wrapper>
-      [{formattedDate}]
+      <OnlyOnLargeScreen>{formattedDate}</OnlyOnLargeScreen>
+      <OnlyOnSmallScreen>
+        {day}
+        <br />
+        {time}
+      </OnlyOnSmallScreen>
     </Wrapper>
   );
 
