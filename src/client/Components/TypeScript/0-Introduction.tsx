@@ -39,7 +39,10 @@ export const Introduction: React.FC<{
         </header>
         <p>
           De façon générale, les types s&apos;inscrivent après le symbole concerné,
-          avec un &quot;:&quot; (deux points) suivi du type voulu.
+          avec un &quot;:&quot; suivi du type voulu.
+        </p>
+        <p>
+          Nous verrons que le système de types de TypeScript est assez puissant.
         </p>
         <p>
           On peut très bien ne pas annoter notre code avec des types et
@@ -56,12 +59,13 @@ export const Introduction: React.FC<{
           </p>
           <p>
             J&apos;utilise le bien-connu linter <i>eslint</i> pour vérifier mon code en TypeScript
-            (il faut juste le configurer un peu différemment de pour le JavaScript) et les règles de
-            base de plugin:@typescript-eslint/recommended
-            nous signalent comme un problème de déclarer les types qui peuvent être inférés.
+            (il faut juste le configurer un peu plus par rapport au JavaScript) et les règles de
+            base du plugin @typescript-eslint/recommended nous signalent comme un problème
+            de déclarer les types qui peuvent être inférés.
           </p>
           <p>
-            Les <strong>bonnes pratiques en matière de déclaration de types</strong> semblent être :
+            Les <strong>bonnes pratiques en matière de déclaration de types</strong>&nbsp;
+            semblent être&nbsp;:
           </p>
           <ul>
             <li>
