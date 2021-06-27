@@ -1,10 +1,6 @@
 import React from 'react';
 
 import styled from 'styled-components';
-import {
-  breakpointLargeScreenMin,
-  breakpointSmallScreenMax,
-} from './common/Styled';
 
 const Wrapper = styled.div`
   display: flex;
@@ -17,13 +13,7 @@ const Wrapper = styled.div`
   right: 0;
   bottom: 0;
 
-  @media (max-width: ${breakpointSmallScreenMax}) {
-    justify-content: center;
-  }
-
-  @media (min-width: ${breakpointLargeScreenMin}) {
-    justify-content: flex-start;
-  }
+  justify-content: center;
 
   > div {
     text-align: center;
