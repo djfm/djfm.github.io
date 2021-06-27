@@ -21,6 +21,8 @@ const AppRoot = styled.div`
   font-family: monospace;
   font-size: 1.2rem;
   line-height: 1.5;
+  word-break: normal;
+  overflow-wrap: break-word;
 `;
 
 const App: React.FC = () => (

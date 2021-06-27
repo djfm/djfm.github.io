@@ -106,6 +106,11 @@ export const Pre = styled.pre`
   max-width: 100%;
 `;
 
+export const Figure = styled.figure`
+  margin-left: 0;
+  margin-right: 0;
+  width: fit-content;`;
+
 export const Article = styled.article`
   max-width: 800px;
   margin: 0 auto;
