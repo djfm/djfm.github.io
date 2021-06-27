@@ -26,9 +26,9 @@ const AppRoot = styled.div`
 
 const App: React.FC = () => (
   <div style={{
-    height: '100%',
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'start',
   }}
   >
     <AppRoot>
@@ -53,8 +53,8 @@ const App: React.FC = () => (
           ))}
         </Switch>
       </WithHorizontalPadding>
+      <Footer />
     </AppRoot>
-    <Footer />
   </div>
 );
 

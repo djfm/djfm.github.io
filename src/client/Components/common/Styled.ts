@@ -101,7 +101,7 @@ export const Main = styled.main`
   }
 `;
 
-export const Pre = styled.pre`
+export const MinimalWidthPre = styled.pre`
   width: fit-content;
 `;
 
