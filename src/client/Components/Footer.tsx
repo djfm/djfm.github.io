@@ -23,6 +23,10 @@ const Wrapper = styled.div`
   @media (min-width: ${breakpoint1Min}) {
     justify-content: flex-start;
   }
+
+  > div {
+    text-align: center;
+  }
 `;
 
 export const Footer: React.FC = () => {

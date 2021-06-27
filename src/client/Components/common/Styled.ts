@@ -109,3 +109,7 @@ export const Article = styled.article`
   max-width: 800px;
   margin: 0 auto;
 `;
+
+export const NoWrap = styled.span`
+  white-space: nowrap;
+`;

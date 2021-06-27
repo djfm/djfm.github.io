@@ -1,8 +1,9 @@
 import React from 'react';
 
 import {
-  Main,
   Article,
+  Main,
+  NoWrap,
   H1,
 } from './common/Styled';
 
@@ -12,21 +13,25 @@ const Home: React.FC = () => (
       <H1>Qu&apos;est-ce que ce site?</H1>
 
       <p>
-        C&apos;est une sorte de blog / documentation autour des
-        sujets informatiques qui m&apos;intéressent.
+        C&apos;est une sorte de blog&nbsp;/&nbsp;documentation autour de
+        sujets informatiques qui m&apos;intéressent&nbsp;-&nbsp;c&apos;est
+        loin d&apos;être exhaustif&nbsp;!
       </p>
       <p>
         Je prévois dans un premier temps <strong>beaucoup de TypeScript</strong> et de&nbsp;
-        <strong>programmation en général</strong> mais
-        exemplifiée en TypeScript.
+        <strong>programmation en général</strong>, mais
+        exemplifiée en TypeScript. Et du React ! Ah oui, passionnant ça aussi.
         <br />
         Sans doute ensuite des
-        choses sur Linux et Ubuntu en particulier, les bonnes pratiques de développement...
+        choses sur Linux et en particulier Ubuntu, mon OS de prédilection.
+        <br />
+        Sûrement aussi des articles sur les bonnes pratiques de développement...
+        <br />
         On verra&nbsp;!
       </p>
       <p>
-        Je noterai ici <strong>des choses qui me semblent utiles</strong>&nbsp;
-        et que je noterais sans doute de
+        Je noterai ici <strong>des choses qui me semblent utiles</strong> et
+        que je noterais sans doute de
         toutes façons ailleurs si ce n&apos;était sur ce site. Alors pourquoi ne pas partager
         si ça peut servir à quelqu&apos;un&nbsp;?
       </p>
@@ -67,7 +72,7 @@ const Home: React.FC = () => (
           <li>d&apos;utiliser des technos super chouettes</li>
           <li>
             que ça ne soit pas complètement moche même si le design
-            n&apos;&nbsp;clairement pas mon point fort
+            n&apos;est clairement pas mon point fort
           </li>
           <li>que ça puisse éventuellement intéresser quelques lecteurs</li>
           <li><small>que ça me ramène des leads en masse</small></li>
@@ -79,7 +84,7 @@ const Home: React.FC = () => (
         car il y a quelques trucs intéressants dont je suis plutôt content.
         <br />
         C&apos;est tout libre de droits, donc si quelqu&apos;un a besoin
-        de copier un morceau allez-y&nbsp;!
+        de copier un morceau <NoWrap>allez-y !</NoWrap>
       </p>
       <p>
         J&apos;ai choisi de <strong>faire le site en français</strong>,
@@ -95,9 +100,18 @@ const Home: React.FC = () => (
         Et puis après tout, j&apos;aime bien notre langue.
       </p>
       <p>
-        Donc <strong>si jamais vous constatez des erreurs dans ce que je dis</strong>,
-        mon e-mail est dans le footer,
-        n&apos;hésitez pas à me le signaler&nbsp;!
+        <strong>Si jamais vous constatez des erreurs dans ce que je dis</strong>,
+        n&apos;hésitez pas à me le signaler&nbsp;par&nbsp;
+        <NoWrap><a href="mailto:fm.de.jouvencel@gmail.com">e-mail</a></NoWrap>,
+        y&apos;a qu&apos; cliquer.
+        <br />
+        J&apos;ai toute confiance dans l&apos;<NoWrap>anti-spam</NoWrap> de Google.
+      </p>
+      <p>
+        N&apos;hésitez pas non plus à <a href="mailto:fm.de.jouvencel@gmail.com">me contacter par <NoWrap>e-mail</NoWrap></a>
+        pour toute autre raison,
+        comme par exemple si vous voulez
+        <strong>me payer très cher pour travailler sur un projet très chouette</strong>.
       </p>
     </Article>
   </Main>
