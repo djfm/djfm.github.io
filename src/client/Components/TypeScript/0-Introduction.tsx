@@ -5,11 +5,21 @@ import {
   H1,
 } from '../common/Styled';
 
+import {
+  useDocument,
+} from '../common/hooks';
+
 export const Introduction: React.FC<{
   title: string,
+  docTitle?: string,
 }> = ({
   title,
+  docTitle,
 }) => {
+  useDocument((document) => {
+    document.title = docTitle || title;
+  });
+
   const markup = (
     <Article>
       <H1>{title}</H1>

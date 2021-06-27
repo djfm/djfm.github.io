@@ -6,6 +6,10 @@ import {
   Pre,
 } from '../common/Styled';
 
+import {
+  useDocument,
+} from '../common/hooks';
+
 const extendExample = `interface Node {
   type: string
 }
@@ -18,9 +22,15 @@ interface TextNode
 
 const TypesVSInterfaces: React.FC<{
   title: string,
+  docTitle?: string,
 }> = ({
   title,
+  docTitle,
 }) => {
+  useDocument((document) => {
+    document.title = docTitle || title;
+  });
+
   const markup = (
     <Article>
       <header>

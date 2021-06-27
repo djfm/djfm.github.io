@@ -14,27 +14,28 @@ import {
   TwoColumnsRightMenu,
   Main,
   H1,
-} from './common/Styled';
+} from '../common/Styled';
 
 import {
   hasOwnProperty,
   buildURL,
-} from './common/util';
+} from '../common/util';
 
 import {
   RouteSpec,
   sortRoutesForSwitch,
-} from './common/RouteSpec';
+} from '../common/RouteSpec';
 
-import Introduction from './TypeScript/0-Introduction';
-import TypesVSInterfaces from './TypeScript/1-TypesVSInterfaces';
-import TypeNarrowing from './TypeScript/2-TypeNarrowing';
+import Introduction from './0-Introduction';
+import TypesVSInterfaces from './1-TypesVSInterfaces';
+import TypeNarrowing from './2-TypeNarrowing';
 
 const routes: RouteSpec<{
   title: string,
 }>[] = [
   {
     title: 'Introduction',
+    docTitle: 'TypeScript - Introduction',
     to: '',
     exact: true,
     Component: Introduction,
@@ -46,6 +47,7 @@ const routes: RouteSpec<{
   },
   {
     title: 'Le «narrowing» ou la découverte incrémentale des types',
+    docTitle: 'Le "Type Narrowing"',
     to: 'type-narrowing',
     Component: TypeNarrowing,
   },
@@ -94,6 +96,7 @@ const TypeScript: React.FC = () => {
           {sortRoutesForSwitch(routes).map(({
             to,
             title,
+            docTitle,
             exact,
             Component,
           }) => (
@@ -102,7 +105,7 @@ const TypeScript: React.FC = () => {
               exact={exact}
               path={`${path}/${to}`}
             >
-              <Component title={title} />
+              <Component {...{ title, docTitle }} />
             </Route>
           ))}
         </Switch>

@@ -1,6 +1,7 @@
 import React from 'react';
 
 interface BaseRouteSpec<PropTypes = Record<string, unknown>> {
+  docTitle?: string
   title: string
   to: string | ''
   exact?: boolean
