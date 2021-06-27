@@ -4,6 +4,7 @@ import {
   useDocument,
 } from '../common/hooks';
 
+import BackToTop from '../common/BackToTop';
 import CodeSample from '../common/CodeSample';
 
 import {
@@ -165,6 +166,7 @@ export const Introduction: React.FC<{
         mais c&apos;est beaucoup moins agréable quand on code d&apos;écrire
         tout le typage en commentaires.
       </p>
+      <BackToTop />
     </Article>
   );
 
