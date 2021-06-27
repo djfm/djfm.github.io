@@ -7,7 +7,7 @@ import {
   H1,
 } from './common/Styled';
 
-const Home: React.FC = () => (
+const About: React.FC = () => (
   <Main>
     <Article>
       <H1>Qu&apos;est-ce que ce site?</H1>
@@ -117,4 +117,4 @@ const Home: React.FC = () => (
   </Main>
 );
 
-export default Home;
+export default About;
