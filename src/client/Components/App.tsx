@@ -19,18 +19,12 @@ import routes from './common/mainMenuRoutes';
 
 const AppRoot = styled.div`
   font-family: monospace;
-  font-size: 1.2em;
+  font-size: 1.2rem;
   line-height: 1.5;
-  flex: 1;
 `;
 
 const App: React.FC = () => (
-  <div style={{
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'start',
-  }}
-  >
+  <div>
     <AppRoot>
       <div>
         <MainNavSmallScreen />
@@ -53,8 +47,8 @@ const App: React.FC = () => (
           ))}
         </Switch>
       </WithHorizontalPadding>
-      <Footer />
     </AppRoot>
+    <Footer />
   </div>
 );
 

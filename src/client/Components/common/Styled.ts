@@ -101,8 +101,8 @@ export const Main = styled.main`
   }
 `;
 
-export const MinimalWidthPre = styled.pre`
-  width: fit-content;
+export const Pre = styled.pre`
+  max-width: 100%;
 `;
 
 export const Article = styled.article`

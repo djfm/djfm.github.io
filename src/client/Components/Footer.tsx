@@ -15,6 +15,7 @@ const Wrapper = styled.div`
   position: relative;
   left: 0;
   right: 0;
+  bottom: 0;
 
   @media (max-width: ${breakpoint1Max}) {
     justify-content: center;
