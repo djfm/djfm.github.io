@@ -10,4 +10,4 @@ node_modules
 stats.json
 
 build/*
-!build/.eslintrc.json
+src/builder/build

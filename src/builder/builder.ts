@@ -7,6 +7,8 @@
 import { inspect } from 'util';
 
 import path from 'path';
+import { URL } from 'url';
+
 import {
   readFile,
   writeFile,
@@ -18,25 +20,44 @@ import {
 } from 'fs/promises';
 
 import React from 'react';
-import ReactDOMServer from 'react-dom/server';
+import ReactDOMServer from 'react-dom/server.js';
 import ReactTestRenderer from 'react-test-renderer';
 import { StaticRouter } from 'react-router';
 
 import { ServerStyleSheet } from 'styled-components';
 
 import App from '../client/Components/App';
-import Footer from '../client/Components/Footer';
+
+const dirname = path.dirname(new URL(import.meta.url).pathname);
+
+const findProjectRoot = async (currentPath: string): Promise<string> => {
+  try {
+    await stat(path.join(currentPath, 'package.json'));
+    return currentPath;
+  } catch (err) {
+    if (err.code !== 'ENOENT') {
+      throw err;
+    }
+    const parentPath = currentPath.split(path.sep).slice(0, -1).join(path.sep);
+    return findProjectRoot(parentPath);
+  }
+};
 
 const createAppForURL = (url: string): [React.ReactElement, Record<string, unknown>] => {
   const context = {};
 
+  /*
   const Router: React.FC = () => (
     <StaticRouter location={url} context={context}>
       <App />
     </StaticRouter>
   );
+  */
 
-  const router = <Router />;
+  const router = React.createElement(StaticRouter, {
+    location: url,
+    context,
+  }, React.createElement(App));
 
   return [router, context];
 };
@@ -98,10 +119,11 @@ const main = async () => {
 
   console.log(`found pages: ${allLinks.map((l) => `"${l}"`).join(', ')}.\n`);
 
-  const indexBuffer = await readFile(path.resolve(__dirname, 'index.template.html'));
+  const indexBuffer = await readFile(path.resolve(dirname, 'index.template.html'));
   const indexTemplate = indexBuffer.toString();
 
-  const docsRootPath = path.resolve(__dirname, '..', '..', 'docs');
+  const projectRoot = await findProjectRoot(dirname);
+  const docsRootPath = path.join(projectRoot, 'docs');
   const appPlaceholder = '#APP#';
   const stylesPlaceholder = '#STYLES#';
 

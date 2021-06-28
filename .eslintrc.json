@@ -1,5 +1,8 @@
 {
   "root": true,
+  "env": {
+    "node": true
+  },
   "parser": "@typescript-eslint/parser",
   "plugins": [
     "@typescript-eslint",
@@ -23,8 +26,9 @@
     "react/jsx-one-expression-per-line": 0,
     "import/extensions": [
       1, {
-        ".ts": "never",
-        ".tsx": "never"
+        "ts": "never",
+        "tsx": "never",
+        "js": "always"
       }
     ],
     "node/no-missing-import": 0,

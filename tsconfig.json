@@ -1,10 +1,15 @@
 {
   "compilerOptions": {
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "jsx": "react",
     "downlevelIteration": true,
-    "target": "ESNext",
-    "module": "CommonJS"
+    "target": "ES2021",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "outDir": "./build/",
+    "types": ["node", "react"]
   },
+  "include": ["./src"]
 }

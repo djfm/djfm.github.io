@@ -1,5 +1,6 @@
 {
   "name": "djfm-site-perso",
+  "type": "module",
   "version": "1.0.0",
   "description": "Mon site web.",
   "main": "index.js",
@@ -8,9 +9,11 @@
   "license": "MIT",
   "scripts": {
     "build": "NODE_ENV=production webpack --profile --json > stats.json && yarn render",
-    "render": "ts-node src/builder/builder.tsx",
-    "start": "ts-node-dev src/server/server.ts",
-    "analyze-bundle": "webpack-bundle-analyzer stats.json docs -m server -p 4000"
+    "render": "tsc --project src/builder/tsconfig.json && node --experimental-specifier-resolution=node src/builder/build/builder/builder.js",
+    "start": "node src/server/server.js",
+    "analyze-bundle": "webpack-bundle-analyzer stats.json docs -m server -p 4000",
+    "transpile": "tsc",
+    "lint": "eslint src"
   },
   "browserslist": "defaults",
   "dependencies": {
@@ -19,6 +22,7 @@
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.14.2",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
+    "@types/compression-webpack-plugin": "^6.0.5",
     "@types/express": "^4.17.12",
     "@types/node": "^15.6.1",
     "@types/react": "^17.0.8",

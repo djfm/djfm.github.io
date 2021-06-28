@@ -1554,6 +1554,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/compression-webpack-plugin@npm:^6.0.5":
+  version: 6.0.5
+  resolution: "@types/compression-webpack-plugin@npm:6.0.5"
+  dependencies:
+    "@types/webpack": ^4
+  checksum: 8b2037a1b2c4709d40d126f937ac79cba294bbd8d9d98078f1b40b67150fcde02d540fd963bb84e261ee61f50ec8be682d4ea87446c11286c7bbe8f42b7f5eaa
+  languageName: node
+  linkType: hard
+
 "@types/connect@npm:*":
   version: 3.4.34
   resolution: "@types/connect@npm:3.4.34"
@@ -3170,6 +3179,7 @@ __metadata:
     "@babel/polyfill": ^7.12.1
     "@babel/preset-env": ^7.14.2
     "@pmmmwh/react-refresh-webpack-plugin": ^0.4.3
+    "@types/compression-webpack-plugin": ^6.0.5
     "@types/express": ^4.17.12
     "@types/node": ^15.6.1
     "@types/react": ^17.0.8
