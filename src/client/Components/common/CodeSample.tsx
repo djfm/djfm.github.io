@@ -7,6 +7,10 @@ import React, {
 
 import styled from 'styled-components';
 
+import {
+  darkColor,
+} from './Styled';
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -30,6 +34,8 @@ const Wrapper = styled.div`
 
       max-width: 100%;
       overflow: auto;
+
+      background-color: ${darkColor};
 
       code {
         width: fit-content;
@@ -82,6 +88,11 @@ const trimLeadingWhitespace = (input: unknown): typeof input => {
   return newLines.join('\n');
 };
 
+const parseValueWithUnit = (val: string): [number, string] => {
+  const [, value, unit] = val.match(/(\d+(?:.\d+))(\w+)/);
+  return [parseFloat(value), unit];
+};
+
 export const CodeSample: React.FC<{
   title: string,
   children: unknown,
@@ -92,22 +103,35 @@ export const CodeSample: React.FC<{
   children,
   language,
 }) => {
-  const minZoom = 30;
-  const maxZoom = 100;
+  const minZoom = 10;
+  const normalZoom = 100;
+  const maxZoom = 170;
 
-  const [zoomLevel, setZoomLevel] = useState(maxZoom);
+  const [zoomLevel, setZoomLevel] = useState(normalZoom);
   const [initialFontSize, setInitialFontSize] = useState(0);
   const [fontUnit, setFontUnit] = useState('');
+
   const codeElementRef = useRef(null);
+  const preElementRef = useRef(null);
 
   useEffect(() => {
     // necessary to prevent errors in the SSR code where
     // document is not defined
     if (typeof document !== 'undefined') {
-      const { fontSize } = document.defaultView.getComputedStyle(codeElementRef.current);
-      const [, value, unit] = fontSize.match(/(\d+(?:.\d+))(\w+)/);
-      setInitialFontSize(parseFloat(value));
-      setFontUnit(unit);
+      const codeStyle = document.defaultView.getComputedStyle(
+        codeElementRef.current,
+      );
+
+      const { fontSize } = codeStyle;
+      const [domInitialFontSize, domFontUnit] = parseValueWithUnit(fontSize);
+      setInitialFontSize(domInitialFontSize);
+      setFontUnit(domFontUnit);
+
+      const { height } = document.defaultView.getComputedStyle(preElementRef.current);
+      const [initialPreHeight, preHeightUnit] = parseValueWithUnit(height);
+      const fixedPreHeight = `${initialPreHeight * 1.5}${preHeightUnit}`;
+
+      preElementRef.current.style.height = fixedPreHeight;
     }
   }, []);
 
@@ -117,20 +141,23 @@ export const CodeSample: React.FC<{
     setZoomLevel(value);
   };
 
-  const scaleFactor = zoomLevel / maxZoom;
+  const scaleFactor = zoomLevel / normalZoom;
   const fontSize = Math.round(100 * scaleFactor * initialFontSize) / 100;
   const fontSizeWithUnit = `${fontSize}${fontUnit}`;
 
-  const style = fontSize > 0 ? ({ fontSize: fontSizeWithUnit }) : undefined;
+  const codeStyle = fontSize > 0 ? ({ fontSize: fontSizeWithUnit }) : undefined;
 
   const markup = (
     <Wrapper>
       <figure>
         <figcaption>{title}</figcaption>
-        <pre className={`language-${language || 'typescript'}`}>
+        <pre
+          className={`language-${language || 'typescript'}`}
+          ref={preElementRef}
+        >
           <code
             ref={codeElementRef}
-            style={style}
+            style={codeStyle}
           >
             {trimLeadingWhitespace(children)}
           </code>
