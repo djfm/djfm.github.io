@@ -14,7 +14,7 @@ import {
   NotTooWide,
   StyledNavLink,
   TwoColumnsRightMenu,
-  VerticalUnorderedList,
+  VertUnordListNoBullets,
 } from '../common/Styled';
 
 import {
@@ -72,10 +72,10 @@ const TypeScript: React.FC = () => {
 
   return (
     <Main>
-      <H1>Des choses autour de TypeScript, ma nouvelle passion</H1>
+      <H1>Des choses autour de TypeScript<br />ma nouvelle passion</H1>
       <TwoColumnsRightMenu>
         <nav>
-          <VerticalUnorderedList>
+          <VertUnordListNoBullets>
             {routes.map(({
               to,
               title,
@@ -91,7 +91,7 @@ const TypeScript: React.FC = () => {
                 </StyledNavLink>
               </li>
             ))}
-          </VerticalUnorderedList>
+          </VertUnordListNoBullets>
         </nav>
         <Switch>
           {sortRoutesForSwitch(routes).map(({

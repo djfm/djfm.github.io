@@ -46,7 +46,7 @@ const TypesVSInterfaces: React.FC<{
         <ul>
           <li>
             une interface peut étendre une autre interface
-            <CodeSample title={"Un exemple d'interface\u00a0:"}>
+            <CodeSample title="Un exemple d'interface">
               {extendExample}
             </CodeSample>
           </li>

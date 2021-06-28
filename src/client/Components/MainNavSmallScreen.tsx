@@ -12,7 +12,7 @@ import styled from 'styled-components';
 import {
   darkColor,
   bp2Max,
-  VerticalUnorderedList,
+  VertUnordListNoBullets,
   StyledNavLink,
 } from './common/Styled';
 
@@ -102,7 +102,7 @@ const MainNavSmallScreen: React.FC = () => {
         onClick={closeMenu}
       />
       <nav>
-        <VerticalUnorderedList>
+        <VertUnordListNoBullets>
           {routes.map(
             ({ to, title, exact }) => (
               <li key={to}>
@@ -117,7 +117,7 @@ const MainNavSmallScreen: React.FC = () => {
               </li>
             ),
           )}
-        </VerticalUnorderedList>
+        </VertUnordListNoBullets>
       </nav>
     </div>
   );

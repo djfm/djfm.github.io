@@ -5,13 +5,13 @@ import styled from 'styled-components';
 import {
   darkColor,
   bp3min,
-  HorizontalUnorderedList,
+  HorizUnordListNoBullets,
   StyledNavLink,
 } from './common/Styled';
 
 import routes from './common/mainMenuRoutes';
 
-const HUL = styled(HorizontalUnorderedList)`
+const HUL = styled(HorizUnordListNoBullets)`
 display: none;
 
 @media (min-width: ${bp3min}) {

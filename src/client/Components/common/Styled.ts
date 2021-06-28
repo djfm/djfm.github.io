@@ -47,7 +47,7 @@ export const StyledNavLink = styled(NavLink)`
   }
 `;
 
-export const HorizontalUnorderedList = styled.ul`
+export const HorizUnordListNoBullets = styled.ul`
   display: flex;
   flex-direction: row;
 
@@ -62,7 +62,7 @@ export const HorizontalUnorderedList = styled.ul`
   }
 `;
 
-export const VerticalUnorderedList = styled.ul`
+export const VertUnordListNoBullets = styled.ul`
   display: flex;
   flex-direction: column;
 
@@ -74,6 +74,12 @@ export const VerticalUnorderedList = styled.ul`
 
   li:not(:first-child) {
     margin-top: 1.2em;
+  }
+`;
+
+export const UL = styled.ul`
+  li:not(:first-child) {
+    margin-top: 20px;
   }
 `;
 
