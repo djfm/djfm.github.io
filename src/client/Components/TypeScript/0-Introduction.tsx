@@ -8,37 +8,24 @@ import BackToTop from '../common/BackToTop';
 import CodeSample from '../common/CodeSample';
 
 import {
+  brightColor2,
+  darkColor,
   Article,
   H1,
   NoWrap,
   UL,
 } from '../common/Styled';
 
-const basicTypeExample = `const x = 4;
-
-const mulByTwo = (n: number): number
-  => 2 * n;`;
-
-export const Introduction: React.FC<{
-  title: string,
-  docTitle?: string,
-}> = ({
-  title,
-  docTitle,
-}) => {
-  useDocument((document) => {
-    document.title = docTitle || title;
-  });
-
-  const markup = (
-    <Article>
-      <H1>{title}</H1>
-      <section>
-        <header>
-          <h1>Qu&apos;est-ce que le TypeScript?</h1>
+const sections = [
+  {
+    title: "Qu'est-ce que le TypeScript\u00a0?",
+    id: 'qu-est-typescript',
+    Section: (
+      <div>
+        <p>
           TypeScript est un <strong>sur-ensemble de JavaScript</strong> qui
           ajoute un <strong>système de types au langage</strong>.
-        </header>
+        </p>
         <p>
           Nous verrons que le système de types de TypeScript est assez puissant.
         </p>
@@ -51,63 +38,152 @@ export const Introduction: React.FC<{
           &quot;opt-in&quot;&nbsp;:&nbsp;
           on peut très bien ne pas annoter notre code et
           on écrit alors du JavaScript standard.
-          <br />
-          C&apos;est pratique, cela permet notamment
+        </p>
+        <p>
+          C&apos;est bien pratique, cela permet notamment
           de migrer progressivement un projet vers TypeScript.
         </p>
         <CodeSample
           title="Exemple de déclaration de types sur une arrow-function"
         >
-          {basicTypeExample}
+          {`
+            const x = 4;
+
+            const mulByTwo = (n: number): number
+              => 2 * n;
+          `}
         </CodeSample>
-        <section>
-          <p>
-            TypeScript est <strong>très bon pour faire de l&apos;inférence de types</strong>.
-          </p>
-          <p>
-            Remarquez que dans l&apos;exemple ci-dessus je n&apos;ai pas déclaré de type pour
-            la variable <i>x</i>&nbsp;: ce n&apos;est pas nécessaire, il est trivial
-            pour TypeScript de comprendre que <i>x</i> est de type <i>number</i>.
-          </p>
-          <p>
-            J&apos;utilise le bien-connu linter <i>eslint</i> pour vérifier mon code en TypeScript
-            (il faut juste le <a target="_blank" rel="noreferrer" href="https://github.com/djfm/djfm.github.io/blob/main/.eslintrc.json">configurer un peu plus</a> par rapport au JavaScript)
-            et les règles de base du plugin @typescript-eslint/recommended me signalent
-            comme un problème le fait de déclarer des types qui peuvent être inférés.
-          </p>
-          <p>
-            Les <strong>bonnes pratiques en matière de déclaration de types</strong>&nbsp;
-            semblent être&nbsp;:
-          </p>
-          <UL>
-            <li>
-              de déclarer les types ne pouvant pas être inférés
-              (le linter ou le compilateur nous indique une erreur quand un type manque)
-            </li>
-            <li>
-              de déclarer les types de tous les symboles
-              exportés par les modules (module pris au sens de
-              n&apos;importe quoi qui peut se &quot;<i>import</i>&quot;),
-              c&apos;est à dire tout symbole qui a
-              une portée plus grande que le fichier où il est défini
-            </li>
-          </UL>
-        </section>
-      </section>
-      <section>
-        <h1>Pourquoi rajouter des types à JavaScript&nbsp;?</h1>
         <p>
-          Tout simplement pour détecter le plus tôt possible les erreurs et éviter autant
+          TypeScript n&apos;ajoute pas de fonctionnalités à l&apos;exécution
+        </p>
+        <p>
+          Le <strong>code généré</strong> par TypeScript est du JavaScript standard qui
+          <strong>&nbsp;
+            ne peut pas faire référence aux types définis en TypeScript
+          </strong>,
+          il n&apos;est pas du tout &rdquo;conscient&rdquo; qu&apos;il a été écrit en TypeScript
+          puis compilé.
+        </p>
+        <p>
+          Il faut bien noter que TypeScript&nbsp;
+          <strong>
+            n&apos;ajoute pas
+            de fonctionnalités au langage JavaScript
+            lors de l&apos;exécution
+          </strong>.
+        </p>
+        <p>
+          J&apos;ai mis un moment à le comprendre :
+          <strong>
+            lors de la compilation, toute référence à TypeScript
+            est supprimée du code.
+          </strong>
+        </p>
+        <p>
+          Le TypeScript est <i>in fine</i> du JavaScript,
+          on peut le voir comme une sorte de linter sur-puissant.
+        </p>
+        <p>
+          On peut d&apos;ailleurs profiter de quasiment toutes les fonctionnalités
+          de TypeScript en utilisant des docblocks en JavaScript.
+        </p>
+        <p>
+          On peut alors faire directement tourner notre JavaScript annoté par
+          des commentaires. Se passer de compilation fait gagner du temps,
+          mais c&apos;est beaucoup moins agréable quand on code d&apos;écrire
+          tout le typage en commentaires.
+        </p>
+      </div>
+    ),
+  },
+  {
+    title: 'Pourquoi ajouter des types à JavaScript\u00a0?',
+    id: 'pourquoi-typescript',
+    Section: (
+      <div>
+        <p>
+          Tout simplement pour <strong>détecter le plus tôt possible les erreurs</strong>&nbsp;
+          et éviter autant
           que possible de se tirer une balle dans le pied tout seul.
+        </p>
+        <p>
+          On gagne aussi <strong>énormément en productivité</strong> grâce à l&apos;auto-complétion
+          fournie par les IDE.
+        </p>
+        <p>
+          J&apos;utilise pour ma part <i>VSCode</i> et je le recommande chaudement,
+          <i>intellisense</i> fait vraiment des merveilles.
+        </p>
+        <p>
+          Franchement, quand on vient du JavaScript, c&apos;est troublant de se rendre
+          compte à quel point on se compliquait la vie avant TypeScript.
         </p>
         <p>Le bénéfice de TypeScript devient vraiment évident sur des projets complexes.</p>
         <p>
           Dans mon expérience, j&apos;ai au moins 80% d&apos;erreurs inattendues à l&apos;exécution
-          en TypeScript qu&apos;en JavaScript.
+          en moins en TypeScript qu&apos;en JavaScript.
         </p>
-      </section>
-      <section>
-        <h1>Comment ça marche&nbsp;?</h1>
+        <p>
+          Si ça compile, c&apos;est que ça a de bonnes chances d&apos;être correct.
+        </p>
+        <p>
+          Attention tout de même au faux sentiment de sécurité que peut
+          parfois donner le système de types.
+        </p>
+      </div>
+    ),
+  },
+  {
+    title: "L'inférence de types",
+    id: 'inference-de-types',
+    Section: (
+      <div>
+        <p>
+          TypeScript est <strong>très bon pour faire de l&apos;inférence de types</strong>.
+        </p>
+        <p>
+          Remarquez que dans l&apos;exemple précédent je n&apos;ai pas déclaré de type pour
+          la variable <i>x</i>&nbsp;: ce n&apos;est pas nécessaire, il est trivial
+          pour TypeScript de comprendre que <i>x</i> est de type <i>number</i>.
+        </p>
+        <p>
+          J&apos;utilise le bien-connu linter <i>eslint</i> pour vérifier mon code en TypeScript
+          (il faut juste le&nbsp;
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://github.com/djfm/djfm.github.io/blob/main/.eslintrc.json"
+          >
+            configurer un peu plus
+          </a> par rapport au JavaScript)
+          et les règles de base du plugin <i>@typescript-eslint/recommended</i> me signalent
+          comme un problème le fait de déclarer des types qui peuvent être inférés.
+        </p>
+        <p>
+          Les <strong>bonnes pratiques en matière de déclaration de types</strong>&nbsp;
+          sont, à ma connaissance&nbsp;:
+        </p>
+        <UL>
+          <li>
+            de déclarer les types ne pouvant pas être inférés
+            (le linter ou le compilateur nous indique une erreur quand c&apos;est le cas)
+          </li>
+          <li>
+            de déclarer les types de tous les symboles
+            exportés par les modules (module pris au sens de
+            n&apos;importe quoi qui peut se &quot;<i>import</i>&quot;),
+            c&apos;est à dire tout symbole qui a
+            une portée plus grande que le fichier où il est défini
+          </li>
+        </UL>
+      </div>
+    ),
+  },
+  {
+    title: 'Comment ça marche\u00a0?',
+    id: 'comment-marche-typescript',
+    Section: (
+      <div>
         <p>
           Le code en&nbsp;
           <strong>
@@ -156,7 +232,6 @@ export const Introduction: React.FC<{
             yarn ts-node hello.ts
           `}
         </CodeSample>
-
         <aside>
           <p>
             L&apos;implémentation de référence de <i>TypeScript</i> et
@@ -200,47 +275,40 @@ export const Introduction: React.FC<{
           vers ESNext (mais avec les modules en mode &quot;CommonJS&quot;)
           et à polyfiller avec Babel.
         </p>
-      </section>
-      <section>
-        <h1>TypeScript n&apos;ajoute pas de fonctionnalités à l&apos;exécution</h1>
-        <p>
-          Le <strong>code généré</strong> par TypeScript est du JavaScript standard qui
-          <strong>&nbsp;
-            ne peut pas faire référence aux types définis en TypeScript
-          </strong>,
-          il n&apos;est pas du tout &rdquo;conscient&rdquo; qu&apos;il a été écrit en TypeScript
-          puis compilé.
-        </p>
-        <p>
-          Il faut bien noter que TypeScript&nbsp;
-          <strong>
-            n&apos;ajoute pas
-            de fonctionnalités au langage JavaScript
-            lors de l&apos;exécution
-          </strong>.
-        </p>
-        <p>
-          J&apos;ai mis un moment à le comprendre :
-          <strong>
-            lors de la compilation, toute référence à TypeScript
-            est supprimée du code.
-          </strong>
-        </p>
-        <p>
-          Le TypeScript est <i>in fine</i> du JavaScript,
-          on peut le voir comme une sorte de linter sur-puissant.
-        </p>
-        <p>
-          On peut d&apos;ailleurs profiter de quasiment toutes les fonctionnalités
-          de TypeScript en utilisant des docblocks en JavaScript.
-        </p>
-        <p>
-          On peut alors faire directement tourner notre JavaScript annoté par
-          des commentaires. Se passer de compilation fait gagner du temps,
-          mais c&apos;est beaucoup moins agréable quand on code d&apos;écrire
-          tout le typage en commentaires.
-        </p>
-      </section>
+      </div>
+    ),
+  },
+];
+
+export const Introduction: React.FC<{
+  title: string,
+  docTitle?: string,
+}> = ({
+  title,
+  docTitle,
+}) => {
+  useDocument((document) => {
+    document.title = docTitle || title;
+  });
+
+  const markup = (
+    <Article>
+      <H1>{title}</H1>
+      {sections.map(({ title: sectionTitle, id, Section }) => (
+        <section key={id}>
+          <h1
+            id={id}
+            style={{
+              color: brightColor2,
+              backgroundColor: darkColor,
+              textAlign: 'center',
+            }}
+          >
+            {sectionTitle}
+          </h1>
+          {Section}
+        </section>
+      ))}
       <BackToTop />
     </Article>
   );

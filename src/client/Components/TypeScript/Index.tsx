@@ -35,14 +35,14 @@ const routes: RouteSpec<{
   title: string,
 }>[] = [
   {
-    title: 'Introduction',
+    title: 'TypeScript en bref',
     docTitle: 'TypeScript - Introduction',
     to: '',
     exact: true,
     Component: Introduction,
   },
   {
-    title: 'Types vs. Interface',
+    title: 'Types vs. Interfaces',
     to: 'types-vs-interfaces',
     Component: TypesVSInterfaces,
   },
