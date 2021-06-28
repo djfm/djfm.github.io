@@ -25,7 +25,6 @@ import { StaticRouter } from 'react-router';
 import { ServerStyleSheet } from 'styled-components';
 
 import App from '../client/Components/App';
-import Footer from '../client/Components/Footer';
 
 const createAppForURL = (url: string): [React.ReactElement, Record<string, unknown>] => {
   const context = {};
