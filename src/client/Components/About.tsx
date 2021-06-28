@@ -105,7 +105,7 @@ const About: React.FC = () => (
           <strong>Si jamais vous constatez des erreurs dans ce que je dis</strong>,
           n&apos;hésitez pas à me le signaler&nbsp;par&nbsp;
           <NoWrap><a href="mailto:fm.de.jouvencel@gmail.com">e-mail</a></NoWrap>,
-          y&apos;a qu&apos; cliquer.
+          y&apos;a qu&apos;à cliquer.
           <br />
           J&apos;ai toute confiance dans l&apos;<NoWrap>anti-spam</NoWrap> de Google.
         </p>
