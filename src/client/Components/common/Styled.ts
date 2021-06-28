@@ -93,16 +93,7 @@ export const TwoColumnsRightMenu = styled.div`
 
   @media (max-width: ${bp2Max}) {
     flex-direction: column;
-    align-items: flex-start;
-
-    > *:first-child {
-      align-self: stretch;
-      margin-left: -5px;
-
-      ul {
-        width 100%;
-      }
-    }
+    align-items: center;
   }
 
   @media (min-width: ${bp3min}) {

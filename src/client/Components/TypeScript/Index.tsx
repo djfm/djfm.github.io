@@ -74,25 +74,27 @@ const TypeScript: React.FC = () => {
     <Main>
       <H1>Des choses autour de TypeScript<br />ma nouvelle passion</H1>
       <TwoColumnsRightMenu>
-        <nav>
-          <VertUnordListNoBullets>
-            {routes.map(({
-              to,
-              title,
-              exact,
-            }) => (
-              <li key={to}>
-                <StyledNavLink
-                  exact={exact}
-                  to={buildURL(url, to)}
-                  activeClassName="active"
-                >
-                  {title}
-                </StyledNavLink>
-              </li>
-            ))}
-          </VertUnordListNoBullets>
-        </nav>
+        <NotTooWide>
+          <nav>
+            <VertUnordListNoBullets>
+              {routes.map(({
+                to,
+                title,
+                exact,
+              }) => (
+                <li key={to}>
+                  <StyledNavLink
+                    exact={exact}
+                    to={buildURL(url, to)}
+                    activeClassName="active"
+                  >
+                    {title}
+                  </StyledNavLink>
+                </li>
+              ))}
+            </VertUnordListNoBullets>
+          </nav>
+        </NotTooWide>
         <Switch>
           {sortRoutesForSwitch(routes).map(({
             to,
