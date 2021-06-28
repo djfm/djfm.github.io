@@ -10,10 +10,10 @@ import {
 import styled from 'styled-components';
 
 import {
-  darkColor,
   bp2Max,
-  VertUnordListNoBullets,
+  darkColor,
   StyledNavLink,
+  VertUnordListNoBullets,
 } from './common/Styled';
 
 import routes from './common/mainMenuRoutes';
