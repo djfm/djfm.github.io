@@ -101,6 +101,11 @@ export const TwoColumnsRightMenu = styled.div`
 
     > *:first-child {
       flex-basis: 250px;
+
+      ul {
+        position: fixed;
+        width: 250px;
+      }
     }
 
     > *:last-child {
