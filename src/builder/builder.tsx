@@ -42,7 +42,7 @@ const createAppForURL = (url: string): [React.ReactElement, Record<string, unkno
 
 const extractLinks = (
   node: ReactTestRenderer.ReactTestRendererNode
-    | ReactTestRenderer.ReactTestRendererNode[],
+  | ReactTestRenderer.ReactTestRendererNode[],
 ): string[] => {
   if (!node) {
     return [];
