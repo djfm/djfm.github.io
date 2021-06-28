@@ -6,10 +6,6 @@ import React, {
 
 import styled from 'styled-components';
 
-import {
-  darkColor,
-} from './Styled';
-
 const trimLeadingWhitespace = (input: unknown): typeof input => {
   if (typeof input !== 'string') {
     return input;
