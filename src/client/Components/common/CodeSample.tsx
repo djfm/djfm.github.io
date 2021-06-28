@@ -1,11 +1,18 @@
-import React from 'react';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  BaseSyntheticEvent,
+} from 'react';
 
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+  margin-bottom: 20px;
 
   > figure {
     max-width: 100%;
@@ -16,12 +23,22 @@ const Wrapper = styled.div`
     }
 
     pre {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+
       max-width: 100%;
-      overflow: scroll;
+      overflow: auto;
+
+      code {
+        width: fit-content;
+      }
     }
 
     margin-left: 0;
     margin-right: 0;
+    margin-bottom: 0;
   }
 `;
 
@@ -75,14 +92,67 @@ export const CodeSample: React.FC<{
   children,
   language,
 }) => {
+  const minZoom = 30;
+  const maxZoom = 100;
+
+  const [zoomLevel, setZoomLevel] = useState(maxZoom);
+  const [initialFontSize, setInitialFontSize] = useState(0);
+  const [fontUnit, setFontUnit] = useState('');
+  const codeElementRef = useRef(null);
+
+  useEffect(() => {
+    // necessary to prevent errors in the SSR code where
+    // document is not defined
+    if (typeof document !== 'undefined') {
+      const { fontSize } = document.defaultView.getComputedStyle(codeElementRef.current);
+      const [, value, unit] = fontSize.match(/(\d+(?:.\d+))(\w+)/);
+      setInitialFontSize(parseFloat(value));
+      setFontUnit(unit);
+    }
+  }, []);
+
+  const updateZoomLevel = (e: BaseSyntheticEvent) => {
+    const { value: valueString } = e.target;
+    const value = parseInt(valueString, 10);
+    setZoomLevel(value);
+  };
+
+  const scaleFactor = zoomLevel / maxZoom;
+  const fontSize = Math.round(100 * scaleFactor * initialFontSize) / 100;
+  const fontSizeWithUnit = `${fontSize}${fontUnit}`;
+
+  const style = fontSize > 0 ? ({ fontSize: fontSizeWithUnit }) : undefined;
+
   const markup = (
     <Wrapper>
       <figure>
         <figcaption>{title}</figcaption>
         <pre className={`language-${language || 'typescript'}`}>
-          <code>{trimLeadingWhitespace(children)}</code>
+          <code
+            ref={codeElementRef}
+            style={style}
+          >
+            {trimLeadingWhitespace(children)}
+          </code>
         </pre>
       </figure>
+      <label>
+        <div style={{
+          textAlign: 'center',
+          fontFamily: 'monospace',
+          fontSize: '1rem',
+        }}
+        >
+          Zoom:
+        </div>
+        <input
+          type="range"
+          min={minZoom}
+          max={maxZoom}
+          value={zoomLevel}
+          onChange={updateZoomLevel}
+        />
+      </label>
     </Wrapper>
   );
 
