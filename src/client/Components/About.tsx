@@ -15,6 +15,9 @@ const About: React.FC = () => (
         <H1>Qu&apos;est-ce que ce site?</H1>
 
         <p>
+          <strong>Avant tout je précise qu&apos;il est en construction!</strong>
+        </p>
+        <p>
           C&apos;est une sorte de blog&nbsp;/&nbsp;documentation autour de
           sujets informatiques qui m&apos;intéressent&nbsp;-&nbsp;c&apos;est
           loin d&apos;être exhaustif&nbsp;!
