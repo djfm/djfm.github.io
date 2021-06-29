@@ -8,8 +8,6 @@ import BackToTop from '../common/BackToTop';
 import CodeSample from '../common/CodeSample';
 
 import {
-  brightColor2,
-  darkColor,
   Article,
   H1,
   NoWrap,
@@ -298,11 +296,6 @@ export const Introduction: React.FC<{
         <section key={id}>
           <h1
             id={id}
-            style={{
-              color: brightColor2,
-              backgroundColor: darkColor,
-              textAlign: 'center',
-            }}
           >
             {sectionTitle}
           </h1>
