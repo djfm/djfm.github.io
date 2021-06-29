@@ -58,4 +58,7 @@ export default {
     extensions: ['.js', '.ts', '.tsx'],
   },
   plugins,
+  externals: {
+    'highlight.js': 'hljs',
+  },
 };

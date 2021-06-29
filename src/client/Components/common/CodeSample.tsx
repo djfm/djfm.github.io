@@ -6,10 +6,11 @@ import React, {
 
 import styled from 'styled-components';
 
+import hljs from 'highlight.js';
+
 import {
-  hasOwnProperty,
-  trimLeadingWhitespace,
   parseValueWithUnit,
+  trimLeadingWhitespace,
 } from '../common/util';
 
 const Wrapper = styled.div`
@@ -47,9 +48,19 @@ const Wrapper = styled.div`
   }
 `;
 
+const highlight = (language: string, sourceCode: string): string => {
+  const trimmedText = trimLeadingWhitespace(sourceCode);
+  if (typeof trimmedText !== 'string') {
+    return sourceCode;
+  }
+  return hljs.highlight(trimmedText, {
+    language: language || 'typescript',
+  }).value;
+};
+
 export const CodeSample: React.FC<{
   title: string,
-  children: unknown,
+  children: string,
   language?: string,
 }> = ({
   title,
@@ -71,23 +82,6 @@ export const CodeSample: React.FC<{
 
   const codeElementRef = useRef(null);
   const preElementRef = useRef(null);
-
-  const highlight = (typeof window !== 'undefined')
-    ? (childrenAsCode: unknown): typeof childrenAsCode => {
-      if (hasOwnProperty(window, 'hljs')) {
-        const { hljs } = window;
-        if (hasOwnProperty(hljs, 'highlight')) {
-          const trimmedText = trimLeadingWhitespace(childrenAsCode);
-          if (typeof trimmedText !== 'string' || typeof hljs.highlight !== 'function') {
-            return childrenAsCode;
-          }
-          return hljs.highlight(trimmedText, {
-            language: language || 'typescript',
-          }).value;
-        }
-      }
-      return childrenAsCode;
-    } : (childrenAsCode: unknown): typeof childrenAsCode => childrenAsCode;
 
   useEffect(() => {
     // necessary to prevent errors in the SSR code where
@@ -163,31 +157,22 @@ export const CodeSample: React.FC<{
 
   const codeStyle = fontSize > 0 ? ({ fontSize: fontSizeWithUnit }) : undefined;
 
-  const highlightedChildren = highlight(children);
-
-  const [codeProps, codeChildren] = typeof highlightedChildren === 'string' ? (
-    [{
-      dangerouslySetInnerHTML: {
-        __html: highlightedChildren,
-      },
-    }, null]
-  ) : [{}, children];
+  const highlightedChildren = highlight(language, children);
 
   const markup = (
     <Wrapper>
       <figure>
         <figcaption>{title}</figcaption>
-        <pre
-          className={`language-${language || 'typescript'}`}
-          ref={preElementRef}
-        >
+        <pre ref={preElementRef}>
           <code
+            className="hljs no-highlight"
             ref={codeElementRef}
             style={codeStyle}
-            {...codeProps}
-          >
-            {codeChildren}
-          </code>
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{
+              __html: highlightedChildren,
+            }}
+          />
         </pre>
       </figure>
       <label>
