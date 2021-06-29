@@ -6,50 +6,11 @@ import React, {
 
 import styled from 'styled-components';
 
-const trimLeadingWhitespace = (input: unknown): typeof input => {
-  if (typeof input !== 'string') {
-    return input;
-  }
-
-  let lines = input.split('\n');
-  let minIndent: number;
-
-  for (const line of lines) {
-    const trimmedLine = line.trimLeft();
-    const indent = line.length - trimmedLine.length;
-    if (line.trim().length > 0 && (minIndent === undefined || indent < minIndent)) {
-      minIndent = indent;
-    }
-  }
-
-  const newLines: string[] = [];
-
-  // remove leading empty lines
-  while (lines.length > 0 && lines[0].trim().length === 0) {
-    lines = lines.slice(1);
-  }
-
-  // trim leading spaces
-  for (const line of lines) {
-    if (line.length < minIndent) {
-      newLines.push('');
-    } else {
-      newLines.push(line.substr(minIndent).trimRight());
-    }
-  }
-
-  // remove trailing empty lines
-  while (newLines.length > 0 && newLines[newLines.length - 1].trim().length === 0) {
-    newLines.pop();
-  }
-
-  return newLines.join('\n');
-};
-
-const parseValueWithUnit = (val: string): [number, string] => {
-  const [, value, unit] = val.match(/(\d+(?:.\d+))(\w+)/);
-  return [parseFloat(value), unit];
-};
+import {
+  hasOwnProperty,
+  trimLeadingWhitespace,
+  parseValueWithUnit,
+} from '../common/util';
 
 const Wrapper = styled.div`
   display: flex;
@@ -110,6 +71,23 @@ export const CodeSample: React.FC<{
 
   const codeElementRef = useRef(null);
   const preElementRef = useRef(null);
+
+  const highlight = (typeof window !== 'undefined')
+    ? (childrenAsCode: unknown): typeof childrenAsCode => {
+      if (hasOwnProperty(window, 'hljs')) {
+        const { hljs } = window;
+        if (hasOwnProperty(hljs, 'highlight')) {
+          const trimmedText = trimLeadingWhitespace(childrenAsCode);
+          if (typeof trimmedText !== 'string' || typeof hljs.highlight !== 'function') {
+            return childrenAsCode;
+          }
+          return hljs.highlight(trimmedText, {
+            language: language || 'typescript',
+          }).value;
+        }
+      }
+      return childrenAsCode;
+    } : (childrenAsCode: unknown): typeof childrenAsCode => childrenAsCode;
 
   useEffect(() => {
     // necessary to prevent errors in the SSR code where
@@ -185,6 +163,16 @@ export const CodeSample: React.FC<{
 
   const codeStyle = fontSize > 0 ? ({ fontSize: fontSizeWithUnit }) : undefined;
 
+  const highlightedChildren = highlight(children);
+
+  const [codeProps, codeChildren] = typeof highlightedChildren === 'string' ? (
+    [{
+      dangerouslySetInnerHTML: {
+        __html: highlightedChildren,
+      },
+    }, null]
+  ) : [{}, children];
+
   const markup = (
     <Wrapper>
       <figure>
@@ -196,8 +184,9 @@ export const CodeSample: React.FC<{
           <code
             ref={codeElementRef}
             style={codeStyle}
+            {...codeProps}
           >
-            {trimLeadingWhitespace(children)}
+            {codeChildren}
           </code>
         </pre>
       </figure>

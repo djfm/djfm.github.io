@@ -45,6 +45,7 @@
       "warn", {
         "assert": "either"
       }
-    ]
+    ],
+    "react/jsx-props-no-spreading": 0 // it's typescript, it's safe, we got types
   }
 }
