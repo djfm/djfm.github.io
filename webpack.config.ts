@@ -16,7 +16,7 @@ type Mode = 'production' | 'development' | 'none';
 const mode: Mode = process.env.NODE_ENV === 'production' ? 'production' : 'development';
 
 const entry = [
-  '@babel/polyfill',
+  // '@babel/polyfill',
   './src/client/index.tsx',
 ];
 
