@@ -11,16 +11,6 @@ import {
   useDocument,
 } from '../common/hooks';
 
-const extendExample = `interface Node {
-  type: string
-}
-
-interface TextNode
-  extends Node {
-    type: 'TextNode'
-    value: string
-  }`;
-
 const TypesVSInterfaces: React.FC<{
   title: string,
   docTitle?: string,
@@ -47,7 +37,16 @@ const TypesVSInterfaces: React.FC<{
           <li>
             une interface peut étendre une autre interface
             <CodeSample title="Un exemple d'interface">
-              {extendExample}
+              {`
+              interface Node {
+                type: string
+              }
+
+              interface TextNode
+                extends Node {
+                  type: 'TextNode'
+                  value: string
+              }`}
             </CodeSample>
           </li>
           <li>
