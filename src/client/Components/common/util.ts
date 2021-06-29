@@ -22,11 +22,7 @@ export const buildURL = (
   return `${base}/${additionalSegment}`;
 };
 
-export const trimLeadingWhitespace = (input: unknown): typeof input => {
-  if (typeof input !== 'string') {
-    return input;
-  }
-
+export const trimLeadingWhitespace = (input: string): string => {
   let lines = input.split('\n');
   let minIndent: number;
 
