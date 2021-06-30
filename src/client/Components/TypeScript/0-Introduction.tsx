@@ -9,6 +9,7 @@ import CodeSample from '../common/CodeSample';
 
 import {
   Article,
+  Aside,
   H1,
   NoWrap,
   UL,
@@ -190,11 +191,11 @@ const sections = [
           pour être ensuite exécuté dans l&apos;environnement cible
           comme n&apos;importe quel code JavaScript.
         </p>
-        <aside>
+        <Aside>
           Il serait peut-être plus correct de parler de transpilation, mais je n&apos;ai
           pas envie d&apos;entrer dans ce genre de débats. On pourraît aussi dire
           qu&apos;un assembleur transpile des instructions en code binaire...
-        </aside>
+        </Aside>
         <p>
           On peut compiler son code vers du JavaScript avec <strong><i>tsc</i></strong> disponible
           dans le paquet npm <i>typescript</i> ou,&nbsp;

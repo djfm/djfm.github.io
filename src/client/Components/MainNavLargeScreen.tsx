@@ -2,11 +2,13 @@ import React from 'react';
 
 import styled from 'styled-components';
 
+import { NavLink } from 'react-router-dom';
+
 import {
   darkColor,
   bp3min,
   HorizUnordListNoBullets,
-  StyledNavLink,
+  Nav,
 } from './common/Styled';
 
 import routes from './common/mainMenuRoutes';
@@ -27,17 +29,19 @@ display: none;
 `;
 
 const MainNavLargeScreen: React.FC = () => (
-  <HUL>
-    {routes.map(
-      ({ to, title, exact }) => (
-        <li key={to}>
-          <StyledNavLink exact={exact} to={to} activeClassName="active">
-            {title}
-          </StyledNavLink>
-        </li>
-      ),
-    )}
-  </HUL>
+  <Nav>
+    <HUL>
+      {routes.map(
+        ({ to, title, exact }) => (
+          <li key={to}>
+            <NavLink exact={exact} to={to} activeClassName="active">
+              {title}
+            </NavLink>
+          </li>
+        ),
+      )}
+    </HUL>
+  </Nav>
 );
 
 export default MainNavLargeScreen;

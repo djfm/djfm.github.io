@@ -1,10 +1,10 @@
-import { NavLink } from 'react-router-dom';
-
 import styled from 'styled-components';
 
 export const brightColor = '#ffa657';
-export const brightColor2 = '#c9d1d9';
+export const brightColor2 = '#0080ff';
+export const brightColor3 = '#a5d2ff';
 export const darkColor = '#0d1117';
+export const intermediateColor = '#795548';
 
 /**
  * breakpoints
@@ -21,6 +21,58 @@ export const bp0Max = '399px';
 
 // end breakpoints
 
+export const AppRoot = styled.div`
+  font-family: monospace;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  word-break: normal;
+  overflow-wrap: break-word;
+
+  a  {
+    text-decoration: none;
+    color: ${brightColor2};
+
+    &:visited {
+      color: ${brightColor2};
+    }
+  }
+`;
+
+export const Aside = styled.aside`
+  font-size: 0.7em;
+  margin: 15px 0 15px 30px;
+  padding: 5px 15px 5px 15px;
+  2px 2px 3px 1px ${intermediateColor};
+
+  > *:first-child {
+    margin-top: 0;
+  }
+
+  > *:last-child {
+    margin-bottom: 0;
+  }
+`;
+
+export const Nav = styled.nav`
+  a {
+    text-decoration: none;
+    color: ${brightColor};
+
+    &:visited {
+      color: ${brightColor};
+    }
+
+    &.active {
+      font-weight: bold;
+      color: ${brightColor3};
+
+      &::before {
+        content: "✴ ";
+      }
+    }
+  }
+`;
+
 export const NotTooWide = styled.div`
   @media(min-width: ${bp2Min}) {
     max-width: 800px;
@@ -30,20 +82,6 @@ export const NotTooWide = styled.div`
   @media(max-width: ${bp1Max}) {
     max-width: calc(100vw - 20px);
     margin: 0 auto;
-  }
-`;
-
-export const StyledNavLink = styled(NavLink)`
-  text-decoration: none;
-  color: ${brightColor};
-
-  &:visited {
-    color: ${brightColor};
-  }
-
-  &.active {
-    font-weight: bold;
-    color: ${brightColor2}
   }
 `;
 

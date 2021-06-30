@@ -5,25 +5,16 @@ import {
   Switch,
 } from 'react-router-dom';
 
-import styled from 'styled-components';
-
 import MainNavSmallScreen from './MainNavSmallScreen';
 import MainNavLargeScreen from './MainNavLargeScreen';
 import Footer from './Footer';
 
 import {
+  AppRoot,
   WithHorizontalPadding,
 } from './common/Styled';
 
 import routes from './common/mainMenuRoutes';
-
-const AppRoot = styled.div`
-  font-family: monospace;
-  font-size: 1.2rem;
-  line-height: 1.5;
-  word-break: normal;
-  overflow-wrap: break-word;
-`;
 
 const App: React.FC = () => (
   <div>

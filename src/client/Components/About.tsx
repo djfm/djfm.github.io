@@ -63,7 +63,7 @@ const About: React.FC = () => (
           sur le côté fonctionnel et rencontrer les utilisateurs pour bien comprendre
           le problème qu&apos;on cherche à résoudre.
         </p>
-        <aside>
+        <section>
           Pour ce site, <strong>le cahier des charges que je me suis fixé</strong> est:
           <ul>
             <li>
@@ -82,7 +82,7 @@ const About: React.FC = () => (
             <li>que ça puisse éventuellement intéresser quelques lecteurs</li>
             <li><small>que ça me ramène des leads en masse</small></li>
           </ul>
-        </aside>
+        </section>
         <p>
           Le <strong>code du site est <a rel="noreferrer" target="blank" href="https://github.com/djfm/djfm.github.io">sur GitHub</a></strong>,
           je parlerai à l&apos;occasion de comment il est fait

@@ -2,6 +2,7 @@ import React from 'react';
 
 import {
   Article,
+  Aside,
   H1,
   NoWrap,
 } from '../common/Styled';
@@ -145,8 +146,8 @@ export const FastSetup: React.FC = () => {
           `}
         </CodeSample>
         <p>
-          Maintenant qu&apos;on a un <i>package</i> défini, on peut mettre à jour
-          <i>yarn</i>&apos;:
+          Maintenant qu&apos;on a un <i>package</i> défini, on peut mettre à jour&nbsp;
+          <i>yarn</i>&nbsp;:
         </p>
         <CodeSample title="Mise à jour de yarn vers la v2" language="bash">
           {`
@@ -159,10 +160,10 @@ export const FastSetup: React.FC = () => {
           Le <code>echo &quot;nodeLinker: node-modules&quot; &gt;&gt; .yarnrc.yml</code> est
           important,
           cela dit à <i>yarn</i> d&apos;utiliser un traditionnel dossier <i>node_modules</i> au
-          lieu de sa nouvelle architecture dénommée <i>Plug&apos;n&pos;Play</i>
+          lieu de sa nouvelle architecture dénommée <i>Plug&apos;n&apos;Play</i>
         </p>
         <p>
-          <i>Plug&apos;n&pos;Play</i> c&apos;est très bien sur le papier, mais ça fonctionne
+          <i>Plug&apos;n&apos;Play</i> c&apos;est très bien sur le papier, mais ça fonctionne
           encore un peu mal avec un certain nombre d&apos;outils, donc pour le moment je ne
           l&apos;utilise pas.
         </p>
@@ -190,6 +191,7 @@ export const FastSetup: React.FC = () => {
         <p>
           On répond aux questions&nbsp;:
           <br />
+          <br />
           <dt>How would you like to use ESLint?</dt>
           <dd>To check syntax, find problems, and enforce code style</dd>
           <dt>What type of modules does your project use?</dt>
@@ -207,6 +209,25 @@ export const FastSetup: React.FC = () => {
           <dt>What format do you want your config file to be in?</dt>
           <dd>JSON</dd>
         </p>
+        <Aside>
+          <p>
+            De façon générale, quand j&apos;ai le choix
+            du <strong>type de fichier</strong> pour un fichier
+            de <strong>configuration</strong>, <strong>je choisis <i>JSON</i></strong>&nbsp;:
+            <br />
+            Ça évite des problèmes de chargement. Par exemple si on veut utiliser
+            les modules <i>ESM</i>, i.e. les modules natifs avec <i>import</i> et
+            <i>export</i>, on doit mettre <code>type: &quot;module&quot;</code> dans
+            son <i>package.json</i> du coup <i>eslint</i> va se plaindre si on ne fait
+            pas un <i>export default</i> de sa configuration, mais paradoxalement
+            lui-même ne gère pas les modules natifs et échouera à charger sa propre
+            configuration.
+            <br />
+            Même genre de galère avec les configs en <i>TypeScript</i> et en <i>JavaScript</i>.
+            <br />
+            Le <i>JSON</i> c&apos;est interopérable, ça évite bien des ennuis.
+          </p>
+        </Aside>
         <p>
           Là, ça va nous proposer d&apos;installer les dépendances qui vont bien, mais
           il va les installer avec <i>npm</i> et ce n&apos;est pas ce qu&apos;on veut,

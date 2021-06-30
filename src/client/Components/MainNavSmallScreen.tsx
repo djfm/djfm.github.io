@@ -5,6 +5,7 @@ import React, {
 
 import {
   useHistory,
+  NavLink,
 } from 'react-router-dom';
 
 import styled from 'styled-components';
@@ -12,7 +13,7 @@ import styled from 'styled-components';
 import {
   bp2Max,
   darkColor,
-  StyledNavLink,
+  Nav,
   VertUnordListNoBullets,
 } from './common/Styled';
 
@@ -101,24 +102,24 @@ const MainNavSmallScreen: React.FC = () => {
         width="48px"
         onClick={closeMenu}
       />
-      <nav>
+      <Nav>
         <VertUnordListNoBullets>
           {routes.map(
             ({ to, title, exact }) => (
               <li key={to}>
-                <StyledNavLink
+                <NavLink
                   exact={exact}
                   to={to}
                   activeClassName="active"
                   onClick={closeMenu}
                 >
                   {title}
-                </StyledNavLink>
+                </NavLink>
               </li>
             ),
           )}
         </VertUnordListNoBullets>
-      </nav>
+      </Nav>
     </div>
   );
 

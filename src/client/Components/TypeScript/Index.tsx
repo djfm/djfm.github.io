@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 
 import {
+  NavLink,
   Route,
   Switch,
   useRouteMatch,
@@ -11,8 +12,8 @@ import {
 import {
   H1,
   Main,
+  Nav,
   NotTooWide,
-  StyledNavLink,
   TwoColumnsRightMenu,
   VertUnordListNoBullets,
 } from '../common/Styled';
@@ -82,7 +83,7 @@ const TypeScript: React.FC = () => {
       <H1>Des choses autour de TypeScript<br />ma nouvelle passion</H1>
       <TwoColumnsRightMenu>
         <NotTooWide>
-          <nav>
+          <Nav>
             <VertUnordListNoBullets>
               {routes.map(({
                 to,
@@ -90,17 +91,17 @@ const TypeScript: React.FC = () => {
                 exact,
               }) => (
                 <li key={to}>
-                  <StyledNavLink
+                  <NavLink
                     exact={exact}
                     to={buildURL(url, to)}
                     activeClassName="active"
                   >
                     {title}
-                  </StyledNavLink>
+                  </NavLink>
                 </li>
               ))}
             </VertUnordListNoBullets>
-          </nav>
+          </Nav>
         </NotTooWide>
         <Switch>
           {sortRoutesForSwitch(routes).map(({
