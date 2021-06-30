@@ -90,7 +90,7 @@ export const FastSetup: React.FC = () => {
         </CodeSample>
         <section>
           <p>
-            Ensuite, j&apos;install <i>yarn</i> comme gestionnaire de paquets plutôt
+            Ensuite, j&apos;installe <i>yarn</i> comme gestionnaire de paquets plutôt
             que le traditionnel <i>npm</i>, parce que <i>yarn</i> apporte plein d&apos;avantages
             comme&nbsp;:
           </p>
@@ -162,7 +162,7 @@ export const FastSetup: React.FC = () => {
           Le <code>echo &quot;nodeLinker: node-modules&quot; &gt;&gt; .yarnrc.yml</code> est
           important,
           cela dit à <i>yarn</i> d&apos;utiliser un traditionnel dossier <i>node_modules</i> au
-          lieu de sa nouvelle architecture dénommée <i>Plug&apos;n&apos;Play</i>
+          lieu de sa nouvelle architecture dénommée <i>Plug&apos;n&apos;Play</i>.
         </p>
         <p>
           <i>Plug&apos;n&apos;Play</i> c&apos;est très bien sur le papier, mais ça fonctionne
