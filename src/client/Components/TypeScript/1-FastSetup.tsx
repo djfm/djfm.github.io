@@ -12,7 +12,9 @@ import CodeSample from '../common/CodeSample';
 export const FastSetup: React.FC = () => {
   const markup = (
     <Article>
-      <H1>Comment configurer très rapidement son environnement de travail pour TypeScript</H1>
+      <H1 id="scroll-transition-anchor">
+        Comment configurer très rapidement son environnement de travail pour TypeScript
+      </H1>
       <p>
         En cours de rédaction :)
       </p>

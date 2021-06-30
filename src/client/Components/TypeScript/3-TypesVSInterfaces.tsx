@@ -25,7 +25,7 @@ const TypesVSInterfaces: React.FC<{
   const markup = (
     <Article>
       <header>
-        <H1>{title}</H1>
+        <H1 id="scroll-transition-anchor">{title}</H1>
         <p>
           En fait, c&apos;est à peu de choses près la même chose.
         </p>

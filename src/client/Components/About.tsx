@@ -12,7 +12,7 @@ const About: React.FC = () => (
   <NotTooWide>
     <Main>
       <Article>
-        <H1>Qu&apos;est-ce que ce site?</H1>
+        <H1 id="scroll-transition-anchor">Qu&apos;est-ce que ce site?</H1>
 
         <p>
           <strong>Avant tout je précise qu&apos;il est en construction!</strong>

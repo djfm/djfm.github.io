@@ -22,7 +22,7 @@ export const TypeNarrowing: React.FC<{
 
   const markup = (
     <Article>
-      <H1>{title}</H1>
+      <H1 id="scroll-transition-anchor">{title}</H1>
     </Article>
   );
 
