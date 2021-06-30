@@ -96,13 +96,69 @@ export const FastSetup: React.FC = () => {
           </p>
           <ul>
             <li>une installation beaucoup plus rapide des dépendances</li>
-            <li>un vérrouillage plus strict des versions des dépendances</li>
             <li>
               une meilleure reproductibilité des installations grâce au fait que l&apos;on
               versionne ses dépendances dans son projet
             </li>
+            <li>
+              de façon générale, une expérience utilisateur plus agréable
+            </li>
           </ul>
-          La liste est longue, ce n&apos;est pas le sujet ici. Installons&nbsp;:
+          <Aside>
+            <p>
+              Pour ce site, j&apos;utilise <i>yarn</i>.
+              <br />
+              Pour l&apos;expérience, j&apos;ai essayé d&apos;installer les dépendances
+              de ce projet avec <i>npm</i> au lieu de <i>yarn</i>.
+            </p>
+            <p>
+              Déjà, voyons le temps que ça prend avec yarn.
+            </p>
+            <CodeSample language="bash" title="Installation des dépendances avec yarn sans cache">
+              {
+                `
+                  yarn cache clean && rm -Rf node_modules
+                  time yarn install
+                  Done with warnings in 23s 345ms
+                  yarn install  26,21s user 8,07s system 138% cpu 24,819 total
+                `
+              }
+            </CodeSample>
+            <p>
+              On voit que ça a pris 23 secondes selon <i>yarn</i> et&nbsp;
+              <strong>un peu moins de 25 secondes selon linux</strong>.
+              <br />
+              Si je supprime le dossier <i>node_modules</i> et que je recommence,
+              ça ne prend plus que 15 secondes.
+              <br />
+              Le dossier <i>node_modules</i> pèse 138 MB pour 23&nbsp;431 fichiers.
+              <br />
+              Je build le paquet et le <i>bundle.js</i> fait <NoWrap>243 kB</NoWrap>.
+            </p>
+            <p>
+              Maintenant si je lance un <code>npm install</code> je suis salué
+              par un joyeux <i>unable to resolve dependency tree</i>.
+              <br />
+              Qu&apos;à cela ne tienne, je lance <code>npm install --force</code> et
+              là ça passe, <strong>en 37 secondes</strong>.
+              <br />
+              Le dossier <i>node_modules pèse 139 MB pour 23&nbsp;436 fichiers</i>.
+            </p>
+            <p>
+              Sur ce projet,
+              <strong>
+                <i>yarn</i> met donc 12 secondes de moins que <i>npm</i>
+                à installer les dépendances
+              </strong>, et même plutôt <strong>22 secondes</strong> si l&apos;on
+              tient compte du fait que normalement on a le cache, vu qu&apos;il est commité.
+            </p>
+            <p>
+              Bref, la différence de performances n&apos;est pas flagrante, mais la balance
+              penche un peu en la faveur de <i>yarn</i>.
+            </p>
+          </Aside>
+          La liste des avantages de <i>yarn</i> est longue,
+          mais ce n&apos;est pas le sujet ici. <NoWrap>Installons-le</NoWrap>&nbsp;:
           <CodeSample title="Installation de yarn" language="bash">
             sudo npm install -g yarn
           </CodeSample>
@@ -225,7 +281,7 @@ export const FastSetup: React.FC = () => {
             de <strong>configuration</strong>, <strong>je choisis <i>JSON</i></strong>&nbsp;:
             <br />
             Ça évite des problèmes de chargement. Par exemple si on veut utiliser
-            les modules <i>ESM</i>, i.e. les modules natifs avec <i>import</i> et
+            les modules <i>ESM</i>, i.e. les modules natifs avec <i>import</i> et&nbsp;
             <i>export</i>, on doit mettre <code>type: &quot;module&quot;</code> dans
             son <i>package.json</i> du coup <i>eslint</i> va se plaindre si on ne fait
             pas un <i>export default</i> de sa configuration, mais paradoxalement

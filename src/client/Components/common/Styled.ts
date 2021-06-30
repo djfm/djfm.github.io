@@ -4,7 +4,7 @@ export const brightColor = '#ffa657';
 export const brightColor2 = '#0080ff';
 export const brightColor3 = '#a5d2ff';
 export const darkColor = '#0d1117';
-export const intermediateColor = '#795548';
+export const gray = '#ccc';
 
 /**
  * breakpoints
@@ -40,9 +40,9 @@ export const AppRoot = styled.div`
 
 export const Aside = styled.aside`
   font-size: 0.7em;
-  margin: 15px 0 15px 30px;
+
   padding: 5px 15px 5px 15px;
-  2px 2px 3px 1px ${intermediateColor};
+  box-shadow: 1.5px 1.5px 2px 2px ${gray};
 
   > *:first-child {
     margin-top: 0;
@@ -50,6 +50,14 @@ export const Aside = styled.aside`
 
   > *:last-child {
     margin-bottom: 0;
+  }
+
+  @media(min-width: ${bp2Min}) {
+    margin: 15px 0 15px 30px;
+  }
+
+  @media(max-width: ${bp2Max}) {
+    margin: 15px 0 15px 0px;
   }
 `;
 
