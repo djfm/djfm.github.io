@@ -194,18 +194,25 @@ export const FastSetup: React.FC = () => {
           <br />
           <dt>How would you like to use ESLint?</dt>
           <dd>To check syntax, find problems, and enforce code style</dd>
+
           <dt>What type of modules does your project use?</dt>
           <dd>JavaScript modules (import/export)</dd>
+
           <dt>Which framework does your project use?</dt>
           <dd>None of these</dd>
+
           <dt>Does your project use TypeScript?</dt>
           <dd>Yes</dd>
+
           <dt>Where does your code run?</dt>
           <dd>Browser, Node</dd>
+
           <dt>How would you like to define a style for your project?</dt>
           <dd>Use a popular style guide</dd>
+
           <dt>Which style guide do you want to follow?</dt>
           <dd>Airbnb: https://github.com/airbnb/javascript</dd>
+
           <dt>What format do you want your config file to be in?</dt>
           <dd>JSON</dd>
         </p>
