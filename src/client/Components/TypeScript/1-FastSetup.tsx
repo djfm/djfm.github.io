@@ -346,7 +346,7 @@ export const FastSetup: React.FC = () => {
               <p>
                 Vous verrez, quand on installera des paquets dont on va se servir
                 en <i>TypeScript</i> on va maintenant toujours installer
-                aussi <i>@types/&lt;paquet&gt;</i> s&apos; il existe;
+                aussi <i>@types/&lt;paquet&gt;</i> s&apos;il existe;
               </p>
               <p>
                 C&apos;est parce que certains modules sont distribués avec leur
@@ -444,10 +444,16 @@ export const FastSetup: React.FC = () => {
           <p>
             Ensuite, très important
             de <strong>préparer une tâche de lint dans package .json</strong>,
-            on s&apos;
-            ens servira rarement, mais ça permet de vérifier que la config est bonne.
+            on s&apos;en servira rarement, mais ça permet de vérifier au moins
+            que la config est bonne - des fois quand la config n&apos;est pas bonne
+            l&apos;IDE se met tout simplement à arrêter silencieusement de signaler
+            les erreurs.
           </p>
-          <p>Dans <i>package.json</i> on ajoute:</p>
+          <p>
+            Donc c&apos;est bien pratique de pouvoir lancer un petit <code>yarn lint</code>&nbsp;
+            pour se rassurer.
+          </p>
+          <p>Pour faire ça, dans <i>package.json</i> on ajoute&nbsp;:</p>
           <CodeSample language="json" title="ajout du script lint">
             {`
               "scripts" : {
@@ -495,8 +501,10 @@ export const FastSetup: React.FC = () => {
             `}
           </CodeSample>
           <p>
-            J&apos;installe maintenant VSCode avec un petit&nbsp;
+            J&apos;installe maintenant VSCode avec un petit&nbsp;:
+            <br />
             <code>sudo snap install code --classic</code>&nbsp;
+            <br />
             et je le lance via <code>code .</code>.
           </p>
           <p>Et je continuerai plus tard, là je vais me coucher.</p>
