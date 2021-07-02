@@ -5,6 +5,6 @@
     "jsx": "react",
     "downlevelIteration": true,
     "target": "ESNext",
-    "module": "CommonJS"
-  },
+    "module": "CommonJS",
+  }
 }

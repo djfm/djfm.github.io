@@ -4,6 +4,8 @@ import {
   HotModuleReplacementPlugin,
 } from 'webpack';
 
+import MiniCSSExtractPlugin from 'mini-css-extract-plugin';
+
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 
 import CompressionPlugin from 'compression-webpack-plugin';
@@ -15,13 +17,18 @@ type Mode = 'production' | 'development' | 'none';
 
 const mode: Mode = process.env.NODE_ENV === 'production' ? 'production' : 'development';
 
-const entry = [
-  // '@babel/polyfill',
-  './src/client/index.tsx',
-];
+plugins.push(new MiniCSSExtractPlugin());
+
+const entry = {
+  bundle: [
+    // '@babel/polyfill',
+    './src/client/index.tsx',
+  ],
+  style: './node_modules/highlight.js/scss/github-dark.scss',
+};
 
 if (mode === 'development') {
-  entry.push('webpack-hot-middleware/client');
+  entry.bundle.push('webpack-hot-middleware/client');
   babelLoaderPlugins.push(require.resolve('react-refresh/babel'));
   plugins.push(new HotModuleReplacementPlugin());
   plugins.push(new ReactRefreshWebpackPlugin());
@@ -36,7 +43,7 @@ export default {
   entry,
   mode,
   output: {
-    filename: 'bundle.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'docs'),
     publicPath: '/',
   },
@@ -52,13 +59,17 @@ export default {
       }, {
         loader: 'ts-loader',
       }],
+    }, {
+      test: /\.s[ac]ss$/i,
+      use: [
+        MiniCSSExtractPlugin.loader,
+        'css-loader',
+        'sass-loader',
+      ],
     }],
   },
   resolve: {
     extensions: ['.js', '.ts', '.tsx'],
   },
   plugins,
-  externals: {
-    'highlight.js': 'hljs',
-  },
 };

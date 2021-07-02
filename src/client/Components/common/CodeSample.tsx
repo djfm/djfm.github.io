@@ -6,7 +6,7 @@ import React, {
 
 import styled from 'styled-components';
 
-import hljs from 'highlight.js';
+import hljs from '../../../highlight.js/index';
 
 import {
   parseValueWithUnit,
