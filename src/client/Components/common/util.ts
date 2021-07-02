@@ -66,20 +66,6 @@ const makeStringTrimmers = () => {
   };
 };
 
-const trimEndUselessWS = (str: string): string => {
-  if (str.length === 0) {
-    return str;
-  }
-  const lastChar = str[str.length - 1];
-  if (/\s/.test(lastChar) && lastChar !== '\u00a0') {
-    // do not trime non-breaking space (\ua00a0), it must
-    // be there for a reason
-    return trimEndUselessWS(str.substr(0, str.length - 1));
-  }
-
-  return str;
-};
-
 export const trimLeadingWhitespace = (input: string): string => {
   let lines = input.split('\n');
   let minIndent: number;
