@@ -292,7 +292,9 @@ export const Introduction: React.FC<{
 
   const markup = (
     <Article>
-      <H1>{title}</H1>
+      <H1>
+        {title}
+      </H1>
       {sections.map(({ title: sectionTitle, id, Section }) => (
         <section key={id}>
           <h1
