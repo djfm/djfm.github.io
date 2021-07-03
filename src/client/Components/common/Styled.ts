@@ -44,6 +44,10 @@ export const Aside = styled.aside`
   padding: 5px 15px 5px 15px;
   box-shadow: 1.5px 1.5px 2px 2px ${gray};
 
+  h1 {
+    font-size: 1.1em;
+  }
+
   > *:first-child {
     margin-top: 0;
   }

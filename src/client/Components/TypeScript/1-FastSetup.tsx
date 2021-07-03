@@ -238,25 +238,27 @@ export const FastSetup: React.FC = () => {
             peut mettre <i>src/index.ts</i> à la place du <i>index.js</i> suggéré.
           </p>
           <p>
-            Grâce au fait que j&apos;ai déjà initialisé mon répo git le question
-            <q>repository url</q> est déjà pré-remplie ansi que <q>author</q>.
+            Grâce au fait que j&apos;ai déjà initialisé mon répo git la réponse à
+            la question <q>repository url</q> est déjà pré-remplie ansi que <q>author</q>.
           </p>
           <p>
             Ça nous crée un fichier <i>package.json</i> tout comme l&apos;aurait fait npm.
             <br />
             Pour <q>private</q> je mets &apos;true&apos; car
-            je n&apos; pas l&apos; intention de publier
+            je n&apos;ai pas l&apos;intention de publier
             ce paquet sur le <i>registry</i> global.
           </p>
           <p>
-            Maintenant que j&apos; un <i>package.json</i> je rajoute dedans le très important
+            Maintenant que j&apos;ai un <i>package.json</i> je rajoute dedans le très important
             <strong><code>&apos;type: module&apos;</code></strong> qui va
             indiquer à <i>Node.js</i> que j&apos;ai&nbsp;
-            <NoWrap>l&apos;intention</NoWrap> d&apos; d&utiliser les modules javascript&nbsp;
+            <NoWrap>l&apos;intention</NoWrap> d&apos;utiliser les modules javascript&nbsp;
             <i>ES6+</i>, i.e. <i>import</i>/<i>export</i>.
-            <br />
+          </p>
+          <p>
             On reparlera de ce grand bazaar.
-            <br />
+          </p>
+          <p>
             Au final mon <i>package.json</i> ressemble à ça&nbsp;:
           </p>
           <CodeSample title="package.json" language="json">
@@ -309,8 +311,8 @@ export const FastSetup: React.FC = () => {
             <p>
               En fait, je pense que je ne l&apos;utiliserai même jamais, car&nbsp;
               <strong>
-                P&apos;n&apos;P n&apos; est pas compatible avec <i>ESM</i>
-              </strong> (les modules natifs javascript) et ne semble pas aller
+                P&apos;n&apos;P n&apos;est pas compatible avec <i>ESM</i>
+              </strong> (les modules natifs JavaScript) et ne semble pas aller
               dans cette direction.
             </p>
             <p>
