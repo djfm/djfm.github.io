@@ -13,6 +13,13 @@ import {
   trimLeadingWhitespace,
 } from '../common/util';
 
+import {
+  bp0Max,
+  bp1Min,
+  bp1Max,
+  bp2Min,
+} from './Styled';
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -25,7 +32,6 @@ const Wrapper = styled.div`
 
     > figcaption {
       max-width: 100%;
-      margin: 0 auto;
     }
 
     pre {
@@ -36,15 +42,28 @@ const Wrapper = styled.div`
 
       max-width: 100%;
       overflow: auto;
-
-      code {
-        padding: 2px;
-      }
     }
 
     margin-left: 0;
     margin-right: 0;
     margin-bottom: 0;
+  }
+`;
+
+const Code = styled.code`
+  padding: 2px;
+  margin: auto;
+
+  @media(max-width: ${bp0Max}) {
+    font-size: 8px;
+  }
+
+  @media (min-width: ${bp1Min}) and (max-width: ${bp1Max}) {
+    font-size: 10px;
+  }
+
+  @media (min-width: ${bp2Min}) {
+    font-size: 19px;
   }
 `;
 
@@ -69,7 +88,7 @@ export const CodeSample: React.FC<{
 }) => {
   const minZoom = 10;
   const normalZoom = 100;
-  const maxZoom = 170;
+  const maxZoom = 200;
   const readjustDelay = 2000;
 
   const [isZooming, setIsZooming] = useState(false);
@@ -164,7 +183,7 @@ export const CodeSample: React.FC<{
       <figure>
         <figcaption>{title}</figcaption>
         <pre ref={preElementRef}>
-          <code
+          <Code
             className="hljs no-highlight"
             ref={codeElementRef}
             style={codeStyle}

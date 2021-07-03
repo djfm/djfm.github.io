@@ -109,6 +109,6 @@ export const trimLeadingWhitespace = (input: string): string => {
 };
 
 export const parseValueWithUnit = (val: string): [number, string] => {
-  const [, value, unit] = val.match(/(\d+(?:.\d+))(\w+)/);
+  const [, value, unit] = val.match(/(\d+(?:.\d+)?)(\w+)/);
   return [parseFloat(value), unit];
 };
