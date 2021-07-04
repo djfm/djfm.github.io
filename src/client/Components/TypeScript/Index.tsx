@@ -1,6 +1,4 @@
-import React, {
-  useEffect,
-} from 'react';
+import React from 'react';
 
 import {
   NavLink,
@@ -17,7 +15,6 @@ import {
 } from '../common/Styled';
 
 import {
-  hasOwnProperty,
   buildURL,
 } from '../common/util';
 
@@ -62,19 +59,6 @@ const routes: RouteSpec<{
 
 const TypeScript: React.FC = () => {
   const { url, path } = useRouteMatch();
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (hasOwnProperty(window, 'hljs')) {
-        if (
-          hasOwnProperty(window.hljs, 'highlightAll')
-          && typeof window.hljs.highlightAll === 'function'
-        ) {
-          window.hljs.highlightAll();
-        }
-      }
-    }
-  });
 
   return (
     <main>
