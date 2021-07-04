@@ -6,6 +6,12 @@ export const brightColor3 = '#a5d2ff';
 export const darkColor = '#0d1117';
 export const gray = '#ccc';
 
+export const standardLinkColor = brightColor2;
+export const navLinkColor = brightColor;
+export const activeNavLinkColor = brightColor3;
+export const overlayBgColor = activeNavLinkColor;
+export const openMenuButtonBgColor = 'rgba(255, 255, 255, .8)';
+
 /**
  * breakpoints
  */
@@ -27,13 +33,15 @@ export const AppRoot = styled.div`
   line-height: 1.5;
   word-break: normal;
   overflow-wrap: break-word;
+  height: 100vh;
+  position: relative;
 
   a  {
     text-decoration: none;
-    color: ${brightColor2};
+    color: ${standardLinkColor};
 
     &:visited {
-      color: ${brightColor2};
+      color: ${standardLinkColor};
     }
   }
 `;
@@ -68,15 +76,15 @@ export const Aside = styled.aside`
 export const Nav = styled.nav`
   a {
     text-decoration: none;
-    color: ${brightColor};
+    color: ${navLinkColor};
 
     &:visited {
-      color: ${brightColor};
+      color: ${navLinkColor};
     }
 
     &.active {
       font-weight: bold;
-      color: ${brightColor3};
+      color: ${activeNavLinkColor};
 
       &::before {
         content: "✴ ";
@@ -138,7 +146,9 @@ export const TwoColumnsRightMenu = styled.div`
 
   > *:first-child ul {
     background-color: ${darkColor};
-    padding: 5px;
+    padding: 10px 5px 10px 5px;
+    margin-left: -10px;
+    margin-right: -10px;
   }
 
   @media (max-width: ${bp2Max}) {
@@ -170,7 +180,8 @@ export const H1 = styled.h1`
 `;
 
 export const WithHorizontalPadding = styled.div`
-  padding: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
 `;
 
 export const Main = styled.main`

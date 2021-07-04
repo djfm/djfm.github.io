@@ -13,6 +13,7 @@ import styled from 'styled-components';
 import {
   bp2Max,
   darkColor,
+  openMenuButtonBgColor,
   Nav,
   VertUnordListNoBullets,
 } from './common/Styled';
@@ -21,6 +22,11 @@ import routes from './common/mainMenuRoutes';
 
 const Wrapper = styled.div`
   display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+
+  text-align: center;
 
   @media (max-width: ${bp2Max}) {
     display: flex;
@@ -28,20 +34,32 @@ const Wrapper = styled.div`
     padding-left: 5px;
 
     height: 50px;
-    position: relative;
 
     .closed-menu {
-      position: absolute;
-      top: 0;
-      right: 0;
-      padding-top: 5px;
-      padding-right: 5px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: ${openMenuButtonBgColor};
+      box-shadow: 1px 1px 4px 1px ${darkColor};
+      padding: 10px;
+      border-radius: 100px;
+      height: 50px;
+      width: 50px;
+      margin-bottom: 40px;
+      margin-left: 5px;
+
+      input {
+        user-select: none;
+      }
     }
 
     .open-menu {
       position: fixed;
-      top: 0;
+      bottom: 0;
       left: 0;
+
+      padding-bottom: 60px;
 
       width: 100%;
 
@@ -51,8 +69,9 @@ const Wrapper = styled.div`
 
       input {
         position: fixed;
-        top: 8px;
-        right: 0;
+        bottom: 30px;
+        left: 25px;
+        user-select: none;
       }
     }
   }
@@ -87,7 +106,7 @@ const MainNavSmallScreen: React.FC = () => {
         alt="open menu"
         type="image"
         src="/img/menu-closed.png"
-        width="48px"
+        width="36px"
         onClick={openMenu}
       />
     </div>

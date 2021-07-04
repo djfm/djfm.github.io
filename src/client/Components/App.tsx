@@ -8,6 +8,7 @@ import {
   useHistory,
 } from 'react-router-dom';
 
+import MenuOverlay from './MenuOverlay';
 import MainNavSmallScreen from './MainNavSmallScreen';
 import MainNavLargeScreen from './MainNavLargeScreen';
 import Footer from './Footer';
@@ -38,32 +39,31 @@ const App: React.FC = () => {
   });
 
   const markup = (
-    <div>
-      <AppRoot>
-        <div>
-          <MainNavSmallScreen />
-          <MainNavLargeScreen />
-        </div>
-        <WithHorizontalPadding>
-          <Switch>
-            {routes.map(({
-              to,
-              exact,
-              Component,
-            }) => (
-              <Route
-                key={to}
-                exact={exact}
-                path={to}
-              >
-                <Component />
-              </Route>
-            ))}
-          </Switch>
-        </WithHorizontalPadding>
-      </AppRoot>
+    <AppRoot>
+      <MenuOverlay />
+      <div>
+        <MainNavSmallScreen />
+        <MainNavLargeScreen />
+      </div>
+      <WithHorizontalPadding>
+        <Switch>
+          {routes.map(({
+            to,
+            exact,
+            Component,
+          }) => (
+            <Route
+              key={to}
+              exact={exact}
+              path={to}
+            >
+              <Component />
+            </Route>
+          ))}
+        </Switch>
+      </WithHorizontalPadding>
       <Footer />
-    </div>
+    </AppRoot>
   );
 
   return markup;

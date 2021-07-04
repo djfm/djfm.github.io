@@ -4,16 +4,14 @@ import styled from 'styled-components';
 
 const Wrapper = styled.div`
   margin-top: 50px;
-
-  position: relative;
-  left: 0;
-  right: 0;
-  bottom: 5px;
+  font-size: 0.7em;
+  text-align: right;
 
   > div {
     display: inline-block;
     text-align: center;
-    margin-left: 5px;
+    margin-right: 10px;
+    padding-bottom: 5px;
   }
 `;
 
