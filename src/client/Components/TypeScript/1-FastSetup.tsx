@@ -24,7 +24,7 @@ const sections = [
 export const FastSetup: React.FC = () => {
   const markup = (
     <article>
-      <h1 id="intro">
+      <h1>
         Comment configurer très rapidement son environnement de travail pour TypeScript
       </h1>
       <SectionLinks sections={sections} />

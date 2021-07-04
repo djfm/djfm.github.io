@@ -1,11 +1,8 @@
-import React, {
-  useEffect,
-} from 'react';
+import React from 'react';
 
 import {
   Route,
   Switch,
-  useHistory,
 } from 'react-router-dom';
 
 import MenuOverlay from './MenuOverlay';
@@ -20,53 +17,32 @@ import {
 
 import routes from './common/mainMenuRoutes';
 
-const App: React.FC = () => {
-  const history = useHistory();
-
-  useEffect(() => {
-    const stopListening = history.listen(() => {
-      const anchor = document.getElementById('intro');
-      if (anchor) {
-        const windowHeight = window.innerHeight;
-        const anchorRect = anchor.getBoundingClientRect();
-        if (anchorRect.y > windowHeight || anchorRect.y + anchorRect.height < 0) {
-          anchor.scrollIntoView(true);
-        }
-      }
-    });
-
-    return stopListening;
-  });
-
-  const markup = (
-    <AppRoot>
-      <MenuOverlay />
-      <>
-        <MainNavSmallScreen />
-        <MainNavLargeScreen />
-      </>
-      <WithHorizontalPadding>
-        <Switch>
-          {routes.map(({
-            to,
-            exact,
-            Component,
-          }) => (
-            <Route
-              key={to}
-              exact={exact}
-              path={to}
-            >
-              <Component />
-            </Route>
-          ))}
-        </Switch>
-      </WithHorizontalPadding>
-      <Footer />
-    </AppRoot>
-  );
-
-  return markup;
-};
+const App: React.FC = () => (
+  <AppRoot>
+    <MenuOverlay />
+    <>
+      <MainNavSmallScreen />
+      <MainNavLargeScreen />
+    </>
+    <WithHorizontalPadding>
+      <Switch>
+        {routes.map(({
+          to,
+          exact,
+          Component,
+        }) => (
+          <Route
+            key={to}
+            exact={exact}
+            path={to}
+          >
+            <Component />
+          </Route>
+        ))}
+      </Switch>
+    </WithHorizontalPadding>
+    <Footer />
+  </AppRoot>
+);
 
 export default App;
