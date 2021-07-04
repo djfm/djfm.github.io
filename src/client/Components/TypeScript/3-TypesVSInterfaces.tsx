@@ -1,10 +1,5 @@
 import React from 'react';
 
-import {
-  Article,
-  H1,
-} from '../common/Styled';
-
 import CodeSample from '../common/CodeSample';
 
 import {
@@ -23,9 +18,9 @@ const TypesVSInterfaces: React.FC<{
   });
 
   const markup = (
-    <Article>
+    <article>
       <header>
-        <H1 id="scroll-transition-anchor">{title}</H1>
+        <h1 id="scroll-transition-anchor">{title}</h1>
         <p>
           En fait, c&apos;est à peu de choses près la même chose.
         </p>
@@ -55,7 +50,7 @@ const TypesVSInterfaces: React.FC<{
           </li>
         </ul>
       </section>
-    </Article>
+    </article>
   );
 
   return markup;

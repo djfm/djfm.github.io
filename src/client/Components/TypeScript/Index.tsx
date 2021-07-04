@@ -10,8 +10,6 @@ import {
 } from 'react-router-dom';
 
 import {
-  H1,
-  Main,
   Nav,
   NotTooWide,
   TwoColumnsRightMenu,
@@ -79,8 +77,8 @@ const TypeScript: React.FC = () => {
   });
 
   return (
-    <Main>
-      <H1>Des choses autour de TypeScript<br />ma nouvelle passion</H1>
+    <main>
+      <h1>Des choses autour de TypeScript,<br />ma nouvelle passion</h1>
       <TwoColumnsRightMenu>
         <NotTooWide>
           <Nav>
@@ -123,7 +121,7 @@ const TypeScript: React.FC = () => {
           ))}
         </Switch>
       </TwoColumnsRightMenu>
-    </Main>
+    </main>
   );
 };
 

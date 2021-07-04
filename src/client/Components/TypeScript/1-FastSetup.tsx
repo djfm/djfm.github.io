@@ -1,9 +1,7 @@
 import React from 'react';
 
 import {
-  Article,
   Aside,
-  H1,
   NoWrap,
 } from '../common/Styled';
 
@@ -11,10 +9,10 @@ import CodeSample from '../common/CodeSample';
 
 export const FastSetup: React.FC = () => {
   const markup = (
-    <Article>
-      <H1 id="scroll-transition-anchor">
+    <article>
+      <h1 id="scroll-transition-anchor">
         Comment configurer très rapidement son environnement de travail pour TypeScript
-      </H1>
+      </h1>
       <section>
         <h1>Introduction</h1>
         <p>
@@ -520,7 +518,7 @@ export const FastSetup: React.FC = () => {
           <p>Et je continuerai plus tard, là je vais me coucher.</p>
         </section>
       </section>
-    </Article>
+    </article>
   );
   return markup;
 };

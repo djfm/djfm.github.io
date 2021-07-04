@@ -181,7 +181,7 @@ export const CodeSample: React.FC<{
   const markup = (
     <Wrapper>
       <figure>
-        <figcaption>{title}</figcaption>
+        <figcaption>{title}&nbsp;:</figcaption>
         <pre ref={preElementRef}>
           <Code
             className="hljs no-highlight"

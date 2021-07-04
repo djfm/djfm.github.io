@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const brightColor = '#ffa657';
 export const brightColor2 = '#0080ff';
-export const brightColor3 = '#a5d2ff';
+export const brightColor3 = 'rgb(165,210,255)';
 export const darkColor = '#0d1117';
 export const gray = '#ccc';
 
@@ -44,6 +44,10 @@ export const AppRoot = styled.div`
       color: ${standardLinkColor};
     }
   }
+
+  main > h1, main > header > h1 {
+    text-align: center;
+  }
 `;
 
 export const Aside = styled.aside`
@@ -80,6 +84,10 @@ export const Nav = styled.nav`
 
     &:visited {
       color: ${navLinkColor};
+    }
+
+    &::before {
+      content: "\u00a0\u00a0";
     }
 
     &.active {
@@ -146,7 +154,7 @@ export const TwoColumnsRightMenu = styled.div`
 
   > *:first-child ul {
     background-color: ${darkColor};
-    padding: 10px 5px 10px 5px;
+    padding: 10px 15px 10px 5px;
     margin-left: -10px;
     margin-right: -10px;
   }
@@ -174,26 +182,9 @@ export const TwoColumnsRightMenu = styled.div`
   }
 `;
 
-export const H1 = styled.h1`
-  margin-top: 1.7em;
-  margin-bottom: 1.7em;
-`;
-
 export const WithHorizontalPadding = styled.div`
   padding-left: 5px;
   padding-right: 5px;
-`;
-
-export const Main = styled.main`
-  > h1 {
-    margin-top: 10px;
-    margin-bottom: 10px;
-
-    text-align: center;
-  }
-`;
-
-export const Article = styled.article`
 `;
 
 export const NoWrap = styled.span`

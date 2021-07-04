@@ -4,11 +4,6 @@ import {
   useDocument,
 } from '../common/hooks';
 
-import {
-  Article,
-  H1,
-} from '../common/Styled';
-
 import CodeSample from '../common/CodeSample';
 
 export const TypeNarrowing: React.FC<{
@@ -23,9 +18,9 @@ export const TypeNarrowing: React.FC<{
   });
 
   const markup = (
-    <Article>
+    <article>
       <header>
-        <H1 id="scroll-transition-anchor">{title}</H1>
+        <h1 id="scroll-transition-anchor">{title}</h1>
 
         <p>
           C&apos;est vraiment la fonctionnalité de <i>TypeScript</i> qui
@@ -214,7 +209,7 @@ export const TypeNarrowing: React.FC<{
           `}
         </CodeSample>
       </section>
-    </Article>
+    </article>
   );
 
   return markup;

@@ -8,9 +8,7 @@ import BackToTop from '../common/BackToTop';
 import CodeSample from '../common/CodeSample';
 
 import {
-  Article,
   Aside,
-  H1,
   NoWrap,
   UL,
 } from '../common/Styled';
@@ -79,7 +77,7 @@ const sections = [
           </strong>
         </p>
         <p>
-          Le TypeScript est <i>in fine</i> du JavaScript,
+          Le TypeScript est in fine du JavaScript,
           on peut le voir comme une sorte de linter sur-puissant.
         </p>
         <p>
@@ -291,10 +289,10 @@ export const Introduction: React.FC<{
   });
 
   const markup = (
-    <Article>
-      <H1>
+    <article>
+      <h1>
         {title}
-      </H1>
+      </h1>
       {sections.map(({ title: sectionTitle, id, Section }) => (
         <section key={id}>
           <h1
@@ -306,7 +304,7 @@ export const Introduction: React.FC<{
         </section>
       ))}
       <BackToTop />
-    </Article>
+    </article>
   );
 
   return markup;
