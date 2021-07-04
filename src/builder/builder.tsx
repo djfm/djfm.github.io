@@ -60,6 +60,11 @@ const extractLinks = (
   }
 
   if (node.type === 'a') {
+    if (node.props.href.includes('#')) {
+      // those are not real links, same HTML as parent page
+      return [];
+    }
+
     return [node.props.href];
   }
 
