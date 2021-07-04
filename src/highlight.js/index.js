@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable node/no-unpublished-require */
 
 const hljs = require('../../node_modules/highlight.js/lib/core');
 

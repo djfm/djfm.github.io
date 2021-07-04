@@ -49,6 +49,7 @@ const main = async () => {
   const languages = require('./languages');
   const lines = [
     '/* eslint-disable @typescript-eslint/no-var-requires */',
+    '/* eslint-disable node/no-unpublished-require */',
     '',
     `const hljs = require('${join(hljsRelPath, 'lib', 'core')}');`,
     '',
