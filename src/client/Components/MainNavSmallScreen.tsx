@@ -11,7 +11,7 @@ import {
 import styled from 'styled-components';
 
 import {
-  bp2Max,
+  bp1Max,
   darkColor,
   openMenuButtonBgColor,
   Nav,
@@ -28,7 +28,7 @@ const Wrapper = styled.div`
 
   text-align: center;
 
-  @media (max-width: ${bp2Max}) {
+  @media (max-width: ${bp1Max}) {
     display: flex;
     align-items: center;
     padding-left: 5px;

@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 
 import {
   darkColor,
-  bp3min,
+  bp2Min,
   HorizUnordListNoBullets,
   Nav,
 } from './common/Styled';
@@ -16,7 +16,7 @@ import routes from './common/mainMenuRoutes';
 const HUL = styled(HorizUnordListNoBullets)`
 display: none;
 
-@media (min-width: ${bp3min}) {
+@media (min-width: ${bp2Min}) {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
