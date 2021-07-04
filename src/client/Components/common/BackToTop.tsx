@@ -1,10 +1,11 @@
 import React from 'react';
 
+import { NavHashLink } from 'react-router-hash-link';
+
 import styled from 'styled-components';
 
 import {
-  brightColor,
-  darkColor,
+  standardLinkColor,
 } from './Styled';
 
 const Wrapper = styled.div`
@@ -12,23 +13,21 @@ const Wrapper = styled.div`
 
   > a {
     text-decoration: none;
-    color: ${brightColor};
+    color: ${standardLinkColor};
 
     &:visited: {
       text-decoration: none;
-      color: ${brightColor};
+      color: ${standardLinkColor};
     }
 
-    background-color: ${darkColor};
     display: inline-block;
-    padding: 5px;
   }
 `;
 
 export const BackToTop: React.FC = () => {
   const markup = (
     <Wrapper>
-      <a href="#root">Retour au début de la page</a>
+      <NavHashLink to="#top">Revenir au début</NavHashLink>
     </Wrapper>
   );
 

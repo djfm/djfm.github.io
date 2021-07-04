@@ -48,6 +48,10 @@ export const AppRoot = styled.div`
   main > h1, main > header > h1 {
     text-align: center;
   }
+
+  .article-section {
+    margin-bottom: 70px;
+  }
 `;
 
 export const Aside = styled.aside`
