@@ -1,5 +1,6 @@
 import React, {
   ReactElement,
+  Fragment,
 } from 'react';
 
 import styled from 'styled-components';
@@ -70,57 +71,61 @@ const getPrevNextLink = (
   return PrevNextLink;
 };
 
+const backToTopLink = (
+  <NavHashLink
+    key="back-to-top"
+    to="#intro"
+  >
+    revenir au menu
+  </NavHashLink>
+);
+
 const sectionRenderer = (
   prevNext: PrevNextMap,
-) => (
-  { title, anchor, render }: WrappedSection,
-  sectionIndex: number,
-): ReactElement => {
-  const sectionCount = prevNext.size;
+) => {
+  const SectionWithHeaderAndNavLinks = (
+    { title, anchor, render }: WrappedSection,
+    sectionIndex: number,
+  ): ReactElement => {
+    const sectionCount = prevNext.size;
 
-  const backToTopLink = (
-    <NavHashLink
-      key="back-to-top"
-      to="#intro"
-    >
-      revenir au menu
-    </NavHashLink>
-  );
+    const Section: React.FC = ({ children }) => {
+      const getLink = getPrevNextLink(anchor, prevNext);
 
-  const section: React.FC = ({ children }) => {
-    const getLink = getPrevNextLink(anchor, prevNext);
+      const navLinks = [
+        getLink('prev'),
+        sectionIndex > 0 && backToTopLink,
+        getLink('next'),
+      ].filter(Boolean).reduce((elts, next, index) => {
+        if (index === 0) {
+          return [next];
+        }
+        return elts.concat('\u00a0-\u00a0', next);
+      }, []);
 
-    const navLinks = [
-      getLink('prev'),
-      sectionIndex > 0 && backToTopLink,
-      getLink('next'),
-    ].filter(Boolean).reduce((elts, next, index) => {
-      if (index === 0) {
-        return [next];
-      }
-      return elts.concat('\u00a0-\u00a0', next);
-    }, []);
+      // eslint-disable-next-line react/no-danger
+      const titleHTML = <span dangerouslySetInnerHTML={{ __html: title }} />;
 
-    // eslint-disable-next-line react/no-danger
-    const titleHTML = <span dangerouslySetInnerHTML={{ __html: title }} />;
+      const tree = (
+        <section id={anchor} className="article-section">
+          <h1>
+            {sectionIndex + 1}&nbsp;/&nbsp;{sectionCount})&nbsp;
+            {titleHTML}
+          </h1>
+          <div>
+            {navLinks}
+          </div>
+          {children}
+        </section>
+      );
 
-    const tree = (
-      <section key={`section-${anchor}`} id={anchor} className="article-section">
-        <h1>
-          {sectionIndex + 1}&nbsp;/&nbsp;{sectionCount})&nbsp;
-          {titleHTML}
-        </h1>
-        <div>
-          {navLinks}
-        </div>
-        {children}
-      </section>
-    );
+      return tree;
+    };
 
-    return tree;
+    return <Fragment key={title}>{render(Section)}</Fragment>;
   };
 
-  return render(section);
+  return SectionWithHeaderAndNavLinks;
 };
 
 export const Sections: React.FC<SectionsProps> = ({ sections }: SectionsProps) => {
@@ -132,7 +137,9 @@ export const Sections: React.FC<SectionsProps> = ({ sections }: SectionsProps) =
     prevNext.set(sections[i].anchor, { prev, next });
   }
 
-  return <>{sections.map(sectionRenderer(prevNext))}</>;
+  const renderSection = sectionRenderer(prevNext);
+
+  return <>{sections.map(renderSection)}</>;
 };
 
 const LinkList = styled.ul`
