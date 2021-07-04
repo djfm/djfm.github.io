@@ -79,9 +79,9 @@ export const Sections: React.FC<SectionsProps> = ({ sections }: SectionsProps) =
 
     const backToTopLink = (
       <NavHashLink
-        to="#top"
+        to="#intro"
       >
-        revenir au début
+        revenir au menu
       </NavHashLink>
     );
 

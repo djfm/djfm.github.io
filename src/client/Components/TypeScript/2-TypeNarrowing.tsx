@@ -20,7 +20,7 @@ export const TypeNarrowing: React.FC<{
   const markup = (
     <article>
       <header>
-        <h1 id="scroll-transition-anchor">{title}</h1>
+        <h1 id="intro">{title}</h1>
 
         <p>
           C&apos;est vraiment la fonctionnalité de <i>TypeScript</i> qui

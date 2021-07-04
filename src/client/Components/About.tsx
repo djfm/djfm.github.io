@@ -10,7 +10,7 @@ const About: React.FC = () => (
     <main>
       <article>
         <header>
-          <h1 id="scroll-transition-anchor">Qu&apos;est-ce que ce site?</h1>
+          <h1 id="intro">Qu&apos;est-ce que ce site?</h1>
           <p>
             <strong>Avant tout je précise qu&apos;il est en construction!</strong>
           </p>

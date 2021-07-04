@@ -27,7 +27,7 @@ const Wrapper = styled.div`
 export const BackToTop: React.FC = () => {
   const markup = (
     <Wrapper>
-      <NavHashLink to="#top">Revenir au début</NavHashLink>
+      <NavHashLink to="#top">revenir au début</NavHashLink>
     </Wrapper>
   );
 

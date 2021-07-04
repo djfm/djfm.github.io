@@ -25,7 +25,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const stopListening = history.listen(() => {
-      const anchor = document.getElementById('scroll-transition-anchor');
+      const anchor = document.getElementById('intro');
       if (anchor) {
         const windowHeight = window.innerHeight;
         const anchorRect = anchor.getBoundingClientRect();
