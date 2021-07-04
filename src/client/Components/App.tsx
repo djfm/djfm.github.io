@@ -41,10 +41,10 @@ const App: React.FC = () => {
   const markup = (
     <AppRoot>
       <MenuOverlay />
-      <div>
+      <>
         <MainNavSmallScreen />
         <MainNavLargeScreen />
-      </div>
+      </>
       <WithHorizontalPadding>
         <Switch>
           {routes.map(({
