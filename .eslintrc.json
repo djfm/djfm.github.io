@@ -1,51 +1,58 @@
 {
-  "root": true,
-  "parser": "@typescript-eslint/parser",
-  "plugins": [
-    "@typescript-eslint",
-    "eslint-plugin-react",
-    "node"
-  ],
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "airbnb",
-    "airbnb/hooks",
-    "plugin:node/recommended",
-    "plugin:react/recommended"
-  ],
-  "env": {
-    "browser": true
-  },
-  "rules": {
-    "node/no-unsupported-features/es-syntax": 0,
-    "react/jsx-filename-extension": [1, {
-      "allow": "as-needed",
-      "extensions": [".tsx"]
-    }],
-    "react/jsx-one-expression-per-line": 0,
-    "import/extensions": [
-      1, {
-        ".ts": "never",
-        ".tsx": "never"
-      }
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "node": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "airbnb",
+      "airbnb/hooks",
+      "plugin:node/recommended",
+      "plugin:react/recommended"
     ],
-    "node/no-missing-import": 0,
-    "import/no-unresolved": 0,
-    "no-use-before-define": 0,
-    "no-restricted-syntax": 0,
-    "no-unused-vars": 0, // use typescript's rule
-    "implicit-arrow-linebreak": 0,
-    "no-param-reassign": ["error", {
-      "ignorePropertyModificationsFor": [
-        "document"
-      ]
-    }],
-    "jsx-a11y/label-has-associated-control": [
-      "warn", {
-        "assert": "either"
-      }
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "@typescript-eslint"
     ],
-    "react/jsx-props-no-spreading": 0 // it's typescript, it's safe, we got types
-  }
+    "rules": {
+      "node/no-unsupported-features/es-syntax": 0,
+      "react/jsx-filename-extension": [1, {
+        "allow": "as-needed",
+        "extensions": [".tsx"]
+      }],
+      "react/jsx-one-expression-per-line": 0,
+      "import/extensions": [
+        1, {
+          ".ts": "never",
+          ".tsx": "never"
+        }
+      ],
+      "node/no-missing-import": 0,
+      "import/no-unresolved": 0,
+      "no-use-before-define": 0,
+      "no-restricted-syntax": 0,
+      "no-unused-vars": 0, // use typescript's rule
+      "implicit-arrow-linebreak": 0,
+      "no-param-reassign": ["error", {
+        "ignorePropertyModificationsFor": [
+          "document"
+        ]
+      }],
+      "jsx-a11y/label-has-associated-control": [
+        "warn", {
+          "assert": "either"
+        }
+      ],
+      "react/jsx-props-no-spreading": 0 // it's typescript, it's safe, we got types
+    }
 }
