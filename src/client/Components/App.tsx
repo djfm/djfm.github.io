@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {
+  ReactNode,
+} from 'react';
 
 import {
   Route,
@@ -15,7 +17,22 @@ import {
   WithHorizontalPadding,
 } from './common/Styled';
 
-import routes from './common/mainMenuRoutes';
+import {
+  sortByAnchorForRouterSwitch as sortPages,
+} from './common/util';
+
+import pages from '../topLevelPages';
+import makeHeadingFC from './common/makeHeadingFC';
+
+type TemplateProps = {
+  children: ReactNode,
+};
+
+const Template: React.FC<TemplateProps> = ({
+  children,
+}: TemplateProps) => <>{children}</>;
+
+const H1 = makeHeadingFC(1);
 
 const App: React.FC = () => (
   <AppRoot>
@@ -26,17 +43,15 @@ const App: React.FC = () => (
     </div>
     <WithHorizontalPadding>
       <Switch>
-        {routes.map(({
-          to,
-          exact,
-          Component,
+        {sortPages(pages).map(({
+          anchor,
+          render,
         }) => (
           <Route
-            key={to}
-            exact={exact}
-            path={to}
+            key={anchor}
+            path={anchor}
           >
-            <Component />
+            {render(Template, H1)}
           </Route>
         ))}
       </Switch>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import wrapSection from '../../../common/Section';
+import { wrapContent } from '../../../common/Content';
 
 import CodeSample from '../../../common/CodeSample';
 
@@ -8,7 +8,7 @@ import {
   Aside,
 } from '../../../common/Styled';
 
-export default wrapSection(
+export default wrapContent(
   'Avant d&apos;écrire la première ligne de code\u00a0: le <i>linter</i>',
   'initialisation-linter-eslint-typescript',
   (Section) => (

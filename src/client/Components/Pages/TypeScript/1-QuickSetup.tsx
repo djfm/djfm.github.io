@@ -1,6 +1,7 @@
 import React from 'react';
 
-import SecondLevelPage from '../../common/SecondLevelPage';
+import wrapContent from '../../common/Content';
+import SecondLevelPage from '../../common/PageLevel2';
 
 import introduction from './1-QuickSetup/0-Introduction';
 import nodeJSInstall from './1-QuickSetup/1-NodeJSInstall';
@@ -29,4 +30,17 @@ export const QuickSetup: React.FC<QuickSetupProps> = ({
   />
 );
 
-export default QuickSetup;
+const pageTitle = [
+  'Rapidement configurer un ',
+  'nouveau projet <i>TypeScript</i>',
+].join();
+
+export default wrapContent(
+  pageTitle,
+  'typescript',
+  (Container) => (
+    <Container>
+      <QuickSetup title={pageTitle} />
+    </Container>
+  ),
+);

@@ -1,8 +1,8 @@
 import React from 'react';
 
-import wrapSection from '../../../common/Section';
+import { wrapContent } from '../../../common/Content';
 
-export default wrapSection(
+export default wrapContent(
   'Pourquoi ajouter des types à <i>JavaScript</i>\u00a0?',
   'pourquoi-typescript',
   (Section) => (

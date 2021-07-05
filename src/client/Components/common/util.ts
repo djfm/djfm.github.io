@@ -1,4 +1,4 @@
-/* eslint-disable import/prefer-default-export */
+import { WithAnchor } from './Content';
 
 export const hasOwnProperty = <
   Y extends PropertyKey
@@ -112,3 +112,33 @@ export const parseValueWithUnit = (val: string): [number, string] => {
   const [, value, unit] = val.match(/(\d+(?:.\d+)?)(\w+)/);
   return [parseFloat(value), unit];
 };
+
+export const sortByAnchorForRouterSwitch = <T extends WithAnchor>(
+  items: T[],
+): T[] =>
+    // sort the items by decreasing alphabetical order so that
+    // the longest routes are displayed first and we reduce
+    // the chance of a <Route> matching too early
+    //
+    // e.g. if we have two pages:
+    // - A with url "/a/b"
+    // - B with url "/a"
+    //
+    // if we had:
+    //
+    // <Route path="/a"><A /></Route>
+    // <Route path="/a/b"><B /></Route>
+    //
+    // then on the "a/b" url component A would be rendered
+    // unless we added the "exact" prop to the first route
+    //
+    // but I do not wanna do that because I may use nested URLs
+    // that need to be rendered by their parent, e.g. maybe
+    // "a/c" should be rendered by A
+    // -- with this sort order, it will
+    items.slice().sort(
+      (
+        { anchor: a },
+        { anchor: b },
+      ) => (a < b ? -1 : 1),
+    );

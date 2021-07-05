@@ -1,6 +1,6 @@
 import React from 'react';
 
-import wrapSection from '../../../common/Section';
+import { wrapContent } from '../../../common/Content';
 
 import CodeSample from '../../../common/CodeSample';
 
@@ -8,7 +8,7 @@ import {
   Aside,
 } from '../../../common/Styled';
 
-export default wrapSection(
+export default wrapContent(
   'Initialisation de <i>TypeScript</i> et <i>tsconfig.json</i>',
   'initialisation-typescript',
   (Section, H1) => (

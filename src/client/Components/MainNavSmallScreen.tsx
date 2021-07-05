@@ -18,7 +18,7 @@ import {
   VertUnordListNoBullets,
 } from './common/Styled';
 
-import routes from './common/mainMenuRoutes';
+import pages from '../topLevelPages';
 
 const Wrapper = styled.div`
   display: none;
@@ -123,12 +123,11 @@ const MainNavSmallScreen: React.FC = () => {
       />
       <Nav>
         <VertUnordListNoBullets>
-          {routes.map(
-            ({ to, title, exact }) => (
-              <li key={to}>
+          {pages.map(
+            ({ anchor, title }) => (
+              <li key={`link-${anchor}`}>
                 <NavLink
-                  exact={exact}
-                  to={to}
+                  to={anchor}
                   activeClassName="active"
                   onClick={closeMenu}
                 >

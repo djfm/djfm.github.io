@@ -1,8 +1,8 @@
 import React from 'react';
 
-import wrapSection from '../../../common/Section';
+import { wrapContent } from '../../../common/Content';
 
-export default wrapSection(
+export default wrapContent(
   'Introduction',
   'introduction',
   (Section) => (

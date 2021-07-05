@@ -11,7 +11,7 @@ import {
   Nav,
 } from './common/Styled';
 
-import routes from './common/mainMenuRoutes';
+import pages from '../topLevelPages';
 
 const HUL = styled(HorizUnordListNoBullets)`
 display: none;
@@ -31,12 +31,16 @@ display: none;
 const MainNavLargeScreen: React.FC = () => (
   <Nav>
     <HUL>
-      {routes.map(
-        ({ to, title, exact }) => (
-          <li key={to}>
-            <NavLink exact={exact} to={to} activeClassName="active">
-              {title}
-            </NavLink>
+      {pages.map(
+        ({ anchor, title }) => (
+          <li key={`link-${anchor}`}>
+            <NavLink
+              to={anchor}
+              activeClassName="active"
+              dangerouslySetInnerHTML={{
+                __html: title,
+              }}
+            />
           </li>
         ),
       )}

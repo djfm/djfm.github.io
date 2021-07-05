@@ -1,10 +1,10 @@
 import React from 'react';
 
-import wrapSection from '../../../common/Section';
+import { wrapContent } from '../../../common/Content';
 
 import CodeSample from '../../../common/CodeSample';
 
-export default wrapSection(
+export default wrapContent(
   'Qu&apos;est-ce que c&apos;est que le <i>TypeScript</i>\u00a0?',
   'typescript-c-est-quoi',
   (Section) => (

@@ -1,12 +1,12 @@
 import React from 'react';
 
-import wrapSection from '../../../common/Section';
+import { wrapContent } from '../../../common/Content';
 
 import {
   UL,
 } from '../../../common/Styled';
 
-export default wrapSection(
+export default wrapContent(
   'L&apos;inférence de types',
   'inference-de-types',
   (Section) => (

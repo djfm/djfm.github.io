@@ -6,12 +6,13 @@ import {
   backToMenuAnchorId,
   Sections,
   SectionLinks,
-  WrappedSection,
 } from './Section';
+
+import { ReadyToRenderContent } from './Content';
 
 type SecondLevelPageProps = {
   title: string,
-  sections: WrappedSection[]
+  sections: ReadyToRenderContent[]
 };
 
 export const SecondLevelPage: React.FC<SecondLevelPageProps> = ({

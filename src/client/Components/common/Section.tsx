@@ -1,7 +1,6 @@
 import React, {
   Fragment,
   ReactElement,
-  ReactNode,
 } from 'react';
 
 import styled from 'styled-components';
@@ -9,39 +8,14 @@ import styled from 'styled-components';
 import { responsiveSpan } from './ResponsiveUtil';
 
 import HashLink from './HashLink';
+import { ReadyToRenderContent, PrevNextMap } from './Content';
+
+import makeHeadingFC from './makeHeadingFC';
 
 export const backToMenuAnchorId = 'menu-top';
 
-export type SectionProps = {
-  title: string
-  anchor: string
-}
-
-type PrevNext = {
-  prev?: SectionProps
-  next?: SectionProps
-}
-
-type PrevNextMap = Map<string, PrevNext>
-
-type Renderer = (tag: React.FC, h1Tag: React.FC) => ReactElement;
-
-export type WrappedSection = SectionProps & {
-  render: Renderer
-}
-
-export const wrapSection = (
-  title: string,
-  anchor: string,
-  render: Renderer,
-): WrappedSection => ({
-  title,
-  anchor,
-  render,
-});
-
 type SectionsProps = {
-  sections: WrappedSection[]
+  sections: ReadyToRenderContent[]
   nestingLevel: number
 }
 
@@ -131,7 +105,7 @@ const sectionRenderer = (
   nestingLevel: number,
 ) => {
   const SectionWithHeaderAndNavLinks = (
-    { title, anchor, render }: WrappedSection,
+    { title, anchor, render }: ReadyToRenderContent,
     sectionIndex: number,
   ): ReactElement => {
     const sectionCount = prevNext.size;
@@ -153,7 +127,7 @@ const sectionRenderer = (
       // eslint-disable-next-line react/no-danger
       const titleHTML = <span dangerouslySetInnerHTML={{ __html: title }} />;
 
-      // TODO documenter cette ast  uce
+      // TODO documenter cette astuce
       const HTag = styled(`h${nestingLevel}` as keyof JSX.IntrinsicElements)`
         margin-bottom: 0;
         + span {
@@ -177,12 +151,7 @@ const sectionRenderer = (
       return tree;
     };
 
-    const HTag = `h${nestingLevel + 1}` as keyof JSX.IntrinsicElements;
-    type H1TagProps = {
-      children: ReactNode
-    }
-    const H1Tag: React.FC<H1TagProps> = ({ children, ...props }: H1TagProps): ReactElement =>
-      (<HTag {...props}>{children}</HTag>);
+    const H1Tag = makeHeadingFC(nestingLevel + 1);
 
     return <Fragment key={title}>{render(Section, H1Tag)}</Fragment>;
   };
@@ -217,7 +186,7 @@ const LinkList = styled.ul`
 `;
 
 type SectionLinksProps = {
-  sections: WrappedSection[]
+  sections: ReadyToRenderContent[]
 }
 export const SectionLinks: React.FC<SectionLinksProps> = (
   { sections }: SectionLinksProps,
@@ -238,5 +207,3 @@ export const SectionLinks: React.FC<SectionLinksProps> = (
 
   return markup;
 };
-
-export default wrapSection;

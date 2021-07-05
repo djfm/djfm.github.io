@@ -1,6 +1,7 @@
 import React from 'react';
 
-import SecondLevelPage from '../../common/SecondLevelPage';
+import SecondLevelPage from '../../common/PageLevel2';
+import wrapContent from '../../common/Content';
 
 import WhatsTS from './0-Introduction/0-WhatsTS';
 import WhyTS from './0-Introduction/1-WhyTS';
@@ -27,4 +28,14 @@ export const TypeScriptIntroduction: React.FC<TSIntroductionProps> = ({
   />
 );
 
-export default TypeScriptIntroduction;
+const pageTitle = '<i>TypeScript</i> en Bref';
+
+export default wrapContent(
+  pageTitle,
+  'typescript',
+  (Container) => (
+    <Container>
+      <TypeScriptIntroduction title={pageTitle} />
+    </Container>
+  ),
+);

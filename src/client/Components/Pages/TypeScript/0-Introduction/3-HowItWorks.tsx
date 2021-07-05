@@ -1,6 +1,6 @@
 import React from 'react';
 
-import wrapSection from '../../../common/Section';
+import { wrapContent } from '../../../common/Content';
 
 import CodeSample from '../../../common/CodeSample';
 
@@ -9,7 +9,7 @@ import {
   NoWrap,
 } from '../../../common/Styled';
 
-export default wrapSection(
+export default wrapContent(
   'Comment ça marche\u00a0?',
   'comment-marche-typescript',
   (Section) => (
