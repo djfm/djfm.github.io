@@ -7,11 +7,11 @@ import {
 
 import BackToTop from '../common/BackToTop';
 
-import introduction from './FastSetup/0-Introduction';
-import nodeJSInstall from './FastSetup/1-NodeJSInstall';
-import gitYarnInit from './FastSetup/2-GitYarnInit';
-import typeScriptInit from './FastSetup/3-TypeScriptInit';
-import linterInit from './FastSetup/4-LinterInit';
+import introduction from './1-QuickSetup/0-Introduction';
+import nodeJSInstall from './1-QuickSetup/1-NodeJSInstall';
+import gitYarnInit from './1-QuickSetup/2-GitYarnInit';
+import typeScriptInit from './1-QuickSetup/3-TypeScriptInit';
+import linterInit from './1-QuickSetup/4-LinterInit';
 
 const sections = [
   introduction,
@@ -21,7 +21,7 @@ const sections = [
   linterInit,
 ];
 
-export const FastSetup: React.FC = () => {
+export const QuickSetup: React.FC = () => {
   const markup = (
     <article>
       <h1>
@@ -35,4 +35,4 @@ export const FastSetup: React.FC = () => {
   return markup;
 };
 
-export default FastSetup;
+export default QuickSetup;

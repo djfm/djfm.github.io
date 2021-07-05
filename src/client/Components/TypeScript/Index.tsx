@@ -24,7 +24,7 @@ import {
 } from '../common/RouteSpec';
 
 import Introduction from './0-Introduction';
-import FastSetup from './1-FastSetup';
+import QuickSetup from './1-QuickSetup';
 import TypesVSInterfaces from './3-TypesVSInterfaces';
 import TypeNarrowing from './2-TypeNarrowing';
 
@@ -41,8 +41,8 @@ const routes: RouteSpec<{
   {
     title: 'Rapidement configurer un nouveau projet TypeScript',
     docTitle: 'Typescript - Mise en route rapide',
-    to: 'vite-mettre-en-place-environnement-typescript',
-    Component: FastSetup,
+    to: 'typescript-quick-setup',
+    Component: QuickSetup,
   },
   {
     title: 'Types vs. Interfaces',

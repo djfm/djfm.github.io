@@ -195,14 +195,15 @@ export const CodeSample: React.FC<{
         </pre>
       </figure>
       <label>
-        <div style={{
+        <span style={{
+          display: 'block',
           textAlign: 'center',
           fontFamily: 'monospace',
           fontSize: '1rem',
         }}
         >
           Zoom:
-        </div>
+        </span>
         <input
           type="range"
           min={minZoom}

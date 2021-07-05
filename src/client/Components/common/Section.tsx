@@ -1,14 +1,18 @@
 import React, {
-  ReactElement,
   Fragment,
+  ReactElement,
+  useEffect,
+  useRef,
 } from 'react';
 
 import styled from 'styled-components';
 
-import { NavHashLink } from 'react-router-hash-link';
-
 import {
 } from '../common/Styled';
+
+import HashLink from './HashLink';
+
+export const backToTopAnchorId = 'menu-top';
 
 export type SectionProps = {
   title: string
@@ -59,12 +63,11 @@ const getPrevNextLink = (
     }
 
     return (
-      <NavHashLink
+      <HashLink
         key={direction}
-        to={`#${target.anchor}`}
-      >
-        {direction === 'prev' ? 'précédent' : 'suivant'}
-      </NavHashLink>
+        anchor={target.anchor}
+        innerHTML={direction === 'prev' ? 'précédent' : 'suivant'}
+      />
     );
   };
 
@@ -72,12 +75,11 @@ const getPrevNextLink = (
 };
 
 const backToTopLink = (
-  <NavHashLink
+  <HashLink
     key="back-to-top"
-    to="#intro"
-  >
-    revenir au menu
-  </NavHashLink>
+    anchor={backToTopAnchorId}
+    innerHTML="revenir au menu"
+  />
 );
 
 const sectionRenderer = (
@@ -148,24 +150,84 @@ const LinkList = styled.ul`
   }
 `;
 
+const findParentH1 = (e: HTMLElement): HTMLElement => {
+  const maybeH1 = e.querySelector('h1');
+  if (maybeH1) {
+    return maybeH1;
+  }
+
+  if (e === document.body) {
+    return undefined;
+  }
+
+  return findParentH1(e.parentElement);
+};
+
 type SectionLinksProps = {
   sections: WrappedSection[]
 }
 export const SectionLinks: React.FC<SectionLinksProps> = (
   { sections }: SectionLinksProps,
-): ReactElement => (
-  <LinkList>
-    {sections.map(({ anchor, title }) => (
-      <li key={`link-to-${anchor}`}>
-        {/* eslint-disable-next-line jsx-a11y/control-has-associated-label,react/no-danger */}
-        <NavHashLink
-          to={`#${anchor}`}
-          dangerouslySetInnerHTML={{ __html: title }}
-          activeClassName="active"
-        />
-      </li>
-    ))}
-  </LinkList>
-);
+): ReactElement => {
+  const linkListRef = useRef<HTMLUListElement>();
+  const chosenAnchorElt = useRef<HTMLElement>();
+
+  useEffect(() => {
+    // exit immediately for SSR if doc undefined
+    if (typeof document === 'undefined') {
+      return undefined;
+    }
+    const pickAnchorElt = () => {
+      const { current } = linkListRef;
+      const anchorElt = (
+        current
+          ? (findParentH1(current) || current)
+          : document.body.querySelector('h1')
+      ) || document.body;
+      return anchorElt;
+    };
+
+    const currentAnchorElt = document.getElementById(backToTopAnchorId);
+    const preferredAnchorElt = pickAnchorElt();
+
+    // TODO Manage this mess of a state with Redux
+
+    // if the element marked as a target for the menu
+    // is not the one we would have chosen,
+    // replace it
+    if (currentAnchorElt !== preferredAnchorElt) {
+      if (currentAnchorElt) {
+        currentAnchorElt.id = '';
+      }
+      preferredAnchorElt.id = backToTopAnchorId;
+      chosenAnchorElt.current = preferredAnchorElt;
+    }
+
+    // upon unloading, remove the id we have set,
+    // in case the next page sets it directly
+    // during rendering
+    return () => {
+      if (chosenAnchorElt.current) {
+        chosenAnchorElt.current.id = '';
+      }
+    };
+  });
+
+  const markup = (
+    <LinkList ref={linkListRef}>
+      {sections.map(({ anchor, title }) => (
+        <li key={`link-to-${anchor}`}>
+          {/* eslint-disable-next-line jsx-a11y/control-has-associated-label,react/no-danger */}
+          <HashLink
+            anchor={anchor}
+            innerHTML={title}
+          />
+        </li>
+      ))}
+    </LinkList>
+  );
+
+  return markup;
+};
 
 export default wrapSection;

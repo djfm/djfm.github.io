@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { NavHashLink } from 'react-router-hash-link';
-
 import styled from 'styled-components';
 
 import {
   standardLinkColor,
 } from './Styled';
+
+import HashLink from './HashLink';
 
 const Wrapper = styled.div`
   margin-top: 25px;
@@ -27,7 +27,7 @@ const Wrapper = styled.div`
 export const BackToTop: React.FC = () => {
   const markup = (
     <Wrapper>
-      <NavHashLink to="#top">revenir au début</NavHashLink>
+      <HashLink anchor="top" innerHTML="revenir au début" />
     </Wrapper>
   );
 

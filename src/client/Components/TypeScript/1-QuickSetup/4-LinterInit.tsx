@@ -45,32 +45,25 @@ export default wrapSection(
       </CodeSample>
       <p>
         On répond aux questions&nbsp;:
-        <br />
-        <br />
+      </p>
+      <dl>
         <dt>How would you like to use ESLint?</dt>
         <dd>To check syntax, find problems, and enforce code style</dd>
-
         <dt>What type of modules does your project use?</dt>
         <dd>JavaScript modules (import/export)</dd>
-
         <dt>Which framework does your project use?</dt>
         <dd>React (oui, on sais jamais, me connaissant...)</dd>
-
         <dt>Does your project use TypeScript?</dt>
         <dd>Yes</dd>
-
         <dt>Where does your code run?</dt>
         <dd>Browser, Node (on appuie sur &quot;a&quot; pour tout choisir)</dd>
-
         <dt>How would you like to define a style for your project?</dt>
         <dd>Use a popular style guide</dd>
-
         <dt>Which style guide do you want to follow?</dt>
         <dd>Airbnb: https://github.com/airbnb/javascript</dd>
-
         <dt>What format do you want your config file to be in?</dt>
         <dd>JSON</dd>
-      </p>
+      </dl>
       <Aside>
         <p>
           De façon générale, quand j&apos;ai le choix
