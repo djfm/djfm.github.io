@@ -162,7 +162,7 @@ const sectionRenderer = (
       // eslint-disable-next-line react/no-danger
       const titleHTML = <span dangerouslySetInnerHTML={{ __html: title }} />;
 
-      // TODO documenter cette astuce
+      // TODO documenter cette ast  uce
       const HTag = styled(`h${nestingLevel}` as keyof JSX.IntrinsicElements)`
         margin-bottom: 0;
         + span {
