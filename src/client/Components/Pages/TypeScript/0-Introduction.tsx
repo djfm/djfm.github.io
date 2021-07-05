@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SecondLevelPage from '../common/SecondLevelPage';
+import SecondLevelPage from '../../common/SecondLevelPage';
 
 import WhatsTS from './0-Introduction/0-WhatsTS';
 import WhyTS from './0-Introduction/1-WhyTS';

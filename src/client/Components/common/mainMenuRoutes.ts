@@ -1,7 +1,7 @@
 import { RouteSpec } from './RouteSpec';
 
-import About from '../About';
-import TypeScript from '../TypeScript/Index';
+import About from '../Pages/About';
+import TypeScript from '../Pages/TypeScript/Index';
 
 const routes: RouteSpec[] = [
   {

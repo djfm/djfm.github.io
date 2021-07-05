@@ -1,13 +1,13 @@
 import React from 'react';
 
-import wrapSection from '../../common/Section';
+import wrapSection from '../../../common/Section';
 
-import CodeSample from '../../common/CodeSample';
+import CodeSample from '../../../common/CodeSample';
 
 import {
   Aside,
   NoWrap,
-} from '../../common/Styled';
+} from '../../../common/Styled';
 
 export default wrapSection(
   'Initialisation de <i>git</i> et de <i>yarn</i>',

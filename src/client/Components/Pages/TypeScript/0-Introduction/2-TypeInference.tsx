@@ -1,10 +1,10 @@
 import React from 'react';
 
-import wrapSection from '../../common/Section';
+import wrapSection from '../../../common/Section';
 
 import {
   UL,
-} from '../../common/Styled';
+} from '../../../common/Styled';
 
 export default wrapSection(
   'L&apos;inférence de types',

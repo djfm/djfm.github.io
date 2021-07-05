@@ -2,9 +2,9 @@ import React from 'react';
 
 import {
   useDocument,
-} from '../common/hooks';
+} from '../../common/hooks';
 
-import CodeSample from '../common/CodeSample';
+import CodeSample from '../../common/CodeSample';
 
 export const TypeNarrowing: React.FC<{
   title: string,

@@ -3,7 +3,7 @@ import React from 'react';
 import {
   NoWrap,
   NotTooWide,
-} from './common/Styled';
+} from '../common/Styled';
 
 const About: React.FC = () => (
   <NotTooWide>

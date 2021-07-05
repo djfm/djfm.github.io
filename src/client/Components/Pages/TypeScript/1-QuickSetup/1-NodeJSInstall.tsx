@@ -1,13 +1,13 @@
 import React from 'react';
 
-import wrapSection from '../../common/Section';
+import wrapSection from '../../../common/Section';
 
-import CodeSample from '../../common/CodeSample';
+import CodeSample from '../../../common/CodeSample';
 
 import {
   Aside,
   NoWrap,
-} from '../../common/Styled';
+} from '../../../common/Styled';
 
 export default wrapSection(
   'On commence par installer <i>Node.js</i> et <i>yarn</i>',

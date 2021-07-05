@@ -12,16 +12,16 @@ import {
   NotTooWide,
   TwoColumnsRightMenu,
   VertUnordListNoBullets,
-} from '../common/Styled';
+} from '../../common/Styled';
 
 import {
   buildURL,
-} from '../common/util';
+} from '../../common/util';
 
 import {
   RouteSpec,
   sortRoutesForSwitch,
-} from '../common/RouteSpec';
+} from '../../common/RouteSpec';
 
 import Introduction from './0-Introduction';
 import QuickSetup from './1-QuickSetup';

@@ -1,10 +1,10 @@
 import React from 'react';
 
-import CodeSample from '../common/CodeSample';
+import CodeSample from '../../common/CodeSample';
 
 import {
   useDocument,
-} from '../common/hooks';
+} from '../../common/hooks';
 
 const TypesVSInterfaces: React.FC<{
   title: string,

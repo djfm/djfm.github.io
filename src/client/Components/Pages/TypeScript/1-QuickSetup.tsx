@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SecondLevelPage from '../common/SecondLevelPage';
+import SecondLevelPage from '../../common/SecondLevelPage';
 
 import introduction from './1-QuickSetup/0-Introduction';
 import nodeJSInstall from './1-QuickSetup/1-NodeJSInstall';

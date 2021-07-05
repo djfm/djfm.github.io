@@ -1,6 +1,6 @@
 import React from 'react';
 
-import wrapSection from '../../common/Section';
+import wrapSection from '../../../common/Section';
 
 export default wrapSection(
   'Introduction',
