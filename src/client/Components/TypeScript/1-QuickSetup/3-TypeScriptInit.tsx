@@ -11,7 +11,7 @@ import {
 export default wrapSection(
   'Initialisation de <i>TypeScript</i> et <i>tsconfig.json</i>',
   'initialisation-typescript',
-  (Section) => (
+  (Section, H1) => (
     <Section>
       <p>
         Il nous manque un élément crucial, bien sûr,
@@ -22,7 +22,7 @@ export default wrapSection(
       </CodeSample>
       <Aside>
         <header>
-          <h1>Installation des modules de typage en plus des modules normaux</h1>
+          <H1>Installation des modules de typage en plus des modules normaux</H1>
         </header>
         <p>
           Vous verrez, quand on installera des paquets dont on va se servir

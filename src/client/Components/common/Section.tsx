@@ -1,6 +1,7 @@
 import React, {
   Fragment,
   ReactElement,
+  ReactNode,
 } from 'react';
 
 import styled from 'styled-components';
@@ -23,7 +24,7 @@ type PrevNext = {
 
 type PrevNextMap = Map<string, PrevNext>
 
-type Renderer = (tag: React.FC) => ReactElement;
+type Renderer = (tag: React.FC, h1Tag: React.FC) => ReactElement;
 
 export type WrappedSection = SectionProps & {
   render: Renderer
@@ -176,7 +177,14 @@ const sectionRenderer = (
       return tree;
     };
 
-    return <Fragment key={title}>{render(Section)}</Fragment>;
+    const HTag = `h${nestingLevel + 1}` as keyof JSX.IntrinsicElements;
+    type H1TagProps = {
+      children: ReactNode
+    }
+    const H1Tag: React.FC<H1TagProps> = ({ children, ...props }: H1TagProps): ReactElement =>
+      (<HTag {...props}>{children}</HTag>);
+
+    return <Fragment key={title}>{render(Section, H1Tag)}</Fragment>;
   };
 
   return SectionWithHeaderAndNavLinks;
