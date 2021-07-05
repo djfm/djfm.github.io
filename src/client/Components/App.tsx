@@ -15,14 +15,12 @@ import {
   WithHorizontalPadding,
 } from './common/Styled';
 
-import { backToTopAnchorId } from './common/Section';
-
 import routes from './common/mainMenuRoutes';
 
 const App: React.FC = () => (
   <AppRoot>
     <MenuOverlay />
-    <div id={backToTopAnchorId}>
+    <div>
       <MainNavSmallScreen />
       <MainNavLargeScreen />
     </div>

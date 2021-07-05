@@ -3,6 +3,7 @@ import React from 'react';
 import BackToTop from './BackToTop';
 
 import {
+  backToMenuAnchorId,
   Sections,
   SectionLinks,
   WrappedSection,
@@ -19,7 +20,7 @@ export const SecondLevelPage: React.FC<SecondLevelPageProps> = ({
 }: SecondLevelPageProps) => {
   const markup = (
     <article>
-      <h2>{title}</h2>
+      <h2 id={backToMenuAnchorId}>{title}</h2>
       <SectionLinks sections={sections} />
       <Sections sections={sections} nestingLevel={3} />
       <BackToTop />

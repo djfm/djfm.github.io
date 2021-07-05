@@ -1,21 +1,15 @@
 import React, {
   Fragment,
   ReactElement,
-  ReactNode,
-  useEffect,
-  useRef,
 } from 'react';
 
 import styled from 'styled-components';
 
-import {
-  bp0Max,
-  bp1Min,
-} from '../common/Styled';
+import { responsiveSpan } from './ResponsiveUtil';
 
 import HashLink from './HashLink';
 
-export const backToTopAnchorId = 'menu-top';
+export const backToMenuAnchorId = 'menu-top';
 
 export type SectionProps = {
   title: string
@@ -50,52 +44,48 @@ type SectionsProps = {
   nestingLevel: number
 }
 
-const BP0MaxSpan = styled.span`
-  display: none;
-  @media (max-width: ${bp0Max}) {
-    display: flex;
-  }
-`;
-
-const BP1MinSpan = styled.span`
-  display: none;
-  @media (min-width: ${bp1Min}) {
-      display: flex;
-  }
-`;
-
-const responsiveSpan = (
-  smallestWidth: ReactNode,
-  greaterWidths: ReactNode,
-) => (
-  literals: TemplateStringsArray,
-  ...placeHolders: string[]
-): ReactElement => {
-  const Wrapper = styled.span(literals, placeHolders);
-
-  const ResponsiveSpan = (
-    <Wrapper>
-      <BP0MaxSpan>{smallestWidth}</BP0MaxSpan>
-      <BP1MinSpan>{greaterWidths}</BP1MinSpan>
-    </Wrapper>
-  );
-
-  return ResponsiveSpan;
+const smallSpanSizeStyle = {
+  fontSize: '0.8em',
 };
 
-const linkItemStyle = '';
-
 const prevLinkBody = responsiveSpan(
-  (<><span style={{ fontSize: '1.5rem' }}>←</span><span>&nbsp;prec.</span></>),
-  (<><span style={{ fontSize: '1.5rem' }}>←</span><span>&nbsp;précédent</span></>),
-)`${linkItemStyle}`;
+  (
+    <span style={smallSpanSizeStyle}>
+      &lt;&lt;&nbsp;prec.
+    </span>
+  ),
+  (
+    <>
+      &lt;&lt;&nbsp;précédent
+    </>
+  ),
+);
 
 const nextLinkBody = responsiveSpan(
-  (<><span>suiv.&nbsp;</span><span style={{ fontSize: '1.5rem' }}>→</span></>),
-  (<><span>suivant&nbsp;</span><span style={{ fontSize: '1.5rem' }}>→</span></>),
-)`${linkItemStyle}`;
+  (
+    <span style={smallSpanSizeStyle}>
+      suiv.&nbsp;&gt;&gt;
+    </span>
+  ),
+  (
+    <>
+      suivant&nbsp;&gt;&gt;
+    </>
+  ),
+);
 
-const upLinkBody = (<span>menu</span>);
+const upLinkBody = responsiveSpan(
+  (
+    <span style={smallSpanSizeStyle}>
+      menu
+    </span>
+  ),
+  (
+    <>
+      menu
+    </>
+  ),
+);
 
 const getPrevNextLink = (
   anchor: string,
@@ -129,7 +119,7 @@ const getPrevNextLink = (
 const backToTopLink = (
   <HashLink
     key="back-to-top"
-    anchor={backToTopAnchorId}
+    anchor={backToMenuAnchorId}
   >
     {upLinkBody}
   </HashLink>
@@ -170,26 +160,15 @@ const sectionRenderer = (
         }
       `;
 
-      const LinksList = styled.span`
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-
-        span {
-          flex-direction: row;
-          align-items: center;
-        }
-      `;
-
       const tree = (
         <section id={anchor} className="article-section">
           <HTag>
             {sectionIndex + 1}&nbsp;/&nbsp;{sectionCount})&nbsp;
             {titleHTML}
           </HTag>
-          <LinksList>
+          <span>
             {navLinks}
-          </LinksList><br />
+          </span><br />
           {children}
         </section>
       );
@@ -229,71 +208,14 @@ const LinkList = styled.ul`
   }
 `;
 
-const findParentH1 = (e: HTMLElement): HTMLElement => {
-  const maybeH1 = e.querySelector('h1');
-  if (maybeH1) {
-    return maybeH1;
-  }
-
-  if (e === document.body) {
-    return undefined;
-  }
-
-  return findParentH1(e.parentElement);
-};
-
 type SectionLinksProps = {
   sections: WrappedSection[]
 }
 export const SectionLinks: React.FC<SectionLinksProps> = (
   { sections }: SectionLinksProps,
 ): ReactElement => {
-  const linkListRef = useRef<HTMLUListElement>();
-  const chosenAnchorElt = useRef<HTMLElement>();
-
-  useEffect(() => {
-    // exit immediately for SSR if doc undefined
-    if (typeof document === 'undefined') {
-      return undefined;
-    }
-    const pickAnchorElt = () => {
-      const { current } = linkListRef;
-      const anchorElt = (
-        current
-          ? (findParentH1(current) || current)
-          : document.body.querySelector('h1')
-      ) || document.body;
-      return anchorElt;
-    };
-
-    const currentAnchorElt = document.getElementById(backToTopAnchorId);
-    const preferredAnchorElt = pickAnchorElt();
-
-    // TODO Manage this mess of a state with Redux
-
-    // if the element marked as a target for the menu
-    // is not the one we would have chosen,
-    // replace it
-    if (currentAnchorElt !== preferredAnchorElt) {
-      if (currentAnchorElt) {
-        currentAnchorElt.id = '';
-      }
-      preferredAnchorElt.id = backToTopAnchorId;
-      chosenAnchorElt.current = preferredAnchorElt;
-    }
-
-    // upon unloading, remove the id we have set,
-    // in case the next page sets it directly
-    // during rendering
-    return () => {
-      if (chosenAnchorElt.current) {
-        chosenAnchorElt.current.id = '';
-      }
-    };
-  });
-
   const markup = (
-    <LinkList ref={linkListRef}>
+    <LinkList>
       {sections.map(({ anchor, title }) => (
         <li key={`link-to-${anchor}`}>
           {/* eslint-disable-next-line jsx-a11y/control-has-associated-label,react/no-danger */}
