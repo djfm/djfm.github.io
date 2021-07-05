@@ -26,16 +26,16 @@ type PrevNext = {
 
 type PrevNextMap = Map<string, PrevNext>
 
-type SectionRenderer = (tag: React.FC) => ReactElement;
+type Renderer = (tag: React.FC) => ReactElement;
 
-type WrappedSection = SectionProps & {
-  render: SectionRenderer
+export type WrappedSection = SectionProps & {
+  render: Renderer
 }
 
 export const wrapSection = (
   title: string,
   anchor: string,
-  render: SectionRenderer,
+  render: Renderer,
 ): WrappedSection => ({
   title,
   anchor,
@@ -44,6 +44,7 @@ export const wrapSection = (
 
 type SectionsProps = {
   sections: WrappedSection[]
+  nestingLevel: number
 }
 
 const getPrevNextLink = (
@@ -84,6 +85,7 @@ const backToTopLink = (
 
 const sectionRenderer = (
   prevNext: PrevNextMap,
+  nestingLevel: number,
 ) => {
   const SectionWithHeaderAndNavLinks = (
     { title, anchor, render }: WrappedSection,
@@ -108,12 +110,15 @@ const sectionRenderer = (
       // eslint-disable-next-line react/no-danger
       const titleHTML = <span dangerouslySetInnerHTML={{ __html: title }} />;
 
+      // TODO documenter cette astuce
+      const HTag = `h${nestingLevel}` as keyof JSX.IntrinsicElements;
+
       const tree = (
         <section id={anchor} className="article-section">
-          <h1>
+          <HTag>
             {sectionIndex + 1}&nbsp;/&nbsp;{sectionCount})&nbsp;
             {titleHTML}
-          </h1>
+          </HTag>
           <div>
             {navLinks}
           </div>
@@ -130,7 +135,10 @@ const sectionRenderer = (
   return SectionWithHeaderAndNavLinks;
 };
 
-export const Sections: React.FC<SectionsProps> = ({ sections }: SectionsProps) => {
+export const Sections: React.FC<SectionsProps> = ({
+  sections,
+  nestingLevel,
+}: SectionsProps) => {
   const prevNext: PrevNextMap = new Map();
 
   for (let i = 0; i < sections.length; i += 1) {
@@ -139,7 +147,10 @@ export const Sections: React.FC<SectionsProps> = ({ sections }: SectionsProps) =
     prevNext.set(sections[i].anchor, { prev, next });
   }
 
-  const renderSection = sectionRenderer(prevNext);
+  const renderSection = sectionRenderer(
+    prevNext,
+    nestingLevel,
+  );
 
   return <>{sections.map(renderSection)}</>;
 };

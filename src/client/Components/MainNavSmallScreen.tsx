@@ -106,7 +106,7 @@ const MainNavSmallScreen: React.FC = () => {
         alt="open menu"
         type="image"
         src="/img/menu-closed.png"
-        width="36px"
+        width="36"
         onClick={openMenu}
       />
     </div>
@@ -118,7 +118,7 @@ const MainNavSmallScreen: React.FC = () => {
         alt="open menu"
         type="image"
         src="/img/menu-open.png"
-        width="48px"
+        width="48"
         onClick={closeMenu}
       />
       <Nav>

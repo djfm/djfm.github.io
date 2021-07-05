@@ -22,6 +22,7 @@ const About: React.FC = () => (
         </header>
 
         <section>
+          <h2>Des notes sur le <i>TypeScript</i></h2>
           <p>
             Je prévois dans un premier temps <strong>beaucoup de TypeScript</strong> et de&nbsp;
             <strong>programmation en général</strong>, mais
@@ -66,6 +67,7 @@ const About: React.FC = () => (
         </section>
 
         <section>
+          <h2>Le cahier des charges technique du site</h2>
           Pour ce site, <strong>le cahier des charges que je me suis fixé</strong> est:
           <ul>
             <li>
@@ -85,7 +87,9 @@ const About: React.FC = () => (
             <li><small>que ça me ramène des leads en masse</small></li>
           </ul>
         </section>
+
         <section>
+          <h2>Une petite contribution à l&apos;<NoWrap>open-source</NoWrap></h2>
           <p>
             Le <strong>code du site est <a rel="noreferrer" target="blank" href="https://github.com/djfm/djfm.github.io">sur GitHub</a></strong>,
             je parlerai à l&apos;occasion de comment il est fait

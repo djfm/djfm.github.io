@@ -1,11 +1,6 @@
 import React from 'react';
 
-import {
-  SectionLinks,
-  Sections,
-} from '../common/Section';
-
-import BackToTop from '../common/BackToTop';
+import SecondLevelPage from '../common/SecondLevelPage';
 
 import introduction from './1-QuickSetup/0-Introduction';
 import nodeJSInstall from './1-QuickSetup/1-NodeJSInstall';
@@ -21,18 +16,11 @@ const sections = [
   linterInit,
 ];
 
-export const QuickSetup: React.FC = () => {
-  const markup = (
-    <article>
-      <h1>
-        Comment configurer très rapidement son environnement de travail pour TypeScript
-      </h1>
-      <SectionLinks sections={sections} />
-      <Sections sections={sections} />
-      <BackToTop />
-    </article>
-  );
-  return markup;
-};
+export const QuickSetup: React.FC = () => (
+  <SecondLevelPage
+    title="Comment préparer efficacement son environnement de travail pour TypeScript"
+    sections={sections}
+  />
+);
 
 export default QuickSetup;

@@ -29,7 +29,7 @@ export const bp0Max = '399px';
 
 export const AppRoot = styled.div`
   font-family: monospace;
-  font-size: 1.2rem;
+  font-size: 1rem;
   line-height: 1.5;
   word-break: normal;
   overflow-wrap: break-word;
@@ -45,11 +45,24 @@ export const AppRoot = styled.div`
     }
   }
 
-  main > h1, main > header > h1 {
+  h1 {
+    font-size: 1.5rem;
     text-align: center;
   }
 
-  .article-section {
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  h3 {
+    font-size: 1rem;
+  }
+
+  h4, h5, h6 {
+    font-size: 0.8rem;
+  }
+
+  section {
     margin-bottom: 70px;
   }
 `;
