@@ -14,9 +14,15 @@ const sections = [
   HowItWorks,
 ];
 
-export const TypeScriptIntroduction: React.FC = () => (
+type TSIntroductionProps = {
+  title: string
+}
+
+export const TypeScriptIntroduction: React.FC<TSIntroductionProps> = ({
+  title,
+}: TSIntroductionProps) => (
   <SecondLevelPage
-    title="TypeScript en Bref"
+    title={title}
     sections={sections}
   />
 );
