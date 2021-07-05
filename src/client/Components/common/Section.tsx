@@ -1,6 +1,7 @@
 import React, {
   Fragment,
   ReactElement,
+  ReactNode,
   useEffect,
   useRef,
 } from 'react';
@@ -8,6 +9,8 @@ import React, {
 import styled from 'styled-components';
 
 import {
+  bp0Max,
+  bp1Min,
 } from '../common/Styled';
 
 import HashLink from './HashLink';
@@ -47,6 +50,53 @@ type SectionsProps = {
   nestingLevel: number
 }
 
+const BP0MaxSpan = styled.span`
+  display: none;
+  @media (max-width: ${bp0Max}) {
+    display: flex;
+  }
+`;
+
+const BP1MinSpan = styled.span`
+  display: none;
+  @media (min-width: ${bp1Min}) {
+      display: flex;
+  }
+`;
+
+const responsiveSpan = (
+  smallestWidth: ReactNode,
+  greaterWidths: ReactNode,
+) => (
+  literals: TemplateStringsArray,
+  ...placeHolders: string[]
+): ReactElement => {
+  const Wrapper = styled.span(literals, placeHolders);
+
+  const ResponsiveSpan = (
+    <Wrapper>
+      <BP0MaxSpan>{smallestWidth}</BP0MaxSpan>
+      <BP1MinSpan>{greaterWidths}</BP1MinSpan>
+    </Wrapper>
+  );
+
+  return ResponsiveSpan;
+};
+
+const linkItemStyle = '';
+
+const prevLinkBody = responsiveSpan(
+  (<><span style={{ fontSize: '1.5rem' }}>←</span><span>&nbsp;prec.</span></>),
+  (<><span style={{ fontSize: '1.5rem' }}>←</span><span>&nbsp;précédent</span></>),
+)`${linkItemStyle}`;
+
+const nextLinkBody = responsiveSpan(
+  (<><span>suiv.&nbsp;</span><span style={{ fontSize: '1.5rem' }}>→</span></>),
+  (<><span>suivant&nbsp;</span><span style={{ fontSize: '1.5rem' }}>→</span></>),
+)`${linkItemStyle}`;
+
+const upLinkBody = (<span>menu</span>);
+
 const getPrevNextLink = (
   anchor: string,
   prevNext: PrevNextMap,
@@ -67,8 +117,9 @@ const getPrevNextLink = (
       <HashLink
         key={direction}
         anchor={target.anchor}
-        innerHTML={direction === 'prev' ? 'précédent' : 'suivant'}
-      />
+      >
+        {direction === 'prev' ? prevLinkBody : nextLinkBody}
+      </HashLink>
     );
   };
 
@@ -79,8 +130,9 @@ const backToTopLink = (
   <HashLink
     key="back-to-top"
     anchor={backToTopAnchorId}
-    innerHTML="revenir au menu"
-  />
+  >
+    {upLinkBody}
+  </HashLink>
 );
 
 const sectionRenderer = (
@@ -111,7 +163,23 @@ const sectionRenderer = (
       const titleHTML = <span dangerouslySetInnerHTML={{ __html: title }} />;
 
       // TODO documenter cette astuce
-      const HTag = `h${nestingLevel}` as keyof JSX.IntrinsicElements;
+      const HTag = styled(`h${nestingLevel}` as keyof JSX.IntrinsicElements)`
+        margin-bottom: 0;
+        + span {
+          margin-bottom: 15px;
+        }
+      `;
+
+      const LinksList = styled.span`
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        span {
+          flex-direction: row;
+          align-items: center;
+        }
+      `;
 
       const tree = (
         <section id={anchor} className="article-section">
@@ -119,9 +187,9 @@ const sectionRenderer = (
             {sectionIndex + 1}&nbsp;/&nbsp;{sectionCount})&nbsp;
             {titleHTML}
           </HTag>
-          <div>
+          <LinksList>
             {navLinks}
-          </div>
+          </LinksList><br />
           {children}
         </section>
       );

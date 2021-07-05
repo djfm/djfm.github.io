@@ -16,9 +16,15 @@ const sections = [
   linterInit,
 ];
 
-export const QuickSetup: React.FC = () => (
+type QuickSetupProps = {
+  title: string
+}
+
+export const QuickSetup: React.FC<QuickSetupProps> = ({
+  title,
+}: QuickSetupProps) => (
   <SecondLevelPage
-    title="Comment préparer efficacement son environnement de travail pour TypeScript"
+    title={title}
     sections={sections}
   />
 );
