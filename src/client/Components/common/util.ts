@@ -140,5 +140,5 @@ export const sortByAnchorForRouterSwitch = <T extends WithAnchor>(
       (
         { anchor: a },
         { anchor: b },
-      ) => (a < b ? -1 : 1),
+      ) => (a < b ? 1 : -1),
     );
