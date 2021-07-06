@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { wrapContent } from '../../../common/Content';
+import { wrapContent } from '../../../Components/ContentLayout/Content';
 
-import CodeSample from '../../../common/CodeSample';
+import CodeSample from '../../../Components/common/CodeSample';
 
 import {
   Aside,
-} from '../../../common/Styled';
+} from '../../../Components/common/Styled';
 
 export default wrapContent(
   'Avant d&apos;écrire la première ligne de code\u00a0: le <i>linter</i>',

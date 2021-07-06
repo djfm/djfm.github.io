@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { wrapContent } from '../../../common/Content';
+import { wrapContent } from '../../../Components/ContentLayout/Content';
 
-import CodeSample from '../../../common/CodeSample';
+import CodeSample from '../../../Components/common/CodeSample';
 
 export default wrapContent(
   'Qu&apos;est-ce que c&apos;est que le <i>TypeScript</i>\u00a0?',

@@ -5,12 +5,12 @@ import React, {
 
 import styled from 'styled-components';
 
-import { responsiveSpan } from './ResponsiveUtil';
+import { responsiveSpan } from '../common/ResponsiveUtil';
 
-import HashLink from './HashLink';
+import HashLink from '../common/HashLink';
 import { ReadyToRenderContent, PrevNextMap } from './Content';
 
-import makeHeadingFC from './makeHeadingFC';
+import makeHeadingFC from '../common/makeHeadingFC';
 
 export const backToMenuAnchorId = 'menu-top';
 

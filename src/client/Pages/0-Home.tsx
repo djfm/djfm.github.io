@@ -4,18 +4,18 @@ import React, {
 
 import {
   NoWrap,
-} from '../common/Styled';
+} from '../Components/common/Styled';
 
 import wrapContent, {
   ReadyToRenderContent,
-} from '../common/Content';
+} from '../Components/ContentLayout/Content';
 
 import {
   SectionLinks,
   Sections,
-} from '../common/Section';
+} from '../Components/ContentLayout/Section';
 
-import RootPage from '../common/RootPage';
+import RootPage from '../Components/ContentLayout/RootPage';
 
 const sections: ReadyToRenderContent[] = [];
 

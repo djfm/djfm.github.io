@@ -1,9 +1,9 @@
 import {
   ReadyToRenderContent,
-} from './Components/common/Content';
+} from './Components/ContentLayout/Content';
 
-import Home from './Components/Pages/0-Home';
-import TypeScript from './Components/Pages/1-TypeScript';
+import Home from './Pages/0-Home';
+import TypeScript from './Pages/1-TypeScript';
 
 const pages: ReadyToRenderContent[] = [
   Home,

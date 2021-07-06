@@ -1,7 +1,7 @@
 import React from 'react';
 
-import CodeSample from '../../common/CodeSample';
-import wrapContent from '../../common/Content';
+import CodeSample from '../../Components/common/CodeSample';
+import wrapContent from '../../Components/ContentLayout/Content';
 
 const pageTitle = 'Types vs. Interfaces';
 

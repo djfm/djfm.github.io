@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { wrapContent } from '../../../common/Content';
+import { wrapContent } from '../../../Components/ContentLayout/Content';
 
 export default wrapContent(
   'Introduction',

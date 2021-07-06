@@ -1,6 +1,6 @@
 import React from 'react';
 
-import BackToTop from './BackToTop';
+import BackToTop from '../common/BackToTop';
 
 import {
   backToMenuAnchorId,

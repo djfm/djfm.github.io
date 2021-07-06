@@ -5,15 +5,15 @@ import React, {
 import {
   wrapContent,
   ReadyToRenderContent,
-} from '../common/Content';
+} from '../Components/ContentLayout/Content';
 
-import RootPageWithSubPages from '../common/RootPageWithSubPages';
+import RootPageWithSubPages from '../Components/ContentLayout/RootPageWithSubPages';
 
 import {
   NoWrap,
-} from '../common/Styled';
+} from '../Components/common/Styled';
 
-import BackToTop from '../common/BackToTop';
+import BackToTop from '../Components/common/BackToTop';
 
 import Introduction from './TypeScript/0-Introduction';
 import QuickSetup from './TypeScript/1-QuickSetup';
@@ -55,10 +55,7 @@ const defaultContent = (Container: React.FC, H1: React.FC): ReactElement => (
 );
 
 export default wrapContent(
-  [
-    title,
-    'ma nouvelle passion',
-  ].join(' '),
+  title,
   basePathname,
   (Container) => (
     <Container>

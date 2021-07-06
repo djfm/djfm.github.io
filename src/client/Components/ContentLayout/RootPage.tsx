@@ -2,10 +2,10 @@ import React, {
   ReactNode,
 } from 'react';
 
-import { NotTooWide } from './Styled';
+import { NotTooWide } from '../common/Styled';
 
 import { ReadyToRenderContent } from './Content';
-import makeHeadingFC from './makeHeadingFC';
+import makeHeadingFC from '../common/makeHeadingFC';
 
 type TemplateProps = {
   children: ReactNode

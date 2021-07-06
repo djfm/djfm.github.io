@@ -1,7 +1,7 @@
 import React from 'react';
 
-import SubPage from '../../common/SubPage';
-import wrapContent from '../../common/Content';
+import SubPage from '../../Components/ContentLayout/SubPage';
+import wrapContent from '../../Components/ContentLayout/Content';
 
 import WhatsTS from './0-Introduction/0-WhatsTS';
 import WhyTS from './0-Introduction/1-WhyTS';

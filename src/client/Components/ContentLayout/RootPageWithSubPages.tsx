@@ -13,19 +13,19 @@ import {
   NotTooWide,
   TwoColumnsRightMenu,
   VertUnordListNoBullets,
-} from './Styled';
+} from '../common/Styled';
 
 import {
   ContentRenderer,
   ReadyToRenderContent,
 } from './Content';
 
-import makeHeadingFC from './makeHeadingFC';
+import makeHeadingFC from '../common/makeHeadingFC';
 
 import {
   extendPathname,
   sortByAnchorForRouterSwitch,
-} from './util';
+} from '../common/util';
 
 type RootPageWSProps = {
   basePathname: string

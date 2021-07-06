@@ -1,12 +1,12 @@
 import React from 'react';
 
-import CodeSample from '../../common/CodeSample';
+import CodeSample from '../../Components/common/CodeSample';
 
 import wrapContent, {
   ReadyToRenderContent,
-} from '../../common/Content';
+} from '../../Components/ContentLayout/Content';
 
-import SubPage from '../../common/SubPage';
+import SubPage from '../../Components/ContentLayout/SubPage';
 
 const sections: ReadyToRenderContent[] = [];
 

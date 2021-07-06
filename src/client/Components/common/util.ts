@@ -1,4 +1,4 @@
-import { WithAnchor } from './Content';
+import { WithAnchor } from '../ContentLayout/Content';
 
 export const hasOwnProperty = <
   Y extends PropertyKey
