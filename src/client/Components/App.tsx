@@ -49,7 +49,7 @@ const App: React.FC = () => (
             key={anchor}
             path={`/${anchor}`}
           >
-            {render(Template, makeHeadingFC(1))}
+            {render(Template, makeHeadingFC(1), makeHeadingFC(2))}
           </Route>
         ))}
       </Switch>

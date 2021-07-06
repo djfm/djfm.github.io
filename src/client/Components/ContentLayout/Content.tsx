@@ -19,6 +19,7 @@ export type ContentMeta = {
 export type ContentRenderer = (
   tag: React.FC,
   h1Tag: React.FC,
+  h2Tag: React.FC
 ) => ReactElement;
 
 export type ReadyToRenderContent = ContentMeta & {

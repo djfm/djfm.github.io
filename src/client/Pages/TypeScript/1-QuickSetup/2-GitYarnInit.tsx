@@ -12,13 +12,15 @@ import {
 export default wrapContent(
   'Initialisation de <i>git</i> et de <i>yarn</i>',
   'installation-git-yarn',
-  (Section, H1) => (
+  (Section, H1, H2) => (
     <Section>
       <p>
         On se met dans le dossier qu&apos;on veut&nbsp; puis&nbsp;:
       </p>
       <section>
-        <H1>Initialisation de <i>git</i></H1>
+        <H2>
+          Initialisation de <i>git</i>
+        </H2>
         <p>
           J&apos;initialise toujours en premier un dépôt git que je mets sur GitHub, soit en privé
           soit en public.
@@ -60,9 +62,39 @@ export default wrapContent(
             git push -u origin main
           `}
         </CodeSample>
+        <p>
+          <strong>
+            On s&apos;occupe tout de suite de rajouter un fichier <i>.gitignore</i>
+          </strong>&nbsp;
+          avant de faire quoi que ce soit avec <i>yarn</i>.
+        </p>
+        <CodeSample language="bash" title="Fichier .gitignore de base">
+          {`
+            # Pour tout ce qui est gestion
+            # de paquets npm,
+            # et OUI, on commit le dossier
+            # node_modules :
+
+            .yarn/*
+            !.yarn/cache
+            !.yarn/patches
+            !.yarn/plugins
+            !.yarn/releases
+            !.yarn/sdks
+            !.yarn/versions
+          `}
+        </CodeSample>
+        <p>
+          Source de cette information&nbsp;:&nbsp;
+          <a href="https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored">yarnpkg.com</a>.
+        </p>
+        <p>
+          <strong>Et voila pour <i>git</i></strong>&nbsp;!&nbsp; On peut passer à la suite.
+        </p>
       </section>
+
       <section>
-        <H1>Initialisation de <i>yarn</i></H1>
+        <H2>Initialisation de <i>yarn</i></H2>
         <p>Enfin on lance <code>yarn init</code>&nbsp;:</p>
         <CodeSample language="bash" title="initialisation du package.json">
           yarn init

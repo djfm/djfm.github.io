@@ -165,8 +165,9 @@ const sectionRenderer = (
     };
 
     const H1Tag = makeHeadingFC(nestingLevel + 1);
+    const H2Tag = makeHeadingFC(nestingLevel + 2);
 
-    return <Fragment key={title}>{render(Section, H1Tag)}</Fragment>;
+    return <Fragment key={title}>{render(Section, H1Tag, H2Tag)}</Fragment>;
   };
 
   return SectionWithHeaderAndNavLinks;

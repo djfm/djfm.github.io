@@ -85,11 +85,11 @@ export const RootPageWithSubPages: React.FC<RootPageWSProps> = ({
           key={`route-${anchor}`}
           path={extendPathname(basePathname, anchor)}
         >
-          {render(Template, makeHeadingFC(2))}
+          {render(Template, makeHeadingFC(2), makeHeadingFC(3))}
         </Route>
       ))}
       <Route path="*">
-        {defaultContent(Template, makeHeadingFC(2))}
+        {defaultContent(Template, makeHeadingFC(2), makeHeadingFC(3))}
       </Route>
     </Switch>
   );

@@ -46,21 +46,25 @@ export const AppRoot = styled.div`
   }
 
   h1 {
-    font-size: 1.5rem;
+    font-size: 2.5rem;
     text-align: center;
     margin-bottom: 35px;
   }
 
   h2 {
-    font-size: 1.2rem;
+    font-size: 2rem;
   }
 
   h3 {
-    font-size: 1rem;
+    font-size: 1.5rem;
   }
 
-  h4, h5, h6 {
-    font-size: 0.8rem;
+  h4 {
+    font-size: 1.2rem;
+  }
+
+  h5, h6 {
+    font-size: 1rem;
   }
 
   section {

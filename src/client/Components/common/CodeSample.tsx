@@ -23,7 +23,7 @@ import {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 
   margin-bottom: 20px;
 

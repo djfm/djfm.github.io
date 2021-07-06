@@ -27,6 +27,10 @@ type RootPageProps = {
 
 export const RootPage: React.FC<RootPageProps> = ({
   content,
-}: RootPageProps) => content.render(Template, makeHeadingFC(1));
+}: RootPageProps) => content.render(
+  Template,
+  makeHeadingFC(1),
+  makeHeadingFC(2),
+);
 
 export default RootPage;
