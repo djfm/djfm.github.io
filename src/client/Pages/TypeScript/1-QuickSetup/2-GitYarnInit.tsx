@@ -130,7 +130,6 @@ export default wrapContent(
         </p>
         <CodeSample title="package.json" language="json">
           {`
-          {
             {
               "name": "ts-experiments",
               "type": "module",
@@ -142,7 +141,6 @@ export default wrapContent(
               "license": "MIT",
               "private": true
             }
-          }
           `}
         </CodeSample>
         <p>
