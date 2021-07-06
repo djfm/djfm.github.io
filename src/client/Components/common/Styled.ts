@@ -48,6 +48,7 @@ export const AppRoot = styled.div`
   h1 {
     font-size: 1.5rem;
     text-align: center;
+    margin-bottom: 35px;
   }
 
   h2 {
@@ -63,7 +64,7 @@ export const AppRoot = styled.div`
   }
 
   section {
-    margin-bottom: 70px;
+    margin-bottom: 40px;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -175,9 +176,11 @@ export const TwoColumnsRightMenu = styled.div`
 
   > *:first-child ul {
     background-color: ${darkColor};
-    padding: 10px 15px 10px 5px;
+    padding: 10px 30px 10px 30px;
+    margin-top: 0;
     margin-left: -10px;
     margin-right: -10px;
+    margin-bottom: 25px;
   }
 
   @media (max-width: ${bp2Max}) {

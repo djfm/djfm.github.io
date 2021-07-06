@@ -6,7 +6,7 @@ import wrapContent, {
   ReadyToRenderContent,
 } from '../../common/Content';
 
-import PageLevel2 from '../../common/PageLevel2';
+import SubPage from '../../common/SubPage';
 
 const sections: ReadyToRenderContent[] = [];
 
@@ -226,7 +226,7 @@ export default wrapContent(
   'type-narrowing',
   (Container) => (
     <Container>
-      <PageLevel2
+      <SubPage
         title={pageTitle}
         sections={sections}
       />

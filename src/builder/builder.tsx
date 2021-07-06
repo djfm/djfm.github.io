@@ -5,6 +5,7 @@
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { inspect } from 'util';
+import { URL } from 'url';
 
 import path from 'path';
 import {
@@ -25,6 +26,22 @@ import { StaticRouter } from 'react-router';
 import { ServerStyleSheet } from 'styled-components';
 
 import App from '../client/Components/App';
+
+const isURLToPreRender = (href: string): boolean => {
+  try {
+    // eslint-disable-next-line no-new
+    new URL(href);
+    return false;
+  } catch (e) {
+    if (href.includes('#')) {
+      return false;
+    }
+    if (href.startsWith('/')) {
+      return true;
+    }
+    return false;
+  }
+};
 
 const createAppForURL = (url: string): [React.ReactElement, Record<string, unknown>] => {
   const context = {};
@@ -60,8 +77,7 @@ const extractLinks = (
   }
 
   if (node.type === 'a') {
-    if (node.props.href.includes('#')) {
-      // those are not real links, same HTML as parent page
+    if (!isURLToPreRender(node.props.href)) {
       return [];
     }
 
@@ -94,7 +110,7 @@ const extractAllLinks = () => {
 
 const main = async () => {
   console.log('Pre-rendering all pages...');
-  const allLinks = extractAllLinks().filter((link) => link.startsWith('/'));
+  const allLinks = extractAllLinks().filter(isURLToPreRender);
 
   // it is very important for correct directory creation
   // that a link like "a/b" be processed before just "a"

@@ -11,16 +11,31 @@ export const hasOwnProperty = <
         prop,
       );
 
-export const buildURL = (
-  base: string,
-  additionalSegment: string,
-): string => {
-  if (base[base.length - 1] === '/') {
-    return `${base}${additionalSegment}`;
-  }
+const trimSlashes = (str: string) => {
+  const leadingSlashes = /^\/+/;
+  const trailingSlashes = /\/+$/;
 
-  return `${base}/${additionalSegment}`;
+  return str
+    .replace(leadingSlashes, '')
+    .replace(trailingSlashes, '');
 };
+
+/**
+ * Appends {additionalPath} to {initialPathname},
+ * adding a leading forward slash if there was none,
+ * and not adding a forward slash at the end of the
+ * returned extended pathname.
+ *
+ * The method trims extra leading and trailing slashes
+ * in {initialPathname} and {additionalPath}.
+ *
+ * @return  {[type]}  [return description]
+ */
+export const extendPathname = (
+  initialPathname: string,
+  additionalPath: string,
+): string =>
+  `/${trimSlashes(initialPathname)}/${trimSlashes(additionalPath)}`;
 
 const makeStringTrimmers = () => {
   type StringTrimmer = (str:string) => ({

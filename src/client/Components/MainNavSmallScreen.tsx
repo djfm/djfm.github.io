@@ -127,12 +127,12 @@ const MainNavSmallScreen: React.FC = () => {
             ({ anchor, title }) => (
               <li key={`link-${anchor}`}>
                 <NavLink
-                  to={anchor}
+                  exact={!anchor}
+                  to={`/${anchor}`}
                   activeClassName="active"
                   onClick={closeMenu}
-                >
-                  {title}
-                </NavLink>
+                  dangerouslySetInnerHTML={{ __html: title }}
+                />
               </li>
             ),
           )}

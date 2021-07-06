@@ -32,8 +32,6 @@ const Template: React.FC<TemplateProps> = ({
   children,
 }: TemplateProps) => <>{children}</>;
 
-const H1 = makeHeadingFC(1);
-
 const App: React.FC = () => (
   <AppRoot>
     <MenuOverlay />
@@ -49,9 +47,9 @@ const App: React.FC = () => (
         }) => (
           <Route
             key={anchor}
-            path={anchor}
+            path={`/${anchor}`}
           >
-            {render(Template, H1)}
+            {render(Template, makeHeadingFC(1))}
           </Route>
         ))}
       </Switch>

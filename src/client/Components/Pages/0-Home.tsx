@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {
+  ReactElement,
+} from 'react';
 
 import {
   NoWrap,
@@ -12,6 +14,8 @@ import {
   SectionLinks,
   Sections,
 } from '../common/Section';
+
+import RootPage from '../common/RootPage';
 
 const sections: ReadyToRenderContent[] = [];
 
@@ -100,19 +104,23 @@ sections.push(wrapContent(
             des contraintes pour innover.
           </p>
           <p>
-            Du coup un grand merci à <a rel="noreferrer" target="_blank" href="https://pages.github.com/">GitHub Pages</a> qui
-            héberge ce site gratuitement - vu qu&apos;il est open-source.
+            Du coup, un grand merci à&nbsp;
+            <a rel="noreferrer" target="_blank" href="https://pages.github.com/">GitHub Pages</a>&nbsp;
+            qui héberge ce site gratuitement -&nbsp;
+            possible parce qu&apos;il est <NoWrap>open-source</NoWrap>.
           </p>
         </li>
         <li>
           <p>
-            À cause de mon choix d&apos;hébergement j&apos;ai décidé d&apos;avoir
-            un site statique mais avec du <strong>progressive-enhancement</strong>
+            À cause de mon choix d&apos;hébergement, j&apos;ai décidé d&apos;avoir
+            un site statique mais avec du <strong><NoWrap>progressive-enhancement</NoWrap></strong>.
           </p>
           <p>
-            En deux mots&nbsp;: le site est une <i>SPA</i> mais au lieu de faire du
-            <i>Server Side Rendering</i>, je pré-génère les pages et je les commit
-            sur GitHub.
+            En deux mots&nbsp;: <strong>le site est une <i>SPA</i></strong>&nbsp;
+            mais au lieu de faire du <i>Server Side Rendering</i>,&nbsp;
+            <strong>
+              je <NoWrap>pré-génère</NoWrap> les pages et je les commit sur GitHub
+            </strong>.
           </p>
         </li>
         <li>Je veux faire plus de 90% à Google PageSpeed.</li>
@@ -135,10 +143,7 @@ sections.push(wrapContent(
   (Container) => (
     <Container>
       <p>
-        Ai-je besoin de défendre l&apos;<NoWrap>open-source</NoWrap>&nbsp;
-      </p>
-      <p>
-        Le
+        Le&nbsp;
         <strong>
           code de ce site est&nbsp;
           <a rel="noreferrer" target="blank" href="https://github.com/djfm/djfm.github.io">
@@ -150,21 +155,15 @@ sections.push(wrapContent(
       </p>
       <p>
         C&apos;est tout libre de droits, donc si quelqu&apos;un a besoin
-        de copier un morceau allez-y&nbsp;!
+        de copier un morceau <NoWrap>allez-y</NoWrap>&nbsp;!
       </p>
       <p>
-        J&apos;ai choisi de <strong>faire le site en français</strong>,
+        J&apos;ai choisi de <strong>faire le site en français</strong>
         &nbsp;-&nbsp;même si ce n&apos;est pas la langue
         usuelle dans la tech, et même si je parle très bien l&apos;anglais&nbsp;-&nbsp;
         parce que je trouve qu&apos;
         <strong>on manque de resources qualitatives en français</strong>&nbsp;
         dans le monde de la programmation.
-      </p>
-      <p>
-        J&apos;espère arriver à mettre ma pierre à l&apos;édifice.
-      </p>
-      <p>
-        Et puis après tout, j&apos;aime bien notre langue.
       </p>
       <p>
         <strong>Si jamais vous constatez des erreurs dans ce que je dis</strong>,
@@ -184,9 +183,9 @@ sections.push(wrapContent(
   ),
 ));
 
-export default wrapContent(
-  'Qu&apos;est-ce que ce site\u00a0?',
-  '',
+const content = wrapContent(
+  undefined,
+  undefined,
   (Container, H1) => (
     <Container>
       <header>
@@ -205,6 +204,19 @@ export default wrapContent(
       </header>
       <SectionLinks sections={sections} />
       <Sections sections={sections} nestingLevel={2} />
+    </Container>
+  ),
+);
+
+const HomePage = (): ReactElement =>
+  <RootPage content={content} />;
+
+export default wrapContent(
+  'Qu&apos;est-ce que ce site\u00a0?',
+  '',
+  (Container) => (
+    <Container>
+      <HomePage />
     </Container>
   ),
 );

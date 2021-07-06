@@ -7,7 +7,7 @@ const FooterWrapper = styled.div`
   font-size: 0.7em;
   text-align: right;
   padding-bottom: 10px;
-  margin-right: 10px;
+  margin-right: 30px;
 `;
 
 export const Footer: React.FC = () => (

@@ -14,6 +14,24 @@ import makeHeadingFC from './makeHeadingFC';
 
 export const backToMenuAnchorId = 'menu-top';
 
+const StyledSection = styled.section`
+  .section-heading {
+    margin-bottom: 0;
+    & + span {
+      display: block;
+      margin-bottom: 30px;
+    }
+  }
+`;
+
+const LinkList = styled.ul`
+  margin-bottom: 35px;
+
+  a:active {
+    font-weight: bold;
+  }
+`;
+
 type SectionsProps = {
   sections: ReadyToRenderContent[]
   nestingLevel: number
@@ -128,24 +146,19 @@ const sectionRenderer = (
       const titleHTML = <span dangerouslySetInnerHTML={{ __html: title }} />;
 
       // TODO documenter cette astuce
-      const HTag = styled(`h${nestingLevel}` as keyof JSX.IntrinsicElements)`
-        margin-bottom: 0;
-        + span {
-          margin-bottom: 15px;
-        }
-      `;
+      const HTag = `h${nestingLevel}` as keyof JSX.IntrinsicElements;
 
       const tree = (
-        <section id={anchor} className="article-section">
-          <HTag>
+        <StyledSection id={anchor}>
+          <HTag className="section-heading">
             {sectionIndex + 1}&nbsp;/&nbsp;{sectionCount})&nbsp;
             {titleHTML}
           </HTag>
           <span>
             {navLinks}
-          </span><br />
+          </span>
           {children}
-        </section>
+        </StyledSection>
       );
 
       return tree;
@@ -179,12 +192,6 @@ export const Sections: React.FC<SectionsProps> = ({
   return <>{sections.map(renderSection)}</>;
 };
 
-const LinkList = styled.ul`
-  a:active {
-    font-weight: bold;
-  }
-`;
-
 type SectionLinksProps = {
   sections: ReadyToRenderContent[]
 }
@@ -194,7 +201,7 @@ export const SectionLinks: React.FC<SectionLinksProps> = (
   const markup = (
     <LinkList>
       {sections.map(({ anchor, title }) => (
-        <li key={`link-to-${anchor}`}>
+        <li key={`intra-page-link-to-${anchor}`}>
           {/* eslint-disable-next-line jsx-a11y/control-has-associated-label,react/no-danger */}
           <HashLink
             anchor={anchor}
