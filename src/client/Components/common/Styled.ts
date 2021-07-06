@@ -111,10 +111,6 @@ export const Nav = styled.nav`
       color: ${navLinkColor};
     }
 
-    &::before {
-      content: "\u00a0\u00a0";
-    }
-
     &.active {
       font-weight: bold;
       color: ${activeNavLinkColor};
