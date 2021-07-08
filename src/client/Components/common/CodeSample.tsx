@@ -21,27 +21,23 @@ import {
 } from './Styled';
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-
   margin-bottom: 20px;
 
   > figure {
     max-width: 100%;
 
     > figcaption {
-      max-width: 100%;
+      font-weight: bold;
     }
 
-    pre {
+    > pre {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-
-      max-width: 100%;
       overflow: auto;
+
+      > code {
+        margin: 0;
+        flex-grow: 1;
+      }
     }
 
     margin-left: 0;
@@ -51,8 +47,8 @@ const Wrapper = styled.div`
 `;
 
 const Code = styled.code`
-  padding: 2px;
-  margin: auto;
+  padding: 10px;
+  margin: 0;
 
   @media(max-width: ${bp0Max}) {
     font-size: 8px;
@@ -89,12 +85,7 @@ export const CodeSample: React.FC<{
   const minZoom = 10;
   const normalZoom = 100;
   const maxZoom = 200;
-  const readjustDelay = 2000;
 
-  const [isZooming, setIsZooming] = useState(false);
-  const [readjustNeeded, setReadjustNeeded] = useState(false);
-  const [heightWasFixed, setHeightWasFixed] = useState(false);
-  const [latestZoomOperationTime, setLatestZoomOperationTime] = useState(0);
   const [zoomLevel, setZoomLevel] = useState(normalZoom);
   const [initialFontSize, setInitialFontSize] = useState(0);
   const [fontUnit, setFontUnit] = useState('');
@@ -105,69 +96,25 @@ export const CodeSample: React.FC<{
   useEffect(() => {
     // necessary to prevent errors in the SSR code where
     // document is not defined
-    if (typeof document !== 'undefined') {
-      if (heightWasFixed || !isZooming) {
-        return;
-      }
-
+    if (
+      typeof document !== 'undefined'
+        && initialFontSize === 0
+    ) {
       const codeStyle = document.defaultView.getComputedStyle(
         codeElementRef.current,
       );
 
-      if (initialFontSize === 0) {
-        const { fontSize } = codeStyle;
-        const [domInitialFontSize, domFontUnit] = parseValueWithUnit(fontSize);
-        setInitialFontSize(domInitialFontSize);
-        setFontUnit(domFontUnit);
-      }
-
-      const { height } = document.defaultView.getComputedStyle(preElementRef.current);
-
-      preElementRef.current.style.minHeight = height;
-      setHeightWasFixed(true);
+      const { fontSize } = codeStyle;
+      const [domInitialFontSize, domFontUnit] = parseValueWithUnit(fontSize);
+      setInitialFontSize(domInitialFontSize);
+      setFontUnit(domFontUnit);
     }
-  }, [isZooming, heightWasFixed, initialFontSize]);
-
-  useEffect(() => {
-    if (readjustNeeded) {
-      readjust();
-      setReadjustNeeded(false);
-    }
-  }, [readjustNeeded]);
-
-  useEffect(() => {
-    if (latestZoomOperationTime === 0) {
-      return undefined;
-    }
-
-    const h = setTimeout(() => {
-      if (Date.now() > latestZoomOperationTime + readjustDelay) {
-        stopZooming();
-      }
-    }, readjustDelay);
-
-    return () => {
-      clearTimeout(h);
-    };
-  }, [latestZoomOperationTime]);
-
-  const readjust = () => {
-    preElementRef.current.style.minHeight = 'auto';
-  };
+  }, [initialFontSize]);
 
   const handleZoomInputChange = (e: React.BaseSyntheticEvent) => {
     const { value: valueString } = e.target;
     const value = parseInt(valueString, 10);
     setZoomLevel(value);
-    setIsZooming(true);
-    setLatestZoomOperationTime(Date.now());
-  };
-
-  const stopZooming = () => {
-    setIsZooming(false);
-    setReadjustNeeded(true);
-    setHeightWasFixed(false);
-    setLatestZoomOperationTime(0);
   };
 
   const scaleFactor = zoomLevel / normalZoom;
@@ -197,12 +144,13 @@ export const CodeSample: React.FC<{
       <label>
         <span style={{
           display: 'block',
-          textAlign: 'center',
+          textAlign: 'left',
           fontFamily: 'monospace',
           fontSize: '1rem',
+          marginLeft: '10px',
         }}
         >
-          Zoom:
+          Zoom&nbsp;:
         </span>
         <input
           type="range"
