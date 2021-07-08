@@ -18,9 +18,9 @@ export default wrapContent(
         On se met dans le dossier qu&apos;on veut&nbsp; puis&nbsp;:
       </p>
       <section>
-        <H2>
+        <H1>
           Initialisation de <i>git</i>
-        </H2>
+        </H1>
         <p>
           J&apos;initialise toujours en premier un dépôt git que je mets sur GitHub, soit en privé
           soit en public.
@@ -94,7 +94,7 @@ export default wrapContent(
       </section>
 
       <section>
-        <H2>Initialisation de <i>yarn</i></H2>
+        <H1>Initialisation de <i>yarn</i></H1>
         <p>Enfin on lance <code>yarn init</code>&nbsp;:</p>
         <CodeSample language="bash" title="initialisation du package.json">
           yarn init
@@ -166,7 +166,7 @@ export default wrapContent(
         </p>
         <Aside>
           <header>
-            <h1>Petit coup de gueule au sujet de <i>Plug&apos;n&apos;Play</i></h1>
+            <H2>Petit coup de gueule au sujet de <i>Plug&apos;n&apos;Play</i></H2>
           </header>
           <p>
             <i>Plug&apos;n&apos;Play</i> c&apos;est très bien sur le papier, mais ça fonctionne

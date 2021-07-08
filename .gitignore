@@ -10,3 +10,5 @@ stats.json
 
 build/*
 !build/.eslintrc.json
+
+draft.ts

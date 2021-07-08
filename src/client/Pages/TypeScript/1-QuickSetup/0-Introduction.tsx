@@ -58,8 +58,8 @@ export default wrapContent(
       </p>
       <p>
         Je vais tâcher de documenter la manière la plus efficace, selon moi, de créer un projet
-        en TypeScript avec le linting et tout ce qui va bien en partant d&apos;une installation
-        vierge d&apos;<i>Ubuntu</i>.
+        en <i>TypeScript</i> avec le linting et tout ce qui va bien
+        en partant d&apos;une installation vierge d&apos;<i>Ubuntu</i>.
       </p>
       <p>
         Nous sommes le 29 juin 2021, cette documentation sera sans

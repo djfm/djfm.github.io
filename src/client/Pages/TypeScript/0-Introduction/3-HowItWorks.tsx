@@ -17,10 +17,10 @@ export default wrapContent(
       <p>
         Le code en&nbsp;
         <strong>
-          TypeScript doit être compilé vers du JavaScript pur
+          <i>TypeScript</i> doit être compilé vers du <i>JavaScript</i> pur
         </strong>&nbsp;
         pour être ensuite exécuté dans l&apos;environnement cible
-        comme n&apos;importe quel code JavaScript.
+        comme n&apos;importe quel code <i>JavaScript</i>.
       </p>
       <Aside>
         Il serait peut-être plus correct de parler de transpilation, mais je n&apos;ai
@@ -28,12 +28,13 @@ export default wrapContent(
         qu&apos;un assembleur transpile des instructions en code binaire...
       </Aside>
       <p>
-        On peut compiler son code vers du JavaScript avec <strong><i>tsc</i></strong> disponible
+        On peut compiler son code vers du <i>JavaScript</i> avec&nbsp;
+        <strong><i>tsc</i></strong> disponible
         dans le paquet npm <i>typescript</i> ou,&nbsp;
-        <strong>plus pratique pendant le développement</strong>,
-        le faire interpréter par <strong><i>ts-node</i></strong>.
+        <strong>assez pratique aussi</strong>,
+        le faire interpréter par <strong><i>ts-node</i> directement</strong>.
       </p>
-      <CodeSample language="bash" title="Mettre en place un projet <i>TypeScript</i> basique">
+      <CodeSample language="bash" title="Exécuter un script en TypeScript avec ts-node">
         {`
           # oui, je préfère yarn à npm
           npm install -g yarn
@@ -88,7 +89,7 @@ export default wrapContent(
       <p>
         On peut&nbsp;
         <strong>
-          préciser vers quel standard de JavaScript
+          préciser vers quel standard de <i>JavaScript</i>
           on veut compiler
         </strong> : ES5, ES6, ESNext...
       </p>

@@ -10,49 +10,79 @@ export default wrapContent(
   (Section) => (
     <Section>
       <p>
-        TypeScript est un <strong>sur-ensemble de JavaScript</strong> qui
-        ajoute un <strong>système de types au langage</strong>.
+        <i>TypeScript</i> est un <strong>sur-ensemble de <i>JavaScript</i></strong> qui
+        ajoute un <strong>système de types au langage <i>JavaScript</i></strong>.
+        C&apos;est à dire que tout programme écrit
+        en <i>JavaScript</i> est un programme <i>TypeScript</i> valide.
       </p>
       <p>
-        Nous verrons que le système de types de <i>TypeScript</i> est assez puissant.
+        Nous verrons que le système de types de <i>TypeScript</i> est très puissant. Associé à
+        un bon IDE (<i>vscode...</i>), c&apos;est assez bluffant ce que l&apos;analyse statique
+        arrive à faire, et surtout, en tant que développeur, on ne se sent pas du tout contraint
+        par le langage.
+      </p>
+      <p>
+        Cela-dit, le système de types de <i>TypeScript</i> n&apos;est
+        pas sans failles. On peut sans difficulté écrire des programmes
+        qui certes compilent bien, mais rencontrent des erreurs de typage lors de l&apos;exécution.
+        C&apos;est un choix volontaire de la part des créateurs de <i>TypeScript</i>.
+      </p>
+      <p>
+        <strong>
+          En effet, <i>TypeScript</i> cherche à préserver
+          la souplesse de <i>JavaScript</i>&nbsp;-&nbsp;qui
+          en fait tout son charme&nbsp;-&nbsp; tout en permettant un très haut niveau
+          de fiabilité.
+        </strong>&nbsp;
       </p>
       <p>
         De façon générale, les types s&apos;écrivent après le symbole concerné,
         avec un &quot;:&quot; suivi du type voulu.
       </p>
+      <CodeSample title="Quelques exemples de déclarations typées">
+        {`
+          let x: number;
+          let message: string;
+          let isHungry: boolean;
+
+          type binaryFn = (a: number, b: number) => number;
+          const add: binaryFn = (a, b) => a + b;
+
+          type FileDescription = {
+            pathname: string
+            sizeInBytes: number
+          }
+
+          const errLog: FileDescription = {
+            pathname: '/var/log/apache2/error.log',
+            sizeInBytes: 635,
+          };
+        `}
+      </CodeSample>
       <p>
-        Mais l&apos;utilisation des types en <i>TypeScript</i> est totalement
+        Comme je le disais, l&apos;utilisation des types en <i>TypeScript</i> est totalement
         &quot;opt-in&quot;&nbsp;:&nbsp;
-        on peut très bien ne pas annoter notre code et
-        on écrit alors du JavaScript standard.
+        on peut très bien ne pas typer notre code du tout et
+        on écrit alors du <i>JavaScript</i> standard.
       </p>
       <p>
         C&apos;est bien pratique, cela permet notamment
-        de migrer progressivement un projet vers TypeScript.
+        de migrer progressivement un projet vers <i>TypeScript</i>.
       </p>
-      <CodeSample
-        title="Exemple de déclaration de types sur une arrow-function"
-      >
-        {`
-          const x = 4;
-
-          const mulByTwo = (n: number): number
-            => 2 * n;
-        `}
-      </CodeSample>
       <p>
         <strong>
           Il faut bien noter - et j&apos;ai mis du temps à le comprendre&nbsp;-&nbsp;que
           <i>TypeScript</i> n&apos;ajoute pas de fonctionnalités à l&apos;exécution.
-        </strong>
+        </strong>&nbsp;
       </p>
       <p>
-        Le <strong>code généré</strong> par <i>TypeScript</i> est du JavaScript standard qui&nbsp;
+        Le <strong>code généré</strong> par <i>TypeScript</i> est
+        du <i>JavaScript</i> standard qui&nbsp;
         <strong>&nbsp;
-          ne peut pas faire référence aux types définis en TypeScript
+          ne peut pas faire référence aux types définis dans la source en <i>TypeScript</i>
         </strong>,
-        il n&apos;est pas du tout &rdquo;conscient&rdquo; qu&apos;il a été écrit en TypeScript
-        puis compilé.
+        il n&apos;est pas du tout &rdquo;conscient&rdquo; qu&apos;il
+        a été écrit en <i>TypeScript</i> puis compilé.
       </p>
       <CodeSample title={'Le type d\'un objet restera toujours "object"'}>
         {`
@@ -61,29 +91,19 @@ export default wrapContent(
           }
 
           const giraffe: Giraffe = {
-            height: 4
-          }
+            height: 4,
+          };
 
           console.log(
-            typeof giraffe
+            typeof giraffe,
           );
 
           // affiche: object
         `}
       </CodeSample>
       <p>
-        Le <i>TypeScript</i> est in fine du JavaScript,
+        Le <i>TypeScript</i> est in fine du <i>JavaScript</i>,
         on peut le voir comme une sorte de linter sur-puissant.
-      </p>
-      <p>
-        On peut d&apos;ailleurs profiter de quasiment toutes les fonctionnalités
-        de <i>TypeScript</i> en utilisant des docblocks en JavaScript.
-      </p>
-      <p>
-        On peut alors faire directement tourner notre JavaScript annoté par
-        des commentaires. Se passer de compilation fait gagner du temps,
-        mais c&apos;est beaucoup moins agréable quand on code d&apos;écrire
-        tout le typage en commentaires.
       </p>
     </Section>
   ),

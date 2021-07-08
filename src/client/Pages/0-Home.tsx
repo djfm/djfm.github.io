@@ -75,12 +75,12 @@ sections.push(wrapContent(
         des <strong>technologies utiles pour mon travail</strong>, sans contraintes.
       </p>
       <p>
-        Professionnellement je tourne en général autour de postes type&nbsp;
+        En termes de travail j&apos;ai principalement été&nbsp;
         <strong>Product Manager / Développeur</strong> dans des start-ups et je suis
-        maintenant en Freelance. J&apos;ai un gros faible pour
-        la programmation depuis très longtemps, mais j&apos;aime bien donner mon avis
+        maintenant en freelance dans le même genre de domaine. J&apos;ai une passion pour
+        la programmation depuis très longtemps, mais j&apos;aime bien donner aussi mon avis
         sur le côté fonctionnel et rencontrer les utilisateurs pour bien comprendre
-        le problème qu&apos;on cherche à résoudre - bref toucher à tout.
+        le problème qu&apos;on cherche à résoudre - bref toucher un peu à tout.
       </p>
     </Container>
   ),
@@ -129,11 +129,11 @@ sections.push(wrapContent(
         <li>Je veux respecter à la lettre le plus de standards du web possible.</li>
         <li>Je veux utiliser des technos super chouettes.</li>
         <li>
-          Je voudrais essayer que ça ne soit pas complètement moche même si le design
+          Je voudrais essayer que ça ne soit pas complètement moche, même si le design
           n&apos;est clairement pas mon point fort.
         </li>
         <li>J&apos;aimerais que ça puisse éventuellement intéresser quelques lecteurs.</li>
-        <li><small>Que ça me ramène des leads en masse.</small></li>
+        <li><small>Et que ça me ramène des leads en masse.</small></li>
       </ul>
     </Container>
   ),
