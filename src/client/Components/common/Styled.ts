@@ -78,6 +78,10 @@ export const AppRoot = styled.div`
   aside figure {
     margin: 0;
   }
+
+  aside code {
+    font-size: inherit;
+  }
 `;
 
 export const Aside = styled.aside`
