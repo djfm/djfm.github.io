@@ -17,6 +17,8 @@ import {
 
 import RootPage from '../Components/ContentLayout/RootPage';
 
+import BackToTop from '../Components/common/BackToTop';
+
 const sections: ReadyToRenderContent[] = [];
 
 sections.push(wrapContent(
@@ -25,10 +27,10 @@ sections.push(wrapContent(
   (Container) => (
     <Container>
       <p>
-        Je prévois dans un premier temps
+        Je prévois dans un premier temps&nbsp;
         <strong>
-          beaucoup de textes autour de TypeScript
-        </strong> et de&nbsp;la
+          pas mal de contenu autour de TypeScript
+        </strong> et de&nbsp;la&nbsp;
         <strong>programmation en général</strong>, mais certainement
         exemplifiée en TypeScript. C&apos;est ma passion du moment.
       </p>
@@ -201,9 +203,14 @@ const content = wrapContent(
           C&apos;est une sorte de blog&nbsp;/&nbsp;de documentation autour de certains
           sujets informatiques qui m&apos;intéressent.
         </p>
+        <p>
+          Je compte aussi y noter beaucoup de truc et astuces qui me font gagner
+          un temps fou et que j&apos;aurais aimé connaître plus tôt.
+        </p>
       </header>
       <SectionLinks sections={sections} />
       <Sections sections={sections} nestingLevel={2} />
+      <BackToTop />
     </Container>
   ),
 );

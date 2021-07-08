@@ -17,7 +17,7 @@ export default wrapContent(
       <p>
         Remarquez que dans l&apos;exemple précédent je n&apos;ai pas déclaré de type pour
         la variable <i>x</i>&nbsp;: ce n&apos;est pas nécessaire, il est trivial
-        pour TypeScript de comprendre que <i>x</i> est de type <i>number</i>.
+        pour <i>TypeScript</i> de comprendre que <i>x</i> est de type <i>number</i>.
       </p>
       <p>
         J&apos;utilise le bien-connu linter <i>eslint</i> pour vérifier mon code en TypeScript

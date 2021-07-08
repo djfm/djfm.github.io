@@ -14,14 +14,14 @@ export default wrapContent(
         ajoute un <strong>système de types au langage</strong>.
       </p>
       <p>
-        Nous verrons que le système de types de TypeScript est assez puissant.
+        Nous verrons que le système de types de <i>TypeScript</i> est assez puissant.
       </p>
       <p>
         De façon générale, les types s&apos;écrivent après le symbole concerné,
         avec un &quot;:&quot; suivi du type voulu.
       </p>
       <p>
-        Mais l&apos;utilisation des types en TypeScript est totalement
+        Mais l&apos;utilisation des types en <i>TypeScript</i> est totalement
         &quot;opt-in&quot;&nbsp;:&nbsp;
         on peut très bien ne pas annoter notre code et
         on écrit alors du JavaScript standard.
@@ -41,38 +41,43 @@ export default wrapContent(
         `}
       </CodeSample>
       <p>
-        TypeScript n&apos;ajoute pas de fonctionnalités à l&apos;exécution
+        <strong>
+          Il faut bien noter - et j&apos;ai mis du temps à le comprendre&nbsp;-&nbsp;que
+          <i>TypeScript</i> n&apos;ajoute pas de fonctionnalités à l&apos;exécution.
+        </strong>
       </p>
       <p>
-        Le <strong>code généré</strong> par TypeScript est du JavaScript standard qui
+        Le <strong>code généré</strong> par <i>TypeScript</i> est du JavaScript standard qui&nbsp;
         <strong>&nbsp;
           ne peut pas faire référence aux types définis en TypeScript
         </strong>,
         il n&apos;est pas du tout &rdquo;conscient&rdquo; qu&apos;il a été écrit en TypeScript
         puis compilé.
       </p>
+      <CodeSample title={'Le type d\'un objet restera toujours "object"'}>
+        {`
+          type Giraffe = {
+            height: number
+          }
+
+          const giraffe: Giraffe = {
+            height: 4
+          }
+
+          console.log(
+            typeof giraffe
+          );
+
+          // affiche: object
+        `}
+      </CodeSample>
       <p>
-        Il faut bien noter que TypeScript&nbsp;
-        <strong>
-          n&apos;ajoute pas
-          de fonctionnalités au langage JavaScript
-          lors de l&apos;exécution
-        </strong>.
-      </p>
-      <p>
-        J&apos;ai mis un moment à le comprendre :
-        <strong>
-          lors de la compilation, toute référence à TypeScript
-          est supprimée du code.
-        </strong>
-      </p>
-      <p>
-        Le TypeScript est in fine du JavaScript,
+        Le <i>TypeScript</i> est in fine du JavaScript,
         on peut le voir comme une sorte de linter sur-puissant.
       </p>
       <p>
         On peut d&apos;ailleurs profiter de quasiment toutes les fonctionnalités
-        de TypeScript en utilisant des docblocks en JavaScript.
+        de <i>TypeScript</i> en utilisant des docblocks en JavaScript.
       </p>
       <p>
         On peut alors faire directement tourner notre JavaScript annoté par

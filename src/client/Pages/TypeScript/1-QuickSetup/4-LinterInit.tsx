@@ -28,7 +28,7 @@ export default wrapContent(
         <strong>Au plus tôt on lint, au plus tôt on évite d&apos;être con.</strong>
       </p>
       <p>
-        On l&apos;installe avec yarn et on lance
+        On l&apos;installe avec yarn et on lance&nbsp;
         <strong>son script d&apos;initialisation</strong>&nbsp;
         pour ne pas s&apos;embêter à créer notre config de toutes pièces.
       </p>
@@ -79,7 +79,7 @@ export default wrapContent(
           mon <i>package.json</i> je renomme
           le fichier en `.cjs`&apos;
           et j&apos;utilise un <code>module.exports = </code> pour
-          exporter la config plutôt qu&apos;un
+          exporter la config plutôt qu&apos;un&nbsp;
           <code>export default ...</code>.
         </p>
       </Aside>

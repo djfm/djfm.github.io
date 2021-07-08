@@ -116,7 +116,7 @@ export default wrapContent(
           ce paquet sur le <i>registry</i> global.
         </p>
         <p>
-          Maintenant que j&apos;ai un <i>package.json</i> je rajoute dedans le très important
+          Maintenant que j&apos;ai un <i>package.json</i> je rajoute dedans le très important&nbsp;
           <strong><code>&apos;type: module&apos;</code></strong> qui va
           indiquer à <i>Node.js</i> que j&apos;ai&nbsp;
           <NoWrap>l&apos;intention</NoWrap> d&apos;utiliser les modules javascript&nbsp;

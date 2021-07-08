@@ -34,11 +34,12 @@ const defaultContent = (Container: React.FC, H1: React.FC): ReactElement => (
   <Container>
     <H1>À propos de ces pages</H1>
     <p>
-      TypeScript est mon langage de programmation favori ces temps-ci.
+      <i>TypeScript</i> est mon langage de programmation favori ces temps-ci.
     </p>
     <p>
       Au travers de ces pages, j&apos;essaye de le faire découvrir à d&apos;autres,&nbsp;
-      et je note aussi ce que je découvre, pour avoir un endroit où le retrouver plus tard.
+      et je noterai aussi les choses qui m&apos;ont marqué, inspiré, que ce soit par leur utilité,
+      leur beauté, ou bien encore leur difficulé - ainsi je saurai où les retrouver.
     </p>
     <p>
       Du moins c&apos;est l&apos;idée&nbsp;-&nbsp; je manque encore de contenu, la construction du

@@ -67,7 +67,7 @@ export default wrapContent(
       </p>
       <Aside>
         <h1>
-          Le paramètre le plus fourbe du <i>tsconfig.json</i> c&apos;est
+          Le paramètre le plus fourbe du <i>tsconfig.json</i> c&apos;est:
           &quot;module&quot;
         </h1>
         <p>
@@ -76,7 +76,7 @@ export default wrapContent(
           le <i>package.json</i>.
         </p>
         <p>
-          En deux mots, ça va déterminer
+          En deux mots, ça va déterminer&nbsp;
           <strong>
             quel type de modules JS le compilo <i>TypeScript</i> va émettre
           </strong>.
@@ -86,7 +86,7 @@ export default wrapContent(
           <code>module.exports</code> de <i>Node.js</i>.
         </p>
         <p>
-          Sinon on peut mettre &quot;module&quot;&quot;ESNext&quot;, c&apos;est à dire
+          Sinon on peut mettre &quot;module&quot;&quot;ESNext&quot;, c&apos;est à dire&nbsp;
           <strong>
             le futur&nbsp;: <i>ESM</i>, a.k.a. les&nbsp;
             <code>import</code>/<code>export</code>

@@ -33,7 +33,7 @@ export default wrapContent(
         <strong>plus pratique pendant le développement</strong>,
         le faire interpréter par <strong><i>ts-node</i></strong>.
       </p>
-      <CodeSample language="bash" title="Mettre en place un projet TypeScript basique">
+      <CodeSample language="bash" title="Mettre en place un projet <i>TypeScript</i> basique">
         {`
           # oui, je préfère yarn à npm
           npm install -g yarn
@@ -82,7 +82,7 @@ export default wrapContent(
         </p>
       </aside>
       <p>
-        L&apos;environnement cible de la compilation du TypeScript peut être Node.js,
+        L&apos;environnement cible de la compilation du <i>TypeScript</i> peut être Node.js,
         un navigateur, etc.
       </p>
       <p>
