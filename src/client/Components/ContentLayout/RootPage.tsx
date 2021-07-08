@@ -28,18 +28,11 @@ type RootPageProps = {
 
 export const RootPage: React.FC<RootPageProps> = ({
   content,
-}: RootPageProps) => {
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      window.scrollTo(0, 0);
-    }
-  });
-
-  return content.render(
+}: RootPageProps) =>
+  content.render(
     Template,
     makeHeadingFC(1),
     makeHeadingFC(2),
   );
-};
 
 export default RootPage;
