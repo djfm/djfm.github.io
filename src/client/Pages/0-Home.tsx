@@ -190,7 +190,7 @@ const content = wrapContent(
   undefined,
   (Container, H1) => (
     <Container>
-      <header>
+      <header id="menu-top">
         <H1>Qu&apos;est-ce que ce site&nbsp;?</H1>
         <p>
           <strong>Avant tout je précise que le site est en construction&nbsp;!</strong>
