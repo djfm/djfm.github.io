@@ -68,6 +68,9 @@ export const Level1PageWithSubPages: React.FC<RootPageWSProps> = ({
               dangerouslySetInnerHTML={{
                 __html: pageTitle,
               }}
+              style={{
+                display: 'block',
+              }}
             />
           </li>
         ))}
