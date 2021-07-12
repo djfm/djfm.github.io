@@ -2,10 +2,6 @@ import React from 'react';
 
 import { wrapContent } from '../../../Components/ContentLayout/Content';
 
-import {
-  UL,
-} from '../../../Components/common/Styled';
-
 export default wrapContent(
   <>L&apos;inférence de types</>,
   'inference-de-types',
