@@ -13,7 +13,6 @@ export interface WithAnchor {
 
 export type ContentMeta = {
   anchor: string
-  docTitle?: string
   title: string
 }
 export type ContentRenderer = (

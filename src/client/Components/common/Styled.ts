@@ -81,10 +81,11 @@ export const AppRoot = styled.div`
 `;
 
 export const Aside = styled.aside`
-  font-size: 0.7em;
+  font-size: 0.9em;
 
   padding: 5px 15px 5px 15px;
   box-shadow: 1.5px 1.5px 2px 2px ${gray};
+  border: .5px solid ${gray};
 
   h1 {
     font-size: 1.1em;

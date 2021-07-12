@@ -58,7 +58,6 @@ export const Level1PageWithSubPages: React.FC<RootPageWSProps> = ({
       <VertUnordListNoBullets>
         {subPages.map(({
           anchor,
-          docTitle,
           title: pageTitle,
         }) => (
           <li key={`rootpage-submenu-link-to-${anchor}`}>
@@ -82,7 +81,6 @@ export const Level1PageWithSubPages: React.FC<RootPageWSProps> = ({
     <Switch>
       {sortByAnchorForRouterSwitch(subPages).map(({
         anchor,
-        docTitle,
         render,
       }) => (
         <Route
