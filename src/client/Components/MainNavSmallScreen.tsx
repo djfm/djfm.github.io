@@ -98,7 +98,6 @@ const MainNavSmallScreen: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const history = useHistory();
   const { pathname } = useLocation();
-  const [pathLeaf] = pathname.split('/').slice(-1);
 
   const level1 = pathname.split('/')[1];
 
