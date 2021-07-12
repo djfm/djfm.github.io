@@ -3,9 +3,11 @@ import React, {
 } from 'react';
 
 import {
+  useLocation,
   NavLink,
-  Switch,
+  Redirect,
   Route,
+  Switch,
 } from 'react-router-dom';
 
 import {
@@ -16,7 +18,6 @@ import {
 } from '../common/Styled';
 
 import {
-  ContentRenderer,
   ReadyToRenderContent,
 } from './Content';
 
@@ -31,7 +32,6 @@ type RootPageWSProps = {
   basePathname: string
   subPages: ReadyToRenderContent[]
   title: string
-  defaultContent: ContentRenderer
 };
 
 type TemplateProps = {
@@ -46,12 +46,13 @@ const Template: React.FC<TemplateProps> = ({
   </>
 );
 
-export const RootPageWithSubPages: React.FC<RootPageWSProps> = ({
+export const Level1PageWithSubPages: React.FC<RootPageWSProps> = ({
   basePathname,
   subPages,
   title: rootPageTitle,
-  defaultContent,
 }: RootPageWSProps) => {
+  const { pathname } = useLocation();
+
   const secondaryNav = (
     <Nav>
       <VertUnordListNoBullets>
@@ -89,7 +90,7 @@ export const RootPageWithSubPages: React.FC<RootPageWSProps> = ({
         </Route>
       ))}
       <Route path="*">
-        {defaultContent(Template, makeHeadingFC(2), makeHeadingFC(3))}
+        <Redirect to={extendPathname(pathname, subPages[0].anchor)} />
       </Route>
     </Switch>
   );
@@ -110,4 +111,4 @@ export const RootPageWithSubPages: React.FC<RootPageWSProps> = ({
   );
 };
 
-export default RootPageWithSubPages;
+export default Level1PageWithSubPages;

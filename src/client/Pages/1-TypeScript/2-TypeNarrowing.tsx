@@ -6,7 +6,7 @@ import wrapContent, {
   ReadyToRenderContent,
 } from '../../Components/ContentLayout/Content';
 
-import SubPage from '../../Components/ContentLayout/SubPage';
+import SubPage from '../../Components/ContentLayout/Level2Page';
 
 const sections: ReadyToRenderContent[] = [];
 

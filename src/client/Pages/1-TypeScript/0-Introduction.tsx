@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SubPage from '../../Components/ContentLayout/SubPage';
+import SubPage from '../../Components/ContentLayout/Level2Page';
 import wrapContent from '../../Components/ContentLayout/Content';
 
 import WhatsTS from './0-Introduction/0-WhatsTS';

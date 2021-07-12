@@ -83,20 +83,20 @@ export default wrapContent(
         </p>
       </aside>
       <p>
-        L&apos;environnement cible de la compilation du <i>TypeScript</i> peut être Node.js,
+        L&apos;environnement cible de la compilation du <i>TypeScript</i> peut être <i>Node.js</i>,
         un navigateur, etc.
       </p>
       <p>
         On peut&nbsp;
         <strong>
-          préciser vers quel standard de <i>JavaScript</i>
+          préciser vers quel standard de <i>JavaScript</i>&nbsp;
           on veut compiler
         </strong> : ES5, ES6, ESNext...
       </p>
       <p>
         Le choix dépend bien sûr de là où notre code va
-        tourner et de si on maîtrise ou ne serait-ce que
-        connaît l&apos;environnement de destination.
+        tourner et de si on maîtrise&nbsp;-&nbsp;ou ne serait-ce que
+        connaît&nbsp;-&nbsp;l&apos;environnement de destination.
       </p>
       <p>
         Ce n&apos;est malheureusement pas toujours le cas.

@@ -3,6 +3,7 @@ import React from 'react';
 import { wrapContent } from '../../../Components/ContentLayout/Content';
 
 import CodeSample from '../../../Components/common/CodeSample';
+import { NoWrap } from '../../../Components/common/Styled';
 
 export default wrapContent(
   'Qu&apos;est-ce que c&apos;est que le <i>TypeScript</i>\u00a0?',
@@ -61,7 +62,7 @@ export default wrapContent(
       </CodeSample>
       <p>
         Comme je le disais, l&apos;utilisation des types en <i>TypeScript</i> est totalement
-        &quot;opt-in&quot;&nbsp;:&nbsp;
+        &quot;<NoWrap>opt-in</NoWrap>&quot;&nbsp;:&nbsp;
         on peut très bien ne pas typer notre code du tout et
         on écrit alors du <i>JavaScript</i> standard.
       </p>
@@ -72,13 +73,13 @@ export default wrapContent(
       <p>
         <strong>
           Il faut bien noter - et j&apos;ai mis du temps à le comprendre&nbsp;-&nbsp;que
-          <i>TypeScript</i> n&apos;ajoute pas de fonctionnalités à l&apos;exécution.
+          &nbsp;<i>TypeScript</i> n&apos;ajoute pas de fonctionnalités à l&apos;exécution.
         </strong>&nbsp;
       </p>
       <p>
         Le <strong>code généré</strong> par <i>TypeScript</i> est
         du <i>JavaScript</i> standard qui&nbsp;
-        <strong>&nbsp;
+        <strong>
           ne peut pas faire référence aux types définis dans la source en <i>TypeScript</i>
         </strong>,
         il n&apos;est pas du tout &rdquo;conscient&rdquo; qu&apos;il

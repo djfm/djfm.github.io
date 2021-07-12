@@ -1,7 +1,7 @@
 import React from 'react';
 
 import wrapContent from '../../Components/ContentLayout/Content';
-import SubPage from '../../Components/ContentLayout/SubPage';
+import SubPage from '../../Components/ContentLayout/Level2Page';
 
 import introduction from './1-QuickSetup/0-Introduction';
 import nodeJSInstall from './1-QuickSetup/1-NodeJSInstall';

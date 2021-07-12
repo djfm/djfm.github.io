@@ -15,7 +15,7 @@ import {
   Sections,
 } from '../Components/ContentLayout/Section';
 
-import RootPage from '../Components/ContentLayout/RootPage';
+import RootPage from '../Components/ContentLayout/Level1Page';
 
 import BackToTop from '../Components/common/BackToTop';
 

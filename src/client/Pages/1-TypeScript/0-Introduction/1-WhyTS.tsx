@@ -26,10 +26,6 @@ export default wrapContent(
       </p>
       <p>Le bénéfice de <i>TypeScript</i> devient vraiment évident sur des projets complexes.</p>
       <p>
-        Dans mon expérience, j&apos;ai au moins 80% d&apos;erreurs inattendues à l&apos;exécution
-        en moins en <i>TypeScript</i> qu&apos;en <i>JavaScript</i>.
-      </p>
-      <p>
         Si ça compile, c&apos;est que ça a de bonnes chances d&apos;être correct.
       </p>
       <p>
