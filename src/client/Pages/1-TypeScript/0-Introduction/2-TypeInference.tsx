@@ -7,7 +7,7 @@ import {
 } from '../../../Components/common/Styled';
 
 export default wrapContent(
-  'L&apos;inférence de types',
+  <>L&apos;inférence de types</>,
   'inference-de-types',
   (Section) => (
     <Section>

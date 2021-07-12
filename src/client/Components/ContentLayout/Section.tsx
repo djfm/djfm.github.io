@@ -142,9 +142,6 @@ const sectionRenderer = (
         return elts.concat('\u00a0-\u00a0', next);
       }, []);
 
-      // eslint-disable-next-line react/no-danger
-      const titleHTML = <span dangerouslySetInnerHTML={{ __html: title }} />;
-
       // TODO documenter cette astuce
       const HTag = `h${nestingLevel}` as keyof JSX.IntrinsicElements;
 
@@ -152,7 +149,7 @@ const sectionRenderer = (
         <StyledSection id={anchor}>
           <HTag className="section-heading">
             {sectionIndex + 1}&nbsp;/&nbsp;{sectionCount})&nbsp;
-            {titleHTML}
+            <span>{title}</span>
           </HTag>
           <span>
             {navLinks}
@@ -167,7 +164,7 @@ const sectionRenderer = (
     const H1Tag = makeHeadingFC(nestingLevel + 1);
     const H2Tag = makeHeadingFC(nestingLevel + 2);
 
-    return <Fragment key={title}>{render(Section, H1Tag, H2Tag)}</Fragment>;
+    return <Fragment key={`section-${anchor}`}>{render(Section, H1Tag, H2Tag)}</Fragment>;
   };
 
   return SectionWithHeaderAndNavLinks;
@@ -206,8 +203,9 @@ export const SectionLinks: React.FC<SectionLinksProps> = (
           {/* eslint-disable-next-line jsx-a11y/control-has-associated-label,react/no-danger */}
           <HashLink
             anchor={anchor}
-            innerHTML={title}
-          />
+          >
+            {title}
+          </HashLink>
         </li>
       ))}
     </LinkList>

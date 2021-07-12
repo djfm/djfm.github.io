@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import wrapContent from '../../Components/ContentLayout/Content';
 import SubPage from '../../Components/ContentLayout/Level2Page';
@@ -18,7 +18,7 @@ const sections = [
 ];
 
 type QuickSetupProps = {
-  title: string
+  title: ReactNode
 }
 
 export const QuickSetup: React.FC<QuickSetupProps> = ({
@@ -30,10 +30,12 @@ export const QuickSetup: React.FC<QuickSetupProps> = ({
   />
 );
 
-const pageTitle = [
-  'Rapidement configurer un',
-  'nouveau projet <i>TypeScript</i>',
-].join(' ');
+const pageTitle = (
+  <>
+    Rapidement configurer un
+    nouveau projet <i>TypeScript</i>
+  </>
+);
 
 export default wrapContent(
   pageTitle,

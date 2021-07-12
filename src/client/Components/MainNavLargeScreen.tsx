@@ -38,10 +38,9 @@ const MainNavLargeScreen: React.FC = () => (
               exact={!anchor}
               to={`/${anchor}`}
               activeClassName="active"
-              dangerouslySetInnerHTML={{
-                __html: title,
-              }}
-            />
+            >
+              {title}
+            </NavLink>
           </li>
         ),
       )}

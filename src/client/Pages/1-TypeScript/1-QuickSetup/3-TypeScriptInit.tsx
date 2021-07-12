@@ -9,7 +9,7 @@ import {
 } from '../../../Components/common/Styled';
 
 export default wrapContent(
-  'Initialisation de <i>TypeScript</i> et <i>tsconfig.json</i>',
+  <>Initialisation de <i>TypeScript</i> et <i>tsconfig.json</i></>,
   'initialisation-typescript',
   (Section, H1) => (
     <Section>

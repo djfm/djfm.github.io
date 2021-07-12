@@ -10,7 +10,7 @@ import {
 } from '../../../Components/common/Styled';
 
 export default wrapContent(
-  'On commence par installer <i>Node.js</i> et <i>yarn</i>',
+  <>On commence par installer <i>Node.js</i> et <i>yarn</i></>,
   'installation-node-yarn',
   (Section) => (
     <Section>

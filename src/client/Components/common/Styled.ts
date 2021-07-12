@@ -5,6 +5,7 @@ export const brightColor2 = '#0080ff';
 export const brightColor3 = 'rgb(165,210,255)';
 export const darkColor = '#0d1117';
 export const gray = '#ccc';
+export const white = '#fff';
 
 export const standardLinkColor = brightColor2;
 export const navLinkColor = brightColor;
@@ -36,7 +37,7 @@ export const AppRoot = styled.div`
   height: 100vh;
   position: relative;
 
-  a  {
+  a {
     text-decoration: none;
     color: ${standardLinkColor};
 

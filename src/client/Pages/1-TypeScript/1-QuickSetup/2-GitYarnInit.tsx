@@ -10,7 +10,7 @@ import {
 } from '../../../Components/common/Styled';
 
 export default wrapContent(
-  'Initialisation de <i>git</i> et de <i>yarn</i>',
+  <>Initialisation de <i>git</i> et de <i>yarn</i></>,
   'installation-git-yarn',
   (Section, H1, H2) => (
     <Section>

@@ -48,7 +48,7 @@ sections.push(wrapContent(
 ));
 
 sections.push(wrapContent(
-  'La philosophie du système de types en <i>TypeScript</i>',
+  <>La philosophie du système de types en <i>TypeScript</i></>,
   'philosophie-typescript',
   (Container) => (
     <Container>
@@ -118,7 +118,7 @@ sections.push(wrapContent(
 ));
 
 sections.push(wrapContent(
-  'Un exemple en C++ comparé à <i>TypeScript</i>',
+  <>Un exemple en C++ comparé à <i>TypeScript</i></>,
   'comparaison-cpp-ts',
   (Container) => (
     <Container>
@@ -217,9 +217,9 @@ sections.push(wrapContent(
 ));
 
 const pageTitle = [
-  'Le «narrowing» ou la découverte ',
+  'Le «narrowing» ou la découverte',
   'incrémentale des types',
-].join('');
+].join(' ');
 
 export default wrapContent(
   pageTitle,

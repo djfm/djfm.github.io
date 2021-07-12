@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import SubPage from '../../Components/ContentLayout/Level2Page';
 import wrapContent from '../../Components/ContentLayout/Content';
@@ -16,7 +16,7 @@ const sections = [
 ];
 
 type TSIntroductionProps = {
-  title: string
+  title: ReactNode
 }
 
 export const TypeScriptIntroduction: React.FC<TSIntroductionProps> = ({
@@ -28,7 +28,7 @@ export const TypeScriptIntroduction: React.FC<TSIntroductionProps> = ({
   />
 );
 
-const pageTitle = '<i>TypeScript</i> en Bref';
+const pageTitle = <><i>TypeScript</i> en Bref</>;
 const basePathname = 'typescript-en-bref';
 
 export default wrapContent(

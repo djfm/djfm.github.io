@@ -5,6 +5,7 @@ import React, {
 
 import {
   useHistory,
+  useLocation,
   NavLink,
 } from 'react-router-dom';
 
@@ -16,6 +17,7 @@ import {
   openMenuButtonBgColor,
   Nav,
   VertUnordListNoBullets,
+  white,
 } from './common/Styled';
 
 import pages from '../topLevelPages';
@@ -26,7 +28,22 @@ const Wrapper = styled.div`
   bottom: 0;
   left: 0;
 
-  text-align: center;
+  text-align: left;
+
+  .level-2 {
+    text-align: left;
+    margin-top: 25px;
+
+    a {
+      font-size: .9em;
+      color: ${white};
+      &.active {
+        &::before {
+          content: ">\u00a0"
+        }
+      }
+    }
+  }
 
   @media (max-width: ${bp1Max}) {
     display: flex;
@@ -59,7 +76,7 @@ const Wrapper = styled.div`
       bottom: 0;
       left: 0;
 
-      padding-bottom: 60px;
+      padding-bottom: 90px;
 
       width: 100%;
 
@@ -80,6 +97,10 @@ const Wrapper = styled.div`
 const MainNavSmallScreen: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const history = useHistory();
+  const { pathname } = useLocation();
+  const [pathLeaf] = pathname.split('/').slice(-1);
+
+  const level1 = pathname.split('/')[1];
 
   const openMenu = () => {
     setIsOpen(true);
@@ -124,15 +145,38 @@ const MainNavSmallScreen: React.FC = () => {
       <Nav>
         <VertUnordListNoBullets>
           {pages.map(
-            ({ anchor, title }) => (
+            ({ anchor, title, childrenMeta }) => (
               <li key={`link-${anchor}`}>
                 <NavLink
                   exact={!anchor}
                   to={`/${anchor}`}
                   activeClassName="active"
                   onClick={closeMenu}
-                  dangerouslySetInnerHTML={{ __html: title }}
-                />
+                >
+                  {title}
+                </NavLink>
+                {childrenMeta && (level1 === anchor) && (
+                  <ul className="level-2">
+                    {childrenMeta.map(({
+                      anchor: childAnchor,
+                      title: childTitle,
+                    }) => {
+                      const subPagePath = `/${
+                        level1
+                      }/${childAnchor}`;
+
+                      const li = (
+                        <li key={`submenu-${childAnchor}`}>
+                          <NavLink to={subPagePath}>
+                            {childTitle}
+                          </NavLink>
+                        </li>
+                      );
+
+                      return li;
+                    })}
+                  </ul>
+                )}
               </li>
             ),
           )}

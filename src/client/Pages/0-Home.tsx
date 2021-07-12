@@ -140,7 +140,7 @@ sections.push(wrapContent(
 ));
 
 sections.push(wrapContent(
-  'Un site <NoWrap>open-source</NoWrap> et en français',
+  <>Un site <NoWrap>open-source</NoWrap> et en français</>,
   'open-source',
   (Container) => (
     <Container>
@@ -219,7 +219,7 @@ const HomePage = (): ReactElement =>
   <RootPage content={content} />;
 
 export default wrapContent(
-  'Qu&apos;est-ce que ce site\u00a0?',
+  <>Qu&apos;est-ce que ce site&nbsp;?</>,
   '',
   (Container) => (
     <Container>

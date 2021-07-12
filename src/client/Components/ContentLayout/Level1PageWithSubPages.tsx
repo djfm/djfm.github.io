@@ -31,7 +31,7 @@ import {
 type RootPageWSProps = {
   basePathname: string
   subPages: ReadyToRenderContent[]
-  title: string
+  title: ReactNode
 };
 
 type TemplateProps = {
@@ -64,13 +64,12 @@ export const Level1PageWithSubPages: React.FC<RootPageWSProps> = ({
             <NavLink
               to={extendPathname(basePathname, anchor)}
               activeClassName="active"
-              dangerouslySetInnerHTML={{
-                __html: pageTitle,
-              }}
               style={{
                 display: 'block',
               }}
-            />
+            >
+              {pageTitle}
+            </NavLink>
           </li>
         ))}
       </VertUnordListNoBullets>
@@ -98,8 +97,9 @@ export const Level1PageWithSubPages: React.FC<RootPageWSProps> = ({
 
   return (
     <main>
-      { /* eslint-disable-next-line react/no-danger */ }
-      <h1 dangerouslySetInnerHTML={{ __html: rootPageTitle }} />
+      <h1>
+        {rootPageTitle}
+      </h1>
       <TwoColumnsRightMenu>
         <NotTooWide>
           {secondaryNav}

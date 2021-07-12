@@ -6,7 +6,7 @@ import CodeSample from '../../../Components/common/CodeSample';
 import { NoWrap } from '../../../Components/common/Styled';
 
 export default wrapContent(
-  'Qu&apos;est-ce que c&apos;est que le <i>TypeScript</i>\u00a0?',
+  <>Qu&apos;est-ce que c&apos;est que le <i>TypeScript</i>&nbsp;?</>,
   'typescript-c-est-quoi',
   (Section) => (
     <Section>

@@ -9,8 +9,8 @@ import {
 } from '../../../Components/common/Styled';
 
 export default wrapContent(
-  'Avant d&apos;écrire la première ligne de code\u00a0: le <i>linter</i>',
-  'initialisation-linter-eslint-typescript',
+  <>Avant d&apos;écrire la première ligne de code&nbsp;: le <i>linter</i></>,
+  'eslint',
   (Section) => (
     <Section>
       <p>
