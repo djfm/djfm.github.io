@@ -20,7 +20,7 @@ const subPages: ReadyToRenderContent[] = [
 ];
 
 const basePathname = 'typescript';
-const title = 'Des choses autour de <i>TypeScript</i>, ma nouvelle passion';
+const title = 'Des choses autour de <i>TypeScript</i>';
 
 export default wrapContent(
   title,
