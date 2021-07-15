@@ -27,6 +27,12 @@ import { ServerStyleSheet } from 'styled-components';
 
 import App from '../client/Components/App';
 
+type Heading = {
+  title: string
+  tag: string
+  children: Heading[]
+}
+
 const isURLToPreRender = (href: string): boolean => {
   try {
     // eslint-disable-next-line no-new
@@ -68,10 +74,6 @@ const extractLinksFromNode = (
     return [];
   }
 
-  if (node instanceof Array) {
-    return ([] as string[]).concat(...node.map(extractLinks));
-  }
-
   if (node.type === 'a') {
     if (!isURLToPreRender(node.props.href)) {
       return [];
@@ -84,7 +86,6 @@ const extractLinksFromNode = (
     return [];
   }
 
-  console.log(inspect(node, false, null, false));
   return ([] as string[]).concat(
     ...node.children.map(extractLinksFromNode),
   );
@@ -119,6 +120,134 @@ const extractAllLinksFromSPA = () => {
   return [...allLinks.values()];
 };
 
+const toSimpleString = (
+  nodes: ReactTestRenderer.ReactTestRendererNode[]
+    | ReactTestRenderer.ReactTestRendererNode,
+): string => {
+  if (nodes instanceof Array) {
+    return nodes.map(toSimpleString).join('');
+  }
+
+  if (typeof nodes === 'string') {
+    return nodes;
+  }
+
+  if (nodes.children) {
+    return toSimpleString(nodes.children);
+  }
+
+  throw new Error('This should not happen.');
+};
+
+const extractHeadingsFromNode = (
+  node: ReactTestRenderer.ReactTestRendererNode,
+): Heading | undefined => {
+  if (!node) {
+    return undefined;
+  }
+
+  if (typeof node === 'string') {
+    return undefined;
+  }
+
+  const headingsList = [
+    'h1', 'h2', 'h3',
+    'h4', 'h5', 'h6',
+  ];
+
+  if (headingsList.includes(node.type)) {
+    return {
+      tag: node.type,
+      title: toSimpleString(node.children),
+      children: [],
+    };
+  }
+
+  if (node.children) {
+    const headingsNodesReducer = (
+      heading: Heading,
+      child: ReactTestRenderer.ReactTestRendererNode,
+    ) => {
+      const hChild = extractHeadingsFromNode(child);
+
+      if (hChild === undefined) {
+        return heading;
+      }
+
+      if (heading === undefined) {
+        return hChild;
+      }
+
+      if (hChild.tag > heading.tag) {
+        return {
+          ...heading,
+          children: heading.children.concat(hChild),
+        };
+      }
+
+      return {
+        tag: undefined,
+        title: undefined,
+        children: [heading, hChild],
+      };
+    };
+
+    return node.children.reduce(
+      headingsNodesReducer,
+      undefined,
+    );
+  }
+
+  return undefined;
+};
+
+// TODO actually do something besides shouting in the log
+const sanitizeHeadings = (heading: Heading): Heading => {
+  if (heading.tag === undefined) {
+    console.log('  <!#?? headings layout looks fucked-up ??#!>');
+  }
+
+  return {
+    ...heading,
+    children: heading.children.map(sanitizeHeadings),
+  };
+};
+
+const getFirstHeadingWithMultipleChildren = (
+  heading: Heading,
+): Heading => {
+  if (heading.children.length === 0) {
+    return heading;
+  }
+
+  if (heading.children.length > 1) {
+    return heading;
+  }
+
+  return getFirstHeadingWithMultipleChildren(
+    heading.children[0],
+  );
+};
+
+const getMostSignificantHeadingTitle = (url: string): string => {
+  const [app] = createAppForURL(url);
+  const renderer = ReactTestRenderer.create(app);
+  const rendered = renderer.toJSON();
+  if (!rendered) {
+    throw new Error('Meh, renderer did not render anything.');
+  }
+  if (rendered instanceof Array) {
+    throw new Error('Meh, renderer produced an array of nodes.');
+  }
+  const headings = sanitizeHeadings(
+    extractHeadingsFromNode(rendered),
+  );
+
+  return getFirstHeadingWithMultipleChildren(
+    headings,
+  ).title;
+};
+
 const main = async () => {
   console.log('Pre-rendering all pages...');
   const allLinks = extractAllLinksFromSPA().filter(isURLToPreRender);
@@ -133,6 +262,7 @@ const main = async () => {
   const indexTemplate = indexBuffer.toString();
 
   const docsRootPath = path.resolve(__dirname, '..', '..', 'docs');
+  const titlePlaceholder = '#TITLE#';
   const appPlaceholder = '#APP#';
   const stylesPlaceholder = '#STYLES#';
 
@@ -205,18 +335,17 @@ const main = async () => {
     console.log(`  # processing "${link}"`);
     const sheet = new ServerStyleSheet();
 
-    console.log(`    1. rendering "${link}"...`);
     const [app] = createAppForURL(link);
     const markup = ReactDOMServer.renderToString(sheet.collectStyles(app));
 
-    console.log('    2. getting the style tags');
     const styleTags = sheet.getStyleTags();
 
-    console.log('    3. creating directory structure if necessary');
     const docPath = await createDocPath(link);
 
-    console.log(`    4. writing template file "${docPath}"...`);
+    const title = getMostSignificantHeadingTitle(link);
+
     const finalCode = indexTemplate
+      .replace(titlePlaceholder, title)
       .replace(appPlaceholder, markup)
       .replace(stylesPlaceholder, styleTags);
 
