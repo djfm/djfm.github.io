@@ -1,12 +1,6 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-console */
 
-// TODO add static title to pages on compile, and add it in React too btw.
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { inspect } from 'util';
-import { URL } from 'url';
-
 import path from 'path';
 import {
   readFile,
@@ -18,36 +12,26 @@ import {
   rmdir,
 } from 'fs/promises';
 
-import React from 'react';
+import React, {
+  ReactElement,
+} from 'react';
 import ReactDOMServer from 'react-dom/server';
-import ReactTestRenderer from 'react-test-renderer';
 import { StaticRouter } from 'react-router';
 
 import { ServerStyleSheet } from 'styled-components';
 
+import stripTags from 'striptags';
+
+import {
+  ContentMeta,
+} from '../client/Components/ContentLayout/Content';
 import App from '../client/Components/App';
+import tlPages from '../client/topLevelPages';
 
-type Heading = {
-  title: string
-  tag: string
-  children: Heading[]
+type PageInfo = {
+  link: string
+  documentTitle: string
 }
-
-const isURLToPreRender = (href: string): boolean => {
-  try {
-    // eslint-disable-next-line no-new
-    new URL(href);
-    return false;
-  } catch (e) {
-    if (href.includes('#')) {
-      return false;
-    }
-    if (href.startsWith('/')) {
-      return true;
-    }
-    return false;
-  }
-};
 
 const createAppForURL = (url: string): [React.ReactElement, Record<string, unknown>] => {
   const context = {};
@@ -63,198 +47,64 @@ const createAppForURL = (url: string): [React.ReactElement, Record<string, unkno
   return [router, context];
 };
 
-const extractLinksFromNode = (
-  node: ReactTestRenderer.ReactTestRendererNode,
-): string[] => {
-  if (!node) {
-    return [];
+const renderTitle = (title: ReactElement | string) => {
+  if (typeof title === 'string') {
+    return title;
   }
 
-  if (typeof node === 'string') {
-    return [];
-  }
-
-  if (node.type === 'a') {
-    if (!isURLToPreRender(node.props.href)) {
-      return [];
-    }
-
-    return [node.props.href];
-  }
-
-  if (!node.children) {
-    return [];
-  }
-
-  return ([] as string[]).concat(
-    ...node.children.map(extractLinksFromNode),
+  return stripTags(
+    ReactDOMServer.renderToString(title),
   );
 };
 
-const extractLinksAtURL = (url: string): string[] => {
-  const [app] = createAppForURL(url);
-  const renderer = ReactTestRenderer.create(app);
-  const rendered = renderer.toJSON();
-  if (!rendered) {
-    throw new Error('Meh, renderer did not render anything.');
-  }
-  if (rendered instanceof Array) {
-    throw new Error('Meh, renderer produced an array of nodes.');
-  }
-  const links = extractLinksFromNode(rendered);
-  return links;
-};
-
-const extractAllLinksFromSPA = () => {
-  const allLinks = new Set<string>(['/']);
-  const links = extractLinksAtURL('/');
-  while (links.length > 0) {
-    // links is not empty, so... I'm pretty sure link is defined
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const link = links.pop()!;
-    if (!allLinks.has(link)) {
-      allLinks.add(link);
-      links.push(...extractLinksAtURL(link));
-    }
-  }
-  return [...allLinks.values()];
-};
-
-const toSimpleString = (
-  nodes: ReactTestRenderer.ReactTestRendererNode[]
-    | ReactTestRenderer.ReactTestRendererNode,
-): string => {
-  if (nodes instanceof Array) {
-    return nodes.map(toSimpleString).join('');
+const generatePageInfo = (
+  content: ContentMeta,
+  depth = 0,
+): PageInfo[] => {
+  if ((!content.anchor
+        || content.anchor === '/')
+          && depth === 0) {
+    return [{
+      link: '/',
+      documentTitle: content.documentTitle
+        || renderTitle(content.title),
+    }];
   }
 
-  if (typeof nodes === 'string') {
-    return nodes;
-  }
-
-  if (nodes.children) {
-    return toSimpleString(nodes.children);
-  }
-
-  throw new Error('This should not happen.');
-};
-
-const extractHeadingsFromNode = (
-  node: ReactTestRenderer.ReactTestRendererNode,
-): Heading | undefined => {
-  if (!node) {
-    return undefined;
-  }
-
-  if (typeof node === 'string') {
-    return undefined;
-  }
-
-  const headingsList = [
-    'h1', 'h2', 'h3',
-    'h4', 'h5', 'h6',
-  ];
-
-  if (headingsList.includes(node.type)) {
-    return {
-      tag: node.type,
-      title: toSimpleString(node.children),
-      children: [],
-    };
-  }
-
-  if (node.children) {
-    const headingsNodesReducer = (
-      heading: Heading,
-      child: ReactTestRenderer.ReactTestRendererNode,
-    ) => {
-      const hChild = extractHeadingsFromNode(child);
-
-      if (hChild === undefined) {
-        return heading;
-      }
-
-      if (heading === undefined) {
-        return hChild;
-      }
-
-      if (hChild.tag > heading.tag) {
-        return {
-          ...heading,
-          children: heading.children.concat(hChild),
-        };
-      }
-
-      return {
-        tag: undefined,
-        title: undefined,
-        children: [heading, hChild],
-      };
-    };
-
-    return node.children.reduce(
-      headingsNodesReducer,
-      undefined,
-    );
-  }
-
-  return undefined;
-};
-
-// TODO actually do something besides shouting in the log
-const sanitizeHeadings = (heading: Heading): Heading => {
-  if (heading.tag === undefined) {
-    console.log('  <!#?? headings layout looks fucked-up ??#!>');
-  }
-
-  return {
-    ...heading,
-    children: heading.children.map(sanitizeHeadings),
-  };
-};
-
-const getFirstHeadingWithMultipleChildren = (
-  heading: Heading,
-): Heading => {
-  if (heading.children.length === 0) {
-    return heading;
-  }
-
-  if (heading.children.length > 1) {
-    return heading;
-  }
-
-  return getFirstHeadingWithMultipleChildren(
-    heading.children[0],
-  );
-};
-
-const getMostSignificantHeadingTitle = (url: string): string => {
-  const [app] = createAppForURL(url);
-  const renderer = ReactTestRenderer.create(app);
-  const rendered = renderer.toJSON();
-  if (!rendered) {
-    throw new Error('Meh, renderer did not render anything.');
-  }
-  if (rendered instanceof Array) {
-    throw new Error('Meh, renderer produced an array of nodes.');
-  }
-  const headings = sanitizeHeadings(
-    extractHeadingsFromNode(rendered),
+  const children = content.childrenMeta || [];
+  const childInfo = children.map(
+    (child) => generatePageInfo(child, depth + 1),
   );
 
-  return getFirstHeadingWithMultipleChildren(
-    headings,
-  ).title;
+  return [{
+    link: `/${content.anchor}`,
+    documentTitle: content.documentTitle
+      || renderTitle(content.title),
+  }].concat(...childInfo.map((
+    (info) => info.map(({
+      link,
+      documentTitle,
+    }) => ({
+      link: `/${content.anchor}${link}`,
+      documentTitle,
+    })))));
 };
 
 const main = async () => {
   console.log('Pre-rendering all pages...');
-  const allLinks = extractAllLinksFromSPA().filter(isURLToPreRender);
+  const allLinks = ([] as PageInfo[]).concat(...tlPages.map(
+    generatePageInfo,
+  ));
 
   // it is very important for correct directory creation
   // that a link like "a/b" be processed before just "a"
-  allLinks.sort().reverse();
+  allLinks.sort((a, b) => {
+    if (a.link < b.link) {
+      return 1;
+    }
+
+    return -1;
+  });
 
   console.log(`found pages: ${allLinks.map((l) => `"${l}"`).join(', ')}.\n`);
 
@@ -331,7 +181,7 @@ const main = async () => {
   await cleanupDocs(docsRootPath);
 
   console.log('\nNow generating the static pages...');
-  for (const link of allLinks) {
+  for (const { link, documentTitle } of allLinks) {
     console.log(`  # processing "${link}"`);
     const sheet = new ServerStyleSheet();
 
@@ -342,10 +192,8 @@ const main = async () => {
 
     const docPath = await createDocPath(link);
 
-    const title = getMostSignificantHeadingTitle(link);
-
     const finalCode = indexTemplate
-      .replace(titlePlaceholder, title)
+      .replace(titlePlaceholder, documentTitle)
       .replace(appPlaceholder, markup)
       .replace(stylesPlaceholder, styleTags);
 
