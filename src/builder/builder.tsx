@@ -93,6 +93,9 @@ const extractLinksAtURL = (url: string): string[] => {
   const [app] = createAppForURL(url);
   const renderer = ReactTestRenderer.create(app);
   const rendered = renderer.toJSON();
+  if (!rendered) {
+    throw new Error('Meh, renderer did not render anything.');
+  }
   if (rendered instanceof Array) {
     throw new Error('Meh, renderer produced an array of nodes.');
   }
@@ -104,7 +107,9 @@ const extractAllLinks = () => {
   const allLinks = new Set<string>(['/']);
   const links = extractLinksAtURL('/');
   while (links.length > 0) {
-    const link = links.pop();
+    // links is not empty, so... I'm pretty sure link is defined
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const link = links.pop()!;
     if (!allLinks.has(link)) {
       allLinks.add(link);
       links.push(...extractLinksAtURL(link));
@@ -136,9 +141,11 @@ const main = async () => {
     }
 
     const linkParts = link.split('/');
-    const fileBasename = linkParts.pop();
 
-    const dirs = [];
+    // TODO the compiler is right, there may be a subtle issue here
+    const fileBasename = linkParts.pop()!;
+
+    const dirs = [] as string[];
 
     for (const part of linkParts) {
       dirs.push(part);
@@ -158,7 +165,7 @@ const main = async () => {
       // if a route has the same name as a directory,
       // use an index.html file in that directory for that route
       const maybeDir = await stat(baseNamePath);
-      if (maybeDir.isDirectory) {
+      if (maybeDir.isDirectory()) {
         return `${baseNamePath}/index.html`;
       }
     } catch (err) {
