@@ -20,11 +20,15 @@ const ScrollToTop = () => {
       } else {
         const [heading] = document.getElementsByTagName(`h${depth}`);
         if (heading) {
-          heading.scrollIntoView(true);
+          const tooLow = heading.getBoundingClientRect().y > window.screen.height - 100;
+          const tooHigh = heading.getBoundingClientRect().y < 0;
+          if (tooLow || tooHigh) {
+            heading.scrollIntoView(true);
+          }
         }
       }
     }
-  }, [pathname]);
+  });
 
   return null;
 };
