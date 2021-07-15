@@ -58,8 +58,7 @@ const createAppForURL = (url: string): [React.ReactElement, Record<string, unkno
 };
 
 const extractLinks = (
-  node: ReactTestRenderer.ReactTestRendererNode
-  | ReactTestRenderer.ReactTestRendererNode[],
+  node: ReactTestRenderer.ReactTestRendererNode,
 ): string[] => {
   if (!node) {
     return [];
@@ -81,14 +80,23 @@ const extractLinks = (
     return [node.props.href];
   }
 
-  return extractLinks(node.children);
-  // console.log(inspect(node, false, null, false));
+  if (!node.children) {
+    return [];
+  }
+
+  return ([] as string[]).concat(
+    ...node.children.map(extractLinks),
+  );
 };
 
 const extractLinksAtURL = (url: string): string[] => {
   const [app] = createAppForURL(url);
   const renderer = ReactTestRenderer.create(app);
-  const links = extractLinks(renderer.toJSON());
+  const rendered = renderer.toJSON();
+  if (rendered instanceof Array) {
+    throw new Error('Meh, renderer produced an array of nodes.');
+  }
+  const links = extractLinks(rendered);
   return links;
 };
 
