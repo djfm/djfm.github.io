@@ -11,7 +11,7 @@ import {
 export default wrapContent(
   <>Initialisation de <i>TypeScript</i> et <i>tsconfig.json</i></>,
   'initialisation-typescript',
-  (Section, H1) => (
+  (Section, H1, H2) => (
     <Section>
       <p>
         Il nous manque un élément crucial, bien sûr,
@@ -66,10 +66,10 @@ export default wrapContent(
         les <i>compilerOptions</i>, on en reparlera&nbsp;:)
       </p>
       <Aside>
-        <h1>
+        <H2>
           Le paramètre le plus fourbe du <i>tsconfig.json</i> c&apos;est:
           &quot;module&quot;
-        </h1>
+        </H2>
         <p>
           Ça mérite un chapitre entier,
           avec son équivalent pour <code>&quot;type&quot;=&quot;module&quot;</code> dans
