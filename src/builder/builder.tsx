@@ -70,9 +70,6 @@ const extractLinks = (
   }
 
   if (node instanceof Array) {
-    for (const item of node) {
-      extractLinks(item);
-    }
     return ([] as string[]).concat(...node.map(extractLinks));
   }
 
