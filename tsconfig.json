@@ -7,7 +7,7 @@
     "target": "ESNext",
     "module": "CommonJS",
     "outDir": "./build/",
-    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
     "types": ["react", "node"]
   },
 }
