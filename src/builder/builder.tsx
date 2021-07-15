@@ -57,7 +57,7 @@ const createAppForURL = (url: string): [React.ReactElement, Record<string, unkno
   return [router, context];
 };
 
-const extractLinks = (
+const extractLinksFromNode = (
   node: ReactTestRenderer.ReactTestRendererNode,
 ): string[] => {
   if (!node) {
@@ -84,8 +84,9 @@ const extractLinks = (
     return [];
   }
 
+  console.log(inspect(node, false, null, false));
   return ([] as string[]).concat(
-    ...node.children.map(extractLinks),
+    ...node.children.map(extractLinksFromNode),
   );
 };
 
@@ -99,11 +100,11 @@ const extractLinksAtURL = (url: string): string[] => {
   if (rendered instanceof Array) {
     throw new Error('Meh, renderer produced an array of nodes.');
   }
-  const links = extractLinks(rendered);
+  const links = extractLinksFromNode(rendered);
   return links;
 };
 
-const extractAllLinks = () => {
+const extractAllLinksFromSPA = () => {
   const allLinks = new Set<string>(['/']);
   const links = extractLinksAtURL('/');
   while (links.length > 0) {
@@ -120,7 +121,7 @@ const extractAllLinks = () => {
 
 const main = async () => {
   console.log('Pre-rendering all pages...');
-  const allLinks = extractAllLinks().filter(isURLToPreRender);
+  const allLinks = extractAllLinksFromSPA().filter(isURLToPreRender);
 
   // it is very important for correct directory creation
   // that a link like "a/b" be processed before just "a"
