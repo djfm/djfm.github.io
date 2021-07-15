@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import { responsiveSpan } from '../common/ResponsiveUtil';
 
 import HashLink from '../common/HashLink';
-import { ReadyToRenderContent, PrevNextMap } from './Content';
+import { ContentWithRender, PrevNextMap } from './Content';
 
 import makeHeadingFC from '../common/makeHeadingFC';
 
@@ -33,7 +33,7 @@ const LinkList = styled.ul`
 `;
 
 type SectionsProps = {
-  sections: ReadyToRenderContent[]
+  sections: ContentWithRender[]
   nestingLevel: number
 }
 
@@ -123,7 +123,7 @@ const sectionRenderer = (
   nestingLevel: number,
 ) => {
   const SectionWithHeaderAndNavLinks = (
-    { title, anchor, render }: ReadyToRenderContent,
+    { title, anchor, render }: ContentWithRender,
     sectionIndex: number,
   ): ReactElement => {
     const sectionCount = prevNext.size;
@@ -191,7 +191,7 @@ export const Sections: React.FC<SectionsProps> = ({
 };
 
 type SectionLinksProps = {
-  sections: ReadyToRenderContent[]
+  sections: ContentWithRender[]
 }
 export const SectionLinks: React.FC<SectionLinksProps> = (
   { sections }: SectionLinksProps,

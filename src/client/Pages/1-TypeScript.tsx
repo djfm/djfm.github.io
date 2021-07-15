@@ -2,7 +2,7 @@ import React from 'react';
 
 import {
   wrapContent,
-  ReadyToRenderContent,
+  ContentWithRender,
 } from '../Components/ContentLayout/Content';
 
 import Level1PageWithSubPages from '../Components/ContentLayout/Level1PageWithSubPages';
@@ -12,7 +12,7 @@ import QuickSetup from './1-TypeScript/1-QuickSetup';
 import TypeNarrowing from './1-TypeScript/2-TypeNarrowing';
 import TypesVSInterfaces from './1-TypeScript/3-TypesVSInterfaces';
 
-const subPages: ReadyToRenderContent[] = [
+const subPages: ContentWithRender[] = [
   Introduction,
   QuickSetup,
   TypeNarrowing,

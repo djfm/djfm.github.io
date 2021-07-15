@@ -7,7 +7,7 @@ import {
 } from '../Components/common/Styled';
 
 import wrapContent, {
-  ReadyToRenderContent,
+  ContentWithRender,
 } from '../Components/ContentLayout/Content';
 
 import {
@@ -19,7 +19,7 @@ import RootPage from '../Components/ContentLayout/Level1Page';
 
 import BackToTop from '../Components/common/BackToTop';
 
-const sections: ReadyToRenderContent[] = [];
+const sections: ContentWithRender[] = [];
 
 sections.push(wrapContent(
   'Introduction',
@@ -213,6 +213,8 @@ const content = wrapContent(
       <BackToTop />
     </Container>
   ),
+).setDocumentTitle(
+  "Un site autour de TypeScript et des autres technos que j'aime bien",
 );
 
 const HomePage = (): ReactElement =>

@@ -18,7 +18,7 @@ import {
 } from '../common/Styled';
 
 import {
-  ReadyToRenderContent,
+  ContentWithRender,
 } from './Content';
 
 import makeHeadingFC from '../common/makeHeadingFC';
@@ -30,7 +30,7 @@ import {
 
 type RootPageWSProps = {
   basePathname: string
-  subPages: ReadyToRenderContent[]
+  subPages: ContentWithRender[]
   title: ReactNode
 };
 

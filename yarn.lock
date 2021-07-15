@@ -1860,6 +1860,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/striptags@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "@types/striptags@npm:3.1.1"
+  dependencies:
+    striptags: "*"
+  checksum: 88cc071a33f8ec6bef6790202d9fe6774814af8632a1fdfbca6f66fc4e9c9ef0a357cfd33cea9e987b7c067d3515d227197c69a5718de9fa03894f1162c3169f
+  languageName: node
+  linkType: hard
+
 "@types/styled-components@npm:^5.1.10":
   version: 5.1.10
   resolution: "@types/styled-components@npm:5.1.10"
@@ -3350,6 +3359,7 @@ __metadata:
     "@types/react-router": ^5.1.14
     "@types/react-router-dom": ^5.1.7
     "@types/react-test-renderer": ^17.0.1
+    "@types/striptags": ^3.1.1
     "@types/styled-components": ^5.1.10
     "@types/webpack": ^5.28.0
     "@types/webpack-bundle-analyzer": ^4.4.0
@@ -3384,6 +3394,7 @@ __metadata:
     sass: ^1.35.1
     sass-loader: ^12.1.0
     semver: ^7.3.5
+    striptags: ^3.2.0
     style-loader: ^3.0.0
     styled-components: ^5.3.0
     ts-loader: ^9.2.2
@@ -7349,6 +7360,13 @@ resolve@^2.0.0-next.3:
   version: 3.1.1
   resolution: "strip-json-comments@npm:3.1.1"
   checksum: f16719ce25abc58a55ef82b1c27f541dcfa5d544f17158f62d10be21ff9bd22fde45a53c592b29d80ad3c97ccb67b7451c4833913fdaeadb508a40f5e0a9c206
+  languageName: node
+  linkType: hard
+
+"striptags@npm:*, striptags@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "striptags@npm:3.2.0"
+  checksum: 96292ebe1de0e7041a115edeadf49076b16a8d9cef67d77b1558a727e75fce1907e5325f86ffb8103d0271a518396910d2d796a3b4e744a385157d34939f9d40
   languageName: node
   linkType: hard
 

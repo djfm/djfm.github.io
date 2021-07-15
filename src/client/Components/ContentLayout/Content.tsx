@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-filename-extension */
-import React, { ReactElement, ReactNode } from 'react';
+import React, { ReactElement } from 'react';
 
 export type PrevNext = {
   prev?: ContentMeta;
@@ -13,7 +13,9 @@ export interface WithAnchor {
 
 export type ContentMeta = {
   anchor: string
-  title: ReactNode
+  title: ReactElement | string
+  documentTitle?: string
+  childrenMeta?: ContentMeta[]
 }
 export type ContentRenderer = (
   tag: React.FC,
@@ -21,21 +23,34 @@ export type ContentRenderer = (
   h2Tag: React.FC
 ) => ReactElement;
 
-export type ReadyToRenderContent = ContentMeta & {
+export type ContentWithRender = ContentMeta & {
   render: ContentRenderer
-  childrenMeta?: ContentMeta[]
+}
+
+export type WrappedContent = ContentWithRender & {
+  setDocumentTitle: (documentTitle: string) => WrappedContent
 }
 
 export const wrapContent = (
-  title: ReactNode,
+  title: ReactElement | string,
   anchor: string,
   render: ContentRenderer,
   childrenMeta?: ContentMeta[],
-): ReadyToRenderContent => ({
-  title,
-  anchor,
-  render,
-  childrenMeta,
-});
+): WrappedContent => {
+  const data = {
+    title,
+    anchor,
+    render,
+    childrenMeta,
+    setDocumentTitle: (
+      documentTitle: string,
+    ) => ({
+      ...data,
+      documentTitle,
+    }),
+  };
+
+  return data;
+};
 
 export default wrapContent;

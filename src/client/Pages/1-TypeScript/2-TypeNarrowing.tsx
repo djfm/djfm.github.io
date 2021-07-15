@@ -3,12 +3,12 @@ import React from 'react';
 import CodeSample from '../../Components/common/CodeSample';
 
 import wrapContent, {
-  ReadyToRenderContent,
+  ContentWithRender,
 } from '../../Components/ContentLayout/Content';
 
 import SubPage from '../../Components/ContentLayout/Level2Page';
 
-const sections: ReadyToRenderContent[] = [];
+const sections: ContentWithRender[] = [];
 
 sections.push(wrapContent(
   'Une fonctionnalité épatante',

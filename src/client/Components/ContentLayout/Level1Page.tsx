@@ -1,10 +1,11 @@
 import React, {
+  useEffect,
   ReactNode,
 } from 'react';
 
 import { NotTooWide } from '../common/Styled';
 
-import { ReadyToRenderContent } from './Content';
+import { ContentWithRender } from './Content';
 import makeHeadingFC from '../common/makeHeadingFC';
 
 type TemplateProps = {
@@ -22,16 +23,31 @@ const Template: React.FC<TemplateProps> = ({
 );
 
 type RootPageProps = {
-  content: ReadyToRenderContent,
+  content: ContentWithRender,
 };
 
 export const RootPage: React.FC<RootPageProps> = ({
   content,
-}: RootPageProps) =>
-  content.render(
+}: RootPageProps) => {
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      if (content.documentTitle) {
+        document.title = content.documentTitle;
+        return;
+      }
+
+      const [el] = document.getElementsByTagName('h1');
+      if (el) {
+        document.title = el.innerText;
+      }
+    }
+  });
+
+  return content.render(
     Template,
     makeHeadingFC(1),
     makeHeadingFC(2),
   );
+};
 
 export default RootPage;
