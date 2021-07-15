@@ -14,7 +14,7 @@
     "analyze-bundle": "webpack-bundle-analyzer stats.json docs -m server -p 4000",
     "lint": "eslint src",
     "deploy": "yarn build && git add . && git commit && git push",
-    "transpile": "yarn run tsc --project ./tsconfig.json"
+    "run-tsc": "yarn run tsc --project ./tsconfig.json"
   },
   "browserslist": "defaults",
   "dependencies": {
