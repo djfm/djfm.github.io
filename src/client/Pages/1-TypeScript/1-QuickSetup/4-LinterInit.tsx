@@ -11,7 +11,7 @@ import {
 export default wrapContent(
   <>Avant d&apos;écrire la première ligne de code&nbsp;: le <i>linter</i></>,
   'eslint',
-  (Section) => (
+  (Section, H1, H2) => (
     <Section>
       <p>
         J&apos;installe <strong>toujours en premier le linter</strong>,
@@ -133,36 +133,66 @@ export default wrapContent(
         notamment correctement <i>eslint</i> pour découvrir tout seul les fichiers
         avec l&apos;extension &quot;.ts&quot;.
       </p>
-      <CodeSample language="json" title="fichier .eslintrc.json à ce stade">
-        {`
-          {
-            "env": {
-                "browser": true,
-                "es2021": true,
-                "node": true
-            },
-            "extends": [
-                "plugin:react/recommended",
-                "airbnb",
-                "plugin:@typescript-eslint/recommended"
-            ],
-            "parser": "@typescript-eslint/parser",
-            "parserOptions": {
-                "ecmaFeatures": {
-                    "jsx": true
-                },
-                "ecmaVersion": 12,
-                "sourceType": "module"
-            },
-            "plugins": [
-                "react",
-                "@typescript-eslint"
-            ],
-            "rules": {
+      <section>
+        <H1>Configuration eslint de base</H1>
+        <p>
+          Normalement, de base, <i>eslint</i> aura généré quelque chose comme ça&nbsp;:
+        </p>
+        <CodeSample language="json" title="fichier .eslintrc.json à ce stade">
+          {`
+            {
+              "env": {
+                  "browser": true,
+                  "es2021": true,
+                  "node": true
+              },
+              "extends": [
+                  "plugin:react/recommended",
+                  "airbnb",
+                  "plugin:@typescript-eslint/recommended"
+              ],
+              "parser": "@typescript-eslint/parser",
+              "parserOptions": {
+                  "ecmaFeatures": {
+                      "jsx": true
+                  },
+                  "ecmaVersion": 12,
+                  "sourceType": "module"
+              },
+              "plugins": [
+                  "react",
+                  "@typescript-eslint"
+              ],
+              "rules": {
+              }
             }
-          }
-        `}
-      </CodeSample>
+          `}
+        </CodeSample>
+      </section>
+      <section>
+        <header>
+          <H1>Mes modifications habituelles aux règles de base</H1>
+          <p>
+            Mais à chacun ses gouts (et ses impératifs), je noterai
+            dans ce qui suit les règles que j&apos;éprouve le plus
+            souvent le besoin d&apos;ajuster.
+          </p>
+        </header>
+        <section>
+          <H2>En ce qui concerne <i>React</i></H2>
+          <CodeSample title="Modifications aux règles eslint de base pour React">
+            {`
+              // celle-la, tout simplement pour
+              // pouvoir utiliser du JSX dans des fichiers
+              // portant l'extension ".tsx" en plus de ".jsx"
+              "react/jsx-filename-extension": [
+                1, {
+                "extensions": [".tsx", ".jsx"]
+              }]
+            `}
+          </CodeSample>
+        </section>
+      </section>
       <p>
         J&apos;installe maintenant VSCode avec un petit&nbsp;:
         <br />
