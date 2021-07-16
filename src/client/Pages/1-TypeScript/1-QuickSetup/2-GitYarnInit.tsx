@@ -70,10 +70,7 @@ export default wrapContent(
         </p>
         <CodeSample language="bash" title="Fichier .gitignore de base">
           {`
-            # Pour tout ce qui est gestion
-            # de paquets npm,
-            # et OUI, on commit le dossier
-            # node_modules :
+            node_modules
 
             .yarn/*
             !.yarn/cache
