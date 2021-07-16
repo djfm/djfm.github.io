@@ -171,11 +171,16 @@ export default wrapContent(
       </section>
       <section>
         <header>
-          <H1>Mes modifications habituelles aux règles de base</H1>
+          <H1>Mes modifications habituelles aux règles de base d&apos;<i>eslint</i></H1>
           <p>
             Mais à chacun ses gouts (et ses impératifs), je noterai
             dans ce qui suit les règles que j&apos;éprouve le plus
             souvent le besoin d&apos;ajuster.
+          </p>
+          <p>
+            Pour appliquer les règles qui suivent, il n&apos;y a qu&apos;à
+            les insérer dans l&apos;objet &quot;rules&quot; du fichier
+            &quot;.eslintrc.json&quot;.
           </p>
         </header>
         <section>
@@ -189,6 +194,27 @@ export default wrapContent(
                 1, {
                 "extensions": [".tsx", ".jsx"]
               }]
+            `}
+          </CodeSample>
+          <H2>Pour le <i>TypeScript</i> en général</H2>
+          <p>
+            Il y a pas mal de règles parfaitement sensées en <i>JavaScript</i>&nbsp;
+            mais qui perdent de leur pertinence en <i>TypeScript</i> grace aux
+            garanties que <i>TypeScript</i> nous apporte sur notre code.
+          </p>
+          <p>
+            Il ne faut donc pas hésiter à désactiver les règles qui n&apos;ont pas
+            de sens en <i>TypeScript</i>, surtout quand une autre, spécifique à&nbsp;
+            <i>TypeScript</i> la remplace.
+          </p>
+          <CodeSample title="Modifications aux règles du .eslintrc.json pour TypeScript">
+            {`
+              // oui, c'est une bonne règle,
+              // mais on en hérite d'une mieux
+              // fournie par "plugin:@typescript-eslint/recommended"
+              // et qui tient compte des spécificités de TypeScript,
+              // donc je désactive celle de base
+              "no-use-before-define": 0
             `}
           </CodeSample>
         </section>
