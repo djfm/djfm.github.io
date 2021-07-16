@@ -237,7 +237,7 @@ export default wrapContent(
               },
             `}
           </CodeSample>
-          <p>Et la règle dans <i>rules</i>&nbsp;:</p>
+          <p>Et la règle dans <i>rules</i>&nbsp;, qui dépend un peu du projet...</p>
           <CodeSample title="import/no-unresolved">
             {`
               "import/extensions": [1, {
