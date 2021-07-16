@@ -218,6 +218,37 @@ export default wrapContent(
             `}
           </CodeSample>
         </section>
+        <section>
+          <H2>Le fastidieux plugin <i>import</i></H2>
+          <p>On rajoute&nbsp;:</p>
+          <CodeSample title="Les settings pour import/resolver">
+            {`
+              "settings": {
+                "import/resolver": {
+                    "node": {
+                        "extensions": [
+                            ".js",
+                            ".jsx",
+                            ".ts",
+                            ".tsx"
+                        ]
+                    }
+                }
+              },
+            `}
+          </CodeSample>
+          <p>Et la règle dans <i>rules</i>&nbsp;:</p>
+          <CodeSample title="import/no-unresolved">
+            {`
+              "import/extensions": [1, {
+                "ts": "never",
+                "tsx": "never",
+                "jsx": "never",
+                "js": "always"
+               }]
+            `}
+          </CodeSample>
+        </section>
       </section>
       <p>
         J&apos;installe maintenant VSCode avec un petit&nbsp;:
