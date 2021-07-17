@@ -3,11 +3,11 @@ import React, { ReactNode } from 'react';
 import wrapContent from '../../Components/ContentLayout/Content';
 import SubPage from '../../Components/ContentLayout/Level2Page';
 
-import introduction from './1-QuickSetup/0-Introduction';
-import nodeJSInstall from './1-QuickSetup/1-NodeJSInstall';
-import gitYarnInit from './1-QuickSetup/2-GitYarnInit';
-import typeScriptInit from './1-QuickSetup/3-TypeScriptInit';
-import linterInit from './1-QuickSetup/4-LinterInit';
+import introduction from './2-QuickSetup/0-Introduction';
+import nodeJSInstall from './2-QuickSetup/1-NodeJSInstall';
+import gitYarnInit from './2-QuickSetup/2-GitYarnInit';
+import typeScriptInit from './2-QuickSetup/3-TypeScriptInit';
+import linterInit from './2-QuickSetup/4-LinterInit';
 
 const sections = [
   introduction,

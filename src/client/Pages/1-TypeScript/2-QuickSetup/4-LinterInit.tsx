@@ -214,7 +214,17 @@ export default wrapContent(
               // fournie par "plugin:@typescript-eslint/recommended"
               // et qui tient compte des spécificités de TypeScript,
               // donc je désactive celle de base
-              "no-use-before-define": 0
+              "no-use-before-define": 0,
+
+              // quand on transpile vers de l'ESNext,
+              // c'est vraiment superflu
+              "no-restricted-syntax": 0,
+
+              // j'ai tendance à aller à la ligne après la flèche
+              // dans une arrow-function quand la ligne est trop longue,
+              // car je code souvent avec l'éditeur séparé en deux
+              // et je déteste les lignes qui dépassent
+              "implicit-arrow-linebreak": 0
             `}
           </CodeSample>
         </section>
