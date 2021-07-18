@@ -31,10 +31,18 @@ export const bp0Max = '399px';
 export const AppRoot = styled.div`
   font-family: monospace;
   font-size: 1rem;
-  line-height: 1.5;
+  line-height: 1.6;
   word-break: normal;
   overflow-wrap: break-word;
   position: relative;
+
+  p {
+    margin: 20px 0 20px 0;
+  }
+
+  li {
+    margin-bottom: 10px;
+  }
 
   a {
     text-decoration: none;
@@ -117,6 +125,10 @@ export const Nav = styled.nav`
       color: ${navLinkColor};
     }
 
+    ::before {
+      content: ". ";
+    }
+
     &.active {
       font-weight: bold;
       color: ${activeNavLinkColor};
@@ -164,10 +176,6 @@ export const VertUnordListNoBullets = styled.ul`
   li {
     list-style: none;
   }
-
-  li:not(:first-child) {
-    margin-top: 1.2em;
-  }
 `;
 
 export const UL = styled.ul`
@@ -181,7 +189,7 @@ export const TwoColumnsRightMenu = styled.div`
 
   > *:first-child ul {
     background-color: ${darkColor};
-    padding: 10px 30px 10px 30px;
+    padding: 10px 10px 10px 10px;
     margin-top: 0;
     margin-left: -10px;
     margin-right: -10px;

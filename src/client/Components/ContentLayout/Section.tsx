@@ -18,7 +18,7 @@ const StyledSection = styled.section`
 `;
 
 const LinkList = styled.ul`
-  margin-bottom: 35px;
+  margin-bottom: 30px;
 
   a:active {
     font-weight: bold;

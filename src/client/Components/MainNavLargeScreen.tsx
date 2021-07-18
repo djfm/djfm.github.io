@@ -25,6 +25,10 @@ display: none;
   padding: 5px;
 
   background-color: ${darkColor};
+
+  li {
+    margin: 0;
+  }
 }
 `;
 
