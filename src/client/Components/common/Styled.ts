@@ -34,7 +34,6 @@ export const AppRoot = styled.div`
   line-height: 1.5;
   word-break: normal;
   overflow-wrap: break-word;
-  height: 100vh;
   position: relative;
 
   a {
