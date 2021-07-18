@@ -15,13 +15,6 @@ import makeHeadingFC from '../common/makeHeadingFC';
 export const backToMenuAnchorId = 'menu-top';
 
 const StyledSection = styled.section`
-  .section-heading {
-    margin-bottom: 0;
-    & + span {
-      display: block;
-      margin-bottom: 30px;
-    }
-  }
 `;
 
 const LinkList = styled.ul`
@@ -29,6 +22,27 @@ const LinkList = styled.ul`
 
   a:active {
     font-weight: bold;
+  }
+`;
+
+const HeadingWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap:wrap;
+
+  > *:first-child {
+    font-weight: bold;
+  }
+
+  > *:last-child {
+    margin: 0;
+  }
+
+  margin-bottom: 0;
+  & + span {
+    display: block;
+    margin-bottom: 30px;
   }
 `;
 
@@ -147,10 +161,14 @@ const sectionRenderer = (
 
       const tree = (
         <StyledSection id={anchor}>
-          <HTag className="section-heading">
-            {sectionIndex + 1}&nbsp;/&nbsp;{sectionCount})&nbsp;
-            <span>{title}</span>
-          </HTag>
+          <HeadingWrapper>
+            <span>
+              {sectionIndex + 1}/{sectionCount})&nbsp;
+            </span>
+            <HTag>
+              {title}
+            </HTag>
+          </HeadingWrapper>
           <span>
             {navLinks}
           </span>
