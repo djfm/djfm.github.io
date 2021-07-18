@@ -143,7 +143,7 @@ const sectionRenderer = (
       }, []);
 
       // TODO documenter cette astuce
-      const HTag = `h${nestingLevel}` as keyof JSX.IntrinsicElements;
+      const HTag = makeHeadingFC(nestingLevel);
 
       const tree = (
         <StyledSection id={anchor}>
