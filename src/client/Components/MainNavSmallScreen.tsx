@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, {
   useState,
   useEffect,
@@ -149,7 +151,7 @@ const MainNavSmallScreen: React.FC<Props> = ({
   );
 
   const openMarkup = () => (
-    <div className="open-menu">
+    <div className="open-menu" onClick={closeMenu}>
       <input
         alt="open menu"
         type="image"
