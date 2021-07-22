@@ -131,18 +131,6 @@ const createDocPath = async (link: string): Promise<string> => {
   }
 
   const baseNamePath = path.join(docsRootPath, ...dirs, fileBasename);
-  try {
-    // if a route has the same name as a directory,
-    // use an index.html file in that directory for that route
-    const maybeDir = await stat(baseNamePath);
-    if (maybeDir.isDirectory()) {
-      return `${baseNamePath}/index.html`;
-    }
-  } catch (err) {
-    if (err.code !== 'ENOENT') {
-      throw err;
-    }
-  }
 
   return `${baseNamePath}.html`;
 };
