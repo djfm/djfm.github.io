@@ -13,15 +13,15 @@ import {
 
 import { ContentWithRender } from './Content';
 
-type SubPageProps = {
+type Level2PageProps = {
   title: ReactNode
   sections: ContentWithRender[]
 };
 
-export const SecondLevelPage: React.FC<SubPageProps> = ({
+export const Level2Page: React.FC<Level2PageProps> = ({
   title,
   sections,
-}: SubPageProps) => {
+}: Level2PageProps) => {
   useEffect(() => {
     if (typeof document !== 'undefined') {
       const [el] = document.getElementsByTagName('h2');
@@ -46,4 +46,4 @@ export const SecondLevelPage: React.FC<SubPageProps> = ({
   return markup;
 };
 
-export default SecondLevelPage;
+export default Level2Page;
