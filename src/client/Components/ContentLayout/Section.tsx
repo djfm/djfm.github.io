@@ -8,7 +8,10 @@ import styled from 'styled-components';
 import { responsiveSpan } from '../common/ResponsiveUtil';
 
 import HashLink from '../common/HashLink';
-import { ContentWithRender, PrevNextMap } from './Content';
+import {
+  ContentWithRender,
+  PrevNextMap,
+} from './Content';
 
 import makeHeadingFC from '../common/makeHeadingFC';
 

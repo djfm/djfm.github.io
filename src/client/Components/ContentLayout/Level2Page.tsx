@@ -11,7 +11,9 @@ import {
   SectionLinks,
 } from './Section';
 
-import { ContentWithRender } from './Content';
+import {
+  ContentWithRender,
+} from './Content';
 
 type Level2PageProps = {
   title: ReactNode

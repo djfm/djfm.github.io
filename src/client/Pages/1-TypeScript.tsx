@@ -8,13 +8,15 @@ import {
 import Level1PageWithSubPages from '../Components/ContentLayout/Level1PageWithSubPages';
 
 import Introduction from './1-TypeScript/0-Introduction';
-import Examples from './1-TypeScript/1-BeautifulExamples';
-import QuickSetup from './1-TypeScript/2-QuickSetup';
-import TypeNarrowing from './1-TypeScript/3-TypeNarrowing';
-import TypesVSInterfaces from './1-TypeScript/4-TypesVSInterfaces';
+import Overview from './1-TypeScript/1-TSOverView';
+import Examples from './1-TypeScript/2-BeautifulExamples';
+import QuickSetup from './1-TypeScript/3-QuickSetup';
+import TypeNarrowing from './1-TypeScript/4-TypeNarrowing';
+import TypesVSInterfaces from './1-TypeScript/5-TypesVSInterfaces';
 
 const subPages: ContentWithRender[] = [
   Introduction,
+  Overview,
   Examples,
   QuickSetup,
   TypeNarrowing,

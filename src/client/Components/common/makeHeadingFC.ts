@@ -1,10 +1,13 @@
 import React from 'react';
 
 type HeadingProps = Record<string, unknown>;
+export interface HeadingFC extends React.FC<HeadingProps> {
+  realLevel: number;
+}
 
 export const makeHeadingFC = (
   level: number,
-): React.FC<HeadingProps> => {
+): HeadingFC => {
   if (
     level < 1
     || level > 6
@@ -20,6 +23,8 @@ export const makeHeadingFC = (
       tagName,
       props,
     );
+
+  heading.realLevel = level;
 
   return heading;
 };

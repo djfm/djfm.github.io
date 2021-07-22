@@ -4,6 +4,7 @@ export const brightColor = '#ffa657';
 export const brightColor2 = '#0080ff';
 export const brightColor3 = 'rgb(165,210,255)';
 export const darkColor = '#0d1117';
+export const semiDarkColor = '#6f6f6f';
 export const gray = '#ccc';
 export const white = '#fff';
 
@@ -35,6 +36,7 @@ export const AppRoot = styled.div`
   word-break: normal;
   overflow-wrap: break-word;
   position: relative;
+  min-height: 100vh;
 
   p {
     margin: 20px 0 20px 0;
@@ -125,17 +127,9 @@ export const Nav = styled.nav`
       color: ${navLinkColor};
     }
 
-    ::before {
-      content: ". ";
-    }
-
     &.active {
       font-weight: bold;
       color: ${activeNavLinkColor};
-
-      &::before {
-        content: "✴ ";
-      }
     }
   }
 `;
@@ -188,12 +182,21 @@ export const TwoColumnsRightMenu = styled.div`
   display: flex;
 
   > *:first-child ul {
-    background-color: ${darkColor};
-    padding: 10px 10px 10px 10px;
-    margin-top: 0;
-    margin-left: -10px;
-    margin-right: -10px;
-    margin-bottom: 25px;
+    padding-left: 40px;
+    border-left: 1px solid ${semiDarkColor};
+
+    > li {
+      > a {
+        position: relative;
+        color: ${darkColor};
+
+        &.active::before {
+          position: absolute;
+          content: "★";
+          left: -20px;
+        }
+      }
+    }
   }
 
   @media (max-width: ${bp2Max}) {

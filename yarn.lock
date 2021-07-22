@@ -2715,6 +2715,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"babel-plugin-styled-components@npm:^1.13.2":
+  version: 1.13.2
+  resolution: "babel-plugin-styled-components@npm:1.13.2"
+  dependencies:
+    "@babel/helper-annotate-as-pure": ^7.0.0
+    "@babel/helper-module-imports": ^7.0.0
+    babel-plugin-syntax-jsx: ^6.18.0
+    lodash: ^4.17.11
+  peerDependencies:
+    styled-components: ">= 2"
+  checksum: 4244bf6f46dffede8af69412506bb389d47294cb3b46a4a1a446223016b7b0f273c1df7ebea4b7139510e4cecbb8017aff54fe08cb9469ea2774d61aed46e6b7
+  languageName: node
+  linkType: hard
+
 "babel-plugin-syntax-jsx@npm:^6.18.0":
   version: 6.18.0
   resolution: "babel-plugin-syntax-jsx@npm:6.18.0"
@@ -3368,6 +3382,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": latest
     "@typescript-eslint/parser": latest
     babel-loader: ^8.2.2
+    babel-plugin-styled-components: ^1.13.2
     chokidar: ^3.5.2
     compression-webpack-plugin: ^8.0.0
     core-js: ^3.15.1
@@ -3401,7 +3416,7 @@ __metadata:
     ts-node: ^10.0.0
     ts-node-dev: ^1.1.8
     type-fest: ^1.1.3
-    typescript: ^4.3.4
+    typescript: ^4.3.5
     webpack: ^5.40.0
     webpack-bundle-analyzer: ^4.4.2
     webpack-cli: ^4.7.0
@@ -7756,23 +7771,23 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-typescript@^4.3.4:
-  version: 4.3.4
-  resolution: "typescript@npm:4.3.4"
+typescript@^4.3.5:
+  version: 4.3.5
+  resolution: "typescript@npm:4.3.5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 9791c5fe98db6cb70ec0efad8d3d2eb957b9643ee600b90bff49267de69768d0d5f59c41a8fd731cfd63df1ccfb2cb25505a2015d7b39ac10ea51f605a058e16
+  checksum: d9a8e78d72dd19896e6bfa73ab2a0fcea6eca2700d1d6e7c33f67a970af54a3e0fed8f715a8c4e6a0ff7fc0995067b394b2003518ab0aa84cd396377e54b760c
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.3.4#builtin<compat/typescript>":
-  version: 4.3.4
-  resolution: "typescript@patch:typescript@npm%3A4.3.4#builtin<compat/typescript>::version=4.3.4&hash=ddfc1b"
+"typescript@patch:typescript@^4.3.5#builtin<compat/typescript>":
+  version: 4.3.5
+  resolution: "typescript@patch:typescript@npm%3A4.3.5#builtin<compat/typescript>::version=4.3.5&hash=ddfc1b"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: c8766e84a4f71e925cc059af8286cc7f41819fe821d433b90c83e9b36729cbda7a8e4be3292d8a1433cd717d529c93217d58d173418f43862290b206bd88b284
+  checksum: 7f0b8343f71ecac18095be1476b398aca420ab60dc207cc1efe078f381eef5527b80a518297720257114cdbda65612f8839e4b63e85dc95e67ac5cbbade8bdf0
   languageName: node
   linkType: hard
 

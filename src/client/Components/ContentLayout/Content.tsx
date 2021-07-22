@@ -1,6 +1,10 @@
 /* eslint-disable react/jsx-filename-extension */
 import React, { ReactElement } from 'react';
 
+import {
+  HeadingFC,
+} from '../common/makeHeadingFC';
+
 export type PrevNext = {
   prev?: ContentMeta;
   next?: ContentMeta;
@@ -17,10 +21,11 @@ export type ContentMeta = {
   documentTitle?: string
   childrenMeta?: ContentMeta[]
 }
+
 export type ContentRenderer = (
   tag: React.FC,
-  h1Tag: React.FC,
-  h2Tag: React.FC
+  h1Tag: HeadingFC,
+  h2Tag: HeadingFC,
 ) => ReactElement;
 
 export type ContentWithRender = ContentMeta & {

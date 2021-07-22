@@ -6,7 +6,7 @@ import wrapContent, {
   ContentWithRender,
 } from '../../Components/ContentLayout/Content';
 
-import SubPage from '../../Components/ContentLayout/Level2Page';
+import Level2Page from '../../Components/ContentLayout/Level2Page';
 
 const sections: ContentWithRender[] = [];
 
@@ -226,7 +226,7 @@ export default wrapContent(
   'type-narrowing',
   (Container) => (
     <Container>
-      <SubPage
+      <Level2Page
         title={pageTitle}
         sections={sections}
       />

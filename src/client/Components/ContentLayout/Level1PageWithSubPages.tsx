@@ -3,13 +3,10 @@ import React, {
 } from 'react';
 
 import {
-  useLocation,
   NavLink,
-  Redirect,
   Route,
   Switch,
 } from 'react-router-dom';
-
 import {
   Nav,
   NotTooWide,
@@ -28,7 +25,7 @@ import {
   sortByAnchorForRouterSwitch,
 } from '../common/util';
 
-type RootPageWSProps = {
+type Level1PageWithSubPagesProps = {
   basePathname: string
   subPages: ContentWithRender[]
   title: ReactNode
@@ -46,21 +43,26 @@ const Template: React.FC<TemplateProps> = ({
   </>
 );
 
-export const Level1PageWithSubPages: React.FC<RootPageWSProps> = ({
+const Level1PageWithSubPages: React.FC<Level1PageWithSubPagesProps> = ({
   basePathname,
   subPages,
   title: rootPageTitle,
-}: RootPageWSProps) => {
-  const { pathname } = useLocation();
+}: Level1PageWithSubPagesProps) => {
+  const [intro, ...pages] = subPages;
 
   const secondaryNav = (
     <Nav>
       <VertUnordListNoBullets>
-        {subPages.map(({
+        <li>
+          <NavLink exact to={`/${basePathname}`}>
+            {intro.title}
+          </NavLink>
+        </li>
+        {pages.map(({
           anchor,
           title: pageTitle,
         }) => (
-          <li key={`rootpage-submenu-link-to-${anchor}`}>
+          <li key={`secondary-nav-link-${anchor}`}>
             <NavLink
               to={extendPathname(basePathname, anchor)}
               activeClassName="active"
@@ -90,7 +92,7 @@ export const Level1PageWithSubPages: React.FC<RootPageWSProps> = ({
         </Route>
       ))}
       <Route path="*">
-        <Redirect to={extendPathname(pathname, subPages[0].anchor)} />
+        {intro.render(Template, makeHeadingFC(2), makeHeadingFC(3))}
       </Route>
     </Switch>
   );

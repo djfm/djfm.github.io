@@ -3,11 +3,11 @@ import React from 'react';
 import styled from 'styled-components';
 
 const FooterWrapper = styled.div`
-  margin-top: 50px;
-  font-size: 0.7em;
-  text-align: right;
-  padding-bottom: 10px;
-  margin-right: 30px;
+  position: absolute;
+  bottom: -200px;
+  left: 30px;
+  font-size: 0.8em;
+  padding-bottom: 30px;
 `;
 
 export const Footer: React.FC = () => (
