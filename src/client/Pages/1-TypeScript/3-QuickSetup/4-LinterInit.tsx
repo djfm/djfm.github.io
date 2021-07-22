@@ -120,19 +120,10 @@ export default wrapContent(
       <CodeSample language="json" title="ajout du script lint">
         {`
           "scripts" : {
-            "lint": "eslint src"
+            "lint": "yarn eslint 'src/**/*'"
           }
         `}
       </CodeSample>
-      <p>
-        Enfin, on ajoute aux plugins eslint la ligne&nbsp;:
-        <br />
-        <code>&quot;plugin:@typescript-eslint/recommended&quot;</code>,&nbsp;
-        <br />
-        qui configure
-        notamment correctement <i>eslint</i> pour découvrir tout seul les fichiers
-        avec l&apos;extension &quot;.ts&quot;.
-      </p>
       <section>
         <H1>Configuration eslint de base</H1>
         <p>
@@ -149,7 +140,6 @@ export default wrapContent(
               "extends": [
                   "plugin:react/recommended",
                   "airbnb",
-                  "plugin:@typescript-eslint/recommended"
               ],
               "parser": "@typescript-eslint/parser",
               "parserOptions": {
