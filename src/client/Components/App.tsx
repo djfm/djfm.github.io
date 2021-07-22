@@ -1,4 +1,5 @@
 import React, {
+  useState,
   ReactNode,
 } from 'react';
 
@@ -7,7 +8,6 @@ import {
   Switch,
 } from 'react-router-dom';
 
-import MenuOverlay from './MenuOverlay';
 import MainNavSmallScreen from './MainNavSmallScreen';
 import MainNavLargeScreen from './MainNavLargeScreen';
 import Footer from './Footer';
@@ -32,30 +32,41 @@ const Template: React.FC<TemplateProps> = ({
   children,
 }: TemplateProps) => <>{children}</>;
 
-const App: React.FC = () => (
-  <AppRoot>
-    <MenuOverlay />
-    <div>
-      <MainNavSmallScreen />
-      <MainNavLargeScreen />
-    </div>
-    <WithHorizontalPadding>
-      <Switch>
-        {sortPages(pages).map(({
-          anchor,
-          render,
-        }) => (
-          <Route
-            key={anchor}
-            path={`/${anchor}`}
-          >
-            {render(Template, makeHeadingFC(1), makeHeadingFC(2))}
-          </Route>
-        ))}
-      </Switch>
-    </WithHorizontalPadding>
-    <Footer />
-  </AppRoot>
-);
+const App: React.FC = () => {
+  const [showApp, setShowApp] = useState(true);
+
+  const body = (
+    <>
+      <WithHorizontalPadding>
+        <Switch>
+          {sortPages(pages).map(({
+            anchor,
+            render,
+          }) => (
+            <Route
+              key={anchor}
+              path={`/${anchor}`}
+            >
+              {render(Template, makeHeadingFC(1), makeHeadingFC(2))}
+            </Route>
+          ))}
+        </Switch>
+      </WithHorizontalPadding>
+      <Footer />
+    </>
+  );
+
+  const markup = (
+    <AppRoot>
+      <div>
+        <MainNavSmallScreen setShowApp={setShowApp} />
+        <MainNavLargeScreen />
+      </div>
+      {showApp && body}
+    </AppRoot>
+  );
+
+  return markup;
+};
 
 export default App;

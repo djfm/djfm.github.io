@@ -13,6 +13,7 @@ import styled from 'styled-components';
 
 import {
   bp1Max,
+  brightColor3,
   darkColor,
   openMenuButtonBgColor,
   Nav,
@@ -37,11 +38,6 @@ const Wrapper = styled.div`
     a {
       font-size: .9em;
       color: ${white};
-      &.active {
-        &::before {
-          content: ">\u00a0"
-        }
-      }
     }
   }
 
@@ -72,17 +68,33 @@ const Wrapper = styled.div`
     }
 
     .open-menu {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
       position: fixed;
       bottom: 0;
       left: 0;
-
-      padding-bottom: 90px;
-
-      width: 100%;
-
+      top: 0;
+      right: 0;
+      padding-bottom: 50px;
       background-color: ${darkColor};
 
-      z-index: 1;
+      .above-menu {
+        background-color: ${brightColor3};
+        flex: 1;
+        text-align: center;
+        padding: 30px;
+      }
+
+      a.top-level {
+        margin-left: 15px;
+      }
+
+      ul.level-2 {
+        padding: 0;
+        margin-top: 10px;
+        margin-left: 40px;
+      }
 
       input {
         position: fixed;
@@ -94,7 +106,13 @@ const Wrapper = styled.div`
   }
 `;
 
-const MainNavSmallScreen: React.FC = () => {
+type Props = {
+  setShowApp: (showApp: boolean) => void,
+}
+
+const MainNavSmallScreen: React.FC<Props> = ({
+  setShowApp,
+}: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const history = useHistory();
   const { pathname } = useLocation();
@@ -103,14 +121,12 @@ const MainNavSmallScreen: React.FC = () => {
 
   const openMenu = () => {
     setIsOpen(true);
-    document.body.style.overflow = 'hidden';
-    document.getElementById('overlay').style.display = 'block';
+    setShowApp(false);
   };
 
   const closeMenu = () => {
     setIsOpen(false);
-    document.body.style.overflow = 'auto';
-    document.getElementById('overlay').style.display = 'none';
+    setShowApp(true);
   };
 
   useEffect(() =>
@@ -141,16 +157,20 @@ const MainNavSmallScreen: React.FC = () => {
         width="48"
         onClick={closeMenu}
       />
+      <div className="above-menu">
+        fmdj.fr::menu
+      </div>
       <Nav>
-        <VertUnordListNoBullets>
+        <VertUnordListNoBullets className="star-active-link">
           {pages.map(
             ({ anchor, title, childrenMeta }) => (
               <li key={`link-${anchor}`}>
                 <NavLink
-                  exact={!anchor}
+                  exact={anchor === ''}
                   to={`/${anchor}`}
                   activeClassName="active"
                   onClick={closeMenu}
+                  className="top-level"
                 >
                   {title}
                 </NavLink>
@@ -159,14 +179,17 @@ const MainNavSmallScreen: React.FC = () => {
                     {childrenMeta.map(({
                       anchor: childAnchor,
                       title: childTitle,
-                    }) => {
-                      const subPagePath = `/${
-                        level1
-                      }/${childAnchor}`;
+                    }, pos) => {
+                      const subPagePath = (pos === 0)
+                        ? `/${level1}`
+                        : `/${level1}/${childAnchor}`;
 
                       const li = (
                         <li key={`submenu-${childAnchor}`}>
-                          <NavLink to={subPagePath}>
+                          <NavLink
+                            exact
+                            to={subPagePath}
+                          >
                             {childTitle}
                           </NavLink>
                         </li>

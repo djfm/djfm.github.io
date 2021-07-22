@@ -52,7 +52,7 @@ const Level1PageWithSubPages: React.FC<Level1PageWithSubPagesProps> = ({
 
   const secondaryNav = (
     <Nav>
-      <VertUnordListNoBullets>
+      <VertUnordListNoBullets className="star-active-link">
         <li>
           <NavLink exact to={`/${basePathname}`}>
             {intro.title}

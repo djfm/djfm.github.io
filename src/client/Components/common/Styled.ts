@@ -12,7 +12,7 @@ export const standardLinkColor = brightColor2;
 export const navLinkColor = brightColor;
 export const activeNavLinkColor = brightColor3;
 export const overlayBgColor = activeNavLinkColor;
-export const openMenuButtonBgColor = 'rgba(255, 255, 255, .8)';
+export const openMenuButtonBgColor = white;
 
 /**
  * breakpoints
@@ -52,6 +52,17 @@ export const AppRoot = styled.div`
 
     &:visited {
       color: ${standardLinkColor};
+    }
+  }
+
+  .star-active-link {
+    a.active {
+      position: relative;
+      &::before {
+        position: absolute;
+        content: "★";
+        left: -20px;
+      }
     }
   }
 
@@ -185,17 +196,8 @@ export const TwoColumnsRightMenu = styled.div`
     padding-left: 40px;
     border-left: 1px solid ${semiDarkColor};
 
-    > li {
-      > a {
-        position: relative;
-        color: ${darkColor};
-
-        &.active::before {
-          position: absolute;
-          content: "★";
-          left: -20px;
-        }
-      }
+    a {
+      color: ${darkColor};
     }
   }
 

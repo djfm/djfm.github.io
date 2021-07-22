@@ -33,7 +33,7 @@ display: none;
 `;
 
 const MainNavLargeScreen: React.FC = () => (
-  <Nav>
+  <Nav className="star-active-link">
     <HUL>
       {pages.map(
         ({ anchor, title }) => (
