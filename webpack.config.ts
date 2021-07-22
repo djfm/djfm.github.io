@@ -21,7 +21,6 @@ plugins.push(new MiniCSSExtractPlugin());
 
 const entry = {
   bundle: [
-    // '@babel/polyfill',
     './src/client/index.tsx',
   ],
   style: './node_modules/highlight.js/scss/github-dark.scss',
