@@ -1,6 +1,7 @@
 import path from 'path';
 
 import {
+  EnvironmentPlugin,
   HotModuleReplacementPlugin,
 } from 'webpack';
 
@@ -18,6 +19,9 @@ type Mode = 'production' | 'development' | 'none';
 const mode: Mode = process.env.NODE_ENV === 'production' ? 'production' : 'development';
 
 plugins.push(new MiniCSSExtractPlugin());
+plugins.push(new EnvironmentPlugin({
+  NODE_ENV: mode,
+}));
 
 const entry = {
   bundle: [

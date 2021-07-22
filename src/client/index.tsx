@@ -1,6 +1,8 @@
 import React from 'react';
-import { hydrate } from 'react-dom';
+import { hydrate, render } from 'react-dom';
 
 import Router from './Components/Router';
 
-hydrate(<Router />, document.getElementById('root'));
+const show = process.env.NODE_ENV === 'development' ? render : hydrate;
+
+show(<Router />, document.getElementById('root'));
