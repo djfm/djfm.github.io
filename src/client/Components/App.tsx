@@ -1,69 +1,62 @@
-import React, {
-  useState,
-  ReactNode,
-} from 'react';
+import React from 'react';
 
 import {
+  NavLink,
   Route,
   Switch,
 } from 'react-router-dom';
 
-import MainNavSmallScreen from './MainNavSmallScreen';
-import MainNavLargeScreen from './MainNavLargeScreen';
-import Footer from './Footer';
-
 import {
-  AppRoot,
-  WithHorizontalPadding,
-} from './common/Styled';
-
-import {
-  sortByAnchorForRouterSwitch as sortPages,
+  sortByAnchorForRouterSwitch,
 } from './common/util';
 
-import pages from '../topLevelPages';
 import makeHeadingFC from './ContentLayout/makeHeadingFC';
 
-type TemplateProps = {
-  children: ReactNode,
-};
+import pages from '../topLevelPages';
 
-const Template: React.FC<TemplateProps> = ({
-  children,
-}: TemplateProps) => <>{children}</>;
+const sortedPages = sortByAnchorForRouterSwitch(pages);
+
+const H1 = makeHeadingFC(1);
+const H2 = makeHeadingFC(2);
 
 const App: React.FC = () => {
-  const [showApp, setShowApp] = useState(true);
+  const nav = (
+    <nav>
+      <ul>
+        {pages.map(({ anchor, title }) => (
+          <NavLink key={anchor} to={`/${anchor}`}>
+            {title}
+          </NavLink>
+        ))}
+      </ul>
+    </nav>
+  );
 
   const body = (
-    <>
-      <WithHorizontalPadding>
-        <Switch>
-          {sortPages(pages).map(({
-            anchor,
-            render,
-          }) => (
-            <Route
-              key={anchor}
-              path={`/${anchor}`}
-            >
-              {render(Template, makeHeadingFC(1), makeHeadingFC(2))}
-            </Route>
-          ))}
-        </Switch>
-      </WithHorizontalPadding>
-      <Footer />
-    </>
+    <Switch>
+      {sortedPages.map(({
+        anchor,
+        Content,
+      }) => (
+        <Route
+          key={anchor}
+          path={`/${anchor}`}
+        >
+          <Content
+            Container={React.Fragment}
+            H1={H1}
+            H2={H2}
+          />
+        </Route>
+      ))}
+    </Switch>
   );
 
   const markup = (
-    <AppRoot>
-      <div>
-        <MainNavSmallScreen setShowApp={setShowApp} />
-        <MainNavLargeScreen />
-      </div>
-      {showApp && body}
-    </AppRoot>
+    <>
+      {nav}
+      {body}
+    </>
   );
 
   return markup;

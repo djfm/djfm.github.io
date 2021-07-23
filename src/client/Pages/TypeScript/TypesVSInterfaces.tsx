@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {
+  SectionList,
   TitledContent,
   TitledContentFC,
 } from '../../Components/ContentLayout';
@@ -320,4 +321,20 @@ sections.push({
   Content: Types,
 });
 
-export default sections;
+export const TypesVSInterfacesPage: TitledContentFC = ({
+  Container,
+  H1,
+}) => (
+  <Container>
+    <SectionList depth={H1.depth} sections={sections} />
+  </Container>
+);
+
+const TypesVSInterfacesContent: TitledContent = {
+  anchor: 'types-vs-interfaces',
+  documentTitle: 'Types vs. Interfaces en TypeScript',
+  title: 'Types vs. interfaces',
+  Content: TypesVSInterfacesPage,
+};
+
+export default TypesVSInterfacesContent;

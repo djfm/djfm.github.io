@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {
+  SectionList,
   TitledContent,
   TitledContentFC,
 } from '../../Components/ContentLayout';
@@ -227,4 +228,20 @@ sections.push({
   Content: CPPCounterExample,
 });
 
-export default sections;
+export const TypeNarrowingPage: TitledContentFC = ({
+  Container,
+  H1,
+}) => (
+  <Container>
+    <SectionList depth={H1.depth} sections={sections} />
+  </Container>
+);
+
+const TypeNarrowingContent: TitledContent = {
+  anchor: 'type-narrowing',
+  documentTitle: 'Le Type Narrowing en TypeScript',
+  title: <>Le &quot;Type Narrowing&quot;</>,
+  Content: TypeNarrowingPage,
+};
+
+export default TypeNarrowingContent;

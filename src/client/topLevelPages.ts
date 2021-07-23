@@ -1,11 +1,11 @@
 import {
-  WrappedContent,
-} from './Components/ContentLayout/Content';
+  TitledContent,
+} from './Components/ContentLayout';
 
 import Home from './Pages/Home';
 import TypeScript from './Pages/TypeScript';
 
-const pages: WrappedContent[] = [
+const pages: TitledContent[] = [
   Home,
   TypeScript,
 ];

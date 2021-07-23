@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {
+  SectionList,
   TitledContent,
   TitledContentFC,
 } from '../../Components/ContentLayout';
@@ -138,4 +139,20 @@ sections.push({
   Content: TSAdoption,
 });
 
-export default sections;
+export const IntroductionPage: TitledContentFC = ({
+  Container,
+  H1,
+}) => (
+  <Container>
+    <SectionList depth={H1.depth} sections={sections} />
+  </Container>
+);
+
+const IntroductionContent: TitledContent = {
+  anchor: 'introduction',
+  documentTitle: 'Introduction',
+  title: 'Introduction',
+  Content: IntroductionPage,
+};
+
+export default IntroductionContent;
