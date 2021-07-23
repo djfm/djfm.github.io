@@ -2,8 +2,8 @@ import {
   WrappedContent,
 } from './Components/ContentLayout/Content';
 
-import Home from './Pages/0-Home';
-import TypeScript from './Pages/1-TypeScript';
+import Home from './Pages/Home';
+import TypeScript from './Pages/TypeScript';
 
 const pages: WrappedContent[] = [
   Home,

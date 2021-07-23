@@ -18,7 +18,7 @@ import {
   ContentWithRender,
 } from './Content';
 
-import makeHeadingFC from '../common/makeHeadingFC';
+import makeHeadingFC from './makeHeadingFC';
 
 import {
   extendPathname,

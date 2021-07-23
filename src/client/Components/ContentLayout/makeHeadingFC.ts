@@ -2,21 +2,21 @@ import React from 'react';
 
 type HeadingProps = Record<string, unknown>;
 export interface HeadingFC extends React.FC<HeadingProps> {
-  realLevel: number;
+  depth: number;
 }
 
 export const makeHeadingFC = (
-  level: number,
+  depth: number,
 ): HeadingFC => {
   if (
-    level < 1
-    || level > 6
-    || Math.round(level) !== level
+    depth < 1
+    || depth > 6
+    || Math.round(depth) !== depth
   ) {
-    throw new Error(`Invalid level for heading: ${level}.`);
+    throw new Error(`Invalid level for heading: ${depth}.`);
   }
 
-  const tagName = `h${level}` as keyof JSX.IntrinsicElements;
+  const tagName = `h${depth}` as keyof JSX.IntrinsicElements;
 
   const heading = (props: HeadingProps) =>
     React.createElement(
@@ -24,7 +24,7 @@ export const makeHeadingFC = (
       props,
     );
 
-  heading.realLevel = level;
+  heading.depth = depth;
 
   return heading;
 };

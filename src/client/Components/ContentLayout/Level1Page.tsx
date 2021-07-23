@@ -6,7 +6,7 @@ import React, {
 import { NotTooWide } from '../common/Styled';
 
 import { ContentWithRender } from './Content';
-import makeHeadingFC from '../common/makeHeadingFC';
+import makeHeadingFC from './makeHeadingFC';
 
 type TemplateProps = {
   children: ReactNode

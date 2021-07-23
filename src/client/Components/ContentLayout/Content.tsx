@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 
 import {
   HeadingFC,
-} from '../common/makeHeadingFC';
+} from './makeHeadingFC';
 
 export type PrevNext = {
   prev?: ContentMeta;

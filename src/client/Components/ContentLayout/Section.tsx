@@ -13,7 +13,7 @@ import {
   PrevNextMap,
 } from './Content';
 
-import makeHeadingFC from '../common/makeHeadingFC';
+import makeHeadingFC from './makeHeadingFC';
 
 export const backToMenuAnchorId = 'menu-top';
 

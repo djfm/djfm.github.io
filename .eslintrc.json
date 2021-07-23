@@ -54,6 +54,7 @@
         }
       ],
       "react/jsx-props-no-spreading": 0, // it's typescript, it's safe, we got types
-      "no-undef": 0 // use TS one
+      "no-undef": 0, // use TS one
+      "react/prop-types": 0 // trust TypeScript
     }
 }

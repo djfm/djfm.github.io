@@ -22,7 +22,7 @@ import {
 } from './common/util';
 
 import pages from '../topLevelPages';
-import makeHeadingFC from './common/makeHeadingFC';
+import makeHeadingFC from './ContentLayout/makeHeadingFC';
 
 type TemplateProps = {
   children: ReactNode,
