@@ -1,7 +1,10 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-console */
 
+import { inspect } from 'util';
+
 import path from 'path';
+
 import {
   readFile,
   writeFile,
@@ -15,7 +18,9 @@ import {
 import React, {
   ReactElement,
 } from 'react';
+
 import ReactDOMServer from 'react-dom/server';
+
 import { StaticRouter } from 'react-router';
 
 import { ServerStyleSheet } from 'styled-components';
@@ -23,10 +28,18 @@ import { ServerStyleSheet } from 'styled-components';
 import stripTags from 'striptags';
 
 import {
-  ContentMeta,
-} from '../client/Components/ContentLayout/Content';
+  TitledContent,
+} from '../client/Components/ContentLayout/index';
+
 import App from '../client/Components/App';
 import tlPages from '../client/topLevelPages';
+
+const logInspect = (obj: unknown) => {
+  console.log(inspect(obj, {
+    colors: true,
+    depth: null,
+  }));
+};
 
 type PageInfo = {
   link: string
@@ -73,20 +86,20 @@ const removeTrailingSlash = (url: string) => {
  * Only supports 2 levels of nesting.
  */
 const generatePageInfo = (
-  contentMeta: ContentMeta,
+  titledContent: TitledContent,
 ): PageInfo[] => {
   const output: PageInfo[] = [];
 
-  const link = contentMeta.anchor === ''
+  const link = titledContent.anchor === ''
     ? '/'
-    : `/${contentMeta.anchor}`;
+    : `/${titledContent.anchor}`;
 
-  const documentTitle = contentMeta.documentTitle
-    || renderTitle(contentMeta.title);
+  const documentTitle = titledContent.documentTitle
+    || renderTitle(titledContent.title);
 
-  if (contentMeta.childrenMeta) {
-    const [firstChild, ...children] = contentMeta.childrenMeta.map(
-      (child: ContentMeta): PageInfo => ({
+  if (titledContent.children) {
+    const [firstChild, ...children] = titledContent.children.map(
+      (child: TitledContent): PageInfo => ({
         link: `${removeTrailingSlash(link)}/${child.anchor}`,
         documentTitle: child.documentTitle || renderTitle(child.title),
       }),
@@ -155,6 +168,9 @@ const cleanupDocs = async (dirPath: string): Promise<void> => {
 };
 
 const main = async () => {
+  console.log('Pages structure provided:');
+  logInspect(tlPages);
+
   console.log('Pre-rendering all pages...');
   const allPageInfo = ([] as PageInfo[]).concat(...tlPages.map(
     generatePageInfo,
@@ -170,7 +186,8 @@ const main = async () => {
     return -1;
   });
 
-  console.log(`found pages: ${allPageInfo.map((l) => `"${l}"`).join(', ')}.\n`);
+  console.log('Pages found to render:');
+  logInspect(allPageInfo);
 
   const indexBuffer = await readFile(path.resolve(__dirname, 'index.template.html'));
   const indexTemplate = indexBuffer.toString();

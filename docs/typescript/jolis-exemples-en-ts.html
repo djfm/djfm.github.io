@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-M3CJRL4');</script>
+      <!-- End Google Tag Manager -->
+    <title>
+      Jolis Exemples de Code en TypeScript
+    </title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>
+      body {
+        margin: 0;
+      }
+    </style>
+    <style data-styled="true" data-styled-version="5.3.0">.kqmCBH{margin-bottom:20px;}/*!sc*/
+.kqmCBH > figure{max-width:100%;margin-left:0;margin-right:0;margin-bottom:0;}/*!sc*/
+.kqmCBH > figure > figcaption{font-weight:bold;}/*!sc*/
+.kqmCBH > figure > pre{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;overflow:auto;}/*!sc*/
+.kqmCBH > figure > pre > code{margin:0;-webkit-box-flex:1;-webkit-flex-grow:1;-ms-flex-positive:1;flex-grow:1;}/*!sc*/
+data-styled.g11[id="sc-jrsJWt"]{content:"kqmCBH,"}/*!sc*/
+.hvFtAL{padding:10px;margin:0;}/*!sc*/
+@media(max-width:399px){.hvFtAL{font-size:8px;}}/*!sc*/
+@media (min-width:400px) and (max-width:799px){.hvFtAL{font-size:10px;}}/*!sc*/
+@media (min-width:800px){.hvFtAL{font-size:19px;}}/*!sc*/
+data-styled.g12[id="sc-kEqXSa"]{content:"hvFtAL,"}/*!sc*/
+</style>
+    <link rel="preload" href="/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/style.css"></noscript>
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M3CJRL4"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+      <!-- End Google Tag Manager (noscript) -->
+    <div id="root"><nav><ul><a aria-current="page" class="active" href="/">Accueil</a><a aria-current="page" class="active" href="/typescript">TypeScript</a></ul></nav><main><h1>TypeScript</h1><nav><ul><li><a href="/typescript">Introduction</a></li><li><a href="/typescript/typescript-en-bref"><i>TypeScript</i> en bref</a></li><li><a href="/typescript/mise-en-route-rapide">De jolis exemples de <i>TypeScript</i></a></li><li><a aria-current="page" class="active" href="/typescript/jolis-exemples-en-ts">De Jolis exemples de code en TypeScript</a></li><li><a href="/typescript/type-narrowing">Le &quot;Type Narrowing&quot;</a></li><li><a href="/typescript/types-vs-interfaces">Types vs. interfaces</a></li></ul></nav><div id="top-of-list-2"><ul><li><a href="/typescript/jolis-exemples-en-ts##introduction">Introduction</a></li><li><a href="/typescript/jolis-exemples-en-ts##concat-map">La fonction <i>concatMap</i></a></li></ul></div><section><h2 id="introduction">Introduction</h2><nav><ul><li><a href="/typescript/jolis-exemples-en-ts#top-of-list-2">menu</a></li><li><a href="/typescript/jolis-exemples-en-ts#concat-map">suiv.</a></li></ul></nav><p>Dans cette section, je vais essayer de collecter les petites fonctions un peu magiques et les bouts de code qui servent tout le temps et qui sont soit beaux soit dûrs à retrouver donc bons à centraliser.</p></section><section><h2 id="concat-map">La fonction <i>concatMap</i></h2><nav><ul><li><a href="/typescript/jolis-exemples-en-ts#introduction">prec.</a></li><li><a href="/typescript/jolis-exemples-en-ts#top-of-list-2">menu</a></li></ul></nav><p>C&#x27;est un problème très fréquent :<br/>Vous avez une fonction qui renvoie soit des éléments simples soit des tableaux du même type d&#x27;éléments, et vous voulez l&#x27;appliquer à un tableau, bref appliquer <code>Array.map</code> mais avec une fonction qui peut renvoyer des tableaux.</p><p>Dans ce cas, on veut en général obtenir la concaténation des tableaux retournés.</p><p>Grâce au sucre syntactique d&#x27;ES6 la fonction s&#x27;écrit en une ligne que je trouve assez élégante. Bon OK je prends 3 lignes parce que je déteste les longues lignes de code, mais c&#x27;est concis.</p><p>Le point intéressant ici, est de voir comment on la type en <i>TypeScript</i>.</p><div class="sc-jrsJWt kqmCBH"><figure><figcaption>concatMap en TypeScript<!-- --> :</figcaption><pre><code class="sc-kEqXSa hvFtAL hljs no-highlight"><span class="hljs-keyword">const</span> concatMap = &lt;T, U&gt; (fn: (x: T) =&gt; U | U[]) =&gt;
+  (list: T[]): U[] =&gt;
+    ([] as U[]).concat(...list.map(fn));</code></pre></figure><label><span style="display:block;text-align:left;font-family:monospace;font-size:1rem;margin-left:10px">Zoom :</span><input type="range" min="10" max="200" value="100"/></label></div><p>Simple, non ?</p><p><i>concatMap</i> est donc une fonction qui accepte une fonction comme seul argument (<i>fn</i>), et retourne une fonction qui acceptera ensuite un tableau - c&#x27;est ce qu&#x27;on appelle le <i>currying</i>.</p><p>C&#x27;est très pratique de mettre l&#x27;argument sur lequel on va appliquer la transformation en dernière position notamment parce que ça permet de composer facilement les fonctions. J&#x27;en reparlerai sans doute plus tard.</p></section></main></div>
+    <script async src="/bundle.js"></script>
+  </body>
+</html>

@@ -3,14 +3,13 @@ import React, {
 } from 'react';
 
 import {
-  useLocation,
+  useRouteMatch,
   NavLink,
   Route,
   Switch,
 } from 'react-router-dom';
 
 import {
-  extendPathname,
   sortByAnchorForRouterSwitch,
 } from '../common/util';
 
@@ -27,7 +26,7 @@ export type NodePageProps = {
 const NodePage: React.FC<NodePageProps> = ({
   content,
 }) => {
-  const { pathname } = useLocation();
+  const { url, path } = useRouteMatch();
 
   useEffect(() => {
     if (typeof document !== 'undefined') {
@@ -40,7 +39,8 @@ const NodePage: React.FC<NodePageProps> = ({
   });
 
   const [defaultPage, ...pages] = content.children;
-  const sortedPages = sortByAnchorForRouterSwitch(pages);
+  const sortedPages = sortByAnchorForRouterSwitch(pages)
+    .concat(defaultPage);
   const H1 = makeHeadingFC(2);
   const H2 = makeHeadingFC(3);
 
@@ -48,13 +48,13 @@ const NodePage: React.FC<NodePageProps> = ({
     <nav>
       <ul>
         <li>
-          <NavLink exact to={pathname}>
+          <NavLink exact to={url}>
             {defaultPage.title}
           </NavLink>
         </li>
         {pages.map(({ anchor, title }) => (
           <li key={anchor}>
-            <NavLink to={extendPathname(pathname, anchor)}>
+            <NavLink to={`${url}/${anchor}`}>
               {title}
             </NavLink>
           </li>
@@ -63,12 +63,26 @@ const NodePage: React.FC<NodePageProps> = ({
     </nav>
   );
 
+  const routeProps = (anchor: string) => {
+    if (anchor === defaultPage.anchor) {
+      return {
+        path,
+        exact: true,
+      };
+    }
+
+    return {
+      path: `${url}/${anchor}`,
+      exact: false,
+    };
+  };
+
   const pageBody = (
     <Switch>
       {sortedPages.map(({ anchor, Content }) => (
         <Route
           key={anchor}
-          path={extendPathname(pathname, anchor)}
+          {...routeProps(anchor)}
         >
           <Content
             Container={React.Fragment}

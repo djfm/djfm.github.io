@@ -3,6 +3,7 @@ import React from 'react';
 import Introduction from './TypeScript/Introduction';
 import Overview from './TypeScript/Overview';
 import QuickSetup from './TypeScript/QuickSetup';
+import BeautifulExamples from './TypeScript/BeautifulExamples';
 import TypeNarrowing from './TypeScript/TypeNarrowing';
 import TypesVSInterfaces from './TypeScript/TypesVSInterfaces';
 
@@ -16,6 +17,7 @@ const pages: TitledContent[] = [
   Introduction,
   Overview,
   QuickSetup,
+  BeautifulExamples,
   TypeNarrowing,
   TypesVSInterfaces,
 ];
