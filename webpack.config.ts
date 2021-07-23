@@ -45,6 +45,7 @@ export default {
   devtool: 'source-map',
   entry,
   mode,
+  cache: true,
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'docs'),
