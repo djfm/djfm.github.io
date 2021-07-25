@@ -62,16 +62,22 @@ export const StyledApp = styled.div`
     margin: ${mH6} 0 ${mH6} 0;
   }
 
-  li {
+  nav li {
     list-style: none;
+  }
+
+  :not(nav) ul {
+    margin-left: ${spacing.large};
+
+    li:not(:last-child) {
+      margin-bottom: ${spacing.default};
+    }
   }
 
   p {
     line-height: ${spacing.pLineHeight};
     margin-bottom: ${spacing.medium};
   }
-
-
 `;
 
 export default StyledApp;
