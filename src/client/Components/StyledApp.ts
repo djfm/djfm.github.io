@@ -26,6 +26,8 @@ export const StyledApp = styled.div`
   h1 {
     font-size: 2.5rem;
     text-align: center;
+    margin-top: ${spacing.medium};
+    margin-bottom: ${spacing.medium};
   }
 
   h2 {
