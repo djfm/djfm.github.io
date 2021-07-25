@@ -50,6 +50,10 @@ export const StyledApp = styled.div`
     font-size: 1rem;
   }
 
+  li {
+    list-style: none;
+  }
+
   p {
     margin-bottom: ${spacing.medium};
   }

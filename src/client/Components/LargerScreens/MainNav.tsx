@@ -26,8 +26,6 @@ const StyledMainNav = styled.nav`
     padding-bottom: ${spacing.small};
 
     li {
-      list-style: none;
-
       a, a:visited {
         color: ${color.darkContrasting()};
         position: relative;
