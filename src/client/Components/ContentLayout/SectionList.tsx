@@ -1,19 +1,21 @@
+// TODO animate :target
+
 // eslint-disable-next-line react/jsx-filename-extension
 import React, {
   ReactElement,
 } from 'react';
 
 import {
+  makeHeadingFC,
   TitledContent,
 } from '.';
 
-import makeHeadingFC from './makeHeadingFC';
-
+import BackToTop from '../BackToTop';
 import HashLink from '../HashLink';
 
 export type SectionListProps = {
-  sections: TitledContent[]
   depth: number
+  sections: TitledContent[]
 }
 
 type SectionProps = TitledContent & {
@@ -38,8 +40,8 @@ const Section: React.FC<SectionProps> = ({
   const H2 = makeHeadingFC(depth + 2);
 
   const Container = ({ children }) => (
-    <section id={anchor}>
-      <SectionHeading>
+    <section>
+      <SectionHeading id={anchor}>
         {title}
       </SectionHeading>
       {navLinks}
@@ -59,20 +61,22 @@ const Section: React.FC<SectionProps> = ({
 const SectionListLinks: React.FC<SectionListLinksProps> = ({
   sections,
 }) => (
-  <ul>
-    {sections.map(({ anchor, title }) => (
-      <li key={anchor}>
-        <HashLink anchor={`#${anchor}`}>
-          {title}
-        </HashLink>
-      </li>
-    ))}
-  </ul>
+  <nav>
+    <ul>
+      {sections.map(({ anchor, title }) => (
+        <li key={anchor}>
+          <HashLink anchor={anchor}>
+            {title}
+          </HashLink>
+        </li>
+      ))}
+    </ul>
+  </nav>
 );
 
 const createNavLinks: (
   sections: TitledContent[],
-  backToTopAnchor: string,
+  topOfLinkListId: string,
   currentPos: number,
 ) => ReactElement = (
   sections,
@@ -125,8 +129,7 @@ export const SectionList = ({
   depth,
 }: SectionListProps): ReactElement => {
   const linkList = <SectionListLinks sections={sections} />;
-
-  const topOfListId = `top-of-list-${depth}`;
+  const topOfListId = 'menu';
 
   const body = sections.map((section, i) => (
     <React.Fragment key={section.anchor}>
@@ -146,6 +149,7 @@ export const SectionList = ({
         {linkList}
       </div>
       {body}
+      <BackToTop anchor={topOfListId} />
     </>
   );
 };

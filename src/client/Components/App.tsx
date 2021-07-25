@@ -6,6 +6,8 @@ import {
   Switch,
 } from 'react-router-dom';
 
+import BackToTop from './BackToTop';
+
 import {
   sortByAnchorForRouterSwitch,
 } from '../../util';

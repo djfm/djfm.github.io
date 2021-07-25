@@ -1,14 +1,13 @@
-import React, {
-  useEffect,
-} from 'react';
+import React from 'react';
 
 import {
   BrowserRouter,
-  useLocation,
+  // useLocation,
 } from 'react-router-dom';
 
 import App from './App';
 
+/*
 const ScrollToTop = () => {
   const { pathname } = useLocation();
 
@@ -32,10 +31,10 @@ const ScrollToTop = () => {
 
   return null;
 };
+*/
 
 export const Router: React.FC = () => (
   <BrowserRouter>
-    <ScrollToTop />
     <App />
   </BrowserRouter>
 );

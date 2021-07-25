@@ -1,25 +1,21 @@
-import React, {
-  ReactNode,
-} from 'react';
+import React from 'react';
 
 import {
   useLocation,
 } from 'react-router-dom';
 
-export type HashLinkProps = {
+export type HashLinkProps = React.PropsWithChildren<{
   anchor: string
-  children: ReactNode
-}
+}>
 
 export const HashLink: React.FC<HashLinkProps> = ({
   anchor,
   children,
 }: HashLinkProps) => {
   const { pathname } = useLocation();
+  console.log(pathname);
 
-  const href = `${pathname}#${anchor}`;
-
-  return <a href={href}>{children}</a>;
+  return <a href={`#${anchor}`}>{children}</a>;
 };
 
 export default HashLink;

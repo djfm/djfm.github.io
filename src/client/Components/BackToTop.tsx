@@ -2,23 +2,21 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import {
-  standardLinkColor,
-} from './Styled';
-
 import HashLink from './HashLink';
 
 const Wrapper = styled.div`
 `;
 
-export const BackToTop: React.FC<{
-  anchor: string
-}> = ({
-  anchor,
+export type BackToTopProps = {
+  anchor?: string
+}
+
+export const BackToTop: React.FC<BackToTopProps> = ({
+  anchor = 'top',
 }) => (
   <Wrapper>
     <HashLink anchor={anchor}>
-      revenir au haut de page
+      retourner au haut de page
     </HashLink>
   </Wrapper>
 );
