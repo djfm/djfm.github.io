@@ -19,7 +19,7 @@ export type MainNavProps = {
 const StyledMainNav = styled.nav`
   background-color: ${color.dark()};
 
-  ul {
+  ol {
     display: flex;
     justify-content: space-evenly;
     padding-top: ${spacing.small};
@@ -48,7 +48,7 @@ export const MainNav: React.FC<MainNavProps> = ({
   pages,
 }) => (
   <StyledMainNav>
-    <ul>
+    <ol>
       {pages.map(({ anchor, title }) => (
         <li key={anchor}>
           <NavLink
@@ -60,7 +60,7 @@ export const MainNav: React.FC<MainNavProps> = ({
           </NavLink>
         </li>
       ))}
-    </ul>
+    </ol>
   </StyledMainNav>
 );
 
