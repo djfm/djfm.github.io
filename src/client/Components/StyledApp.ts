@@ -3,13 +3,16 @@ import styled from 'styled-components';
 import {
   defaultColorTheme as color,
   spacing,
+  fontSize,
 } from '../theme';
+
+const [, mH1, mH2, mH3, mH4, mH5, mH6] = spacing.headingMargins;
+const [, fH1, fH2, fH3, fH4, fH5, fH6] = fontSize.headings;
 
 export const StyledApp = styled.div`
   /* font styles */
   font-family: monospace;
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: ${fontSize.default};
 
   /* resets */
 
@@ -24,30 +27,34 @@ export const StyledApp = styled.div`
   }
 
   h1 {
-    font-size: 2.5rem;
+    font-size: ${fH1};
     text-align: center;
-    margin-top: ${spacing.medium};
-    margin-bottom: ${spacing.medium};
+    margin: ${mH1} 0 ${mH1} 0;
   }
 
   h2 {
-    font-size: 2rem;
+    font-size: ${fH2};
+    margin: ${mH2} 0 ${mH2} 0;
   }
 
   h3 {
-    font-size: 1.5rem;
+    font-size: ${fH3};
+    margin: ${mH3} 0 ${mH3} 0;
   }
 
   h4 {
-    font-size: 1.2rem;
+    font-size: ${fH4};
+    margin: ${mH4} 0 ${mH4} 0;
   }
 
   h5 {
-    font-size: 1.1rem;
+    font-size: ${fH5};
+    margin: ${mH5} 0 ${mH5} 0;
   }
 
   h6 {
-    font-size: 1rem;
+    font-size: ${fH6};
+    margin: ${mH6} 0 ${mH6} 0;
   }
 
   li {
@@ -56,6 +63,7 @@ export const StyledApp = styled.div`
 
   p {
     margin-bottom: ${spacing.medium};
+    line-height: 1.6;
   }
 
 

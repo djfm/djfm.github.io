@@ -46,8 +46,30 @@ export const defaultColorTheme = makeColorTheme('light');
 /* dimensions */
 
 export const spacing = {
+  tiny: '0.25em',
   small: '0.5em',
-  default: '1em',
-  medium: '1em',
-  large: '2em',
+  default: '0.8em',
+  medium: '1.2em',
+  large: '1.5em',
+  headingMargins: [undefined] as string[],
+};
+
+spacing.headingMargins.push(spacing.medium);
+spacing.headingMargins.push(spacing.default);
+spacing.headingMargins.push(spacing.small);
+spacing.headingMargins.push(spacing.tiny);
+spacing.headingMargins.push(spacing.tiny);
+spacing.headingMargins.push(spacing.tiny);
+
+export const fontSize = {
+  default: '1rem',
+  headings: [
+    undefined,
+    '2.5rem',
+    '2rem',
+    '1.5rem',
+    '1.2rem',
+    '1.1rem',
+    '1rem',
+  ],
 };

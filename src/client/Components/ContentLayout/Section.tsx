@@ -21,7 +21,10 @@ export const Section: React.FC<SectionProps> = ({
 
   const Container = ({ children }) => (
     <section>
-      <SectionHeading id={anchor}>
+      <SectionHeading
+        id={anchor}
+        style={{ marginBottom: 0 }}
+      >
         {title}
       </SectionHeading>
       {navLinks}

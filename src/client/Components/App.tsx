@@ -7,7 +7,7 @@ import {
 
 import {
   sortByAnchorForRouterSwitch,
-} from '../../util';
+} from '../util';
 
 import StyledApp from './StyledApp';
 import MainNavLargerScreens from './LargerScreens/MainNav';

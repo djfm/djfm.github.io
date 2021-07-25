@@ -19,6 +19,11 @@ const TOCHeadingWrapper = styled.div`
   align-items: center;
   display: flex;
 
+  /* the heading, probably a h2 but not necessarily */
+  > *:first-child {
+    font-size: 1rem;
+  }
+
   > a {
     font-weight: bold;
     margin-left: ${spacing.small};

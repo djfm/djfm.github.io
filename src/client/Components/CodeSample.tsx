@@ -11,7 +11,7 @@ import hljs from '../../highlight.js/index';
 import {
   parseValueWithUnit,
   trimLeadingWhitespace,
-} from '../../util';
+} from '../util';
 
 import {
   tinyScreenMax,

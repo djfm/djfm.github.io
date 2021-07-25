@@ -10,9 +10,13 @@ import {
   TitledContent,
 } from '.';
 
+import {
+  spacing,
+} from '../../theme';
+
 import BackToTop from '../BackToTop';
-import HashLink from '../HashLink';
 import Section from './Section';
+import SectionNav from './SectionNav';
 import TableOfContents from './TableOfContents';
 
 export type SectionListProps = {
@@ -20,60 +24,6 @@ export type SectionListProps = {
   depth: number
   sections: TitledContent[]
 }
-
-/**
- * Function that creates the links below each
- * section's header
- */
-const createSectionNavLinks: (
-  sections: TitledContent[],
-  topOfLinkListId: string,
-  currentPos: number,
-) => ReactElement = (
-  sections,
-  backToTopAnchor,
-  currentPos,
-) => {
-  type LinkTo = {
-    anchor: string
-    title: string
-  }
-
-  const itemsToLinkTo = [] as LinkTo[];
-
-  if (currentPos > 0) {
-    itemsToLinkTo.push({
-      anchor: `${sections[currentPos - 1].anchor}`,
-      title: 'prec.',
-    });
-  }
-
-  itemsToLinkTo.push({
-    anchor: backToTopAnchor,
-    title: 'menu',
-  });
-
-  if (currentPos < sections.length - 1) {
-    itemsToLinkTo.push({
-      anchor: `${sections[currentPos + 1].anchor}`,
-      title: 'suiv.',
-    });
-  }
-
-  return (
-    <nav>
-      <ul>
-        {itemsToLinkTo.map(({ anchor, title }) => (
-          <li key={anchor}>
-            <HashLink anchor={anchor}>
-              {title}
-            </HashLink>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  );
-};
 
 /**
  * Renders a list of sections with its table
@@ -93,17 +43,23 @@ export const SectionList = ({
       H1={H1}
     />
   );
+
   const tableOfContentsTopId = 'table-of-contents';
+
+  const navLinksMarginBottom = spacing.headingMargins[depth];
 
   const body = sections.map((section, i) => (
     <React.Fragment key={section.anchor}>
       <Section
         {...{
           depth,
-          navLinks: createSectionNavLinks(
-            sections,
-            tableOfContentsTopId,
-            i,
+          navLinks: (
+            <SectionNav
+              sections={sections}
+              tableOfContentsTopId={tableOfContentsTopId}
+              currentPos={i}
+              marginBottom={navLinksMarginBottom}
+            />
           ),
           ...section,
         }}
