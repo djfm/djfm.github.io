@@ -22,7 +22,6 @@ const StyledNav = styled.nav`
 
 type SectionNavProps = {
   currentPos: number
-  marginBottom: string
   sections: TitledContent[]
   tableOfContentsTopId: string
 };
@@ -31,7 +30,6 @@ export const SectionNav: React.FC<
   SectionNavProps
 > = ({
   currentPos,
-  marginBottom,
   sections,
   tableOfContentsTopId,
 }) => {
@@ -63,7 +61,7 @@ export const SectionNav: React.FC<
 
   return (
     <StyledNav>
-      <ol style={{ marginBottom }}>
+      <ol>
         {itemsToLinkTo.map(({ anchor, title }) => (
           <li key={anchor}>
             <HashLink anchor={anchor}>

@@ -15,9 +15,15 @@ import {
 } from '../../theme';
 
 type SectionProps = TitledContent & {
-  depth: number;
-  navLinks: ReactElement;
-};
+  depth: number
+  navLinks: ReactElement
+  number: string | undefined
+  vMargin: string
+}
+
+type StyledSectionProps = {
+  vMargin: string;
+}
 
 const StyledSection = styled.section`
   *:target {
@@ -25,28 +31,66 @@ const StyledSection = styled.section`
     padding-left: ${spacing.small};
     border-left: 1px solid ${colors.dark()};
   }
+
+  > *:first-child * {
+    margin: 0;
+  }
+
+  > *:first-child {
+    margin-top: ${(props: StyledSectionProps) => props.vMargin};
+  }
+
+  > *:first-child + nav {
+    margin-bottom: ${(props: StyledSectionProps) => props.vMargin};
+  }
+
+  > *:first-child + :not(nav) + * {
+  margin-top: ${(props: StyledSectionProps) => props.vMargin};
+}
+`;
+
+const NumberedHeading = styled.div`
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+
+  > *:first-child {
+    margin-right: ${spacing.small};
+  }
 `;
 
 export const Section: React.FC<SectionProps> = ({
-  anchor, depth, navLinks, title, Content,
+  anchor, depth, navLinks, number, title, vMargin, Content,
 }) => {
   const SectionHeading = makeHeadingFC(depth);
 
   const H1 = makeHeadingFC(depth + 1);
   const H2 = makeHeadingFC(depth + 2);
 
-  const Container = ({ children }) => (
-    <StyledSection>
+  const Container = ({ children }) => {
+    const heading = (
       <SectionHeading
         id={anchor}
-        style={{ marginBottom: spacing.tiny }}
       >
         {title}
       </SectionHeading>
-      {navLinks}
-      {children}
-    </StyledSection>
-  );
+    );
+
+    const top = number ? (
+      <NumberedHeading>
+        <div>{number}</div>
+        {heading}
+      </NumberedHeading>
+    ) : heading;
+
+    return (
+      <StyledSection vMargin={vMargin}>
+        {top}
+        {navLinks}
+        {children}
+      </StyledSection>
+    );
+  };
 
   return (
     <Content

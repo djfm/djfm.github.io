@@ -46,23 +46,26 @@ export const SectionList = ({
 
   const tableOfContentsTopId = 'table-of-contents';
 
-  const navLinksMarginBottom = spacing.headingMargins[depth];
+  const vMargin = spacing.headingMargins[depth];
 
   const body = sections.map((section, i) => (
     <React.Fragment key={section.anchor}>
       <Section
-        {...{
-          depth,
-          navLinks: (
-            <SectionNav
-              sections={sections}
-              tableOfContentsTopId={tableOfContentsTopId}
-              currentPos={i}
-              marginBottom={navLinksMarginBottom}
-            />
-          ),
-          ...section,
-        }}
+        number={
+          sections.length > 0
+            ? `${i + 1}/${sections.length})`
+            : undefined
+        }
+        depth={depth}
+        navLinks={(
+          <SectionNav
+            sections={sections}
+            tableOfContentsTopId={tableOfContentsTopId}
+            currentPos={i}
+          />
+        )}
+        vMargin={vMargin}
+        {...section}
       />
     </React.Fragment>
   ));
