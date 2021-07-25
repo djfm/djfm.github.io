@@ -37,8 +37,10 @@ export type NodePageProps = {
 const navFlexBasis = runBinOpWithUnits(
   largeScreenMin,
   smallScreenMax,
-  (a, b) => a - b,
+  (a, b) => 0.75 * (a - b),
 );
+
+console.log(navFlexBasis);
 
 const ResponsiveContainer = styled.div`
   @media(max-width: ${mediumScreenMax}) {
