@@ -38,8 +38,8 @@ const Section: React.FC<SectionProps> = ({
   const H2 = makeHeadingFC(depth + 2);
 
   const Container = ({ children }) => (
-    <section>
-      <SectionHeading id={anchor}>
+    <section id={anchor}>
+      <SectionHeading>
         {title}
       </SectionHeading>
       {navLinks}
