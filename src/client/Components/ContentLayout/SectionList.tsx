@@ -7,85 +7,19 @@ import React, {
 
 import {
   makeHeadingFC,
-  HeadingFC,
   TitledContent,
 } from '.';
 
 import BackToTop from '../BackToTop';
-import CenteredRow from '../CenteredRow';
 import HashLink from '../HashLink';
+import Section from './Section';
+import TableOfContents from './TableOfContents';
 
 export type SectionListProps = {
   tableOfContentsTitle?: ReactElement | string,
   depth: number
   sections: TitledContent[]
 }
-
-type SectionProps = TitledContent & {
-  depth: number
-  navLinks: ReactElement
-}
-
-const Section: React.FC<SectionProps> = ({
-  anchor,
-  depth,
-  navLinks,
-  title,
-  Content,
-}) => {
-  const SectionHeading = makeHeadingFC(depth);
-
-  const H1 = makeHeadingFC(depth + 1);
-  const H2 = makeHeadingFC(depth + 2);
-
-  const Container = ({ children }) => (
-    <section>
-      <SectionHeading id={anchor}>
-        {title}
-      </SectionHeading>
-      {navLinks}
-      {children}
-    </section>
-  );
-
-  return (
-    <Content
-      Container={Container}
-      H1={H1}
-      H2={H2}
-    />
-  );
-};
-
-type TableOfContentsProps = {
-  sections: TitledContent[]
-  title: ReactElement | string,
-  H1: HeadingFC,
-}
-
-const TableOfContents: React.FC<TableOfContentsProps> = ({
-  sections,
-  title: tocTitle,
-  H1,
-}) => (
-  <nav>
-    {tocTitle && (
-      <CenteredRow>
-        <H1>{tocTitle}</H1>
-        <HashLink anchor="top">{'\u21c8'}</HashLink>
-      </CenteredRow>
-    )}
-    <ul>
-      {sections.map(({ anchor, title }) => (
-        <li key={anchor}>
-          <HashLink anchor={anchor}>
-            {title}
-          </HashLink>
-        </li>
-      ))}
-    </ul>
-  </nav>
-);
 
 /**
  * Function that creates the links below each
