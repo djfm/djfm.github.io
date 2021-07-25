@@ -56,7 +56,6 @@ export const spacing = {
   pLineHeight: undefined,
 };
 
-spacing.listPadding = spacing.large;
 spacing.pLineHeight = '1.7';
 
 spacing.headingMargins.push(spacing.medium);

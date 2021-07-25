@@ -30,6 +30,28 @@ const TOCHeadingWrapper = styled.div`
   }
 `;
 
+const StyledNav = styled.nav`
+  margin-left: ${spacing.default};
+
+  ol {
+    padding-left: ${spacing.default};
+
+    li {
+      position: relative;
+
+      &:not(:last-child) {
+        margin-bottom:${spacing.small};
+      }
+
+      a::before {
+        content: '\u2219';
+        left: -${spacing.default};
+        position: absolute;
+      }
+    }
+  }
+`;
+
 type TableOfContentsProps = {
   sections: TitledContent[];
   title: ReactElement | string;
@@ -43,14 +65,14 @@ export const TableOfContents: React.FC<
   title: tocTitle,
   H1,
 }) => (
-  <nav>
+  <StyledNav>
     {tocTitle && (
       <TOCHeadingWrapper>
         <H1>{tocTitle}</H1>
         <HashLink anchor="top">{'\u21c8'}</HashLink>
       </TOCHeadingWrapper>
     )}
-    <ul>
+    <ol>
       {sections.map(({ anchor, title }) => (
         <li key={anchor}>
           <HashLink anchor={anchor}>
@@ -58,8 +80,8 @@ export const TableOfContents: React.FC<
           </HashLink>
         </li>
       ))}
-    </ul>
-  </nav>
+    </ol>
+  </StyledNav>
 );
 
 export default TableOfContents;

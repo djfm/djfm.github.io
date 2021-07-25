@@ -36,7 +36,7 @@ const StyledNav = styled.nav`
   ol {
     border-left: 1px solid ${colors.dark()};
     margin-left: ${spacing.default};
-    padding-left: ${spacing.listPadding};
+    padding-left: ${spacing.large};
 
     a, a:visited {
       color: ${colors.dark()};
@@ -52,7 +52,7 @@ const StyledNav = styled.nav`
       }
     }
 
-    li {
+    li:not(:last-child) {
       margin-bottom: ${spacing.default};
     }
   }
