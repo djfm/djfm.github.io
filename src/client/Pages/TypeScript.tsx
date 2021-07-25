@@ -32,8 +32,8 @@ const TypeScriptPage: TitledContentFC = ({
 
 const TypeScriptContent: TitledContent = ({
   anchor: 'typescript',
-  title: 'TypeScript',
-  documentTitle: 'TypeScript',
+  title: <>Autour de <i>TypeScript</i></>,
+  documentTitle: 'Autour de TypeScript',
   children: pages,
   Content: TypeScriptPage,
 });

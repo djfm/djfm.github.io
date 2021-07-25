@@ -109,7 +109,7 @@ const MyJSStory: TitledContentFC = ({
 );
 
 sections.push({
-  title: 'Mon histoire avec le JS',
+  title: <>Mon histoire avec le <i>JS</i></>,
   anchor: 'le-js-et-moi',
   Content: MyJSStory,
 });
@@ -147,8 +147,8 @@ const TSAdoption: TitledContentFC = ({
 );
 
 sections.push({
-  title: <>Mon adoption de <i>TypeScript</i></>,
-  anchor: 'ts-switch',
+  title: <>Comment j&apos;ai adopté <i>TypeScript</i></>,
+  anchor: 'adoption-ts',
   Content: TSAdoption,
 });
 
