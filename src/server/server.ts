@@ -1,4 +1,5 @@
 import path from 'path';
+import { stat } from 'fs/promises';
 
 import express from 'express';
 
@@ -20,12 +21,30 @@ const app = express();
 app.use(devMiddleware);
 app.use(hotMiddleware);
 
-app.use(express.static(
-  path.resolve(__dirname, '..', '..', 'docs'),
-  {
-    extensions: ['html'],
-  },
-));
+const publicDir = path.resolve(__dirname, '..', '..', 'docs');
+
+app.use(async (req, res, next): Promise<void> => {
+  const candidatePath = `${
+    path.resolve(publicDir, req.path.slice(1))
+  }.html`;
+  try {
+    const s = await stat(candidatePath);
+    if (!s.isFile()) {
+      next();
+      return;
+    }
+    res.sendFile(candidatePath);
+  } catch (err) {
+    if (err.code !== 'ENOENT') {
+      throw err;
+    }
+    next();
+  }
+});
+
+app.use(express.static(publicDir, {
+  extensions: ['html'],
+}));
 
 const port = process.env.port || 3000;
 
