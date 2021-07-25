@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {
+  useState,
+} from 'react';
 
 import {
   Route,
@@ -11,6 +13,7 @@ import {
 
 import StyledApp from './StyledApp';
 import MainNavLargerScreens from './LargerScreens/MainNav';
+import SmallScreenMenu from './SmallScreen/Menu';
 
 import makeHeadingFC from './ContentLayout/makeHeadingFC';
 
@@ -22,6 +25,16 @@ const H1 = makeHeadingFC(1);
 const H2 = makeHeadingFC(2);
 
 const App: React.FC = () => {
+  const [appDisplay, setAppDisplay] = useState<'none' | 'block'>('block');
+
+  const onMenuToggle = (open: boolean) => {
+    if (open) {
+      setAppDisplay('none');
+    } else {
+      setAppDisplay('block');
+    }
+  };
+
   const nav = (
     <>
       <MainNavLargerScreens pages={pages} />
@@ -50,8 +63,14 @@ const App: React.FC = () => {
 
   const markup = (
     <StyledApp>
-      {nav}
-      {body}
+      <div style={{ display: appDisplay }}>
+        {nav}
+        {body}
+      </div>
+      <SmallScreenMenu
+        pages={pages}
+        onMenuToggle={onMenuToggle}
+      />
     </StyledApp>
   );
 

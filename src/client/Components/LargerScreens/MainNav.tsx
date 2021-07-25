@@ -35,7 +35,7 @@ const StyledMainNav = styled.nav`
           color: ${color.darkContrasting(2)};
           &::before {
             content: '\u2605';
-            left: -${spacing.default};
+            left: -${spacing.medium};
             position: absolute;
           }
         }
