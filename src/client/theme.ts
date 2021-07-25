@@ -15,6 +15,7 @@ export const largeScreenMin = '1200px';
 export type ColorThemeStyle = 'dark' | 'light';
 
 export type ColorTheme = {
+  border: () => string;
   dark: () => string;
   light: () => string;
   lightContrasting: (n?: number) => string;
@@ -26,6 +27,7 @@ export const makeColorTheme = (
 ): ColorTheme => {
   if (style === 'light') {
     return {
+      border: () => '#bbb',
       dark: () => '#0d1117',
       light: () => '#fff',
       lightContrasting: (n = 0) => {
