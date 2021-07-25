@@ -7,13 +7,7 @@ import {
 
 import HashLink from '../HashLink';
 
-import {
-  spacing,
-} from '../../theme';
-
 const StyledNav = styled.nav`
-  margin-left: ${spacing.small};
-
   ol {
     display: flex;
     align-items: baseline;
