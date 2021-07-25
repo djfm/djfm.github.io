@@ -2,12 +2,15 @@ import React, {
   ReactElement,
 } from 'react';
 
+import styled from 'styled-components';
+
 import {
   makeHeadingFC,
   TitledContent,
 } from '.';
 
 import {
+  defaultColorTheme as colors,
   spacing,
 } from '../../theme';
 
@@ -15,6 +18,15 @@ type SectionProps = TitledContent & {
   depth: number;
   navLinks: ReactElement;
 };
+
+const StyledSection = styled.section`
+  *:target {
+    margin-left: ${spacing.tiny};
+    padding-left: ${spacing.small};
+    border-left: 1px solid ${colors.dark()};
+  }
+`;
+
 export const Section: React.FC<SectionProps> = ({
   anchor, depth, navLinks, title, Content,
 }) => {
@@ -24,7 +36,7 @@ export const Section: React.FC<SectionProps> = ({
   const H2 = makeHeadingFC(depth + 2);
 
   const Container = ({ children }) => (
-    <section>
+    <StyledSection>
       <SectionHeading
         id={anchor}
         style={{ marginBottom: spacing.tiny }}
@@ -33,7 +45,7 @@ export const Section: React.FC<SectionProps> = ({
       </SectionHeading>
       {navLinks}
       {children}
-    </section>
+    </StyledSection>
   );
 
   return (

@@ -49,6 +49,14 @@ const StyledNav = styled.nav`
         left: -${spacing.default};
         position: absolute;
       }
+
+      a.active {
+        color: ${colors.dark()};
+
+        ::before {
+          content: '\u2605';
+        }
+      }
     }
   }
 `;
@@ -67,12 +75,10 @@ export const TableOfContents: React.FC<
   H1,
 }) => (
   <StyledNav>
-    {tocTitle && (
-      <TOCHeadingWrapper>
-        <H1>{tocTitle}</H1>
-        <HashLink anchor="top">{'\u21c8'}</HashLink>
-      </TOCHeadingWrapper>
-    )}
+    <TOCHeadingWrapper>
+      <H1>{tocTitle}</H1>
+      <HashLink anchor="top">{'\u21c8'}</HashLink>
+    </TOCHeadingWrapper>
     <ol>
       {sections.map(({ anchor, title }) => (
         <li key={anchor}>
