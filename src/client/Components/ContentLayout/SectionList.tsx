@@ -23,10 +23,6 @@ type SectionProps = TitledContent & {
   navLinks: ReactElement
 }
 
-type SectionListLinksProps = {
-  sections: TitledContent[]
-}
-
 const Section: React.FC<SectionProps> = ({
   anchor,
   depth,
@@ -58,7 +54,11 @@ const Section: React.FC<SectionProps> = ({
   );
 };
 
-const SectionListLinks: React.FC<SectionListLinksProps> = ({
+type TableOfContentsProps = {
+  sections: TitledContent[]
+}
+
+const TableOfContents: React.FC<TableOfContentsProps> = ({
   sections,
 }) => (
   <nav>
@@ -74,7 +74,11 @@ const SectionListLinks: React.FC<SectionListLinksProps> = ({
   </nav>
 );
 
-const createNavLinks: (
+/**
+ * Function that creates the links below each
+ * section's header
+ */
+const createSectionNavLinks: (
   sections: TitledContent[],
   topOfLinkListId: string,
   currentPos: number,
@@ -124,19 +128,27 @@ const createNavLinks: (
   );
 };
 
+/**
+ * Renders a list of sections with its table
+ * of contents.
+ */
 export const SectionList = ({
   sections,
   depth,
 }: SectionListProps): ReactElement => {
-  const linkList = <SectionListLinks sections={sections} />;
-  const topOfListId = 'menu';
+  const tableOfContents = <TableOfContents sections={sections} />;
+  const tableOfContentsTopId = 'table-of-contents';
 
   const body = sections.map((section, i) => (
     <React.Fragment key={section.anchor}>
       <Section
         {...{
           depth,
-          navLinks: createNavLinks(sections, topOfListId, i),
+          navLinks: createSectionNavLinks(
+            sections,
+            tableOfContentsTopId,
+            i,
+          ),
           ...section,
         }}
       />
@@ -145,11 +157,11 @@ export const SectionList = ({
 
   return (
     <>
-      <div id={topOfListId}>
-        {linkList}
+      <div id={tableOfContentsTopId}>
+        {tableOfContents}
       </div>
       {body}
-      <BackToTop anchor={topOfListId} />
+      <BackToTop anchor={tableOfContentsTopId} />
     </>
   );
 };
