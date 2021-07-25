@@ -1,7 +1,6 @@
-import React from 'react';
 import styled from 'styled-components';
 
-export const Aside = styled(React.Fragment)`
+export const Aside = styled.aside`
 `;
 
 export default Aside;
