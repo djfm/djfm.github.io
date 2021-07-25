@@ -9,6 +9,7 @@ import {
 
 import {
   defaultColorTheme as color,
+  smallScreenMax,
   spacing,
 } from '../../theme';
 
@@ -17,6 +18,9 @@ export type MainNavProps = {
 };
 
 const StyledMainNav = styled.nav`
+  @media(max-width: ${smallScreenMax}) {
+    display: none;
+  }
   background-color: ${color.dark()};
 
   ol {
