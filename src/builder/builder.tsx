@@ -32,7 +32,7 @@ import {
 } from '../client/Components/ContentLayout/index';
 
 import App from '../client/Components/App';
-import tlPages from '../client/topLevelPages';
+import tlPages from '../client/siteStructure';
 
 const logInspect = (obj: unknown) => {
   console.log(inspect(obj, {

@@ -13,32 +13,6 @@ export const hasOwnProperty = <
         prop,
       );
 
-const trimSlashes = (str: string) => {
-  const leadingSlashes = /^\/+/;
-  const trailingSlashes = /\/+$/;
-
-  return str
-    .replace(leadingSlashes, '')
-    .replace(trailingSlashes, '');
-};
-
-/**
- * Appends {additionalPath} to {initialPathname},
- * adding a leading forward slash if there was none,
- * and not adding a forward slash at the end of the
- * returned extended pathname.
- *
- * The method trims extra leading and trailing slashes
- * in {initialPathname} and {additionalPath}.
- *
- * @return  {[type]}  [return description]
- */
-export const extendPathname = (
-  initialPathname: string,
-  additionalPath: string,
-): string =>
-  `/${trimSlashes(initialPathname)}/${trimSlashes(additionalPath)}`;
-
 const makeStringTrimmers = () => {
   type StringTrimmer = (str:string) => ({
     charExtracted: string,
@@ -65,16 +39,10 @@ const makeStringTrimmers = () => {
     return inputString;
   };
 
-  const isWSButNotUnbreakableSpace = (char: string) => {
-    if (char[0] !== '\u00a0') {
-      return /^\s/m.test(char);
-    }
+  const isBreakableWSChar = (char: string) => char[0] !== '\u00a0' && /\s/.test(char);
 
-    return false;
-  };
-
-  const trimLeft = makeTrimmer(extractFirst, isWSButNotUnbreakableSpace);
-  const trimRight = makeTrimmer(extractLast, isWSButNotUnbreakableSpace);
+  const trimLeft = makeTrimmer(extractFirst, isBreakableWSChar);
+  const trimRight = makeTrimmer(extractLast, isBreakableWSChar);
 
   return {
     trimLeft,

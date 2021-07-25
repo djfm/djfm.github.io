@@ -8,7 +8,7 @@ import {
 
 import {
   Aside,
-} from '../../Components/common/Styled';
+} from '../../Components/Styled';
 
 const sections = [] as TitledContent[];
 

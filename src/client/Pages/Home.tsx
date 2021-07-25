@@ -8,7 +8,7 @@ import {
 
 import {
   NoWrap,
-} from '../Components/common/Styled';
+} from '../Components/Styled';
 
 const sections: TitledContent[] = [];
 

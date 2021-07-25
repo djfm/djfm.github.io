@@ -9,7 +9,7 @@ import {
 
 import makeHeadingFC from './makeHeadingFC';
 
-import HashLink from '../common/HashLink';
+import HashLink from '../HashLink';
 
 export type SectionListProps = {
   sections: TitledContent[]

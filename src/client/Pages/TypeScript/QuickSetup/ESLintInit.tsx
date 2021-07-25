@@ -5,11 +5,11 @@ import {
   TitledContentFC,
 } from '../../../Components/ContentLayout';
 
-import CodeSample from '../../../Components/common/CodeSample';
+import CodeSample from '../../../Components/CodeSample';
 
 import {
   Aside,
-} from '../../../Components/common/Styled';
+} from '../../../Components/Styled';
 
 const ESLintInit: TitledContentFC = ({
   Container,

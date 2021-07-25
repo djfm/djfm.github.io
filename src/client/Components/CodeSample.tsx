@@ -6,12 +6,12 @@ import React, {
 
 import styled from 'styled-components';
 
-import hljs from '../../../highlight.js/index';
+import hljs from '../../highlight.js/index';
 
 import {
   parseValueWithUnit,
   trimLeadingWhitespace,
-} from '../common/util';
+} from '../../util';
 
 import {
   bp0Max,

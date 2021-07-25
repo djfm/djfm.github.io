@@ -8,7 +8,7 @@ import {
 
 export type HashLinkProps = {
   anchor: string
-  children?: ReactNode
+  children: ReactNode
 }
 
 export const HashLink: React.FC<HashLinkProps> = ({

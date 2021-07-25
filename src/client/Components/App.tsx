@@ -8,11 +8,11 @@ import {
 
 import {
   sortByAnchorForRouterSwitch,
-} from './common/util';
+} from '../../util';
 
 import makeHeadingFC from './ContentLayout/makeHeadingFC';
 
-import pages from '../topLevelPages';
+import pages from '../siteStructure';
 
 const sortedPages = sortByAnchorForRouterSwitch(pages);
 

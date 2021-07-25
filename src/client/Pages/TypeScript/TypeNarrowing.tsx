@@ -6,7 +6,7 @@ import {
   TitledContentFC,
 } from '../../Components/ContentLayout';
 
-import CodeSample from '../../Components/common/CodeSample';
+import CodeSample from '../../Components/CodeSample';
 
 const sections = [] as TitledContent[];
 
