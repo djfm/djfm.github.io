@@ -6,6 +6,7 @@ import styled from 'styled-components';
 
 import {
   spacing,
+  defaultColorTheme as colors,
 } from '../../theme';
 
 import {
@@ -21,7 +22,7 @@ const TOCHeadingWrapper = styled.div`
 
   /* the heading, probably a h2 but not necessarily */
   > *:first-child {
-    font-size: 1rem;
+    font-size: 1em;
   }
 
   > a {
