@@ -12,6 +12,7 @@ import {
 import styled from 'styled-components';
 
 import {
+  runBinOpWithUnits,
   sortByAnchorForRouterSwitch,
 } from '../../util';
 
@@ -21,6 +22,9 @@ import {
 
 import {
   defaultColorTheme as colors,
+  largeScreenMin,
+  mediumScreenMax,
+  smallScreenMax,
   spacing,
 } from '../../theme';
 
@@ -30,12 +34,51 @@ export type NodePageProps = {
   content: TitledContent
 }
 
+const navFlexBasis = runBinOpWithUnits(
+  largeScreenMin,
+  smallScreenMax,
+  (a, b) => a - b,
+);
+
+const ResponsiveContainer = styled.div`
+  @media(max-width: ${mediumScreenMax}) {
+    /* the page body */
+    > div:last-child {
+      padding-left: ${spacing.small};
+      padding-right: ${spacing.small};
+    }
+  }
+
+  @media(min-width: ${largeScreenMin}) {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-evenly;
+
+
+    /* the page body */
+    > div:last-child {
+      max-width: ${smallScreenMax};
+      padding: 0;
+    }
+
+    /* the nav container */
+    > div:first-child {
+      flex-basis: ${navFlexBasis};
+      margin-right: ${spacing.medium};
+
+      nav {
+        position: fixed;
+      }
+    }
+  }
+`;
+
 const StyledNav = styled.nav`
   margin-bottom: ${spacing.medium};
 
   ol {
     border-left: 1px solid ${colors.dark()};
-    margin-left: ${spacing.default};
+    margin-left: ${spacing.small};
     padding-left: ${spacing.large};
 
     a, a:visited {
@@ -132,8 +175,14 @@ const NodePage: React.FC<NodePageProps> = ({
   return (
     <main>
       <h1>{content.title}</h1>
-      {secondaryNav}
-      {pageBody}
+      <ResponsiveContainer>
+        <div>
+          {secondaryNav}
+        </div>
+        <div>
+          {pageBody}
+        </div>
+      </ResponsiveContainer>
     </main>
   );
 };

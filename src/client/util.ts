@@ -128,7 +128,17 @@ export const sortByAnchorForRouterSwitch = <T extends WithAnchor>(
       ) => (a < b ? 1 : -1),
     );
 
-export const mulNumberWithUnit = (str: string, n: number): string => {
-  const [value, unit] = parseValueWithUnit(str);
-  return `${value * n}${unit}`;
+export const runBinOpWithUnits = (
+  aWithUnit: string,
+  bWithUnit: string,
+  op: (a: number, b: number) => number,
+): string => {
+  const [a, aUnit] = parseValueWithUnit(aWithUnit);
+  const [b, bUnit] = parseValueWithUnit(bWithUnit);
+
+  if (aUnit !== bUnit) {
+    throw new Error(`Cannot apply "${op.name}" operator to units "${aUnit}" and "${bUnit}"`);
+  }
+
+  return `${op(a, b)}${aUnit}`;
 };

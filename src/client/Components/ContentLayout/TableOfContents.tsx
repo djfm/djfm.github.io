@@ -32,9 +32,8 @@ const TOCHeadingWrapper = styled.div`
 `;
 
 const StyledNav = styled.nav`
-  margin-left: ${spacing.default};
-
   ol {
+    margin-left: ${spacing.small};
     padding-left: ${spacing.default};
 
     li {
