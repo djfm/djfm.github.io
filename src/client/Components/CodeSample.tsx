@@ -18,7 +18,7 @@ import {
   smallScreenMin,
   smallScreenMax,
   mediumScreenMin,
-} from '../../theme';
+} from '../theme';
 
 const Wrapper = styled.div`
   margin-bottom: 20px;
