@@ -26,9 +26,11 @@ const App: React.FC = () => {
     <nav>
       <ul>
         {pages.map(({ anchor, title }) => (
-          <NavLink key={anchor} to={`/${anchor}`}>
-            {title}
-          </NavLink>
+          <li key={anchor}>
+            <NavLink to={`/${anchor}`}>
+              {title}
+            </NavLink>
+          </li>
         ))}
       </ul>
     </nav>
