@@ -26,6 +26,11 @@ export const StyledApp = styled.div`
     color: ${color.lightContrasting()};
   }
 
+  dd {
+    margin-bottom: ${spacing.default};
+    margin-left: ${spacing.medium};
+  }
+
   h1 {
     font-size: ${fH1};
     text-align: center;
