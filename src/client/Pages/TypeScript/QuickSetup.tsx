@@ -32,7 +32,7 @@ export const QuickSetupPage: TitledContentFC = ({
 const QuickSetupContent: TitledContent = {
   anchor: 'mise-en-route-rapide',
   documentTitle: 'TypeScript - Mise en Route Rapide',
-  title: <>De jolis exemples de <i>TypeScript</i></>,
+  title: 'Mise en Route Rapide',
   Content: QuickSetupPage,
 };
 

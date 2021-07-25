@@ -92,7 +92,12 @@ const MyJSStory: TitledContentFC = ({
         par <i>React</i>, lui, ne changera probablement pas avant longtemps.
       </p>
       <p>
-        Mais&nbsp;
+        Avec une framework déclaratif, on a un code sur lequel on peut
+        raisonner extrêmement facilement, les chances de se tromper sont radicalement
+        diminuées. Quand on couple ça à un langage typé, c&apos;est royal.
+      </p>
+      <p>
+        Mais pourtant,&nbsp;
         <strong>
           pendant longtemps j&apos;ai regardé <i>TypeScript</i> d&apos;un mauvais oeil
         </strong>.
@@ -116,13 +121,23 @@ const TSAdoption: TitledContentFC = ({
 }) => (
   <Container>
     <p>
-      J&apos;ai adopté <i>TypeScript</i> depuis que je suis passé à l&apos;IDE&nbsp;
-      <i>VSCode</i>, où la plupart des choses marchent d&apos;elles-mêmes comme
-      par magie, sans trop de configuration.
+      <strong>
+        J&apos;ai adopté <i>TypeScript</i> depuis que je
+        suis passé à l&apos;IDE <i>VSCode</i>
+      </strong>, où la plupart des
+      choses marchent d&apos;elles-mêmes comme
+      par magie, sans trop de configuration, ce qui change beaucoup de
+      ce qu&apos;on avait avant, comme par exemple <i>atom</i>, qui était
+      très bien, mais avec lequel je n&apos;ai par exemple jamais réussi
+      à faire fonctionner un débugger.
     </p>
     <p>
-      J&apos;ai commencé par mettre des annotations de types dans mes commentaires
-      en <i>JSDoc</i> et j&apos;ai vu que l&apos;IDE s&apos;en servait pour me
+      Dans <i>VSCode</i>, l&apos;intégration du débugger pour <i>TypeScript</i> est
+      magique.
+    </p>
+    <p>
+      Tout a commencé quand je me suis mis à mettre des annotations de types dans mes commentaires
+      en <i>JSDoc</i> et que j&apos;ai vu que l&apos;IDE s&apos;en servait pour me
       donner des conseils utiles&nbsp;: une meilleure autocomplétion, la détection
       de certaines erreurs...
     </p>
