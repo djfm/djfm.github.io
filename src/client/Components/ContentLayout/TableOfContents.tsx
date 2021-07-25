@@ -7,7 +7,7 @@ import {
   TitledContent,
 } from '.';
 
-import CenteredRow from '../CenteredRow';
+import CenteredRowSB from '../CenteredRowSpaceBetween';
 
 import HashLink from '../HashLink';
 
@@ -26,10 +26,10 @@ export const TableOfContents: React.FC<
 }) => (
   <nav>
     {tocTitle && (
-      <CenteredRow>
+      <CenteredRowSB>
         <H1>{tocTitle}</H1>
         <HashLink anchor="top">{'\u21c8'}</HashLink>
-      </CenteredRow>
+      </CenteredRowSB>
     )}
     <ul>
       {sections.map(({ anchor, title }) => (
