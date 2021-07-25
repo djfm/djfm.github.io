@@ -7,13 +7,16 @@ import React, {
 
 import {
   makeHeadingFC,
+  HeadingFC,
   TitledContent,
 } from '.';
 
 import BackToTop from '../BackToTop';
+import CenteredRow from '../CenteredRow';
 import HashLink from '../HashLink';
 
 export type SectionListProps = {
+  tableOfContentsTitle?: ReactElement | string,
   depth: number
   sections: TitledContent[]
 }
@@ -56,12 +59,22 @@ const Section: React.FC<SectionProps> = ({
 
 type TableOfContentsProps = {
   sections: TitledContent[]
+  title: ReactElement | string,
+  H1: HeadingFC,
 }
 
 const TableOfContents: React.FC<TableOfContentsProps> = ({
   sections,
+  title: tocTitle,
+  H1,
 }) => (
   <nav>
+    {tocTitle && (
+      <CenteredRow>
+        <H1>{tocTitle}</H1>
+        <HashLink anchor="top">{'\u21c8'}</HashLink>
+      </CenteredRow>
+    )}
     <ul>
       {sections.map(({ anchor, title }) => (
         <li key={anchor}>
@@ -133,10 +146,19 @@ const createSectionNavLinks: (
  * of contents.
  */
 export const SectionList = ({
+  tableOfContentsTitle,
   sections,
   depth,
 }: SectionListProps): ReactElement => {
-  const tableOfContents = <TableOfContents sections={sections} />;
+  const H1 = makeHeadingFC(depth);
+
+  const tableOfContents = (
+    <TableOfContents
+      sections={sections}
+      title={tableOfContentsTitle || 'Table des matières'}
+      H1={H1}
+    />
+  );
   const tableOfContentsTopId = 'table-of-contents';
 
   const body = sections.map((section, i) => (

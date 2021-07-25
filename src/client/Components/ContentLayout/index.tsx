@@ -5,6 +5,7 @@ import {
   HeadingFC,
 } from './makeHeadingFC';
 
+export { HeadingFC };
 export { default as SectionList } from './SectionList';
 export { default as NodePage } from './NodePage';
 export { default as makeHeadingFC } from './makeHeadingFC';
