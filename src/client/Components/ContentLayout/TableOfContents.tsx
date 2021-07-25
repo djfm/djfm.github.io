@@ -2,14 +2,28 @@ import React, {
   ReactElement,
 } from 'react';
 
+import styled from 'styled-components';
+
+import {
+  spacing,
+} from '../../theme';
+
 import {
   HeadingFC,
   TitledContent,
 } from '.';
 
-import CenteredRowSB from '../CenteredRowSpaceBetween';
-
 import HashLink from '../HashLink';
+
+const TOCHeadingWrapper = styled.div`
+  align-items: center;
+  display: flex;
+
+  > a {
+    font-weight: bold;
+    margin-left: ${spacing.small};
+  }
+`;
 
 type TableOfContentsProps = {
   sections: TitledContent[];
@@ -26,10 +40,10 @@ export const TableOfContents: React.FC<
 }) => (
   <nav>
     {tocTitle && (
-      <CenteredRowSB>
+      <TOCHeadingWrapper>
         <H1>{tocTitle}</H1>
         <HashLink anchor="top">{'\u21c8'}</HashLink>
-      </CenteredRowSB>
+      </TOCHeadingWrapper>
     )}
     <ul>
       {sections.map(({ anchor, title }) => (
