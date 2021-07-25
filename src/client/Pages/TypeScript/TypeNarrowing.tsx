@@ -223,7 +223,7 @@ const CPPCounterExample: TitledContentFC = ({
 );
 
 sections.push({
-  title: <>Un exemple en C++ comparé qui fait briller <i>TypeScript</i></>,
+  title: <>Une comparaison au C++ qui fait briller <i>TypeScript</i></>,
   anchor: 'comparaison-cpp-ts',
   Content: CPPCounterExample,
 });
