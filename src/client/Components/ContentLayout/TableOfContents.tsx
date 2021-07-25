@@ -53,7 +53,7 @@ const StyledNav = styled.nav`
         color: ${colors.dark()};
 
         ::before {
-          content: '\u2605';
+          content: '>';
         }
       }
     }

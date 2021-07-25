@@ -88,7 +88,7 @@ const StyledNav = styled.nav`
       &.active {
         font-weight: bold;
         ::before {
-          content: '\u2605';
+          content: '>';
           left: -${spacing.medium};
           position: absolute;
         }
