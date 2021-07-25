@@ -53,6 +53,7 @@ const NumberedHeading = styled.div`
   display: flex;
   align-items: center;
   font-weight: bold;
+  flex-wrap: wrap;
 
   > *:first-child {
     margin-right: ${spacing.small};

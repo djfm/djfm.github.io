@@ -40,8 +40,6 @@ const navFlexBasis = runBinOpWithUnits(
   (a, b) => 0.75 * (a - b),
 );
 
-console.log(navFlexBasis);
-
 const ResponsiveContainer = styled.div`
   @media(max-width: ${mediumScreenMax}) {
     /* the page body */
