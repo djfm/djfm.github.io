@@ -94,7 +94,7 @@ export const trimLeadingWhitespace = (input: string): string => {
 };
 
 export const parseValueWithUnit = (val: string): [number, string] => {
-  const [, value, unit] = val.match(/(\d+(?:.\d+)?)(\w+)/);
+  const [, value, unit] = val.match(/^(\d*(?:.\d+)?)(\w+)/);
   return [parseFloat(value), unit];
 };
 
@@ -127,3 +127,8 @@ export const sortByAnchorForRouterSwitch = <T extends WithAnchor>(
         { anchor: b },
       ) => (a < b ? 1 : -1),
     );
+
+export const mulNumberWithUnit = (str: string, n: number): string => {
+  const [value, unit] = parseValueWithUnit(str);
+  return `${value * n}${unit}`;
+};

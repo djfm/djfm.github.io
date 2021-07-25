@@ -11,7 +11,7 @@ import {
 
 import {
   sortByAnchorForRouterSwitch,
-} from '../../../util';
+} from '../../util';
 
 import {
   TitledContent,
