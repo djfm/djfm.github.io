@@ -17,7 +17,7 @@ import {
 import HashLink from '../HashLink';
 
 const TOCHeadingWrapper = styled.div`
-  align-items: center;
+  align-items: baseline;
   display: flex;
 
   /* the heading, probably a h2 but not necessarily */

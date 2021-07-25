@@ -16,6 +16,8 @@ const StyledNav = styled.nav`
 
   ol {
     display: flex;
+    align-items: baseline;
+
     li:not(:first-child) {
       ::before {
         content: '\u00a0-\u00a0';
