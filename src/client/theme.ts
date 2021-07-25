@@ -61,6 +61,7 @@ export const spacing = {
   default: '0.8em',
   medium: '1.1em',
   large: '1.5em',
+  xl: '2.5em',
   listPadding: undefined,
   headingMargins: [undefined] as string[],
   pLineHeight: undefined,

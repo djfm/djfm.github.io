@@ -35,6 +35,7 @@ const StyledNav = styled.nav`
   ol {
     margin-left: ${spacing.small};
     padding-left: ${spacing.default};
+    margin-bottom: ${spacing.xl};
 
     li {
       position: relative;
