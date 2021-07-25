@@ -51,8 +51,13 @@ export const spacing = {
   default: '0.8em',
   medium: '1.2em',
   large: '1.5em',
+  listPadding: undefined,
   headingMargins: [undefined] as string[],
+  pLineHeight: undefined,
 };
+
+spacing.listPadding = spacing.large;
+spacing.pLineHeight = '1.7';
 
 spacing.headingMargins.push(spacing.medium);
 spacing.headingMargins.push(spacing.default);
@@ -62,14 +67,14 @@ spacing.headingMargins.push(spacing.tiny);
 spacing.headingMargins.push(spacing.tiny);
 
 export const fontSize = {
-  default: '1rem',
+  default: '1.2em',
   headings: [
     undefined,
-    '2.5rem',
-    '2rem',
-    '1.5rem',
-    '1.2rem',
-    '1.1rem',
-    '1rem',
+    '2.6em',
+    '1.9em',
+    '1.5em',
+    '1.2em',
+    '1.1em',
+    '1em',
   ],
 };

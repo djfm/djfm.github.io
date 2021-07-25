@@ -62,8 +62,8 @@ export const StyledApp = styled.div`
   }
 
   p {
+    line-height: ${spacing.pLineHeight};
     margin-bottom: ${spacing.medium};
-    line-height: 1.6;
   }
 
 

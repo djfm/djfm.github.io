@@ -7,6 +7,10 @@ import {
   TitledContent,
 } from '.';
 
+import {
+  spacing,
+} from '../../theme';
+
 type SectionProps = TitledContent & {
   depth: number;
   navLinks: ReactElement;
@@ -23,7 +27,7 @@ export const Section: React.FC<SectionProps> = ({
     <section>
       <SectionHeading
         id={anchor}
-        style={{ marginBottom: 0 }}
+        style={{ marginBottom: spacing.tiny }}
       >
         {title}
       </SectionHeading>

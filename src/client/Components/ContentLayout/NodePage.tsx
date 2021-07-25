@@ -9,6 +9,8 @@ import {
   Switch,
 } from 'react-router-dom';
 
+import styled from 'styled-components';
+
 import {
   sortByAnchorForRouterSwitch,
 } from '../../util';
@@ -17,11 +19,44 @@ import {
   TitledContent,
 } from '.';
 
+import {
+  defaultColorTheme as colors,
+  spacing,
+} from '../../theme';
+
 import makeHeadingFC from './makeHeadingFC';
 
 export type NodePageProps = {
   content: TitledContent
 }
+
+const StyledNav = styled.nav`
+  margin-bottom: ${spacing.medium};
+
+  ol {
+    border-left: 1px solid ${colors.dark()};
+    margin-left: ${spacing.default};
+    padding-left: ${spacing.listPadding};
+
+    a, a:visited {
+      color: ${colors.dark()};
+      position: relative;
+
+      &.active {
+        font-weight: bold;
+        ::before {
+          content: '\u2605';
+          left: -${spacing.default};
+          position: absolute;
+        }
+      }
+    }
+
+    li {
+      margin-bottom: ${spacing.default};
+    }
+  }
+`;
 
 const NodePage: React.FC<NodePageProps> = ({
   content,
@@ -45,8 +80,8 @@ const NodePage: React.FC<NodePageProps> = ({
   const H2 = makeHeadingFC(3);
 
   const secondaryNav = (
-    <nav>
-      <ul>
+    <StyledNav>
+      <ol>
         <li>
           <NavLink exact to={url}>
             {defaultPage.title}
@@ -59,8 +94,8 @@ const NodePage: React.FC<NodePageProps> = ({
             </NavLink>
           </li>
         ))}
-      </ul>
-    </nav>
+      </ol>
+    </StyledNav>
   );
 
   const routeProps = (anchor: string) => {
