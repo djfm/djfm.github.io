@@ -46,7 +46,7 @@ const StyledNav = styled.nav`
         font-weight: bold;
         ::before {
           content: '\u2605';
-          left: -${spacing.default};
+          left: -${spacing.medium};
           position: absolute;
         }
       }

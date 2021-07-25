@@ -49,7 +49,7 @@ export const spacing = {
   tiny: '0.25em',
   small: '0.5em',
   default: '0.8em',
-  medium: '1.2em',
+  medium: '1.1em',
   large: '1.5em',
   listPadding: undefined,
   headingMargins: [undefined] as string[],
