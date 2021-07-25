@@ -12,15 +12,42 @@ export const largeScreenMin = '1200px';
 
 /* colors */
 
-export const dark = '#0d1117';
-export const light = '#fff';
-export const contrastOnLight = 'rgb(0,128,255)';
-export const contrastOnDark = '#ff7b72';
+export type ColorThemeStyle = 'dark' | 'light';
+
+export type ColorTheme = {
+  dark: () => string;
+  light: () => string;
+  lightContrasting: (n?: number) => string;
+  darkContrasting: (n?: number) => string;
+}
+
+export const makeColorTheme = (
+  style: ColorThemeStyle = 'light',
+): ColorTheme => {
+  if (style === 'light') {
+    return {
+      dark: () => '#0d1117',
+      light: () => '#fff',
+      lightContrasting: () => 'rgb(0,128,255)',
+      darkContrasting: (n = 0) => {
+        if (n === 0) {
+          return 'rgb(255,166,87)';
+        }
+        return 'rgb(165, 210, 255)';
+      },
+    };
+  }
+
+  throw new Error('Invalid color theme');
+};
+
+export const defaultColorTheme = makeColorTheme('light');
 
 /* dimensions */
 
 export const spacing = {
   small: '0.5em',
   default: '1em',
+  medium: '1em',
   large: '2em',
 };

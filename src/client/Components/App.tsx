@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  NavLink,
   Route,
   Switch,
 } from 'react-router-dom';
@@ -11,6 +10,7 @@ import {
 } from '../../util';
 
 import StyledApp from './StyledApp';
+import MainNavLargerScreens from './LargerScreens/MainNav';
 
 import makeHeadingFC from './ContentLayout/makeHeadingFC';
 
@@ -23,17 +23,9 @@ const H2 = makeHeadingFC(2);
 
 const App: React.FC = () => {
   const nav = (
-    <nav>
-      <ul>
-        {pages.map(({ anchor, title }) => (
-          <li key={anchor}>
-            <NavLink to={`/${anchor}`}>
-              {title}
-            </NavLink>
-          </li>
-        ))}
-      </ul>
-    </nav>
+    <>
+      <MainNavLargerScreens pages={pages} />
+    </>
   );
 
   const body = (
