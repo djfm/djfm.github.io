@@ -14,11 +14,11 @@ import {
 } from '../../util';
 
 import {
-  bp0Max,
-  bp1Min,
-  bp1Max,
-  bp2Min,
-} from './Styled';
+  tinyScreenMax,
+  smallScreenMin,
+  smallScreenMax,
+  mediumScreenMin,
+} from '../../theme';
 
 const Wrapper = styled.div`
   margin-bottom: 20px;
@@ -50,15 +50,15 @@ const Code = styled.code`
   padding: 10px;
   margin: 0;
 
-  @media(max-width: ${bp0Max}) {
+  @media(max-width: ${tinyScreenMax}) {
     font-size: 8px;
   }
 
-  @media (min-width: ${bp1Min}) and (max-width: ${bp1Max}) {
+  @media (min-width: ${smallScreenMin}) and (max-width: ${smallScreenMax}) {
     font-size: 10px;
   }
 
-  @media (min-width: ${bp2Min}) {
+  @media (min-width: ${mediumScreenMin}) {
     font-size: 19px;
   }
 `;

@@ -7,9 +7,7 @@ import {
 
 import CodeSample from '../../../Components/CodeSample';
 
-import {
-  NoWrap,
-} from '../../../Components/Styled';
+import NoWrap from '../../../Components/NoWrap';
 
 const WhatIsTypeScript: TitledContentFC = ({
   Container,

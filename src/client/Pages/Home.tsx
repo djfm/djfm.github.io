@@ -6,9 +6,7 @@ import {
   SectionList,
 } from '../Components/ContentLayout';
 
-import {
-  NoWrap,
-} from '../Components/Styled';
+import NoWrap from '../Components/NoWrap';
 
 const sections: TitledContent[] = [];
 

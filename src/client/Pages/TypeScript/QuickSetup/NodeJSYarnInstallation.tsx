@@ -7,10 +7,8 @@ import {
 
 import CodeSample from '../../../Components/CodeSample';
 
-import {
-  Aside,
-  NoWrap,
-} from '../../../Components/Styled';
+import Aside from '../../../Components/Aside';
+import NoWrap from '../../../Components/NoWrap';
 
 const NodeJSYarnInstallation: TitledContentFC = ({
   Container,

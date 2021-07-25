@@ -6,9 +6,7 @@ import {
   TitledContentFC,
 } from '../../Components/ContentLayout';
 
-import {
-  Aside,
-} from '../../Components/Styled';
+import Aside from '../../Components/Aside';
 
 const sections = [] as TitledContent[];
 

@@ -6,11 +6,11 @@ import {
   Switch,
 } from 'react-router-dom';
 
-import BackToTop from './BackToTop';
-
 import {
   sortByAnchorForRouterSwitch,
 } from '../../util';
+
+import StyledApp from './StyledApp';
 
 import makeHeadingFC from './ContentLayout/makeHeadingFC';
 
@@ -55,10 +55,10 @@ const App: React.FC = () => {
   );
 
   const markup = (
-    <>
+    <StyledApp>
       {nav}
       {body}
-    </>
+    </StyledApp>
   );
 
   return markup;
