@@ -1,7 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { NavLink } from 'react-router-dom';
+import {
+  NavLink,
+  useLocation,
+} from 'react-router-dom';
 
 import {
   defaultColorTheme as colors,
@@ -12,7 +15,10 @@ import {
   MenuProps,
 } from './Menu';
 
-import OpenedMenuButton from './OpenedMenuButton';
+import OpenedMenuButton, {
+  height as buttonHeight,
+  left as buttonLeft,
+} from './OpenedMenuButton';
 
 const MenuWrapper = styled.div`
   position: fixed;
@@ -21,26 +27,61 @@ const MenuWrapper = styled.div`
   left: 0;
   right: 0;
   background-color: ${colors.dark()};
+  padding-bottom: ${buttonHeight}px;
+  display: flex;
+  flex-direction: column;
+
+  > nav {
+    margin-top: ${buttonLeft}px;
+    margin-left: ${buttonLeft}px;
+  }
+
+  > div:first-child {
+    background-color: ${colors.darkContrasting(1)};
+    text-align: center;
+    flex-grow: 1;
+    padding-top: ${spacing.large};
+  }
 `;
 
 const StyledMainNav = styled.nav`
   ol {
-    padding-left: ${spacing.large};
+    padding-left: ${spacing.medium};
     li {
-      a, a:visited {
-        color: ${colors.darkContrasting()};
+      a {
         position: relative;
-        font-weight: bold;
-
-        &.active {
-          color: ${colors.darkContrasting(2)};
-          &::before {
-            content: '\u2605';
-            left: -${spacing.medium};
-            position: absolute;
-          }
-        }
       }
+
+      &:not(:last-child) {
+        margin-bottom: ${spacing.default};
+      }
+
+      &>nav {
+        margin-top: ${spacing.default};
+      }
+    }
+  }
+
+  a, a:visited {
+    color: ${colors.darkContrasting()};
+
+    &.active {
+      color: ${colors.darkContrasting(2)};
+      font-weight: bold;
+
+      &::before {
+        content: '\u2605';
+        left: -${spacing.medium};
+        position: absolute;
+      }
+    }
+  }
+
+  nav a, nav a:visited {
+    color: ${colors.light()};
+
+    &.active {
+      color: ${colors.light()};
     }
   }
 `;
@@ -49,18 +90,43 @@ export const OpenMenu: React.FC<MenuProps> = ({
   pages,
   onMenuToggle,
 }) => {
+  const { pathname } = useLocation();
+  const topLevel = pathname.split('/')[1];
+
+  const closeMenu = () => onMenuToggle(false);
+
   const nav = (
     <StyledMainNav>
       <ol>
-        {pages.map(({ anchor, title }) => (
+        {pages.map(({ anchor, title, children }) => (
           <li key={anchor}>
             <NavLink
               activeClassName="active"
               exact={anchor === ''}
               to={`/${anchor}`}
+              onClick={closeMenu}
             >
               {title}
             </NavLink>
+            {anchor === topLevel
+              && children
+              && children.length > 0
+              && (
+              <nav>
+                <ol>
+                  {children.map((child) => (
+                    <li key={child.anchor}>
+                      <NavLink
+                        to={`/${topLevel}/${child.anchor}`}
+                        onClick={closeMenu}
+                      >
+                        {child.title}
+                      </NavLink>
+                    </li>
+                  ))}
+                </ol>
+              </nav>
+              )}
           </li>
         ))}
       </ol>
@@ -69,6 +135,7 @@ export const OpenMenu: React.FC<MenuProps> = ({
 
   return (
     <MenuWrapper>
+      <div>fmdj.fr::menu</div>
       {nav}
       <OpenedMenuButton onMenuToggle={onMenuToggle} />
     </MenuWrapper>

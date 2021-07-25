@@ -10,9 +10,8 @@ import {
   left,
 } from './ClosedMenuButton';
 
-const size = (3 * iconSize) / 5;
-const bPos = (5 * bottom) / 3;
-const lPos = (5 * left) / 3;
+export const height = iconSize + 2 * bottom;
+export { left };
 
 export const ClosedMenuButton: React.FC<WithMenuListener> = ({
   onMenuToggle,
@@ -27,11 +26,11 @@ export const ClosedMenuButton: React.FC<WithMenuListener> = ({
       onClick={handleClick}
       src="/img/opened-menu.svg"
       type="image"
-      width={size}
+      width={iconSize}
       style={{
         position: 'fixed',
-        bottom: bPos,
-        left: lPos,
+        bottom,
+        left,
       }}
     />
   );

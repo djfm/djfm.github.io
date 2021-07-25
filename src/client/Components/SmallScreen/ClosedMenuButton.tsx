@@ -4,7 +4,7 @@ import {
   WithMenuListener,
 } from './Menu';
 
-export const iconSize = 80;
+export const iconSize = 60;
 const offset = iconSize / 4;
 export const bottom = offset;
 export const left = offset;
