@@ -1,19 +1,6 @@
-<svg width="237" height="237" viewBox="0 0 237 237" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g filter="url(#filter0_d)">
-<circle cx="114.5" cy="114.5" r="114" fill="#A5D2FF" fill-opacity="0.8" stroke="#B7B7B7"/>
-<rect x="50.5" y="50.5" width="127" height="25" fill="black" stroke="#B7B7B7"/>
-<rect x="50.5" y="101.5" width="127" height="25" fill="black" stroke="#B7B7B7"/>
-<rect x="50.5" y="152.5" width="127" height="25" fill="black" stroke="#B7B7B7"/>
-</g>
-<defs>
-<filter id="filter0_d" x="0" y="0" width="237" height="237" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dx="4" dy="4"/>
-<feGaussianBlur stdDeviation="2"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
-</filter>
-</defs>
+<svg width="291" height="291" viewBox="0 0 291 291" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="145.5" cy="145.5" r="141.5" fill="white" fill-opacity="0.8" stroke="black" stroke-width="8"/>
+<rect x="78" y="84" width="136" height="22" fill="black" stroke="black" stroke-width="8"/>
+<rect x="78" y="135" width="136" height="22" fill="black" stroke="black" stroke-width="8"/>
+<rect x="78" y="186" width="136" height="22" fill="black" stroke="black" stroke-width="8"/>
 </svg>
