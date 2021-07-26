@@ -332,6 +332,7 @@ export const TypesVSInterfacesPage: TitledContentFC = ({
 
 const TypesVSInterfacesContent: TitledContent = {
   anchor: 'types-vs-interfaces',
+  children: sections,
   documentTitle: 'Types vs. Interfaces en TypeScript',
   title: 'Types vs. interfaces',
   Content: TypesVSInterfacesPage,
