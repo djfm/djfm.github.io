@@ -31,8 +31,8 @@ export const QuickSetupPage: TitledContentFC = ({
 
 const QuickSetupContent: TitledContent = {
   anchor: 'rapidement-configurer-un-projet',
-  documentTitle: 'TypeScript - Rapidement Configurer un Projet',
-  title: 'Rapidement Configurer un Projet',
+  documentTitle: 'Rapidement Configurer un Projet TypeScript',
+  title: <>Rapidement Configurer un Projet <i>TypeScript</i></>,
   Content: QuickSetupPage,
 };
 
