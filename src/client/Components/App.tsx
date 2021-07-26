@@ -1,4 +1,5 @@
 import React, {
+  useEffect,
   useState,
 } from 'react';
 
@@ -25,11 +26,21 @@ const H1 = makeHeadingFC(1);
 const H2 = makeHeadingFC(2);
 
 const App: React.FC = () => {
-  const [appDisplay, setAppDisplay] = useState<'none' | 'block'>('block');
+  const [appDisplay, setAppDisplay] = useState<
+  'hidden' | 'block'
+  >('block');
+
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      document.body.style.display = appDisplay;
+      document.body.style.overflow = appDisplay === 'hidden'
+        ? 'hidden' : 'auto';
+    }
+  }, [appDisplay]);
 
   const onMenuToggle = (open: boolean) => {
     if (open) {
-      setAppDisplay('none');
+      setAppDisplay('hidden');
     } else {
       setAppDisplay('block');
     }
@@ -63,10 +74,8 @@ const App: React.FC = () => {
 
   const markup = (
     <StyledApp>
-      <div style={{ display: appDisplay }}>
-        {nav}
-        {body}
-      </div>
+      {nav}
+      {body}
       <SmallScreenMenu
         pages={pages}
         onMenuToggle={onMenuToggle}
