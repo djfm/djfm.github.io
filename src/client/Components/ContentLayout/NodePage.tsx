@@ -42,8 +42,14 @@ export type NodePageProps = {
 const navFlexBasis = runBinOpWithUnits(
   largeScreenMin,
   smallScreenMax,
-  (a, b) => (a - b) - 30,
+  (a, b) => (a - b) - 60,
 );
+
+const scrollToTop = () => {
+  if (typeof window !== 'undefined') {
+    window.scrollTo(0, 0);
+  }
+};
 
 const ResponsiveContainer = styled.div`
   @media(max-width: ${mediumScreenMax}) {
@@ -76,6 +82,9 @@ const ResponsiveContainer = styled.div`
 `;
 
 const Nav = styled(StyledNavVertical)`
+  padding-left: ${spacing.medium};
+  padding-right: ${spacing.medium};
+
   > *:first-child {
     margin-top: 0
   }
@@ -83,12 +92,6 @@ const Nav = styled(StyledNavVertical)`
   ol {
     border-left: 1px solid ${colors.dark()};
     margin-bottom: ${spacing.pMargin};
-  }
-
-  @media(max-width: ${mediumScreenMax}) {
-    > a:last-child {
-      display: none;
-    }
   }
 `;
 
@@ -140,22 +143,29 @@ const NodePage: React.FC<NodePageProps> = ({
       linkColor={colors.dark()}
       activeLinkColor={colors.dark()}
     >
-      <H1>{content.title}</H1>
+      <H1 className="large-screen-only">{content.title}</H1>
       <ol>
         <li>
-          <NavLink exact to={url}>
+          <NavLink
+            onClick={scrollToTop}
+            exact
+            to={url}
+          >
             {defaultPage.title}
           </NavLink>
         </li>
         {pages.map(({ anchor, title }) => (
           <li key={anchor}>
-            <NavLink to={`${url}/${anchor}`}>
+            <NavLink
+              onClick={scrollToTop}
+              to={`${url}/${anchor}`}
+            >
               {title}
             </NavLink>
           </li>
         ))}
       </ol>
-      <HashLink anchor="top">
+      <HashLink anchor="top" className="large-screen-only">
         retourner en haut
       </HashLink>
     </Nav>

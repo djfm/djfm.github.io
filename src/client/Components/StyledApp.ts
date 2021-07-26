@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import {
   defaultColorTheme as color,
+  mediumScreenMax,
   spacing,
   fontSize,
 } from '../theme';
@@ -13,6 +14,13 @@ export const StyledApp = styled.div`
   /* font styles */
   font-family: monospace;
   font-size: ${fontSize.default};
+
+  /* general purpose classes */
+  .large-screen-only {
+    @media(max-width: ${mediumScreenMax}) {
+      display: none;
+    }
+  }
 
   /* resets */
 
