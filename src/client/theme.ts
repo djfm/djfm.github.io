@@ -16,7 +16,7 @@ export type ColorThemeStyle = 'dark' | 'light';
 
 export type ColorTheme = {
   border: () => string;
-  dark: () => string;
+  dark: (opacity?: number) => string;
   light: () => string;
   transparentLight: (opacity: number) => string;
   lightContrasting: (n?: number) => string;
@@ -29,7 +29,7 @@ export const makeColorTheme = (
   if (style === 'light') {
     return {
       border: () => '#bbb',
-      dark: () => '#0d1117',
+      dark: (opacity = 1) => `rgba(13,17,23,${opacity})`,
       light: () => '#fff',
       transparentLight: (opacity: number) =>
         `rgba(255, 255, 255, ${opacity})`,
