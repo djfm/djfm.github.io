@@ -42,7 +42,7 @@ export type NodePageProps = {
 const navFlexBasis = runBinOpWithUnits(
   largeScreenMin,
   smallScreenMax,
-  (a, b) => (a - b) - 60,
+  (a, b) => (a - b),
 );
 
 const scrollToTop = () => {
@@ -74,7 +74,8 @@ const ResponsiveContainer = styled.div`
       flex-basis: ${navFlexBasis};
 
       nav {
-        position: fixed;
+        position: sticky;
+        top: ${spacing.default};
         width: ${navFlexBasis};
       }
     }
