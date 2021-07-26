@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 
 import {
+  useLocation,
   useRouteMatch,
   NavLink,
   Route,
@@ -82,16 +83,38 @@ const NodePage: React.FC<NodePageProps> = ({
   content,
 }) => {
   const { url, path } = useRouteMatch();
+  const { pathname } = useLocation();
+
+  const getContentChildDisplayed = (): TitledContent => {
+    if (pathname === '/') {
+      return content.children[0];
+    }
+
+    const [,, anchor] = pathname.split('/');
+    for (const child of content.children) {
+      if (child.anchor === anchor) {
+        return child;
+      }
+    }
+
+    return undefined;
+  };
+
+  const childDisplayed = getContentChildDisplayed();
+  const documentTitle = childDisplayed
+    ? childDisplayed.documentTitle : content.documentTitle;
+  const currentTitle = childDisplayed
+    ? childDisplayed.title : content.title;
 
   useEffect(() => {
     if (typeof document !== 'undefined') {
-      if (!content.documentTitle) {
+      if (!documentTitle) {
         return;
       }
 
-      document.title = content.documentTitle;
+      document.title = documentTitle;
     }
-  });
+  }, [documentTitle]);
 
   const [defaultPage, ...pages] = content.children;
   const sortedPages = sortByAnchorForRouterSwitch(pages)
@@ -154,7 +177,7 @@ const NodePage: React.FC<NodePageProps> = ({
 
   return (
     <main>
-      <h1>{content.title}</h1>
+      <h1>{currentTitle}</h1>
       <ResponsiveContainer>
         <div>
           {secondaryNav}
