@@ -95,6 +95,7 @@ const BeautifulExamplesContent: TitledContent = {
   anchor: 'jolis-exemples-en-ts',
   children: sections,
   documentTitle: 'Jolis Exemples de Code en TypeScript',
+  isLeaf: true,
   title: 'Jolis Exemples de Code en TypeScript',
   Content: BeautifulExamplesPage,
 };

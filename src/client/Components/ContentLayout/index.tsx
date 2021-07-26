@@ -22,6 +22,8 @@ export type TitledContent = {
   anchor: string
   children?: TitledContent[]
   documentTitle?: string
+  headerBody?: TitledContentFC
+  isLeaf?: true
   title: React.ReactElement | string
-  Content: TitledContentFC
+  Content?: TitledContentFC
 }

@@ -165,6 +165,7 @@ const IntroductionContent: TitledContent = {
   anchor: 'introduction',
   children: sections,
   documentTitle: 'Introduction',
+  isLeaf: true,
   title: 'Introduction',
   Content: IntroductionPage,
 };

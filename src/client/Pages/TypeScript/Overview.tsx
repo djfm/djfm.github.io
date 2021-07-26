@@ -30,6 +30,7 @@ const OverviewContent: TitledContent = {
   children: sections,
   documentTitle: 'TypeScript en Bref',
   title: <><i>TypeScript</i> en bref</>,
+  isLeaf: true,
   Content: OverviewPage,
 };
 

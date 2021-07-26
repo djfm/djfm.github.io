@@ -34,6 +34,7 @@ const QuickSetupContent: TitledContent = {
   children: sections,
   documentTitle: 'Rapidement Configurer un Projet TypeScript',
   title: <>Rapidement Configurer un Projet <i>TypeScript</i></>,
+  isLeaf: true,
   Content: QuickSetupPage,
 };
 

@@ -335,6 +335,7 @@ const TypesVSInterfacesContent: TitledContent = {
   children: sections,
   documentTitle: 'Types vs. Interfaces en TypeScript',
   title: 'Types vs. interfaces',
+  isLeaf: true,
   Content: TypesVSInterfacesPage,
 };
 

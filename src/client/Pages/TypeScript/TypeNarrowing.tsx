@@ -242,6 +242,7 @@ const TypeNarrowingContent: TitledContent = {
   children: sections,
   documentTitle: 'Le Type Narrowing en TypeScript',
   title: <>Le &quot;Type Narrowing&quot;</>,
+  isLeaf: true,
   Content: TypeNarrowingPage,
 };
 
