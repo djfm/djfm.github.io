@@ -24,6 +24,7 @@ const TOCHeadingWrapper = styled.div`
   /* the heading, probably a h2 but not necessarily */
   > *:first-child {
     font-size: 1em;
+    margin-top: 0;
   }
 
   > a {
@@ -53,6 +54,8 @@ export const TableOfContents: React.FC<
     activeLinkColor={colors.dark()}
     defaultMarker="-"
     linkColor={colors.lightContrasting()}
+    leftPadding={spacing.medium}
+    markerSpacing={spacing.medium}
   >
     <TOCHeadingWrapper>
       <H1>{tocTitle}</H1>
