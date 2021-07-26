@@ -30,7 +30,7 @@ export const MainNav: React.FC<MainNavProps> = ({
 }) => (
   <StyledMainNav
     linkColor={color.darkContrasting()}
-    activeLinkColor={color.darkContrasting(2)}
+    activeLinkColor={color.darkContrasting(1)}
   >
     <ol>
       {pages.map(({ anchor, title }) => (
