@@ -62,7 +62,7 @@ const ResponsiveContainer = styled.div`
   @media(min-width: ${largeScreenMin}) {
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: center;
 
 
     > .page-body {
@@ -83,8 +83,8 @@ const ResponsiveContainer = styled.div`
 `;
 
 const Nav = styled(StyledNavVertical)`
-  padding-left: ${spacing.medium};
   padding-right: ${spacing.medium};
+  margin-bottom: ${spacing.xl};
 
   > *:first-child {
     margin-top: 0
@@ -205,7 +205,9 @@ const NodePage: React.FC<NodePageProps> = ({
 
   return (
     <main>
-      <h1>{currentTitle}</h1>
+      <h1 style={{ textAlign: 'center' }}>
+        {currentTitle}
+      </h1>
       <ResponsiveContainer>
         <div className="secondary-nav">
           {secondaryNav}
