@@ -33,6 +33,8 @@ import makeHeadingFC from './makeHeadingFC';
 
 import StyledNavVertical from '../StyledNavVertical';
 
+import HashLink from '../HashLink';
+
 export type NodePageProps = {
   content: TitledContent
 }
@@ -57,14 +59,12 @@ const ResponsiveContainer = styled.div`
     justify-content: space-evenly;
 
 
-    /* the page body */
-    > div:last-child {
+    > .page-body {
       max-width: ${smallScreenMax};
       padding: 0;
     }
 
-    /* the nav container */
-    > div:first-child {
+    > .secondary-nav {
       flex-basis: ${navFlexBasis};
 
       nav {
@@ -76,7 +76,20 @@ const ResponsiveContainer = styled.div`
 `;
 
 const Nav = styled(StyledNavVertical)`
-  border-left: 1px solid ${colors.dark()};
+  > *:first-child {
+    margin-top: 0
+  }
+
+  ol {
+    border-left: 1px solid ${colors.dark()};
+    margin-bottom: ${spacing.pMargin};
+  }
+
+  @media(max-width: ${mediumScreenMax}) {
+    > a:last-child {
+      display: none;
+    }
+  }
 `;
 
 const NodePage: React.FC<NodePageProps> = ({
@@ -127,6 +140,7 @@ const NodePage: React.FC<NodePageProps> = ({
       linkColor={colors.dark()}
       activeLinkColor={colors.dark()}
     >
+      <H1>{content.title}</H1>
       <ol>
         <li>
           <NavLink exact to={url}>
@@ -141,6 +155,9 @@ const NodePage: React.FC<NodePageProps> = ({
           </li>
         ))}
       </ol>
+      <HashLink anchor="top">
+        retourner en haut
+      </HashLink>
     </Nav>
   );
 
@@ -179,10 +196,10 @@ const NodePage: React.FC<NodePageProps> = ({
     <main>
       <h1>{currentTitle}</h1>
       <ResponsiveContainer>
-        <div>
+        <div className="secondary-nav">
           {secondaryNav}
         </div>
-        <div>
+        <div className="page-body">
           {pageBody}
         </div>
       </ResponsiveContainer>
