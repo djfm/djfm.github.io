@@ -63,7 +63,12 @@ export const OpenMenu: React.FC<MenuProps> = ({
   const { pathname } = useLocation();
   const topLevel = pathname.split('/')[1];
 
-  const closeMenu = () => onMenuToggle(false);
+  const closeMenu = () => {
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+    }
+    onMenuToggle(false);
+  };
 
   const nav = (
     <StyledMainNav
@@ -113,6 +118,7 @@ export const OpenMenu: React.FC<MenuProps> = ({
       <OpenedMenuButton onMenuToggle={onMenuToggle} />
     </MenuWrapper>
   );
+
 };
 
 export default OpenMenu;
