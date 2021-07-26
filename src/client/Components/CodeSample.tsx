@@ -145,9 +145,6 @@ export const CodeSample: React.FC<{
         <span style={{
           display: 'block',
           textAlign: 'left',
-          fontFamily: 'monospace',
-          fontSize: '1rem',
-          marginLeft: '10px',
         }}
         >
           Zoom&nbsp;:
