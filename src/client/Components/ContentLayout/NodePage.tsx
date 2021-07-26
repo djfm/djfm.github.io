@@ -40,7 +40,7 @@ export type NodePageProps = {
 const navFlexBasis = runBinOpWithUnits(
   largeScreenMin,
   smallScreenMax,
-  (a, b) => 0.75 * (a - b),
+  (a, b) => (a - b) - 30,
 );
 
 const ResponsiveContainer = styled.div`
@@ -53,7 +53,7 @@ const ResponsiveContainer = styled.div`
 
   @media(min-width: ${largeScreenMin}) {
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
     justify-content: space-evenly;
 
 
@@ -66,10 +66,10 @@ const ResponsiveContainer = styled.div`
     /* the nav container */
     > div:first-child {
       flex-basis: ${navFlexBasis};
-      margin-right: ${spacing.medium};
 
       nav {
         position: fixed;
+        width: ${navFlexBasis};
       }
     }
   }
