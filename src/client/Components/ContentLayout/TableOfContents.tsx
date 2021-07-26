@@ -15,6 +15,7 @@ import {
 } from '.';
 
 import HashLink from '../HashLink';
+import StyledNavVertical from '../StyledNavVertical';
 
 const TOCHeadingWrapper = styled.div`
   align-items: baseline;
@@ -31,34 +32,8 @@ const TOCHeadingWrapper = styled.div`
   }
 `;
 
-const StyledNav = styled.nav`
-  ol {
-    margin-left: ${spacing.small};
-    padding-left: ${spacing.default};
-    margin-bottom: ${spacing.xl};
-
-    li {
-      position: relative;
-
-      &:not(:last-child) {
-        margin-bottom:${spacing.small};
-      }
-
-      a::before {
-        content: '\u2219';
-        left: -${spacing.default};
-        position: absolute;
-      }
-
-      a.active {
-        color: ${colors.dark()};
-
-        ::before {
-          content: '>';
-        }
-      }
-    }
-  }
+const Nav = styled(StyledNavVertical)`
+  margin-bottom: ${spacing.xl};
 `;
 
 type TableOfContentsProps = {
@@ -74,7 +49,11 @@ export const TableOfContents: React.FC<
   title: tocTitle,
   H1,
 }) => (
-  <StyledNav>
+  <Nav
+    activeLinkColor={colors.dark()}
+    defaultMarker="-"
+    linkColor={colors.lightContrasting()}
+  >
     <TOCHeadingWrapper>
       <H1>{tocTitle}</H1>
       <HashLink anchor="top">{'\u21c8'}</HashLink>
@@ -88,7 +67,7 @@ export const TableOfContents: React.FC<
         </li>
       ))}
     </ol>
-  </StyledNav>
+  </Nav>
 );
 
 export default TableOfContents;

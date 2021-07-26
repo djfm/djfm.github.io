@@ -20,6 +20,8 @@ import OpenedMenuButton, {
   left as buttonLeft,
 } from './OpenedMenuButton';
 
+import StyledNavVertical from '../StyledNavVertical';
+
 const MenuWrapper = styled.div`
   position: fixed;
   bottom: 0;
@@ -44,39 +46,7 @@ const MenuWrapper = styled.div`
   }
 `;
 
-const StyledMainNav = styled.nav`
-  ol {
-    padding-left: ${spacing.medium};
-    li {
-      a {
-        position: relative;
-      }
-
-      &:not(:last-child) {
-        margin-bottom: ${spacing.default};
-      }
-
-      &>nav {
-        margin-top: ${spacing.default};
-      }
-    }
-  }
-
-  a, a:visited {
-    color: ${colors.darkContrasting()};
-
-    &.active {
-      color: ${colors.darkContrasting(2)};
-      font-weight: bold;
-
-      &::before {
-        content: '>';
-        left: -${spacing.medium};
-        position: absolute;
-      }
-    }
-  }
-
+const StyledMainNav = styled(StyledNavVertical)`
   nav a, nav a:visited {
     color: ${colors.light()};
 
@@ -96,7 +66,10 @@ export const OpenMenu: React.FC<MenuProps> = ({
   const closeMenu = () => onMenuToggle(false);
 
   const nav = (
-    <StyledMainNav>
+    <StyledMainNav
+      linkColor={colors.darkContrasting()}
+      activeLinkColor={colors.darkContrasting(1)}
+    >
       <ol>
         {pages.map(({ anchor, title, children }) => (
           <li key={anchor}>

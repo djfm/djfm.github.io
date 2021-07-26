@@ -26,6 +26,8 @@ type StyledSectionProps = {
 }
 
 const StyledSection = styled.section`
+  margin-bottom: ${spacing.xl};
+
   *:target {
     margin-left: ${spacing.tiny};
     padding-left: ${spacing.small};

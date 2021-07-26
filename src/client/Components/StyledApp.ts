@@ -68,6 +68,7 @@ export const StyledApp = styled.div`
 
   :not(nav) ul {
     margin-left: ${spacing.large};
+    margin-bottom: ${spacing.medium};
 
     li:not(:last-child) {
       margin-bottom: ${spacing.default};
@@ -76,7 +77,7 @@ export const StyledApp = styled.div`
 
   p {
     line-height: ${spacing.pLineHeight};
-    margin-bottom: ${spacing.medium};
+    margin-bottom: ${spacing.pMargin};
   }
 `;
 

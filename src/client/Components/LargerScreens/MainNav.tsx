@@ -7,51 +7,31 @@ import {
   TitledContent,
 } from '../ContentLayout';
 
+import StyledNavHorizontal from '../StyledNavHorizontal';
+
 import {
   defaultColorTheme as color,
   smallScreenMax,
-  spacing,
 } from '../../theme';
 
 export type MainNavProps = {
   pages: TitledContent[],
 };
 
-const StyledMainNav = styled.nav`
+const StyledMainNav = styled(StyledNavHorizontal)`
   @media(max-width: ${smallScreenMax}) {
     display: none;
   }
   background-color: ${color.dark()};
-
-  ol {
-    display: flex;
-    justify-content: space-evenly;
-    padding-top: ${spacing.small};
-    padding-bottom: ${spacing.small};
-
-    li {
-      a, a:visited {
-        color: ${color.darkContrasting()};
-        position: relative;
-        font-weight: bold;
-
-        &.active {
-          color: ${color.darkContrasting(2)};
-          &::before {
-            content: '>';
-            left: -${spacing.medium};
-            position: absolute;
-          }
-        }
-      }
-    }
-  }
 `;
 
 export const MainNav: React.FC<MainNavProps> = ({
   pages,
 }) => (
-  <StyledMainNav>
+  <StyledMainNav
+    linkColor={color.darkContrasting()}
+    activeLinkColor={color.darkContrasting(2)}
+  >
     <ol>
       {pages.map(({ anchor, title }) => (
         <li key={anchor}>

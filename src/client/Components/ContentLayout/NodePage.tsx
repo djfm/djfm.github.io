@@ -30,6 +30,8 @@ import {
 
 import makeHeadingFC from './makeHeadingFC';
 
+import StyledNavVertical from '../StyledNavVertical';
+
 export type NodePageProps = {
   content: TitledContent
 }
@@ -42,8 +44,7 @@ const navFlexBasis = runBinOpWithUnits(
 
 const ResponsiveContainer = styled.div`
   @media(max-width: ${mediumScreenMax}) {
-    /* the page body */
-    > div:last-child {
+    > div {
       padding-left: ${spacing.small};
       padding-right: ${spacing.small};
     }
@@ -73,32 +74,8 @@ const ResponsiveContainer = styled.div`
   }
 `;
 
-const StyledNav = styled.nav`
-  margin-bottom: ${spacing.medium};
-
-  ol {
-    border-left: 1px solid ${colors.dark()};
-    margin-left: ${spacing.small};
-    padding-left: ${spacing.large};
-
-    a, a:visited {
-      color: ${colors.dark()};
-      position: relative;
-
-      &.active {
-        font-weight: bold;
-        ::before {
-          content: '>';
-          left: -${spacing.medium};
-          position: absolute;
-        }
-      }
-    }
-
-    li:not(:last-child) {
-      margin-bottom: ${spacing.default};
-    }
-  }
+const Nav = styled(StyledNavVertical)`
+  border-left: 1px solid ${colors.dark()};
 `;
 
 const NodePage: React.FC<NodePageProps> = ({
@@ -123,7 +100,10 @@ const NodePage: React.FC<NodePageProps> = ({
   const H2 = makeHeadingFC(3);
 
   const secondaryNav = (
-    <StyledNav>
+    <Nav
+      linkColor={colors.dark()}
+      activeLinkColor={colors.dark()}
+    >
       <ol>
         <li>
           <NavLink exact to={url}>
@@ -138,7 +118,7 @@ const NodePage: React.FC<NodePageProps> = ({
           </li>
         ))}
       </ol>
-    </StyledNav>
+    </Nav>
   );
 
   const routeProps = (anchor: string) => {
