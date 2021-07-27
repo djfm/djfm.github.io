@@ -6,7 +6,6 @@ import { spacing } from '../theme';
 
 export type NavProps = {
   defaultMarker?: string
-  activeLinkMarker?: string
   itemSpacing?: string
   markerSpacing?: string
   leftPadding?: string
@@ -41,7 +40,10 @@ export const StyledNavVertical = styled(StyledNav)`
 
       &.active {
         ::before {
-          content: ${(props: NavProps) => JSON.stringify(props.activeLinkMarker || '>')};
+          font-size: 0.8em;
+          line-height: 1.6em;
+          content: '★';
+          transform: rotate(90deg);
         }
       }
     }

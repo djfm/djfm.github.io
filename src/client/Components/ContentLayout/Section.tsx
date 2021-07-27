@@ -26,7 +26,7 @@ type StyledSectionProps = {
 }
 
 const StyledSection = styled.section`
-  margin-bottom: ${spacing.xl};
+  margin-bottom: ${spacing.xxl};
 
   *:target {
     border-bottom: 1px solid ${colors.dark()};

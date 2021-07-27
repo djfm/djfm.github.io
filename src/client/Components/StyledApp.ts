@@ -7,6 +7,13 @@ import {
   fontSize,
 } from '../theme';
 
+import {
+  bottom,
+  iconSize,
+} from '../Components/SmallScreen/ClosedMenuButton';
+
+const paddingBottom = 2.5 * bottom + iconSize;
+
 const [, mH1, mH2, mH3, mH4, mH5, mH6] = spacing.headingMargins;
 const [, fH1, fH2, fH3, fH4, fH5, fH6] = fontSize.headings;
 
@@ -22,8 +29,10 @@ export const StyledApp = styled.div`
     }
   }
 
-  /* resets */
+  /* general purpose stuff */
+  padding-bottom: ${paddingBottom}px;
 
+  /* resets */
   * {
     margin: 0;
     padding: 0;

@@ -79,7 +79,7 @@ const StyledMainNav = styled(StyledNavVertical)`
 
     ol {
       border-left: 1px solid ${colors.lightContrasting()};
-      padding-left: ${spacing.xl};
+      padding-left: ${spacing.large};
     }
   }
 `;

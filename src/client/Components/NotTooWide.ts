@@ -10,8 +10,8 @@ export const NotTooWide = styled.div`
   max-width: ${smallScreenMax};
 
   @media(max-width: ${smallScreenMax}) {
-    padding-left: ${spacing.small};
-    padding-right: ${spacing.small};
+    padding-left: ${spacing.medium};
+    padding-right: ${spacing.medium};
   }
 `;
 
