@@ -239,6 +239,7 @@ export const TypeNarrowingPage: TitledContentFC = ({
 
 const TypeNarrowingContent: TitledContent = {
   anchor: 'type-narrowing',
+  children: sections,
   documentTitle: 'Le Type Narrowing en TypeScript',
   title: <>Le &quot;Type Narrowing&quot;</>,
   Content: TypeNarrowingPage,

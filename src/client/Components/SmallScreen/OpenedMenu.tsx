@@ -22,6 +22,8 @@ import OpenedMenuButton, {
 
 import StyledNavVertical from '../StyledNavVertical';
 
+import { HashLink } from '../HashLink';
+
 const MenuWrapper = styled.div`
   position: fixed;
   bottom: 0;
@@ -47,21 +49,62 @@ const MenuWrapper = styled.div`
 `;
 
 const StyledMainNav = styled(StyledNavVertical)`
-  nav a, nav a:visited {
-    color: ${colors.light()};
+  margin-bottom: ${spacing.large};
+  nav {
+    margin-bottom: ${spacing.large};
+  }
 
-    &.active {
+  nav {
+    a, a:visited {
       color: ${colors.light()};
+
+      &.active {
+        color: ${colors.light()};
+      }
+    }
+  }
+
+  nav {
+    font-size: 0.9em;
+  }
+
+  nav nav {
+    a, a:visited {
+      color: ${colors.lightContrasting()};
+
+      &.active {
+        color: ${colors.lightContrasting()};
+      }
+    }
+
+    ol {
+      border-left: 1px solid ${colors.lightContrasting()};
+      padding-left: ${spacing.xl};
     }
   }
 `;
+
+const isChildActive = (anchor: string, level2: string, pos: number) => {
+  if (anchor === level2) {
+    return true;
+  }
+
+  return pos === 0 && !level2;
+};
+
+const getChildPathname = (anchor: string, topLevel: string, pos: number) => {
+  if (pos === 0) {
+    return `/${topLevel}`;
+  }
+  return `/${topLevel}/${anchor}`;
+};
 
 export const OpenMenu: React.FC<MenuProps> = ({
   pages,
   onMenuToggle,
 }) => {
   const { pathname } = useLocation();
-  const topLevel = pathname.split('/')[1];
+  const [, topLevel, levelTwo] = pathname.split('/');
 
   const closeMenu = () => {
     if (typeof window !== 'undefined') {
@@ -74,6 +117,8 @@ export const OpenMenu: React.FC<MenuProps> = ({
     <StyledMainNav
       linkColor={colors.darkContrasting()}
       activeLinkColor={colors.darkContrasting(1)}
+      leftPadding={spacing.default}
+      markerSpacing={spacing.medium}
     >
       <ol>
         {pages.map(({ anchor, title, children }) => (
@@ -95,16 +140,31 @@ export const OpenMenu: React.FC<MenuProps> = ({
                   {children.map((child, i) => (
                     <li key={child.anchor}>
                       <NavLink
-                        exact
-                        to={
-                          i === 0
-                            ? `/${topLevel}`
-                            : `/${topLevel}/${child.anchor}`
-                        }
+                        exact={i === 0}
+                        to={getChildPathname(child.anchor, topLevel, i)}
                         onClick={closeMenu}
                       >
                         {child.title}
                       </NavLink>
+                      {isChildActive(child.anchor, levelTwo, i)
+                        && child.children
+                        && child.children.length > 0
+                        && (
+                        <nav>
+                          <ol>
+                            {child.children.map((grandChild) => (
+                              <li key={grandChild.anchor}>
+                                <HashLink
+                                  anchor={grandChild.anchor}
+                                  onClick={closeMenu}
+                                >
+                                  {grandChild.title}
+                                </HashLink>
+                              </li>
+                            ))}
+                          </ol>
+                        </nav>
+                        )}
                     </li>
                   ))}
                 </ol>

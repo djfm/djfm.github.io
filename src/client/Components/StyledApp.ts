@@ -28,6 +28,7 @@ export const StyledApp = styled.div`
     margin: 0;
     padding: 0;
     overflow-wrap: anywhere;
+    line-height: 1.3;
   }
 
   a, a:visited {

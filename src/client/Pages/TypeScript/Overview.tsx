@@ -27,6 +27,7 @@ const OverviewPage: TitledContentFC = ({
 
 const OverviewContent: TitledContent = {
   anchor: 'typescript-en-bref',
+  children: sections,
   documentTitle: 'TypeScript en Bref',
   title: <><i>TypeScript</i> en bref</>,
   Content: OverviewPage,

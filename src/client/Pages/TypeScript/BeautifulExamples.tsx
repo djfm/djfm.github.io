@@ -93,6 +93,7 @@ export const BeautifulExamplesPage: TitledContentFC = ({
 
 const BeautifulExamplesContent: TitledContent = {
   anchor: 'jolis-exemples-en-ts',
+  children: sections,
   documentTitle: 'Jolis Exemples de Code en TypeScript',
   title: 'Jolis Exemples de Code en TypeScript',
   Content: BeautifulExamplesPage,

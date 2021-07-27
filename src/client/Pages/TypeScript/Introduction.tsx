@@ -163,6 +163,7 @@ export const IntroductionPage: TitledContentFC = ({
 
 const IntroductionContent: TitledContent = {
   anchor: 'introduction',
+  children: sections,
   documentTitle: 'Introduction',
   title: 'Introduction',
   Content: IntroductionPage,
