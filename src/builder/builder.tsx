@@ -168,10 +168,10 @@ const cleanupDocs = async (dirPath: string): Promise<void> => {
 };
 
 const main = async () => {
-  console.log('Pages structure provided:');
-  logInspect(tlPages);
+  // console.log('Pages structure provided:');
+  // logInspect(tlPages);
+  // console.log('Pre-rendering all pages...');
 
-  console.log('Pre-rendering all pages...');
   const allPageInfo = ([] as PageInfo[]).concat(...tlPages.map(
     generatePageInfo,
   ));
@@ -186,8 +186,8 @@ const main = async () => {
     return -1;
   });
 
-  console.log('Pages found to render:');
-  logInspect(allPageInfo);
+  // console.log('Pages found to render:');
+  // logInspect(allPageInfo);
 
   const indexBuffer = await readFile(path.resolve(__dirname, 'index.template.html'));
   const indexTemplate = indexBuffer.toString();
