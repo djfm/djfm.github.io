@@ -109,12 +109,6 @@ export const CodeSample: React.FC<{
   const preFontSize = 15;
   const scaleFactor = getScaleFactor(zoomLevel);
 
-  console.log(
-    'setting "pre" font size to',
-    `${round2(preFontSize * scaleFactor)}px`,
-    { scaleFactor, zoomLevel },
-  );
-
   const handleZoomInputChange = (e: React.BaseSyntheticEvent) => {
     const { value: valueString } = e.target;
     const value = parseInt(valueString, 10);
