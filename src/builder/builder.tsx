@@ -1,8 +1,6 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-console */
 
-import { inspect } from 'util';
-
 import path from 'path';
 
 import {
@@ -33,13 +31,6 @@ import {
 
 import App from '../client/Components/App';
 import tlPages from '../client/siteStructure';
-
-const logInspect = (obj: unknown) => {
-  console.log(inspect(obj, {
-    colors: true,
-    depth: null,
-  }));
-};
 
 type PageInfo = {
   link: string
