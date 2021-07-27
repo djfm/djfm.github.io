@@ -1,5 +1,3 @@
-// TODO animate :target
-
 // eslint-disable-next-line react/jsx-filename-extension
 import React, {
   ReactElement,

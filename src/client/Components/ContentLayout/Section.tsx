@@ -29,9 +29,7 @@ const StyledSection = styled.section`
   margin-bottom: ${spacing.xl};
 
   *:target {
-    margin-left: ${spacing.tiny};
-    padding-left: ${spacing.small};
-    border-left: 1px solid ${colors.dark()};
+    border-bottom: 1px solid ${colors.dark()};
   }
 
   > *:first-child * {
