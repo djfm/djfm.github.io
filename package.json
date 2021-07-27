@@ -7,15 +7,23 @@
   "author": "François-Marie de Jouvencel <fm.de.jouvencel@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "preBuild": "node src/highlight.js/generateIndex.js",
-    "build": "yarn preBuild && NODE_ENV=production yarn webpack --profile --json > stats.json && yarn render",
-    "render": "ts-node src/builder/builder.tsx",
-    "start": "ts-node-dev src/server/server.ts",
+    "preBuild": "echo 'GENERATING LIGHTER VERSION OF <highlight.js> LIBRARY' && node src/highlight.js/generateIndex.js",
+    "base-build-bkp": "echo \"BUILDING FOR <$NODE_ENV>\" && yarn preBuild && echo 'COMPILING, TRANSPILING, OPTIMIZING, AND BUNDLING THE ASSETS' && yarn webpack --profile --json > stats.json && yarn render && echo 'MAKING LIST OF FILES TO CACHE' && ./mkListOfFilesToCache",
+    "base-build": "echo \"BUILDING FOR <$NODE_ENV>\" && yarn preBuild && echo 'COMPILING, TRANSPILING, OPTIMIZING, AND BUNDLING THE ASSETS' && yarn webpack --profile --json > stats.json && yarn render && echo 'MAKING LIST OF FILES TO CACHE' && ./mkListOfFilesToCache",
+    "build": "NODE_ENV=production yarn base-build",
+    "devBuild": "NODE_ENV=development yarn base-build",
+    "render": "echo 'RENDERING THE STATIC PAGES' && ts-node src/builder/builder.tsx",
+    "base-start": "echo \"STARTING LOCAL SERVER IN <$NODE_ENV>\" &&ts-node-dev src/server/server.ts",
+    "start": "NODE_ENV=production yarn base-start",
+    "devStart": "NODE_ENV=development yarn base-start",
     "analyze-bundle": "webpack-bundle-analyzer stats.json docs -m server -p 4000",
     "lint": "eslint src",
-    "deploy": "yarn build && git add . && git commit && git push"
+    "deploy": "yarn build && echo 'GIT ADD EVERYTHING' && git add . && git commit && git push"
   },
   "browserslist": "defaults",
+  "engines": {
+    "node": ">=16.5.0"
+  },
   "dependencies": {
     "@babel/core": "^7.14.3",
     "@babel/plugin-transform-react-jsx": "^7.14.3",

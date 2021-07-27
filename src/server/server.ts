@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import path from 'path';
 import { stat } from 'fs/promises';
 
@@ -12,14 +13,30 @@ import { ICompiler } from 'webpack-hot-middleware/node_modules/@types/webpack';
 // eslint-disable-next-line import/extensions
 import webpackConfig from '../../webpack.config';
 
-const webpackCompiler = webpack(webpackConfig);
-const devMiddleware = createDevMiddleware(webpackCompiler);
-const hotMiddleware = createHotMiddleware(webpackCompiler as unknown as ICompiler);
-
 const app = express();
 
-app.use(devMiddleware);
-app.use(hotMiddleware);
+const mode = process.env.NODE_ENV === 'production'
+  ? 'production'
+  : 'development';
+
+console.log(`Starting server in "${mode}" mode.`);
+
+if (mode === 'production') {
+  console.log(
+    'Please ensure that you have run',
+    '"yarn build" before running the server,',
+    'as in production the server',
+    'will not compile your files',
+  );
+}
+
+if (mode === 'development') {
+  const webpackCompiler = webpack(webpackConfig);
+  const devMiddleware = createDevMiddleware(webpackCompiler);
+  const hotMiddleware = createHotMiddleware(webpackCompiler as unknown as ICompiler);
+  app.use(devMiddleware);
+  app.use(hotMiddleware);
+}
 
 const publicDir = path.resolve(__dirname, '..', '..', 'docs');
 
@@ -27,17 +44,21 @@ app.use(async (req, res, next): Promise<void> => {
   const candidatePath = `${
     path.resolve(publicDir, req.path.slice(1))
   }.html`;
+
   try {
     const s = await stat(candidatePath);
+
     if (!s.isFile()) {
       next();
       return;
     }
+
     res.sendFile(candidatePath);
   } catch (err) {
     if (err.code !== 'ENOENT') {
       throw err;
     }
+
     next();
   }
 });
@@ -49,6 +70,5 @@ app.use(express.static(publicDir, {
 const port = process.env.port || 3000;
 
 app.listen(port, () => {
-  // eslint-disable-next-line no-console
   console.log(`server listening on port ${port}`);
 });

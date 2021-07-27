@@ -1,0 +1,17 @@
+module.exports = [
+  '/bundle.js',
+  '/bundle.js.gz',
+  '/bundle.js.map',
+  '/index.html',
+  '/typescript.html',
+  '/typescript/jolis-exemples-en-ts.html',
+  '/typescript/rapidement-configurer-un-projet.html',
+  '/typescript/type-narrowing.html',
+  '/typescript/types-vs-interfaces.html',
+  '/typescript/typescript-en-bref.html',
+  '/filesToCache.js',
+  '/style.js.map',
+  '/worker.js',
+  '/worker.js.gz',
+  '/worker.js.map',
+];

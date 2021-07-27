@@ -18,6 +18,9 @@ type Mode = 'production' | 'development' | 'none';
 
 const mode: Mode = process.env.NODE_ENV === 'production' ? 'production' : 'development';
 
+// eslint-disable-next-line no-console
+console.log(`Webpack mode: ${mode}.`);
+
 plugins.push(new MiniCSSExtractPlugin());
 plugins.push(new EnvironmentPlugin({
   NODE_ENV: mode,
@@ -28,6 +31,7 @@ const entry = {
     './src/client/index.tsx',
   ],
   style: './node_modules/highlight.js/scss/github-dark.scss',
+  worker: './src/client/worker.ts',
 };
 
 if (mode === 'development') {
