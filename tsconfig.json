@@ -8,6 +8,8 @@
     "module": "CommonJS",
     "outDir": "./build/",
     "skipLibCheck": true,
-    "types": ["react", "node"]
+    "types": ["react", "node"],
+    "lib": ["ESNext", "DOM", "WebWorker"],
+    "skipDefaultLibCheck": true,
   },
 }
