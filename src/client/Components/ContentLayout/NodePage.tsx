@@ -54,8 +54,8 @@ const scrollToTop = () => {
 const ResponsiveContainer = styled.div`
   @media(max-width: ${mediumScreenMax}) {
     > * {
-      padding-left: ${spacing.default};
-      padding-right: ${spacing.default};
+      padding-left: ${spacing.medium};
+      padding-right: ${spacing.medium};
       max-width: calc(100% - ${spacing.default} * 2);
     }
   }

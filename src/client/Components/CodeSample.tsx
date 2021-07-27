@@ -1,7 +1,5 @@
 import React, {
   useState,
-  useEffect,
-  useRef,
 } from 'react';
 
 import styled from 'styled-components';
@@ -9,25 +7,29 @@ import styled from 'styled-components';
 import hljs from '../../highlight.js/index';
 
 import {
-  parseValueWithUnit,
   trimLeadingWhitespace,
 } from '../util';
 
 import {
-  tinyScreenMax,
+  defaultColorTheme as colors,
+  mediumScreenMin,
   smallScreenMin,
   smallScreenMax,
-  mediumScreenMin,
+  spacing,
+  tinyScreenMax,
 } from '../theme';
 
 const Wrapper = styled.div`
-  margin-bottom: 20px;
+  margin-top: ${spacing.large};
+  margin-bottom: ${spacing.large};
 
   > figure {
     max-width: 100%;
 
     > figcaption {
+      font-size: ${spacing.default};
       font-weight: bold;
+      margin-bottom: ${spacing.tiny};
     }
 
     > pre {
@@ -39,27 +41,23 @@ const Wrapper = styled.div`
         flex-grow: 1;
       }
     }
-
-    margin-left: 0;
-    margin-right: 0;
-    margin-bottom: 0;
   }
 `;
 
 const Code = styled.code`
-  padding: 10px;
+  padding: ${spacing.small};
   margin: 0;
 
   @media(max-width: ${tinyScreenMax}) {
-    font-size: 8px;
+    font-size: ${spacing.small};
   }
 
   @media (min-width: ${smallScreenMin}) and (max-width: ${smallScreenMax}) {
-    font-size: 10px;
+    font-size: ${spacing.default};
   }
 
   @media (min-width: ${mediumScreenMin}) {
-    font-size: 19px;
+    font-size: ${spacing.medium};
   }
 `;
 
@@ -73,6 +71,30 @@ const highlight = (language: string, sourceCode: string): string => {
   }).value;
 };
 
+const minZoom = 100;
+const normalZoom = 200;
+const maxZoom = 400;
+
+const minScale = 0.5;
+const normalScale = 1;
+const maxScale = 2;
+
+const round2 = (n: number): number => Math.round(n * 100) / 100;
+
+const getScaleFactor = (zoom: number): number => {
+  if (zoom > normalZoom) {
+    return ((maxScale - normalScale)
+            * ((zoom - normalZoom)
+                / (maxZoom - normalZoom)))
+                    + normalScale;
+  }
+
+  return ((normalScale - minScale)
+          * ((zoom - minZoom)
+              / (normalZoom - minZoom)))
+                + minScale;
+};
+
 export const CodeSample: React.FC<{
   title: string,
   children: string,
@@ -82,34 +104,16 @@ export const CodeSample: React.FC<{
   children,
   language,
 }) => {
-  const minZoom = 10;
-  const normalZoom = 100;
-  const maxZoom = 200;
-
   const [zoomLevel, setZoomLevel] = useState(normalZoom);
-  const [initialFontSize, setInitialFontSize] = useState(0);
-  const [fontUnit, setFontUnit] = useState('');
 
-  const codeElementRef = useRef(null);
-  const preElementRef = useRef(null);
+  const preFontSize = 15;
+  const scaleFactor = getScaleFactor(zoomLevel);
 
-  useEffect(() => {
-    // necessary to prevent errors in the SSR code where
-    // document is not defined
-    if (
-      typeof document !== 'undefined'
-        && initialFontSize === 0
-    ) {
-      const codeStyle = document.defaultView.getComputedStyle(
-        codeElementRef.current,
-      );
-
-      const { fontSize } = codeStyle;
-      const [domInitialFontSize, domFontUnit] = parseValueWithUnit(fontSize);
-      setInitialFontSize(domInitialFontSize);
-      setFontUnit(domFontUnit);
-    }
-  }, [initialFontSize]);
+  console.log(
+    'setting "pre" font size to',
+    `${round2(preFontSize * scaleFactor)}px`,
+    { scaleFactor, zoomLevel },
+  );
 
   const handleZoomInputChange = (e: React.BaseSyntheticEvent) => {
     const { value: valueString } = e.target;
@@ -117,23 +121,19 @@ export const CodeSample: React.FC<{
     setZoomLevel(value);
   };
 
-  const scaleFactor = zoomLevel / normalZoom;
-  const fontSize = Math.round(100 * scaleFactor * initialFontSize) / 100;
-  const fontSizeWithUnit = `${fontSize}${fontUnit}`;
-
-  const codeStyle = fontSize > 0 ? ({ fontSize: fontSizeWithUnit }) : undefined;
-
   const highlightedChildren = highlight(language, children);
 
   const markup = (
     <Wrapper>
       <figure>
         <figcaption>{title}&nbsp;:</figcaption>
-        <pre ref={preElementRef}>
+        <pre
+          style={{
+            fontSize: `${round2(preFontSize * scaleFactor)}px`,
+          }}
+        >
           <Code
             className="hljs no-highlight"
-            ref={codeElementRef}
-            style={codeStyle}
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: highlightedChildren,
@@ -141,22 +141,33 @@ export const CodeSample: React.FC<{
           />
         </pre>
       </figure>
-      <label>
-        <span style={{
-          display: 'block',
-          textAlign: 'left',
+      <fieldset
+        style={{
+          alignItems: 'stretch',
+          borderColor: colors.border(),
+          color: colors.dark(),
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+          marginTop: spacing.tiny,
+          padding: spacing.tiny,
         }}
+      >
+        <legend
+          style={{
+            fontSize: spacing.small,
+          }}
         >
-          Zoom&nbsp;:
-        </span>
+          Zoomez ou dé-zoomez l&apos;exemple avec la commande ci-dessous&nbsp;:
+        </legend>
         <input
-          type="range"
-          min={minZoom}
           max={maxZoom}
-          value={zoomLevel}
+          min={minZoom}
           onChange={handleZoomInputChange}
+          type="range"
+          value={zoomLevel}
         />
-      </label>
+      </fieldset>
     </Wrapper>
   );
 
