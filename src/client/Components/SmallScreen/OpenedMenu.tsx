@@ -92,10 +92,15 @@ export const OpenMenu: React.FC<MenuProps> = ({
               && (
               <nav>
                 <ol>
-                  {children.map((child) => (
+                  {children.map((child, i) => (
                     <li key={child.anchor}>
                       <NavLink
-                        to={`/${topLevel}/${child.anchor}`}
+                        exact
+                        to={
+                          i === 0
+                            ? `/${topLevel}`
+                            : `/${topLevel}/${child.anchor}`
+                        }
                         onClick={closeMenu}
                       >
                         {child.title}
@@ -118,7 +123,6 @@ export const OpenMenu: React.FC<MenuProps> = ({
       <OpenedMenuButton onMenuToggle={onMenuToggle} />
     </MenuWrapper>
   );
-
 };
 
 export default OpenMenu;

@@ -33,7 +33,7 @@ const App: React.FC = () => {
   useEffect(() => {
     if (typeof document !== 'undefined') {
       document.body.style.display = appDisplay;
-      document.body.style.overflow = appDisplay === 'hidden'
+      document.body.style.overflowY = appDisplay === 'hidden'
         ? 'hidden' : 'auto';
     }
   }, [appDisplay]);

@@ -53,9 +53,10 @@ const scrollToTop = () => {
 
 const ResponsiveContainer = styled.div`
   @media(max-width: ${mediumScreenMax}) {
-    > div {
-      padding-left: ${spacing.small};
-      padding-right: ${spacing.small};
+    > * {
+      padding-left: ${spacing.default};
+      padding-right: ${spacing.default};
+      max-width: calc(100% - ${spacing.default} * 2);
     }
   }
 
@@ -84,7 +85,6 @@ const ResponsiveContainer = styled.div`
 
 const Nav = styled(StyledNavVertical)`
   padding-right: ${spacing.medium};
-  margin-bottom: ${spacing.xl};
 
   > *:first-child {
     margin-top: 0
@@ -205,9 +205,7 @@ const NodePage: React.FC<NodePageProps> = ({
 
   return (
     <main>
-      <h1 style={{ textAlign: 'center' }}>
-        {currentTitle}
-      </h1>
+      <h1>{currentTitle}</h1>
       <ResponsiveContainer>
         <div className="secondary-nav">
           {secondaryNav}
