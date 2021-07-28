@@ -40,25 +40,25 @@ if (mode === 'development') {
 
 const publicDir = path.resolve(__dirname, '..', '..', 'docs');
 
+// this is because express.static
+// seems to fuck up on urls like "/dir/"
+// where dir is a directory and "/dir.html"
+// exists.
 app.use(async (req, res, next): Promise<void> => {
   const candidatePath = `${
     path.resolve(publicDir, req.path.slice(1))
   }.html`;
-
   try {
     const s = await stat(candidatePath);
-
     if (!s.isFile()) {
       next();
       return;
     }
-
     res.sendFile(candidatePath);
   } catch (err) {
     if (err.code !== 'ENOENT') {
       throw err;
     }
-
     next();
   }
 });
