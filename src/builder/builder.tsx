@@ -41,6 +41,9 @@ const docsRootPath = path.resolve(__dirname, '..', '..', 'docs');
 const titlePlaceholder = '#TITLE#';
 const appPlaceholder = '#APP#';
 const stylesPlaceholder = '#STYLES#';
+const envPlaceholder = '#NODE_ENV#';
+
+const nodeEnv = process.env.NODE_ENV || 'development';
 
 const createAppForURL = (url: string): [React.ReactElement, Record<string, unknown>] => {
   const context = {};
@@ -201,7 +204,8 @@ const main = async () => {
     const finalCode = indexTemplate
       .replace(titlePlaceholder, documentTitle)
       .replace(appPlaceholder, markup)
-      .replace(stylesPlaceholder, styleTags);
+      .replace(stylesPlaceholder, styleTags)
+      .replace(envPlaceholder, nodeEnv);
 
     await writeFile(docPath, finalCode);
   }
