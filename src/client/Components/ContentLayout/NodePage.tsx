@@ -24,7 +24,6 @@ import {
 import {
   defaultColorTheme as colors,
   largeScreenMin,
-  mediumScreenMax,
   smallScreenMax,
   spacing,
 } from '../../theme';
