@@ -7,8 +7,8 @@ const sw = self as unknown as ServiceWorkerGlobalScope & typeof globalThis;
 // Choose a cache name
 const cacheName = 'djfm.github.io-3';
 
-const isDevelopment = sw.location.href.includes('?env=development');
-console.log('sw.location.href', sw.location.href, sw.location);
+const isDevelopment = sw.location.search.includes('env=development');
+log('sw.location.href', sw.location.href, sw.location);
 
 const fetchOrUndefined = async (
   r: Request,
