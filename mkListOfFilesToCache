@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-reportPath="./docs/filesToCache.js"
+reportPath="./docs/filesToCache.json"
 
-echo "module.exports = [" > $reportPath
+echo "[" > $reportPath
 
 changedSinceLastCommit=$(git diff --name-only HEAD -- docs)
 newUntrackedFiled=$(git ls-files --others --exclude-standard -- docs)
@@ -16,8 +16,8 @@ filesToCache=$({
 echo "$filesToCache" | \
 xargs -I{} echo "{}" | \
 sed -e "s/^docs//" | \
-xargs -I{} echo "  '{}'," >> $reportPath
+xargs -I{} echo '  "{}",' | \
+sed -e '$ s/,$//' \
+>> $reportPath
 
-{
-  echo "];"
-} >> $reportPath
+echo "]" >> $reportPath
