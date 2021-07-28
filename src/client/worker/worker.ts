@@ -79,7 +79,7 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
 
     if (url.host !== myURL.host) {
       log('Ignoring caching for host:', url.host);
-      return fetch(event.request);
+      return undefined;
     }
 
     const response = await fetchOrUndefined(event.request);
