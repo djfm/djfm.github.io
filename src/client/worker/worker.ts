@@ -34,6 +34,7 @@ const bestResponse = (network: Response | undefined, cache: Response) => {
 
 // When the service worker is installing,
 // open the cache and add the pre-cache resources to it
+// this is probably useless and doesn't work
 sw.addEventListener('install', (event) => {
   log('####::::  installing ServiceWorker with', { cacheName });
   event.waitUntil(async (): Promise<Cache> => {
