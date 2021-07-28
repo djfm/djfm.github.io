@@ -2,7 +2,7 @@
   "/bundle.js",
   "/bundle.js.gz",
   "/bundle.js.map",
-  "/filesToCache.js",
+  "/filesToCache.json",
   "/index.html",
   "/style.js.map",
   "/typescript.html",
@@ -12,7 +12,5 @@
   "/typescript/types-vs-interfaces.html",
   "/typescript/typescript-en-bref.html",
   "/worker.js",
-  "/worker.js.gz",
-  "/worker.js.map",
-  "/filesToCache.json"
+  "/worker.js.map"
 ]

@@ -1,2 +1,76 @@
-!function(){var e={9771:function(e){e.exports=["/bundle.js","/bundle.js.gz","/bundle.js.map","/index.html","/typescript.html","/typescript/jolis-exemples-en-ts.html","/typescript/rapidement-configurer-un-projet.html","/typescript/type-narrowing.html","/typescript/types-vs-interfaces.html","/typescript/typescript-en-bref.html","/filesToCache.js","/style.js.map","/worker.js","/worker.js.gz","/worker.js.map"]},1551:function(e,t,r){"use strict";function n(e,t,r,n,a,s,i){try{var o=e[s](i),c=o.value}catch(e){return void r(e)}o.done?t(c):Promise.resolve(c).then(n,a)}var a=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(t,"__esModule",{value:!0});var s=a(r(9771)),i=self,o="djfm.github.io";i.addEventListener("install",(e=>{e.waitUntil(caches.open(o).then((e=>{e.addAll(s.default),s.default.splice(0,s.default.length)})))})),i.addEventListener("activate",(()=>{})),i.addEventListener("fetch",(e=>{e.request.url;for(var t,r=new URL(e.request.url),a=0;a<Clients.length;a+=1){var i=Clients[a],c=new URL(i.url);if(r.host!==c.host)return r.host,void e.respondWith(fetch(e.request))}e.respondWith((t=function*(){if(s.default.includes(r.pathname)||!r.pathname.endsWith(".html")&&(s.default.includes("".concat(r.pathname,"/index.html"))||s.default.includes("".concat(r.pathname,".html")))){"File at ".concat(r.pathname," has supposedly changed:");var t=yield fetch(e.request);if(t.ok){'Got an OK response for "'.concat(r.pathname,'" from the network.');var n=yield caches.open(o);return yield n.put(e.request,t),"Returning ".concat(r.pathname," from the cache right after having added it to it."),yield caches.match(e.request)}return(yield caches.match(e.request))||t}var a=yield caches.match(e.request);return a&&a.ok?a:yield fetch(e.request)},function(){var e=this,r=arguments;return new Promise((function(a,s){var i=t.apply(e,r);function o(e){n(i,a,s,o,c,"next",e)}function c(e){n(i,a,s,o,c,"throw",e)}o(void 0)}))})())}))}},t={};!function r(n){var a=t[n];if(void 0!==a)return a.exports;var s=t[n]={exports:{}};return e[n].call(s.exports,s,s.exports,r),s.exports}(1551)}();
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const log = (...args) => null;
+// eslint-disable-next-line no-restricted-globals
+const sw = self;
+// Choose a cache name
+const cacheName = 'djfm.github.io-3';
+const isDevelopment = sw.location.search.includes('env=development');
+log('sw.location.href', sw.location.href, sw.location);
+const fetchOrUndefined = async (r) => {
+    try {
+        const response = await fetch(r);
+        return response;
+    }
+    catch (e) {
+        log('Failed to fetch', r.url, e);
+        return undefined;
+    }
+};
+const bestResponse = (network, cache) => {
+    if (!network) {
+        return cache;
+    }
+    if (network.ok) {
+        return network;
+    }
+    return cache;
+};
+// When the service worker is installing,
+// open the cache and add the pre-cache resources to it
+// this is probably useless and doesn't work
+sw.addEventListener('install', (event) => {
+    log('####::::  installing ServiceWorker with', { cacheName });
+    event.waitUntil(async () => {
+        const cache = await caches.open(cacheName);
+        const filesToCacheResponse = await fetch('filesToCache.json');
+        if (filesToCacheResponse.ok) {
+            const filesToCache = await filesToCacheResponse.json();
+            await cache.addAll(filesToCache);
+            return cache;
+        }
+        return cache;
+    });
+});
+sw.addEventListener('activate', () => {
+    log('Service worker activate event!');
+    log('Environment is', isDevelopment ? 'development' : 'production');
+});
+sw.addEventListener('fetch', (event) => {
+    log('Fetch intercepted for:', event.request.url);
+    if (isDevelopment) {
+        log('Not using the cache since env is set to "development".', 'ServiceWorker bails.');
+        return;
+    }
+    const getResponse = async () => {
+        const url = new URL(event.request.url);
+        const myURL = sw.location;
+        log({ myURL, url });
+        if (event.request.method !== 'GET') {
+            return fetch(event.request);
+        }
+        if (url.host !== myURL.host) {
+            log('Ignoring caching for host:', url.host);
+            return undefined;
+        }
+        const response = await fetchOrUndefined(event.request);
+        if (response && response.ok) {
+            const cache = await caches.open(cacheName);
+            await cache.put(event.request, response.clone());
+            return response;
+        }
+        const cachedResponse = await caches.match(event.request);
+        return bestResponse(response, cachedResponse);
+    };
+    event.respondWith(getResponse());
+});
 //# sourceMappingURL=worker.js.map

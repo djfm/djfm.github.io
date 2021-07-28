@@ -84,8 +84,8 @@ data-styled.g12[id="sc-kEqXSa"]{content:"bAVzgZ,"}/*!sc*/
 data-styled.g13[id="sc-iqAclL"]{content:"jibPFy,"}/*!sc*/
 .DykGo{margin-bottom:2.5em;}/*!sc*/
 data-styled.g14[id="sc-crzoAE"]{content:"DykGo,"}/*!sc*/
-@media(max-width:1199px){.jEEywD > *{padding-left:1.4em;padding-right:1.4em;max-width:calc(100% - 0.8em * 2);}}/*!sc*/
-@media(min-width:1200px){.jEEywD{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;}.jEEywD > .page-body{max-width:799px;padding:0;}.jEEywD > .secondary-nav{-webkit-flex-basis:401px;-ms-flex-preferred-size:401px;flex-basis:401px;}.jEEywD > .secondary-nav nav{position:-webkit-sticky;position:sticky;top:0.8em;width:401px;}}/*!sc*/
+.jEEywD > .page-body{max-width:799px;padding-left:1.4em;padding-right:1.4em;}/*!sc*/
+@media(min-width:1200px){.jEEywD{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;}.jEEywD > .secondary-nav{-webkit-flex-basis:401px;-ms-flex-preferred-size:401px;flex-basis:401px;}.jEEywD > .secondary-nav nav{position:-webkit-sticky;position:sticky;top:0.8em;width:401px;}}/*!sc*/
 data-styled.g15[id="sc-dIsUp"]{content:"jEEywD,"}/*!sc*/
 .iPexDg{padding-right:1.4em;margin-bottom:2.5em;}/*!sc*/
 .iPexDg > *:first-child{margin-top:0;}/*!sc*/
@@ -115,5 +115,19 @@ data-styled.g21[id="sc-bkbkJK"]{content:"eraKfR,"}/*!sc*/
   (list: T[]): U[] =&gt;
     ([] as U[]).concat(...list.map(fn));</code></pre></figure><fieldset style="align-items:stretch;border-color:#bbb;color:rgba(13,17,23,1);display:flex;flex-direction:column;justify-content:flex-start;margin-top:0.25em;padding:0.25em"><legend style="font-size:0.5em">Zoomez ou dé-zoomez l&#x27;exemple avec la commande ci-dessous :</legend><input type="range" max="400" min="100" value="200"/></fieldset></div><p>Simple, non ?</p><p><i>concatMap</i> est donc une fonction qui accepte une fonction comme seul argument (<i>fn</i>), et retourne une fonction qui acceptera ensuite un tableau - c&#x27;est ce qu&#x27;on appelle le <i>currying</i>.</p><p>C&#x27;est très pratique de mettre l&#x27;argument sur lequel on va appliquer la transformation en dernière position notamment parce que ça permet de composer facilement les fonctions. J&#x27;en reparlerai sans doute plus tard.</p></section><div class="sc-fujyAs eysHZq"><a class="" href="#table-of-contents">retourner au haut de page</a></div></div></div></main><div class="sc-iCoGMd kMthTr"><input type="image" alt="ouvrir le menu" src="/img/closed-menu.svg" width="60" style="position:fixed;bottom:15px;left:15px"/></div></div></div>
     <script async src="/bundle.js"></script>
+    <script async>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', async () => {
+          try {
+            await navigator
+              .serviceWorker
+              .register(`/worker.js?env=production`);
+            // console.log('Service Worker Registered', { reg });
+          } catch (e) {
+            console.error('Service Worker failed to register', e);
+          }
+        });
+      }
+    </script>
   </body>
 </html>
