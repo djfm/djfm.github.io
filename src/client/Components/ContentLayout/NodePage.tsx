@@ -77,13 +77,19 @@ const ResponsiveContainer = styled.div`
 const Nav = styled(StyledNavVertical)`
   padding-right: ${spacing.medium};
   margin-bottom: ${spacing.xl};
+  margin-left: ${spacing.medium};
 
   > *:first-child {
     margin-top: 0
   }
 
-  ol {
+  > ol {
     border-left: 1px solid ${colors.dark()};
+
+    & + a {
+      display: block;
+      margin-top: ${spacing.medium};
+    }
   }
 `;
 
