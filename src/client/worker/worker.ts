@@ -12,7 +12,7 @@ log('sw.location.href', sw.location.href, sw.location);
 
 const fetchOrUndefined = async (
   r: Request,
-): Promise<Response> => {
+): Promise<Response | undefined> => {
   try {
     const response = await fetch(r);
     return response;
@@ -22,14 +22,19 @@ const fetchOrUndefined = async (
   }
 };
 
-const bestResponse = (network: Response | undefined, cache: Response) => {
-  if (!network) {
-    return cache;
-  }
-  if (network.ok) {
+const bestResponse = (network: Response | undefined, cache: Response | undefined): Response => {
+  if (network && network.ok) {
     return network;
   }
-  return cache;
+
+  if (cache) {
+    return cache;
+  }
+
+  return new Response(null, {
+    status: 404,
+    statusText: 'Resource not found, neither on the network nor in the application cache.',
+  });
 };
 
 // When the service worker is installing,
@@ -65,6 +70,7 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
       'Not using the cache since env is set to "development".',
       'ServiceWorker bails.',
     );
+    event.respondWith(fetch(event.request));
     return;
   }
 
@@ -79,7 +85,7 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
 
     if (url.host !== myURL.host) {
       log('Ignoring caching for host:', url.host);
-      return undefined;
+      return fetch(event.request);
     }
 
     const response = await fetchOrUndefined(event.request);

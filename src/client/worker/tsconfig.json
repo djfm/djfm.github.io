@@ -9,6 +9,7 @@
     "skipLibCheck": true,
     "lib": ["ESNext", "WebWorker"],
     "skipDefaultLibCheck": true,
+    "strictNullChecks": true,
     "outDir": "../../../docs/"
   },
   "include": ["./worker.ts"]

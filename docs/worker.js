@@ -17,13 +17,16 @@ const fetchOrUndefined = async (r) => {
     }
 };
 const bestResponse = (network, cache) => {
-    if (!network) {
-        return cache;
-    }
-    if (network.ok) {
+    if (network && network.ok) {
         return network;
     }
-    return cache;
+    if (cache) {
+        return cache;
+    }
+    return new Response(null, {
+        status: 404,
+        statusText: 'Resource not found, neither on the network nor in the application cache.',
+    });
 };
 // When the service worker is installing,
 // open the cache and add the pre-cache resources to it
@@ -49,6 +52,7 @@ sw.addEventListener('fetch', (event) => {
     log('Fetch intercepted for:', event.request.url);
     if (isDevelopment) {
         log('Not using the cache since env is set to "development".', 'ServiceWorker bails.');
+        event.respondWith(fetch(event.request));
         return;
     }
     const getResponse = async () => {
@@ -60,7 +64,7 @@ sw.addEventListener('fetch', (event) => {
         }
         if (url.host !== myURL.host) {
             log('Ignoring caching for host:', url.host);
-            return undefined;
+            return fetch(event.request);
         }
         const response = await fetchOrUndefined(event.request);
         if (response && response.ok) {
