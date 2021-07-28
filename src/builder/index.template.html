@@ -28,5 +28,19 @@
       <!-- End Google Tag Manager (noscript) -->
     <div id="root">#APP#</div>
     <script async src="/bundle.js"></script>
+    <script async>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', async () => {
+          try {
+            await navigator
+              .serviceWorker
+              .register(`/worker.js?env=#NODE_ENV#`);
+            // console.log('Service Worker Registered', { reg });
+          } catch (e) {
+            console.error('Service Worker failed to register', e);
+          }
+        });
+      }
+    </script>
   </body>
 </html>
