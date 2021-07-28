@@ -6,10 +6,17 @@
     "downlevelIteration": true,
     "target": "ESNext",
     "module": "CommonJS",
-    "outDir": "./build/",
     "skipLibCheck": true,
     "types": ["react", "node"],
-    "lib": ["ESNext", "DOM", "WebWorker"],
+    "lib": ["ESNext", "DOM"],
     "skipDefaultLibCheck": true,
+    "outDir": "./build"
   },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ],
+  "exclude": [
+    "src/client/worker/**/*"
+  ]
 }

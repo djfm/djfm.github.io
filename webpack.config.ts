@@ -31,7 +31,6 @@ const entry = {
     './src/client/index.tsx',
   ],
   style: './node_modules/highlight.js/scss/github-dark.scss',
-  worker: './src/client/worker.ts',
 };
 
 if (mode === 'development') {

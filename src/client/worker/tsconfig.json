@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "downlevelIteration": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "lib": ["ESNext", "WebWorker"],
+    "skipDefaultLibCheck": true,
+    "outDir": "../../../docs/"
+  },
+  "include": ["./worker.ts"]
+}
