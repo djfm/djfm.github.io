@@ -52,24 +52,16 @@ const scrollToTop = () => {
 };
 
 const ResponsiveContainer = styled.div`
-  @media(max-width: ${mediumScreenMax}) {
-    > * {
-      padding-left: ${spacing.medium};
-      padding-right: ${spacing.medium};
-      max-width: calc(100% - ${spacing.default} * 2);
-    }
+  > .page-body {
+    max-width: ${smallScreenMax};
+    padding-left: ${spacing.medium};
+    padding-right: ${spacing.medium};
   }
 
   @media(min-width: ${largeScreenMin}) {
     display: flex;
     flex-direction: row;
     justify-content: center;
-
-
-    > .page-body {
-      max-width: ${smallScreenMax};
-      padding: 0;
-    }
 
     > .secondary-nav {
       flex-basis: ${navFlexBasis};
