@@ -74,14 +74,17 @@ const ResponsiveContainer = styled.div`
   }
 `;
 
+const NavHeading = styled.div`
+  > *:first-child {
+    margin-top: 0;
+    font-size: ${spacing.default};
+  }
+`;
+
 const Nav = styled(StyledNavVertical)`
   padding-right: ${spacing.medium};
   margin-bottom: ${spacing.xl};
   margin-left: ${spacing.medium};
-
-  > *:first-child {
-    margin-top: 0
-  }
 
   > ol {
     border-left: 1px solid ${colors.dark()};
@@ -92,6 +95,13 @@ const Nav = styled(StyledNavVertical)`
     }
   }
 `;
+
+const longTitle = (item: TitledContent) => {
+  if (item.longTitle) {
+    return item.longTitle;
+  }
+  return item.title;
+};
 
 const NodePage: React.FC<NodePageProps> = ({
   content,
@@ -118,7 +128,7 @@ const NodePage: React.FC<NodePageProps> = ({
   const documentTitle = childDisplayed
     ? childDisplayed.documentTitle : content.documentTitle;
   const currentTitle = childDisplayed
-    ? childDisplayed.title : content.title;
+    ? longTitle(childDisplayed) : longTitle(content);
 
   useEffect(() => {
     if (typeof document !== 'undefined') {
@@ -141,7 +151,9 @@ const NodePage: React.FC<NodePageProps> = ({
       linkColor={colors.dark()}
       activeLinkColor={colors.dark()}
     >
-      <H1 className="large-screen-only">{content.title}</H1>
+      <NavHeading>
+        <H1>{content.title}</H1>
+      </NavHeading>
       <ol>
         <li>
           <NavLink

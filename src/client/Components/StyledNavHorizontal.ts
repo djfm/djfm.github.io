@@ -13,6 +13,7 @@ export const StyledNavHorizontal = styled(StyledNavVertical)`
     margin-bottom: 0;
     display: flex;
     justify-content: space-evenly;
+    align-items: center;
 
     padding: 0;
 

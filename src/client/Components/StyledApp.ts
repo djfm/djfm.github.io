@@ -22,14 +22,25 @@ export const StyledApp = styled.div`
   font-family: monospace;
   font-size: ${fontSize.default};
 
-  /* general purpose classes */
+  /* general purpose stuff */
   .large-screen-only {
     @media(max-width: ${mediumScreenMax}) {
       display: none;
     }
   }
 
-  /* general purpose stuff */
+  figcaption {
+    font-size: ${spacing.default};
+    font-weight: bold;
+    margin-bottom: ${spacing.tiny};
+  }
+
+  button {
+    padding: ${spacing.tiny};
+    font-size: ${spacing.small};
+  }
+
+  /* "body" only */
   padding-bottom: ${paddingBottom}px;
 
   /* resets */

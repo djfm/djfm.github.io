@@ -56,9 +56,9 @@ export const defaultColorTheme = makeColorTheme('light');
 /* dimensions */
 
 export const spacing = {
-  tiny: '0.25em',
-  small: '0.5em',
-  default: '0.8em',
+  tiny: '0.35em',
+  small: '0.7em',
+  default: '1em',
   medium: '1.4em',
   large: '1.7em',
   xl: '2.5em',
@@ -72,7 +72,7 @@ export const spacing = {
 spacing.pLineHeight = '1.7';
 spacing.pMargin = spacing.medium;
 
-spacing.headingMargins.push(spacing.medium);
+spacing.headingMargins.push(spacing.large);
 spacing.headingMargins.push(spacing.default);
 spacing.headingMargins.push(spacing.small);
 spacing.headingMargins.push(spacing.tiny);

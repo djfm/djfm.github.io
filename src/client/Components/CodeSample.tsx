@@ -26,12 +26,6 @@ const Wrapper = styled.div`
   > figure {
     max-width: 100%;
 
-    > figcaption {
-      font-size: ${spacing.default};
-      font-weight: bold;
-      margin-bottom: ${spacing.tiny};
-    }
-
     > pre {
       display: flex;
       overflow: auto;

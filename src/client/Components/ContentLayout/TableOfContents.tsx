@@ -23,7 +23,7 @@ const TOCHeadingWrapper = styled.div`
 
   /* the heading, probably a h2 but not necessarily */
   > *:first-child {
-    font-size: 1em;
+    font-size: ${spacing.default};
     margin-top: 0;
   }
 
