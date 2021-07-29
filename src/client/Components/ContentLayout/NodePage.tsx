@@ -136,7 +136,7 @@ const NodePage: React.FC<NodePageProps> = ({
 
   const displayedChild = getDisplayedChild();
 
-  const documentTitle = displayedChild
+  const documentTitle = displayedChild && displayedChild.documentTitle
     ? displayedChild.documentTitle : content.documentTitle;
 
   const currentTitle = longTitle(displayedChild);

@@ -56,19 +56,34 @@ const App: React.FC = () => {
     <Switch>
       {sortedPages.map(({
         anchor,
+        documentTitle,
         Content,
-      }) => (
-        <Route
-          key={anchor}
-          path={`/${anchor}`}
-        >
-          <Content
-            Container={React.Fragment}
-            H1={H1}
-            H2={H2}
-          />
-        </Route>
-      ))}
+      }) => {
+        const Container: React.FC = ({
+          children,
+        }) => {
+          useEffect(() => {
+            if (typeof document !== 'undefined') {
+              document.title = documentTitle;
+            }
+          });
+
+          return <>{children}</>;
+        };
+
+        return (
+          <Route
+            key={anchor}
+            path={`/${anchor}`}
+          >
+            <Content
+              Container={Container}
+              H1={H1}
+              H2={H2}
+            />
+          </Route>
+        );
+      })}
     </Switch>
   );
 

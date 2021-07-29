@@ -211,7 +211,6 @@ const HomePage:TitledContentFC = ({
           un temps fou et que j&apos;aurais aimé connaître plus tôt.
         </p>
       </header>
-
       <SectionList sections={sections} depth={H1.depth + 1} />
     </NotTooWide>
   </Container>
@@ -220,6 +219,7 @@ const HomePage:TitledContentFC = ({
 const homePage: TitledContent = {
   title: 'Accueil',
   anchor: '',
+  documentTitle: 'fmdj.fr - Accueil',
   Content: HomePage,
 };
 

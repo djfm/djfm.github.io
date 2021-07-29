@@ -95,11 +95,13 @@ const generatePageInfo = (
     const [firstChild, ...children] = titledContent.children.map(
       (child: TitledContent): PageInfo => ({
         link: `${removeTrailingSlash(link)}/${child.anchor}`,
-        documentTitle: child.documentTitle || renderTitle(child.title),
+        documentTitle: child.documentTitle
+          || renderTitle(child.title),
       }),
     );
 
     firstChild.link = link;
+    firstChild.documentTitle = documentTitle;
 
     output.push(firstChild, ...children);
   } else {
