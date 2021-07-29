@@ -22,7 +22,7 @@ const CopilotPage: TitledContentFC = ({
 
 const CopilotContent: TitledContent = ({
   anchor: 'ia-github-copilot',
-  title: <><i>Copilot</i>, une (trop&nbsp;?) Fascinante <i>IA</i></>,
+  title: <><i>Copilot</i>, une <i>IA</i> Troublante</>,
   longTitle: (
     <>
       La Fascinante <i>Copilot</i>,
