@@ -23,12 +23,14 @@ filterAndFormat \
 >> $allFilesPath
 echo "]" >> $allFilesPath
 
-changedSinceLastCommit=\
-'git diff --name-only --diff-filter=ACMR HEAD -- docs'
+lastPublish=$(git ls-remote 2>/dev/null | grep refs/heads/main | awk '{print $1}')
+
+changedSinceLastPublish=\
+"git diff --name-only --diff-filter=ACMR HEAD $lastPublish -- docs"
 
 updatedFilesPath="./docs/updatedFiles.json"
 echo "[" > $updatedFilesPath
-$changedSinceLastCommit | \
+$changedSinceLastPublish | \
 filterAndFormat \
 >> $updatedFilesPath
 echo "]" >> $updatedFilesPath
