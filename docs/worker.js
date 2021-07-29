@@ -25,6 +25,7 @@ const preCache = async () => {
 };
 sw.addEventListener('install', (event) => {
     event.waitUntil(preCache());
+    sw.skipWaiting();
 });
 const updateCache = async () => {
     const [cache, updResp] = await Promise.all([

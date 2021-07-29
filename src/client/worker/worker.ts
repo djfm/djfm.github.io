@@ -33,6 +33,7 @@ const preCache = async (): Promise<Cache> => {
 
 sw.addEventListener('install', (event: ExtendableEvent) => {
   event.waitUntil(preCache());
+  sw.skipWaiting();
 });
 
 const updateCache = async (): Promise<number> => {
