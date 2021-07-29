@@ -4,14 +4,13 @@ reportPath="./docs/filesToCache.json"
 
 echo "[" > $reportPath
 
-changedSinceLastCommit=$(git diff --name-only HEAD -- docs)
-newUntrackedFiled=$(git ls-files --others --exclude-standard -- docs)
-
-filesToCache=$({
-  printf %s "$changedSinceLastCommit"
-  printf "\n"
-  printf %s "$newUntrackedFiled"
-})
+filesToCache=$(
+  find docs \
+  -type f \
+  -not -name 'filesToCache.json' \
+  -not -name 'style.js*' \
+  -not -name 'CNAME'
+)
 
 echo "$filesToCache" | \
 xargs -I{} echo "{}" | \

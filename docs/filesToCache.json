@@ -1,7 +1,25 @@
 [
+  "/favicon.ico",
+  "/highlight.js",
+  "/highlight.js.map",
+  "/highlight.js.gz",
+  "/style.css",
+  "/style.css.map",
+  "/bundle.js.LICENSE.txt",
+  "/img/closed-menu.svg",
+  "/img/opened-menu.svg",
+  "/img/copilot/add.png",
   "/bundle.js",
   "/bundle.js.gz",
   "/bundle.js.map",
-  "/filesToCache.json",
-  "/ia-github-copilot.html"
+  "/worker.js",
+  "/worker.js.map",
+  "/typescript/typescript-en-bref.html",
+  "/typescript/types-vs-interfaces.html",
+  "/typescript/type-narrowing.html",
+  "/typescript/rapidement-configurer-un-projet.html",
+  "/typescript/jolis-exemples-en-ts.html",
+  "/typescript.html",
+  "/ia-github-copilot.html",
+  "/index.html"
 ]
