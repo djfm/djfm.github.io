@@ -23,7 +23,7 @@ import {
 
 import {
   defaultColorTheme as colors,
-  mediumScreenMax,
+  mediumScreenMin,
   largeScreenMin,
   smallScreenMax,
   spacing,
@@ -58,7 +58,7 @@ const scrollToTop = () => {
 };
 
 const StyledMain = styled.main`
-  @media(max-width: ${mediumScreenMax}) {
+  @media(min-width: ${mediumScreenMin}) {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -84,15 +84,12 @@ const SecondaryNav = styled(StyledNavVertical)`
     position: sticky;
     top: 20vh;
     max-width: ${navFlexBasis};
-  }
-
-  @media(min-width: ${largeScreenMin}) {
     margin-top: 20vh;
+    margin-right: ${columnSpacing};
   }
 
 
   margin-left: ${spacing.medium};
-  margin-right: ${columnSpacing};
 
   // the heading
   > *:first-child {

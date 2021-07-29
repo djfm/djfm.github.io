@@ -3,13 +3,11 @@
   "/bundle.js.gz",
   "/bundle.js.map",
   "/filesToCache.json",
-  "/index.html",
+  "/ia-github-copilot.html",
   "/typescript.html",
   "/typescript/jolis-exemples-en-ts.html",
   "/typescript/rapidement-configurer-un-projet.html",
   "/typescript/type-narrowing.html",
   "/typescript/types-vs-interfaces.html",
-  "/typescript/typescript-en-bref.html",
-  "/ia-github-copilot.html",
-  "/img/copilot/add.png"
+  "/typescript/typescript-en-bref.html"
 ]

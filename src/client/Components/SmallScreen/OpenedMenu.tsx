@@ -38,6 +38,7 @@ const MenuWrapper = styled.div`
   > nav {
     margin-top: ${buttonLeft}px;
     margin-left: ${buttonLeft}px;
+    padding-right: ${buttonLeft}px;
   }
 
   > div:first-child {
