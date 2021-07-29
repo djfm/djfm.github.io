@@ -12,21 +12,35 @@ const fetchOrUndefined = async (r) => {
         return undefined;
     }
 };
+const prepForAddAll = (files) => files.map((file) => {
+    const dirIndex = '/index.html';
+    if (file.endsWith(dirIndex)) {
+        const newFile = file.slice(0, -dirIndex.length);
+        if (newFile === '') {
+            return '/';
+        }
+        return newFile;
+    }
+    const [, ...parts] = file.split('/');
+    const begin = parts.slice(0, -1);
+    const [last] = parts.slice(-1);
+    if (last.endsWith('.html')) {
+        return ['', ...begin, last.slice(0, -'.html'.length)].join('/');
+    }
+    return file;
+});
 const preCache = async () => {
+    await caches.delete(cacheName);
     const [cache, resp] = await Promise.all([
         caches.open(cacheName),
         fetch('filesToCache.json'),
     ]);
     if (resp.ok) {
         const filesToCache = await resp.json();
-        await cache.addAll(filesToCache);
+        await cache.addAll(prepForAddAll(filesToCache));
     }
     return cache;
 };
-sw.addEventListener('install', (event) => {
-    event.waitUntil(preCache());
-    sw.skipWaiting();
-});
 const updateCache = async () => {
     const [cache, updResp] = await Promise.all([
         caches.open(cacheName),
@@ -54,7 +68,8 @@ const updateCache = async () => {
         }
     }
     const updatedFiles = await updResp.json();
-    await cache.addAll(updatedFiles);
+    const toAdd = prepForAddAll(updatedFiles);
+    await cache.addAll(toAdd);
     await cache.put(new Request('/updatedFiles.json'), updClone);
     return updatedFiles.length;
 };
@@ -67,13 +82,17 @@ const replyToUpdateCacheMessage = async (event) => {
         }, []);
     }
 };
+sw.addEventListener('install', (event) => {
+    event.waitUntil(preCache());
+    sw.skipWaiting();
+});
+sw.addEventListener('activate', (event) => {
+    event.waitUntil(updateCache());
+});
 sw.addEventListener('message', (event) => {
     if (event.data && event.data.type === 'UPDATE_CACHE') {
         event.waitUntil(replyToUpdateCacheMessage(event));
     }
-});
-sw.addEventListener('activate', (event) => {
-    event.waitUntil(updateCache());
 });
 sw.addEventListener('fetch', (event) => {
     if (isDevelopment) {

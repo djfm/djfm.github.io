@@ -17,7 +17,31 @@ const fetchOrUndefined = async (
   }
 };
 
+const prepForAddAll = (files: string[]) =>
+  files.map((file) => {
+    const dirIndex = '/index.html';
+    if (file.endsWith(dirIndex)) {
+      const newFile = file.slice(0, -dirIndex.length);
+      if (newFile === '') {
+        return '/';
+      }
+      return newFile;
+    }
+
+    const [, ...parts] = file.split('/');
+    const begin = parts.slice(0, -1);
+    const [last] = parts.slice(-1);
+
+    if (last.endsWith('.html')) {
+      return ['', ...begin, last.slice(0, -'.html'.length)].join('/');
+    }
+
+    return file;
+  });
+
 const preCache = async (): Promise<Cache> => {
+  await caches.delete(cacheName);
+
   const [cache, resp] = await Promise.all([
     caches.open(cacheName),
     fetch('filesToCache.json'),
@@ -25,7 +49,7 @@ const preCache = async (): Promise<Cache> => {
 
   if (resp.ok) {
     const filesToCache = await resp.json();
-    await cache.addAll(filesToCache);
+    await cache.addAll(prepForAddAll(filesToCache));
   }
 
   return cache;
@@ -65,7 +89,8 @@ const updateCache = async (): Promise<number> => {
   }
 
   const updatedFiles = await updResp.json();
-  await cache.addAll(updatedFiles);
+  const toAdd = prepForAddAll(updatedFiles);
+  await cache.addAll(toAdd);
   await cache.put(new Request('/updatedFiles.json'), updClone);
   return updatedFiles.length;
 };

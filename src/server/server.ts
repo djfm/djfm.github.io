@@ -45,6 +45,8 @@ const publicDir = path.resolve(__dirname, '..', '..', 'docs');
 // where dir is a directory and "/dir.html"
 // exists.
 app.use(async (req, res, next): Promise<void> => {
+  console.log('req:', req.url);
+
   const candidatePath = `${
     path.resolve(publicDir, req.path.slice(1))
   }.html`;
