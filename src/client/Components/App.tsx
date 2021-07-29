@@ -46,12 +46,6 @@ const App: React.FC = () => {
     }
   };
 
-  const nav = (
-    <>
-      <MainNavLargerScreens pages={pages} />
-    </>
-  );
-
   const body = (
     <Switch>
       {sortedPages.map(({
@@ -89,7 +83,7 @@ const App: React.FC = () => {
 
   const markup = (
     <StyledApp>
-      {nav}
+      <MainNavLargerScreens pages={pages} />
       {body}
       <SmallScreenMenu
         pages={pages}
