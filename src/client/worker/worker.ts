@@ -31,11 +31,6 @@ const preCache = async (): Promise<Cache> => {
   return cache;
 };
 
-sw.addEventListener('install', (event: ExtendableEvent) => {
-  event.waitUntil(preCache());
-  sw.skipWaiting();
-});
-
 const updateCache = async (): Promise<number> => {
   const [cache, updResp] = await Promise.all([
     caches.open(cacheName),
@@ -87,14 +82,19 @@ const replyToUpdateCacheMessage = async (
   }
 };
 
-sw.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'UPDATE_CACHE') {
-    event.waitUntil(replyToUpdateCacheMessage(event));
-  }
+sw.addEventListener('install', (event: ExtendableEvent) => {
+  event.waitUntil(preCache());
+  sw.skipWaiting();
 });
 
 sw.addEventListener('activate', (event) => {
   event.waitUntil(updateCache());
+});
+
+sw.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'UPDATE_CACHE') {
+    event.waitUntil(replyToUpdateCacheMessage(event));
+  }
 });
 
 sw.addEventListener('fetch', (event: FetchEvent) => {
