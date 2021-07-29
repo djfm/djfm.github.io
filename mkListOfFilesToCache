@@ -3,7 +3,6 @@
 nameFilter=(
   grep -v
   -e '/filesToCache\.json$'
-  -e '/updatedFiles\.json$'
   -e '/CNAME$'
   -e '/style\.js.*$'
   -e '/worker\..*$'
