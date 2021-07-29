@@ -168,7 +168,12 @@ const Introduction: TitledContentFC = ({
 
 const introduction: TitledContent = {
   anchor: 'ia-pose-question',
-  title: <><i>Copilot</i> Matérialise très Concrètement les Enjeux à Venir</>,
+  title: (
+    <>
+      <i>Copilot</i> Matérialise très Concrètement
+      les Enjeux de l&apos;<i>IA</i> à Venir
+    </>
+  ),
   Content: Introduction,
 };
 
