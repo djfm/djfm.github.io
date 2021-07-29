@@ -45,7 +45,7 @@ const MenuWrapper = styled.div`
     background-color: ${colors.darkContrasting(1)};
     text-align: center;
     flex-grow: 1;
-    padding-top: ${spacing.large};
+    padding: ${spacing.default};
   }
 `;
 
@@ -179,7 +179,7 @@ export const OpenMenu: React.FC<MenuProps> = ({
 
   return (
     <MenuWrapper>
-      <div>fmdj.fr::menu</div>
+      <div>fmdj.fr</div>
       {nav}
       <OpenedMenuButton onMenuToggle={onMenuToggle} />
     </MenuWrapper>
