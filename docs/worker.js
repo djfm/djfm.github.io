@@ -1,79 +1,116 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const log = (...args) => null;
 // eslint-disable-next-line no-restricted-globals
 const sw = self;
 // Choose a cache name
-const cacheName = 'djfm.github.io-3';
+const cacheName = 'fmdj.fr';
 const isDevelopment = sw.location.search.includes('env=development');
-log('sw.location.href', sw.location.href, sw.location);
 const fetchOrUndefined = async (r) => {
     try {
         const response = await fetch(r);
         return response;
     }
     catch (e) {
-        log('Failed to fetch', r.url, e);
         return undefined;
     }
 };
-const bestResponse = (network, cache) => {
-    if (network && network.ok) {
-        return network;
+const preCache = async () => {
+    const [cache, resp] = await Promise.all([
+        caches.open(cacheName),
+        fetch('filesToCache.json'),
+    ]);
+    if (resp.ok) {
+        const filesToCache = await resp.json();
+        await cache.addAll(filesToCache);
     }
-    if (cache) {
-        return cache;
-    }
-    return new Response(null, {
-        status: 404,
-        statusText: 'Resource not found, neither on the network nor in the application cache.',
-    });
+    return cache;
 };
-// When the service worker is installing,
-// open the cache and add the pre-cache resources to it
-// this is probably useless and doesn't work
 sw.addEventListener('install', (event) => {
-    log('####::::  installing ServiceWorker with', { cacheName });
-    event.waitUntil(async () => {
-        const cache = await caches.open(cacheName);
-        const filesToCacheResponse = await fetch('filesToCache.json');
-        if (filesToCacheResponse.ok) {
-            const filesToCache = await filesToCacheResponse.json();
-            await cache.addAll(filesToCache);
-            return cache;
-        }
-        return cache;
-    });
+    event.waitUntil(preCache());
 });
-sw.addEventListener('activate', () => {
-    log('Service worker activate event!');
-    log('Environment is', isDevelopment ? 'development' : 'production');
+const updateCache = async () => {
+    const [cache, updResp] = await Promise.all([
+        caches.open(cacheName),
+        fetch('updatedFiles.json'),
+    ]);
+    if (!updResp || !updResp.ok) {
+        return 0;
+    }
+    const updClone = updResp.clone();
+    // If the "updatedFiles.json" file we got from the network
+    // is not newer than the one in the cache, we assume that
+    // all the resources are up to date and skip the update.
+    const lastModifiedHeader = updResp.headers.get('Last-Modified');
+    if (lastModifiedHeader) {
+        const lastModified = new Date(lastModifiedHeader).getTime();
+        const inCache = await cache.match(new Request('/updatedFiles.json'));
+        if (inCache) {
+            const inCacheLMHeader = inCache.headers.get('Last-Modified');
+            if (inCacheLMHeader) {
+                const storedLastModified = new Date(inCacheLMHeader).getTime();
+                if (!(lastModified > storedLastModified)) {
+                    return 0;
+                }
+            }
+        }
+    }
+    const updatedFiles = await updResp.json();
+    await cache.addAll(updatedFiles);
+    await cache.put(new Request('/updatedFiles.json'), updClone);
+    return updatedFiles.length;
+};
+const replyToUpdateCacheMessage = async (event) => {
+    const nUpdated = await updateCache();
+    if (event.source) {
+        event.source.postMessage({
+            type: 'UPDATE_CACHE_REPLY',
+            nUpdated,
+        }, []);
+    }
+};
+sw.addEventListener('message', (event) => {
+    if (event.data && event.data.type === 'UPDATE_CACHE') {
+        event.waitUntil(replyToUpdateCacheMessage(event));
+    }
+});
+sw.addEventListener('activate', (event) => {
+    event.waitUntil(updateCache());
 });
 sw.addEventListener('fetch', (event) => {
-    log('Fetch intercepted for:', event.request.url);
     if (isDevelopment) {
-        log('Not using the cache since env is set to "development".', 'ServiceWorker bails.');
         event.respondWith(fetch(event.request));
         return;
     }
     const getResponse = async () => {
         const url = new URL(event.request.url);
         const myURL = sw.location;
-        log({ myURL, url });
         if (event.request.method !== 'GET') {
             return fetch(event.request);
         }
         if (url.host !== myURL.host) {
-            log('Ignoring caching for host:', url.host);
             return fetch(event.request);
         }
-        const response = await fetchOrUndefined(event.request);
-        if (response && response.ok) {
-            const cache = await caches.open(cacheName);
-            await cache.put(event.request, response.clone());
-            return response;
-        }
         const cachedResponse = await caches.match(event.request);
-        return bestResponse(response, cachedResponse);
+        if (cachedResponse) {
+            return cachedResponse;
+        }
+        const netResponse = await fetchOrUndefined(event.request);
+        if (!netResponse) {
+            return new Response(null, {
+                status: 404,
+                statusText: 'Resource not found, nor in cache nor on net.',
+            });
+        }
+        // Cache the response if it is valid,
+        // but do it asynchronously in order not
+        // to lose time.
+        if (netResponse.ok) {
+            const clone = netResponse.clone();
+            caches.open(cacheName).then((cache) => cache.put(event.request, clone))
+                .catch((error) => {
+                // eslint-disable-next-line no-console
+                console.error('Failed to cache the response for', event.request.url, error);
+            });
+        }
+        return netResponse;
     };
     event.respondWith(getResponse());
 });

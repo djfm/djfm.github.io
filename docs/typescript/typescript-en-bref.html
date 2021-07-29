@@ -182,10 +182,28 @@ yarn ts-node hello.ts</code></pre></figure><fieldset style="align-items:stretch;
             await navigator
               .serviceWorker
               .register(`/worker.js?env=production`);
-            // console.log('Service Worker Registered', { reg });
           } catch (e) {
             console.error('Service Worker failed to register', e);
           }
+        });
+
+        navigator.serviceWorker.ready.then(() => {
+          navigator.serviceWorker.controller.postMessage({
+            type: 'UPDATE_CACHE',
+          });
+
+          navigator.serviceWorker.addEventListener(
+            'message', async (e) => {
+              if (e.data.type === 'UPDATE_CACHE_REPLY') {
+                const { nUpdated } = e.data;
+                if (nUpdated > 0) {
+                  console.log(`Service Worker: Updated ${nUpdated} files.`);
+                } else {
+                  console.log('Service Worker: No files updated.');
+                }
+              }
+            }
+          );
         });
       }
     </script>

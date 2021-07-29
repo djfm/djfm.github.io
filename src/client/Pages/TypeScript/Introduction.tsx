@@ -109,7 +109,7 @@ const MyJSStory: TitledContentFC = ({
 );
 
 sections.push({
-  title: <>D&apos;abord, une Longue Pratique du <i>JS</i></>,
+  title: <>Avant, une Longue Pratique du <i>JS</i></>,
   anchor: 'le-js-et-moi',
   Content: MyJSStory,
 });
