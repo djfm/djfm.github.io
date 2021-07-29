@@ -22,6 +22,8 @@ const StyledMainNav = styled(StyledNavHorizontal)`
   @media(max-width: ${smallScreenMax}) {
     display: none;
   }
+
+  margin-bottom: 0;
   background-color: ${color.dark()};
 `;
 

@@ -109,7 +109,7 @@ const MyJSStory: TitledContentFC = ({
 );
 
 sections.push({
-  title: <>Mon histoire avec le <i>JS</i></>,
+  title: <>D&apos;abord, une Longue Pratique du <i>JS</i></>,
   anchor: 'le-js-et-moi',
   Content: MyJSStory,
 });
@@ -164,8 +164,8 @@ export const IntroductionPage: TitledContentFC = ({
 const IntroductionContent: TitledContent = {
   anchor: 'introduction',
   children: sections,
-  documentTitle: 'Introduction',
-  title: 'Introduction',
+  documentTitle: 'Mes débuts avec TypeScript',
+  title: <>Mes Débuts avec <i>TypeScript</i></>,
   Content: IntroductionPage,
 };
 

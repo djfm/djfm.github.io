@@ -29,7 +29,7 @@ const OverviewContent: TitledContent = {
   anchor: 'typescript-en-bref',
   children: sections,
   documentTitle: 'TypeScript en Bref',
-  title: <><i>TypeScript</i> en bref</>,
+  title: <><i>TypeScript</i> en Bref</>,
   Content: OverviewPage,
 };
 

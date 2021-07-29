@@ -7,8 +7,6 @@ import StyledNavVertical, {
 import { spacing } from '../theme';
 
 export const StyledNavHorizontal = styled(StyledNavVertical)`
-  margin-bottom: ${spacing.pMargin};
-
   ol, ul {
     margin-bottom: 0;
     display: flex;

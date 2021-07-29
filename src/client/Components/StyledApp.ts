@@ -40,6 +40,10 @@ export const StyledApp = styled.div`
     font-size: ${spacing.small};
   }
 
+  figure {
+    margin-bottom: ${spacing.pMargin};
+  }
+
   /* "body" only */
   padding-bottom: ${paddingBottom}px;
 
@@ -63,7 +67,6 @@ export const StyledApp = styled.div`
 
   h1 {
     font-size: ${fH1};
-    text-align: center;
     margin: ${mH1} 0 ${mH1} 0;
   }
 

@@ -37,6 +37,9 @@ export const makeColorTheme = (
         if (n === 0) {
           return 'rgb(0,128,255)';
         }
+        if (n === 1) {
+          return 'rgba(61,95,103, 1)';
+        }
         return 'rgb(255 92 28)';
       },
       darkContrasting: (n = 0) => {

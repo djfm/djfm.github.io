@@ -23,6 +23,7 @@ import {
 
 import {
   defaultColorTheme as colors,
+  mediumScreenMax,
   largeScreenMin,
   smallScreenMax,
   spacing,
@@ -38,10 +39,16 @@ export type NodePageProps = {
   content: TitledContent
 }
 
+const columnSpacing = runBinOpWithUnits(
+  largeScreenMin,
+  smallScreenMax,
+  (a, b) => (a - b) / 4,
+);
+
 const navFlexBasis = runBinOpWithUnits(
   largeScreenMin,
   smallScreenMax,
-  (a, b) => (a - b),
+  (a, b) => (3 * (a - b)) / 4,
 );
 
 const scrollToTop = () => {
@@ -50,42 +57,50 @@ const scrollToTop = () => {
   }
 };
 
+const StyledMain = styled.main`
+  @media(max-width: ${mediumScreenMax}) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+`;
+
 const ResponsiveContainer = styled.div`
+  @media(min-width: ${largeScreenMin}) {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
   > .page-body {
     max-width: ${smallScreenMax};
     padding-left: ${spacing.medium};
     padding-right: ${spacing.medium};
   }
+`;
+
+const SecondaryNav = styled(StyledNavVertical)`
+  @media(min-width: ${largeScreenMin}) {
+    position: sticky;
+    top: 20vh;
+    max-width: ${navFlexBasis};
+  }
 
   @media(min-width: ${largeScreenMin}) {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-
-    > .secondary-nav {
-      flex-basis: ${navFlexBasis};
-
-      nav {
-        position: sticky;
-        top: ${spacing.default};
-        width: ${navFlexBasis};
-      }
-    }
+    margin-top: 20vh;
   }
-`;
 
-const NavHeading = styled.div`
-  > *:first-child {
-    margin-top: 0;
-    font-size: ${spacing.default};
-  }
-`;
 
-const Nav = styled(StyledNavVertical)`
-  padding-right: ${spacing.medium};
-  margin-bottom: ${spacing.xl};
   margin-left: ${spacing.medium};
+  margin-right: ${columnSpacing};
 
+  // the heading
+  > *:first-child {
+    font-size: ${spacing.default};
+    color: ${colors.lightContrasting()};
+  }
+
+  // the list
   > ol {
     border-left: 1px solid ${colors.dark()};
 
@@ -96,12 +111,8 @@ const Nav = styled(StyledNavVertical)`
   }
 `;
 
-const longTitle = (item: TitledContent) => {
-  if (item.longTitle) {
-    return item.longTitle;
-  }
-  return item.title;
-};
+const longTitle = (item: TitledContent) =>
+  item.longTitle || item.title;
 
 const NodePage: React.FC<NodePageProps> = ({
   content,
@@ -109,7 +120,7 @@ const NodePage: React.FC<NodePageProps> = ({
   const { url, path } = useRouteMatch();
   const { pathname } = useLocation();
 
-  const getContentChildDisplayed = (): TitledContent => {
+  const getDisplayedChild = (): TitledContent => {
     if (pathname === '/') {
       return content.children[0];
     }
@@ -121,14 +132,17 @@ const NodePage: React.FC<NodePageProps> = ({
       }
     }
 
-    return undefined;
+    return content.children && content.children.length > 0
+      ? content.children[0]
+      : content;
   };
 
-  const childDisplayed = getContentChildDisplayed();
-  const documentTitle = childDisplayed
-    ? childDisplayed.documentTitle : content.documentTitle;
-  const currentTitle = childDisplayed
-    ? longTitle(childDisplayed) : longTitle(content);
+  const displayedChild = getDisplayedChild();
+
+  const documentTitle = displayedChild
+    ? displayedChild.documentTitle : content.documentTitle;
+
+  const currentTitle = longTitle(displayedChild);
 
   useEffect(() => {
     if (typeof document !== 'undefined') {
@@ -147,13 +161,11 @@ const NodePage: React.FC<NodePageProps> = ({
   const H2 = makeHeadingFC(3);
 
   const secondaryNav = (
-    <Nav
+    <SecondaryNav
       linkColor={colors.dark()}
       activeLinkColor={colors.dark()}
     >
-      <NavHeading>
-        <H1>{content.title}</H1>
-      </NavHeading>
+      <H1>{content.title}</H1>
       <ol>
         <li>
           <NavLink
@@ -178,7 +190,7 @@ const NodePage: React.FC<NodePageProps> = ({
       <HashLink anchor="top" className="large-screen-only">
         retourner en haut
       </HashLink>
-    </Nav>
+    </SecondaryNav>
   );
 
   const routeProps = (anchor: string) => {
@@ -213,17 +225,17 @@ const NodePage: React.FC<NodePageProps> = ({
   );
 
   return (
-    <main>
-      <h1>{currentTitle}</h1>
+    <StyledMain>
       <ResponsiveContainer>
-        <div className="secondary-nav">
+        <div>
           {secondaryNav}
         </div>
         <div className="page-body">
+          <h1>{currentTitle}</h1>
           {pageBody}
         </div>
       </ResponsiveContainer>
-    </main>
+    </StyledMain>
   );
 };
 

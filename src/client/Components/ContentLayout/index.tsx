@@ -23,5 +23,6 @@ export type TitledContent = {
   children?: TitledContent[]
   documentTitle?: string
   title: React.ReactElement | string
+  longTitle?: React.ReactElement | string
   Content: TitledContentFC
 }
