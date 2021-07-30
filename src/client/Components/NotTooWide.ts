@@ -8,11 +8,8 @@ import {
 export const NotTooWide = styled.div`
   margin: 0 auto;
   max-width: ${smallScreenMax};
-
-  @media(max-width: ${smallScreenMax}) {
-    padding-left: ${spacing.medium};
-    padding-right: ${spacing.medium};
-  }
+  padding-left: ${spacing.medium};
+  padding-right: ${spacing.medium};
 `;
 
 export default NotTooWide;
