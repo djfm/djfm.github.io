@@ -27,7 +27,7 @@ if (
             show(<UpdatedRouterFC />, root);
             */
           } else {
-            console.log('Service Worker: No files updated.');
+            console.log('Service Worker: No files updated, none at all.');
           }
         }
       },
