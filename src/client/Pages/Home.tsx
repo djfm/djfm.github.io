@@ -193,25 +193,27 @@ const HomePage:TitledContentFC = ({
 }) => (
   <Container>
     <NotTooWide>
-      <header id="menu-top">
-        <H1>Qu&apos;est-ce que ce site&nbsp;?</H1>
-        <p>
-          <strong>Avant tout je précise que le site est en construction&nbsp;!</strong>
-        </p>
-        <p>
-          Sa principale raison d&apos;être est d&apos;ailleurs d&apos;être en construction.
-          C&apos;est pour moi avant-tout un terrain de jeu technique.
-        </p>
-        <p>
-          C&apos;est une sorte de blog&nbsp;/&nbsp;de documentation autour de certains
-          sujets informatiques qui m&apos;intéressent.
-        </p>
-        <p>
-          Je compte aussi y noter beaucoup de truc et astuces qui me font gagner
-          un temps fou et que j&apos;aurais aimé connaître plus tôt.
-        </p>
-      </header>
-      <SectionList sections={sections} depth={H1.depth + 1} />
+      <main>
+        <header id="menu-top">
+          <H1>Qu&apos;est-ce que ce site&nbsp;?</H1>
+          <p>
+            <strong>Avant tout je précise que le site est en construction&nbsp;!</strong>
+          </p>
+          <p>
+            Sa principale raison d&apos;être est d&apos;ailleurs d&apos;être en construction.
+            C&apos;est pour moi avant-tout un terrain de jeu technique.
+          </p>
+          <p>
+            C&apos;est une sorte de blog&nbsp;/&nbsp;de documentation autour de certains
+            sujets informatiques qui m&apos;intéressent.
+          </p>
+          <p>
+            Je compte aussi y noter beaucoup de truc et astuces qui me font gagner
+            un temps fou et que j&apos;aurais aimé connaître plus tôt.
+          </p>
+        </header>
+        <SectionList sections={sections} depth={H1.depth + 1} />
+      </main>
     </NotTooWide>
   </Container>
 );
