@@ -9,7 +9,7 @@
   "scripts": {
     "base-start": "echo \"STARTING LOCAL SERVER IN <$NODE_ENV>\" &&ts-node-dev src/server/server.ts",
     "pre-build": "echo 'GENERATING LIGHTER VERSION OF <highlight.js> LIBRARY' && node src/highlight.js/generateIndex.js",
-    "base-build": "yarn buildWorker && echo \"BUILDING FOR <$NODE_ENV>\" && yarn pre-build && echo 'COMPILING, TRANSPILING, OPTIMIZING, AND BUNDLING THE ASSETS' && yarn webpack && yarn render && echo 'MAKING LIST OF FILES TO CACHE' && ./mkListOfFilesToCache",
+    "base-build": "yarn buildWorker && echo \"BUILDING FOR <$NODE_ENV>\" && yarn pre-build && echo 'COMPILING, TRANSPILING, OPTIMIZING, AND BUNDLING THE ASSETS' && yarn webpack && yarn render",
     "build": "NODE_ENV=production yarn base-build",
     "devBuild": "NODE_ENV=development yarn base-build",
     "buildWorker": "echo 'BUILDING SERVICE WORKER' && yarn tsc -p src/client/worker/tsconfig.json",
@@ -20,7 +20,7 @@
     "analyzeBundle": "NODE_ENV=production yarn base-analyze-bundle",
     "devAnalyzeBundle": "NODE_ENV=development yarn base-analyze-bundle",
     "lint": "eslint 'src/**/*'",
-    "deploy": "yarn build && echo 'GIT ADD EVERYTHING' && git add . && git commit && git push"
+    "deploy": "yarn build && echo 'GIT ADD EVERYTHING' && git add . && echo 'MAKING LIST OF FILES TO CACHE' && ./mkListOfFilesToCache && git add . && git commit && git push"
   },
   "browserslist": "defaults",
   "engines": {
