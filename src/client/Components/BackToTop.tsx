@@ -4,7 +4,10 @@ import styled from 'styled-components';
 
 import HashLink from './HashLink';
 
+import { spacing } from '../theme';
+
 const Wrapper = styled.div`
+  margin-bottom: ${spacing.large};
 `;
 
 export type BackToTopProps = {
@@ -16,7 +19,7 @@ export const BackToTop: React.FC<BackToTopProps> = ({
 }) => (
   <Wrapper>
     <HashLink anchor={anchor}>
-      retourner au haut de page
+      [retourner au haut de page]
     </HashLink>
   </Wrapper>
 );

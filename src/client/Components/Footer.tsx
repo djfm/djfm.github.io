@@ -2,12 +2,12 @@ import React from 'react';
 
 import styled from 'styled-components';
 
+import {
+  spacing,
+} from '../theme';
+
 const FooterWrapper = styled.div`
-  position: absolute;
-  bottom: -200px;
-  left: 30px;
-  font-size: 0.8em;
-  padding-bottom: 30px;
+  font-size: ${spacing.small};
 `;
 
 export const Footer: React.FC = () => (

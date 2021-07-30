@@ -35,6 +35,8 @@ import StyledNavVertical from '../StyledNavVertical';
 
 import HashLink from '../HashLink';
 
+import Footer from '../Footer';
+
 export type NodePageProps = {
   content: TitledContent
 }
@@ -205,20 +207,23 @@ const NodePage: React.FC<NodePageProps> = ({
   };
 
   const pageBody = (
-    <Switch>
-      {sortedPages.map(({ anchor, Content }) => (
-        <Route
-          key={anchor}
-          {...routeProps(anchor)}
-        >
-          <Content
-            Container={React.Fragment}
-            H1={H1}
-            H2={H2}
-          />
-        </Route>
-      ))}
-    </Switch>
+    <>
+      <Switch>
+        {sortedPages.map(({ anchor, Content }) => (
+          <Route
+            key={anchor}
+            {...routeProps(anchor)}
+          >
+            <Content
+              Container={React.Fragment}
+              H1={H1}
+              H2={H2}
+            />
+          </Route>
+        ))}
+      </Switch>
+      <Footer />
+    </>
   );
 
   return (

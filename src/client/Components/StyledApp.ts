@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import {
   defaultColorTheme as color,
   mediumScreenMax,
+  smallScreenMax,
   spacing,
   fontSize,
 } from '../theme';
@@ -18,11 +19,22 @@ const [, mH1, mH2, mH3, mH4, mH5, mH6] = spacing.headingMargins;
 const [, fH1, fH2, fH3, fH4, fH5, fH6] = fontSize.headings;
 
 export const StyledApp = styled.div`
-  /* font styles */
+  * {
+    margin: 0;
+    padding: 0;
+    overflow-wrap: anywhere;
+    line-height: 1.3;
+  }
+
+  padding-bottom: ${spacing.default};
+
+  @media(max-width: ${smallScreenMax}) {
+    padding-bottom: ${paddingBottom}px;
+  }
+
   font-family: monospace;
   font-size: ${fontSize.default};
 
-  /* general purpose stuff */
   .large-screen-only {
     @media(max-width: ${mediumScreenMax}) {
       display: none;
@@ -42,17 +54,6 @@ export const StyledApp = styled.div`
 
   figure {
     margin-bottom: ${spacing.pMargin};
-  }
-
-  /* "body" only */
-  padding-bottom: ${paddingBottom}px;
-
-  /* resets */
-  * {
-    margin: 0;
-    padding: 0;
-    overflow-wrap: anywhere;
-    line-height: 1.3;
   }
 
   a, a:visited {

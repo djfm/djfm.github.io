@@ -6,6 +6,7 @@ import {
   SectionList,
 } from '../Components/ContentLayout';
 
+import Footer from '../Components/Footer';
 import NotTooWide from '../Components/NotTooWide';
 import NoWrap from '../Components/NoWrap';
 
@@ -214,6 +215,7 @@ const HomePage:TitledContentFC = ({
         </header>
         <SectionList sections={sections} depth={H1.depth + 1} />
       </main>
+      <Footer />
     </NotTooWide>
   </Container>
 );
