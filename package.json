@@ -7,6 +7,7 @@
   "author": "François-Marie de Jouvencel <fm.de.jouvencel@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "test": "yarn jest",
     "base-start": "echo \"STARTING LOCAL SERVER IN <$NODE_ENV>\" &&ts-node-dev src/server/server.ts",
     "pre-build": "echo 'GENERATING LIGHTER VERSION OF <highlight.js> LIBRARY' && node src/highlight.js/generateIndex.js",
     "base-build": "yarn buildWorker && echo \"BUILDING FOR <$NODE_ENV>\" && yarn pre-build && echo 'COMPILING, TRANSPILING, OPTIMIZING, AND BUNDLING THE ASSETS' && yarn webpack && yarn render",
@@ -66,6 +67,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "express": "^4.17.1",
     "highlight.js": "^11.0.1",
+    "jest": "^27.0.6",
     "mini-css-extract-plugin": "^2.0.0",
     "package.json": "^2.0.1",
     "react": "^17.0.2",
@@ -80,6 +82,7 @@
     "striptags": "^3.2.0",
     "style-loader": "^3.0.0",
     "styled-components": "^5.3.0",
+    "ts-jest": "^27.0.4",
     "ts-loader": "^9.2.2",
     "ts-node": "^10.0.0",
     "ts-node-dev": "^1.1.8",
