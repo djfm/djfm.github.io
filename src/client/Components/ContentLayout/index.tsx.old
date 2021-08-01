@@ -1,5 +1,8 @@
 // eslint-disable-next-line react/jsx-filename-extension
-import React from 'react';
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
 import {
   HeadingFC,
@@ -26,3 +29,21 @@ export type TitledContent = {
   longTitle?: React.ReactElement | string
   Content: TitledContentFC
 }
+
+export const createContentFromMD = async (
+  path: string,
+): Promise<TitledContent> => {
+  console.log({ path });
+
+  const Content = ({ Container }) => (
+    <Container>
+      <p>Not Implemented Yet</p>
+    </Container>
+  );
+
+  return {
+    anchor: `hi${path}`,
+    title: path,
+    Content,
+  };
+};

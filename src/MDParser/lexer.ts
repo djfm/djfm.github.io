@@ -1,10 +1,12 @@
-type LexerTokenType = 'literal'
+type LexerTokenType =
+    'literal'
   | 'blockquote-start'
   | 'blockquote-end'
   | 'quote'
   | 'bold'
   | 'idiomatic'
   | 'heading-1'
+  | 'heading-2'
   | 'function-call'
   | 'function-call-args'
   | 'function-call-args-name'
@@ -17,9 +19,11 @@ export type LexerToken = {
   column: number
 }
 
-type LexerState = 'default'
+type LexerState =
+  | 'default'
   | 'blockquote'
   | 'function-call-args'
+  | 'quoted-function-call-args-value'
 
 const lexLine = (
   lineNumber: number,
@@ -106,10 +110,53 @@ const lexLine = (
           namedArg[1],
         ),
         namedArg[0].length,
+        'quoted-function-call-args-value',
       );
     }
 
-    const argValue = lineSrc.match(/^[^)\s]/);
+    const argValue = lineSrc.match(/^([^)\s]+)/);
+    if (argValue) {
+      return consume(
+        mkToken(
+          'function-call-args-value',
+          argValue[1],
+        ),
+        argValue[0].length,
+      );
+    }
+
+    return skip(0, 'default');
+  }
+
+  if (state === 'quoted-function-call-args-value') {
+    const eat = (str: string, len?: number) =>
+      consume(
+        mkToken(
+          'function-call-args-value',
+          str,
+        ),
+        len || str.length,
+      );
+
+    if (lineSrc.startsWith('\\"')) {
+      return eat('"', 2);
+    }
+
+    if (lineSrc.startsWith('"')) {
+      return skip(1, 'function-call-args');
+    }
+
+    const escapedQuoteIndex = lineSrc.indexOf('\\"');
+    if (escapedQuoteIndex !== -1) {
+      return eat(lineSrc.slice(0, escapedQuoteIndex));
+    }
+
+    const quoteIndex = lineSrc.indexOf('"');
+    if (quoteIndex !== -1) {
+      return eat(lineSrc.slice(0, quoteIndex));
+    }
+
+    return eat(lineSrc);
   }
 
   if (lineSrc.startsWith('**')) {
@@ -181,7 +228,7 @@ const lexLine = (
     return mbH1;
   }
 
-  const mbH2 = maybeLexHeading(/^--+\s*$/, 'heading-1');
+  const mbH2 = maybeLexHeading(/^--+\s*$/, 'heading-2');
   if (mbH2) {
     return mbH2;
   }

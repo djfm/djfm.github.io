@@ -36,5 +36,7 @@ if (
     navigator.serviceWorker.controller.postMessage({
       type: 'UPDATE_CACHE',
     });
+  }).catch((err) => {
+    console.error('Service Worker:', err);
   });
 }

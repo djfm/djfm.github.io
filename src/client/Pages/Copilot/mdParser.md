@@ -31,5 +31,7 @@ orienté utilisateur et bottom-up.
 
 Alors essayons ça, c'est parti !
 
-@@NAV()
-  - [Premiers Pas, le *Lexer*](./MDParser/Lexer.md)
+@@NAV(
+  sub-pages
+  ./MDParser/Lexer.md
+)
