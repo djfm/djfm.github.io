@@ -7,6 +7,7 @@
   "author": "François-Marie de Jouvencel <fm.de.jouvencel@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "tmp": "yarn ts-node src/MDParser/tmp.ts",
     "test": "yarn jest",
     "base-start": "echo \"STARTING LOCAL SERVER IN <$NODE_ENV>\" &&ts-node-dev src/server/server.ts",
     "pre-build": "echo 'GENERATING LIGHTER VERSION OF <highlight.js> LIBRARY' && node src/highlight.js/generateIndex.js",

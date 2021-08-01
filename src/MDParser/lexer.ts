@@ -12,11 +12,16 @@ type LexerTokenType =
   | 'function-call-args-name'
   | 'function-call-args-value'
 
+export type Pos = {
+  line: number
+  column: number
+}
+
 export type LexerToken = {
   type: LexerTokenType
   value: string
-  line: number
-  column: number
+  start: Pos
+  end: Pos
 }
 
 type LexerState =
@@ -33,11 +38,18 @@ const lexLine = (
   const mkToken = (
     type: LexerTokenType,
     value: string,
+    length = value.length,
   ): LexerToken => ({
     type,
     value,
-    line: lineNumber,
-    column: columnNumber,
+    start: {
+      line: lineNumber,
+      column: columnNumber,
+    },
+    end: {
+      line: lineNumber,
+      column: columnNumber + value.length,
+    },
   });
 
   const consume = (
@@ -114,6 +126,7 @@ const lexLine = (
         mkToken(
           'function-call-args-name',
           namedArg[1],
+          namedArg[0].length,
         ),
         namedArg[0].length,
         'quoted-function-call-args-value',
@@ -126,6 +139,7 @@ const lexLine = (
         mkToken(
           'function-call-args-value',
           argValue[1],
+          argValue[0].length,
         ),
         argValue[0].length,
       );
@@ -140,6 +154,7 @@ const lexLine = (
         mkToken(
           'function-call-args-value',
           str,
+          len || str.length,
         ),
         len || str.length,
       );
@@ -180,10 +195,10 @@ const lexLine = (
 
     const maybeType = lineSrc.slice(3).match(/^\w+/);
     const type = maybeType ? maybeType[0] : 'default';
-
+    const length = 3 + (maybeType ? maybeType[0].length : 0);
     return consume(
-      mkToken('blockquote-start', type),
-      3 + (maybeType ? maybeType[0].length : 0),
+      mkToken('blockquote-start', type, length),
+      length,
       'blockquote',
     );
   }
@@ -201,7 +216,7 @@ const lexLine = (
       const fnValue = m[1];
       const hasArguments = m[2] === '(';
       return consume(
-        mkToken('function-call', fnValue),
+        mkToken('function-call', fnValue, m[0].length),
         m[0].length,
         hasArguments ? 'function-call-args' : state,
       );
@@ -221,6 +236,7 @@ const lexLine = (
         mkToken(
           headingType,
           lineSrc,
+          lineSrc.length,
         ),
         lineSrc.length,
       );
@@ -276,7 +292,7 @@ const linesReducer = (
     tokensOnLine,
     nextState,
   ] = lexLine(
-    lineNumber,
+    lineNumber + 1,
     0,
     rst.state,
   )(lineSource);
