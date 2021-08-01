@@ -7,7 +7,7 @@ Avant tout je précise que le site est en construction !
 
 
 Sa principale raison d'être est d'ailleurs d'être en construction.
-C'est pour moi avant-tout un terrain de jeu technique.
+C'est pour moi avant-tout un terrain de jeu technique...
 
 
 C'est une sorte de blog/de documentation autour de certains

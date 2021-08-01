@@ -7,16 +7,21 @@
     "target": "ESNext",
     "module": "CommonJS",
     "skipLibCheck": true,
-    "types": ["react", "node"],
     "lib": ["ESNext", "DOM"],
     "skipDefaultLibCheck": true,
+    "typeRoots": [
+      "./src/@types",
+      "./node_modules/@types"
+    ],
     "outDir": "./build"
   },
   "include": [
+    "src/**/*.d.ts",
     "src/**/*.ts",
     "src/**/*.tsx"
   ],
   "exclude": [
-    "src/client/worker/**/*"
+    "src/client/worker/**/*",
+    "src/client/builder/**/*"
   ]
 }

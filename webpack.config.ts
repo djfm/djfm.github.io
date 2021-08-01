@@ -73,6 +73,18 @@ export default {
         'css-loader',
         'sass-loader',
       ],
+    }, {
+      test: /\.md$/,
+      use: [{
+        loader: 'json-loader',
+      }, {
+        loader: path.resolve(
+          __dirname,
+          'src',
+          'loader',
+          'mdLoader.ts',
+        ),
+      }],
     }],
   },
   resolve: {

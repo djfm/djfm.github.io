@@ -1,5 +1,9 @@
 import React from 'react';
 
+import pages from '../../Pages';
+
+console.log({ pages });
+
 const App: React.FC = () => {
   const x = 1 + 2;
 

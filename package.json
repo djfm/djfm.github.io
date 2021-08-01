@@ -68,6 +68,7 @@
     "express": "^4.17.1",
     "highlight.js": "^11.0.1",
     "jest": "^27.0.6",
+    "json-loader": "^0.5.7",
     "mini-css-extract-plugin": "^2.0.0",
     "package.json": "^2.0.1",
     "react": "^17.0.2",

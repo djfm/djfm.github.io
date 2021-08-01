@@ -1,8 +1,9 @@
 import {
-  lexer, LexerToken,
+  lexer,
+  LexerToken,
 } from './lexer';
 
-type ParserNodeType = 'literal'
+type MarkdownNodeType = 'literal'
  | 'blockquote'
  | 'literal'
  | 'quote'
@@ -13,19 +14,23 @@ type ParserNodeType = 'literal'
  | 'function-call'
  | 'paragraph'
  | 'section'
+ | 'document'
 
-export type ParserNode = {
-  type: ParserNodeType
+export type MarkdownNode = {
+  type: MarkdownNodeType
   value?: string
-  line?: number
-  column?: number
-  children?: ParserNode[]
+  children?: MarkdownNode[]
 }
 
-export const parser = (source: string): ParserNode[] => {
+export const parser = async (
+  source: string,
+  directory: string,
+):Promise<MarkdownNode> => {
   const tokens = lexer(source);
 
   console.log(tokens);
 
-  return [];
+  return {
+    type: 'document',
+  };
 };
