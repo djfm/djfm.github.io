@@ -45,11 +45,17 @@ const lexLine = (
     columns: number,
     updatedState = state,
   ): [LexerToken[], LexerState] => {
+    const sourceLeft = lineSrc.slice(columns);
+
+    if (sourceLeft.length === 0) {
+      return [[token], updatedState];
+    }
+
     const [nextTokens, nextState] = lexLine(
       lineNumber,
       columnNumber + columns,
       updatedState,
-    )(lineSrc.slice(columns));
+    )(sourceLeft);
 
     return [
       [token, ...nextTokens],
@@ -233,7 +239,7 @@ const lexLine = (
     return mbH2;
   }
 
-  const specialChars = ['`', '*', '@'];
+  const specialChars = ['`', '*', '@@'];
 
   const getLiteralLen = (): number => {
     for (const specialChar of specialChars) {
