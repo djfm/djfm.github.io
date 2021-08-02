@@ -12,6 +12,7 @@ type LexerTokenType =
   | 'function-call-args'
   | 'function-call-args-name'
   | 'function-call-args-value'
+  | 'empty-line'
 
 export type Pos = {
   line: number
@@ -97,8 +98,9 @@ const lexLine = (
       updatedState,
     )(lineSrc.slice(columns));
 
-  if (lineSrc.length === 0) {
-    return [[], state];
+  const empty = lineSrc.match(/^\s*$/);
+  if (empty) {
+    return [[createToken('empty-line', empty[0], empty[0].length)], state];
   }
 
   if (state === 'blockquote') {

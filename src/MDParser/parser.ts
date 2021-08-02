@@ -20,6 +20,7 @@ type MarkdownNodeType =
  | 'paragraph'
  | 'section'
  | 'document'
+ | 'empty-line'
  | typeof openerClosers[number]
 
 type WithStartingToken = {
@@ -305,10 +306,13 @@ const buildTree = (
       !handleOpenerClosers()
       && !handleHeadings()
     ) {
-      if (token.type !== 'function-call') {
+      if (token.type === 'empty-line') {
+        push(token);
+      } else if (token.type === 'function-call') {
+        buildFunctionCall();
+      } else {
         fail('unexpected token', `${token.type}`);
       }
-      buildFunctionCall();
     }
   }
 
