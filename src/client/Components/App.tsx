@@ -2,7 +2,7 @@ import React from 'react';
 
 import pages from '../../Pages';
 
-console.log({ pages });
+console.log('Yay, pages!', pages.length);
 
 const App: React.FC = () => {
   const x = 1 + 2;
