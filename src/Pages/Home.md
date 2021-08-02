@@ -29,6 +29,9 @@ exemplifiée en TypeScript. C'est ma passion du moment.
 Ça fait des années que je programme en *JavaScript*, que ce soit
 du back ou du front, pour le boulot ou en perso, j'adore ce langage.
 
+Test
+----
+
 Mais je ne me suis mis à *TypeScript* que récemment et je découvre encore
 même si je commence à pas si mal me débrouiller.
 
@@ -36,6 +39,9 @@ Et il y aura du *React* aussi ! Ah oui, passionnant ça aussi.
 
 Sans doute ensuite des choses sur *Linux* et en particulier *Ubuntu*, mon
 OS de prédilection.
+
+Re-Test
+-------
 
 ```
 test
@@ -70,6 +76,8 @@ Pour ce site,
   - à la fois sur mobile
   - et sur desktop
     - a
+
+      hello
     - b
     - c
     - d

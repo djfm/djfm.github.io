@@ -3,14 +3,6 @@ type ParserNode = {
   value?: string;
   children?: ParserNode[]
   props?: Record<string, string>
-  start: {
-    line: number
-    column: number
-  }
-  end: {
-    line: number
-    column: number
-  }
 }
 
 declare module '*.md' {

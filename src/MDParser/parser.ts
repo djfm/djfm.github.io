@@ -34,7 +34,7 @@ type BaseMarkdownNode = {
   type: MarkdownNodeType
   value?: string
   children?: MarkdownNode[]
-  props?: Record<string, string>
+  props?: Record<string, string | number>
 };
 
 type StartedMarkdownNode =
@@ -139,6 +139,109 @@ const mergeLiterals = (nodes: MarkdownNode[]): MarkdownNode[] => {
   pushLiteral();
 
   return newNodes;
+};
+
+const parseSections = (
+  nodes: MarkdownNode[],
+  level: number,
+  heading: MarkdownNode | undefined,
+): [
+  // analyzed
+  MarkdownNode[],
+
+  // left
+  MarkdownNode[],
+
+  // next heading
+  MarkdownNode | undefined
+] => {
+  if (nodes.length === 0) {
+    return [[], [], undefined];
+  }
+
+  const newSection = (): StartedMarkdownNode => ({
+    type: 'section',
+    children: [],
+    startingToken: nodes[0],
+    props: {
+      level,
+    },
+  });
+
+  const newNodes: MarkdownNode[] = [];
+
+  let section: StartedMarkdownNode = newSection();
+
+  const pushSection = () => {
+    if (section.children.length > 0) {
+      newNodes.push(toMarkdownNode(section));
+      section = newSection();
+    }
+  };
+
+  if (heading) {
+    section.children.push(heading);
+  }
+
+  let n = 0;
+  while (n < nodes.length && !nodes[n].type.startsWith('heading-')) {
+    section.children.push(nodes[n]);
+    n += 1;
+  }
+
+  if (n === nodes.length) {
+    pushSection();
+    return [newNodes, [], undefined];
+  }
+
+  const headingLevel = parseInt(nodes[n].type.split('-')[1], 10);
+
+  if (headingLevel > level) {
+    const [sections, unParsed] = parseSections(
+      nodes.slice(n + 1),
+      headingLevel,
+      nodes[n],
+    );
+    section.children.push(...sections);
+    pushSection();
+    return [newNodes, unParsed, nodes[n]];
+  }
+
+  if (headingLevel === level) {
+    pushSection();
+    const [sections, unParsed] = parseSections(
+      nodes.slice(n + 1),
+      level,
+      nodes[n],
+    );
+    newNodes.push(...sections);
+    return [newNodes, unParsed, nodes[n]];
+  }
+
+  pushSection();
+  return [newNodes, nodes.slice(n + 1), nodes[n]];
+};
+
+const buildSections = (
+  nodes: MarkdownNode[],
+): MarkdownNode[] => {
+  const parsed: MarkdownNode[] = [];
+  let leftToParse = nodes;
+  let heading: MarkdownNode | undefined;
+
+  while (leftToParse.length > 0) {
+    const [
+      sections,
+      unParsed,
+      nextHeading,
+    ] = parseSections(leftToParse, 0, heading);
+
+    parsed.push(...sections);
+    leftToParse = unParsed;
+    heading = nextHeading;
+  }
+
+  return parsed;
 };
 
 const groupListItems = (nodes: MarkdownNode[]): MarkdownNode[] => {
@@ -518,6 +621,7 @@ const buildTree = (
     buildParagraphs,
     buildListItems,
     groupListItems,
+    buildSections,
   )(nodes);
 };
 
