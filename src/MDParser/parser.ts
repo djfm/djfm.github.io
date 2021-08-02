@@ -630,6 +630,7 @@ export const parser = async (
   directory: string,
 ):Promise<MarkdownNode> => {
   const tokens = lexer(source);
+  console.log(JSON.stringify(tokens, null, 2));
 
   const children = buildTree(tokens, directory);
 

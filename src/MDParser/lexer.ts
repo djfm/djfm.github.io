@@ -119,7 +119,7 @@ const lexLine = (
 
   if (state === 'function-call-args') {
     if (lineSrc[0] === ')') {
-      return skip(1, 'default');
+      return skip(1);
     }
 
     const ws = lineSrc.match(/^\s+/);
@@ -127,7 +127,7 @@ const lexLine = (
       return skip(ws[0].length);
     }
 
-    const namedArg = lineSrc.match(/^\(w+)\s*=\s*"/);
+    const namedArg = lineSrc.match(/^(\w+)\s*=\s*"/);
     if (namedArg) {
       return consume(
         'function-call-args-name',
@@ -137,7 +137,7 @@ const lexLine = (
       );
     }
 
-    const argValue = lineSrc.match(/^([^)\s]+)/);
+    const argValue = lineSrc.match(/^([^)\s$]+)/);
     if (argValue) {
       return consume(
         'function-call-args-value',
