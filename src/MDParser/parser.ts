@@ -22,6 +22,8 @@ type MarkdownNodeType =
  | 'document'
  | 'empty-lines'
  | 'list-item-start'
+ | 'list-item'
+ | 'list'
  | typeof openerClosers[number]
 
 type WithStartingTokenOrNode = {
@@ -56,6 +58,9 @@ const omit = <
       }
       return { ...acc, [key]: value };
     }, {} as U);
+
+const compose = <T> (...fns: ((x: T) => T)[]) =>
+  (x: T) => fns.reduce((res, fn) => fn(res), x);
 
 const toMarkdownNode = (node: StartedMarkdownNode): MarkdownNode => {
   const { startingToken, ...rest } = node;
@@ -134,6 +139,76 @@ const mergeLiterals = (nodes: MarkdownNode[]): MarkdownNode[] => {
   pushLiteral();
 
   return newNodes;
+};
+
+const groupListItems = (nodes: MarkdownNode[]): MarkdownNode[] => {
+  const newNodes: MarkdownNode[] = [];
+  let currentList: StartedMarkdownNode | undefined;
+
+  const pushList = () => {
+    if (currentList) {
+      newNodes.push(toMarkdownNode(currentList));
+      currentList = undefined;
+    }
+  };
+
+  for (const node of nodes) {
+    if (node.type === 'list-item') {
+      if (!currentList) {
+        currentList = {
+          type: 'list',
+          children: [],
+          startingToken: node,
+        };
+      }
+
+      currentList.children.push(node);
+    } else {
+      pushList();
+      newNodes.push(node);
+    }
+  }
+
+  pushList();
+
+  return newNodes;
+};
+
+const buildListItems = (nodes: MarkdownNode[]): MarkdownNode[] => {
+  if (nodes.length === 0) {
+    return [];
+  }
+
+  const [node, ...nextNodes] = nodes;
+  const builtNext = buildListItems(nextNodes);
+
+  if (node.type !== 'list-item-start') {
+    return [node, ...builtNext];
+  }
+
+  const indent = node.value.match(/^\s*/)[0].length;
+
+  const children: MarkdownNode[] = [];
+  let n = 0;
+  while (
+    n < builtNext.length
+    && builtNext[n].start.column === node.end.column
+  ) {
+    children.push(builtNext[n]);
+    n += 1;
+  }
+
+  const listItem: MarkdownNode = {
+    type: 'list-item',
+    children: groupListItems(children),
+    start: {
+      line: node.start.line,
+      column: indent,
+    },
+    end: children[children.length - 1].end,
+  };
+
+  return [listItem, ...builtNext.slice(children.length)];
 };
 
 const buildParagraphs = (nodes: MarkdownNode[]): MarkdownNode[] => {
@@ -438,7 +513,12 @@ const buildTree = (
 
   close('anything');
 
-  return buildParagraphs(cleanEmptyLines(nodes));
+  return compose(
+    cleanEmptyLines,
+    buildParagraphs,
+    buildListItems,
+    groupListItems,
+  )(nodes);
 };
 
 export const parser = async (

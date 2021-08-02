@@ -67,6 +67,12 @@ Pour ce site,
   je **pré-génère les pages et je les commit** sur GitHub.
 
 - Je veux faire plus de 90% à Google PageSpeed.
+  - à la fois sur mobile
+  - et sur desktop
+    - a
+    - b
+    - c
+    - d
 
 - Je veux respecter à la lettre le plus de standards du web
   possible.
