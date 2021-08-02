@@ -20,11 +20,12 @@ type MarkdownNodeType =
  | 'paragraph'
  | 'section'
  | 'document'
- | 'empty-line'
+ | 'empty-lines'
+ | 'list-item-start'
  | typeof openerClosers[number]
 
-type WithStartingToken = {
-  startingToken: LexerToken
+type WithStartingTokenOrNode = {
+  startingToken: LexerToken | MarkdownNode
 };
 
 type BaseMarkdownNode = {
@@ -34,7 +35,8 @@ type BaseMarkdownNode = {
   props?: Record<string, string>
 };
 
-type StartedMarkdownNode = BaseMarkdownNode & WithStartingToken;
+type StartedMarkdownNode =
+  BaseMarkdownNode & WithStartingTokenOrNode;
 
 export type MarkdownNode = BaseMarkdownNode & {
   start: Pos
@@ -55,7 +57,7 @@ const omit = <
       return { ...acc, [key]: value };
     }, {} as U);
 
-const addEnd = (node: StartedMarkdownNode): MarkdownNode => {
+const toMarkdownNode = (node: StartedMarkdownNode): MarkdownNode => {
   const { startingToken, ...rest } = node;
   return {
     ...rest,
@@ -64,6 +66,39 @@ const addEnd = (node: StartedMarkdownNode): MarkdownNode => {
       ? node.children[node.children.length - 1].end
       : node.startingToken.end,
   };
+};
+
+const cleanEmptyLines = (nodes: MarkdownNode[]): MarkdownNode[] => {
+  const newNodes = [];
+  let lastNode: MarkdownNode | undefined;
+
+  for (const node of nodes) {
+    if (node.type !== 'empty-lines') {
+      newNodes.push(node);
+      lastNode = node;
+    } else if (lastNode) {
+      if (lastNode.type === 'empty-lines') {
+        lastNode.value += `\n${node.value}`;
+        lastNode.end = node.end;
+      } else if (!lastNode.type.startsWith('heading-')) {
+        newNodes.push(node);
+        lastNode = node;
+      }
+    }
+  }
+
+  return newNodes;
+};
+
+const buildParagraphs = (nodes: MarkdownNode[]): MarkdownNode[] => {
+  const newNodes: MarkdownNode[] = [];
+  const currentParagraph: MarkdownNode[] = [];
+
+  for (const node of nodes) {
+    newNodes.push(node);
+  }
+
+  return newNodes;
 };
 
 const buildTree = (
@@ -119,7 +154,7 @@ const buildTree = (
           );
         }
         nodes = previousNodes.pop();
-        nodes.push(addEnd(nodeBeingBuilt));
+        nodes.push(toMarkdownNode(nodeBeingBuilt));
         nodeBeingBuilt = previousNodesBeingBuilt.pop();
       }
     } else if (type !== 'anything') {
@@ -132,7 +167,7 @@ const buildTree = (
       return nodeBeingBuilt.type;
     }
 
-    return (peekNode() ? peekNode().type : undefined);
+    return undefined;
   };
 
   for (let tIndex = 0; tIndex < tokens.length; tIndex += 1) {
@@ -280,34 +315,37 @@ const buildTree = (
     };
 
     if (currentType() === 'blockquote') {
-      if (token.type !== 'literal') {
+      if (token.type === 'blockquote-end') {
+        close('blockquote');
+      } else if (token.type !== 'literal') {
         fail(
           'unexpected token of type',
           `"${token.type}"`,
           'in a "blockquote"',
         );
+      } else {
+        push({
+          type: 'literal',
+          value: token.value,
+          start: token.start,
+          end: token.end,
+        });
       }
-      push({
-        type: 'literal',
-        value: token.value,
-        start: token.start,
-        end: token.end,
-      });
     } else if (token.type === 'literal') {
       push(token);
     } else if (token.type === 'blockquote-start') {
       close('anything');
       open(token, 'blockquote');
-    } else if (token.type === 'blockquote-end') {
-      close('blockquote');
     } else if (token.type === 'bold-idiomatic-close') {
       close('anything');
+    } else if (token.type === 'list-item-start') {
+      push(token);
     } else if (
       !handleOpenerClosers()
       && !handleHeadings()
     ) {
       if (token.type === 'empty-line') {
-        push(token);
+        push({ ...token, type: 'empty-lines' });
       } else if (token.type === 'function-call') {
         buildFunctionCall();
       } else {
@@ -316,7 +354,9 @@ const buildTree = (
     }
   }
 
-  return nodes;
+  close('anything');
+
+  return buildParagraphs(cleanEmptyLines(nodes));
 };
 
 export const parser = async (

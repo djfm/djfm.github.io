@@ -13,6 +13,7 @@ type LexerTokenType =
   | 'function-call-args-name'
   | 'function-call-args-value'
   | 'empty-line'
+  | 'list-item-start'
 
 export type Pos = {
   line: number
@@ -105,20 +106,12 @@ const lexLine = (
 
   if (state === 'blockquote') {
     if (lineSrc.startsWith('```')) {
-      const quoteEnd = createToken(
+      return consume(
         'blockquote-end',
         '```',
-      );
-
-      const [nextTokens, nextState] = consumeAndLexRest(
-        quoteEnd,
         3,
+        'default',
       );
-
-      return [[
-        quoteEnd,
-        ...nextTokens,
-      ], nextState];
     }
 
     return consume('literal', lineSrc);
@@ -185,6 +178,13 @@ const lexLine = (
     return eat(lineSrc);
   }
 
+  if (columnNumber === 0) {
+    const init = lineSrc.match(/^(\s*[-*>]\s)[^s]/);
+    if (init && init.length % 2 === 0) {
+      return consume('list-item-start', init[1]);
+    }
+  }
+
   if (lineSrc.startsWith('***')) {
     return consume('bold-idiomatic-close', '***');
   }
@@ -210,6 +210,7 @@ const lexLine = (
       'blockquote-start',
       type,
       length,
+      'blockquote',
     );
   }
 

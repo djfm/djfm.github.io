@@ -37,6 +37,11 @@ Et il y aura du *React* aussi ! Ah oui, passionnant ça aussi.
 Sans doute ensuite des choses sur *Linux* et en particulier *Ubuntu*, mon
 OS de prédilection.
 
+```
+test
+toast
+```
+
 Sûrement aussi des articles sur les bonnes pratiques de développement...
 
 Le Cahier des charges technique du site
