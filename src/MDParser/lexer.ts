@@ -35,7 +35,7 @@ const lexLine = (
   columnNumber: number,
   state: LexerState,
 ) => (lineSrc: string): [LexerToken[], LexerState] => {
-  const mkToken = (
+  const createToken = (
     type: LexerTokenType,
     value: string,
     length = value.length,
@@ -48,11 +48,11 @@ const lexLine = (
     },
     end: {
       line: lineNumber,
-      column: columnNumber + value.length,
+      column: columnNumber + length,
     },
   });
 
-  const consume = (
+  const consumeAndLexRest = (
     token: LexerToken,
     columns: number,
     updatedState = state,
@@ -75,6 +75,17 @@ const lexLine = (
     ];
   };
 
+  const consume = (
+    type: LexerTokenType,
+    value: string,
+    columnsUsed = value.length,
+    nextState = state,
+  ) => consumeAndLexRest(
+    createToken(type, value, columnsUsed),
+    columnsUsed,
+    nextState,
+  );
+
   const skip = (
     columns: number,
     updatedState = state,
@@ -91,12 +102,12 @@ const lexLine = (
 
   if (state === 'blockquote') {
     if (lineSrc.startsWith('```')) {
-      const quoteEnd = mkToken(
+      const quoteEnd = createToken(
         'blockquote-end',
         '```',
       );
 
-      const [nextTokens, nextState] = consume(
+      const [nextTokens, nextState] = consumeAndLexRest(
         quoteEnd,
         3,
       );
@@ -107,7 +118,7 @@ const lexLine = (
       ], nextState];
     }
 
-    return [[mkToken('literal', lineSrc)], state];
+    return consume('literal', lineSrc);
   }
 
   if (state === 'function-call-args') {
@@ -123,11 +134,8 @@ const lexLine = (
     const namedArg = lineSrc.match(/^\(w+)\s*=\s*"/);
     if (namedArg) {
       return consume(
-        mkToken(
-          'function-call-args-name',
-          namedArg[1],
-          namedArg[0].length,
-        ),
+        'function-call-args-name',
+        namedArg[1],
         namedArg[0].length,
         'quoted-function-call-args-value',
       );
@@ -136,11 +144,8 @@ const lexLine = (
     const argValue = lineSrc.match(/^([^)\s]+)/);
     if (argValue) {
       return consume(
-        mkToken(
-          'function-call-args-value',
-          argValue[1],
-          argValue[0].length,
-        ),
+        'function-call-args-value',
+        argValue[1],
         argValue[0].length,
       );
     }
@@ -151,11 +156,8 @@ const lexLine = (
   if (state === 'quoted-function-call-args-value') {
     const eat = (str: string, len?: number) =>
       consume(
-        mkToken(
-          'function-call-args-value',
-          str,
-          len || str.length,
-        ),
+        'function-call-args-value',
+        str,
         len || str.length,
       );
 
@@ -181,32 +183,33 @@ const lexLine = (
   }
 
   if (lineSrc.startsWith('**')) {
-    return consume(mkToken('bold', '**'), 2);
+    return consume('bold', '**');
   }
 
   if (lineSrc.startsWith('*')) {
-    return consume(mkToken('idiomatic', '*'), 1);
+    return consume('idiomatic', '*');
   }
 
   if (lineSrc.startsWith('```')) {
     if (columnNumber > 0) {
-      return consume(mkToken('literal', '```'), 3);
+      return consume('literal', '```');
     }
 
     const maybeType = lineSrc.slice(3).match(/^\w+/);
     const type = maybeType ? maybeType[0] : 'default';
     const length = 3 + (maybeType ? maybeType[0].length : 0);
+
     return consume(
-      mkToken('blockquote-start', type, length),
+      'blockquote-start',
+      type,
       length,
-      'blockquote',
     );
   }
 
   if (lineSrc.startsWith('`')) {
     return consume(
-      mkToken('quote', '`'),
-      1,
+      'quote',
+      '`',
     );
   }
 
@@ -216,7 +219,8 @@ const lexLine = (
       const fnValue = m[1];
       const hasArguments = m[2] === '(';
       return consume(
-        mkToken('function-call', fnValue, m[0].length),
+        'function-call',
+        fnValue,
         m[0].length,
         hasArguments ? 'function-call-args' : state,
       );
@@ -233,12 +237,8 @@ const lexLine = (
 
     if (lineSrc.match(exp)) {
       return consume(
-        mkToken(
-          headingType,
-          lineSrc,
-          lineSrc.length,
-        ),
-        lineSrc.length,
+        headingType,
+        lineSrc,
       );
     }
 
@@ -270,12 +270,10 @@ const lexLine = (
 
   const litLen = getLiteralLen();
 
-  const literal: LexerToken = mkToken(
+  return consume(
     'literal',
     lineSrc.slice(0, litLen),
   );
-
-  return consume(literal, litLen);
 };
 
 type ReducerState = {

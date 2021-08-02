@@ -1,16 +1,8 @@
-/* eslint-disable no-loop-func */
-import util from 'util';
-
 import {
   lexer,
   LexerToken,
   Pos,
 } from './lexer';
-
-// eslint-disable-next-line no-console
-const inspect = (obj: unknown) => console.log(
-  util.inspect(obj, false, undefined, true),
-);
 
 const openerClosers: readonly string[] = [
   'quote',
@@ -30,38 +22,119 @@ type MarkdownNodeType =
  | 'document'
  | typeof openerClosers[number]
 
-type StartedMarkdownNode = {
+type WithStartingToken = {
+  startingToken: LexerToken
+};
+
+type BaseMarkdownNode = {
   type: MarkdownNodeType
   value?: string
   children?: MarkdownNode[]
   props?: Record<string, string>
+};
+
+type StartedMarkdownNode = BaseMarkdownNode & WithStartingToken;
+
+export type MarkdownNode = BaseMarkdownNode & {
   start: Pos
-  token: LexerToken
-};
-
-export type MarkdownNode = StartedMarkdownNode & {
   end: Pos
-};
+}
 
-const addEnd = (node: StartedMarkdownNode): MarkdownNode => ({
-  ...node,
-  end: node.children
-    ? node.children[node.children.length - 1].end
-    : node.token.end,
-});
+const omit = <
+  T extends Record<string, unknown>,
+  Del extends keyof T,
+  U = { [Key in Exclude<keyof T, Del>]: T[Key] }
+> (obj: T, ...props: Del[]): U =>
+    Object.entries(obj).reduce((acc, [key, value]): U => {
+      for (const del of props) {
+        if (del === key) {
+          return acc;
+        }
+      }
+      return { ...acc, [key]: value };
+    }, {} as U);
+
+const addEnd = (node: StartedMarkdownNode): MarkdownNode => {
+  const { startingToken, ...rest } = node;
+  return {
+    ...rest,
+    start: startingToken.start,
+    end: node.children
+      ? node.children[node.children.length - 1].end
+      : node.startingToken.end,
+  };
+};
 
 const buildTree = (
   tokens:Array<LexerToken>,
   directory: string,
 ): MarkdownNode[] => {
-  const nodes: MarkdownNode[] = [];
+  const previousNodes: MarkdownNode[][] = [];
+  const previousNodesBeingBuilt: StartedMarkdownNode[] = [];
 
-  let currentNode: StartedMarkdownNode | undefined;
+  let nodes: MarkdownNode[] = [];
+  let nodeBeingBuilt: StartedMarkdownNode | undefined;
+
+  const peekNode = (): MarkdownNode | undefined =>
+    nodes[nodes.length - 1];
+
+  const popNode = (): MarkdownNode | never => {
+    const node = nodes.pop();
+    if (node) {
+      return node;
+    }
+    throw new Error('popNode called on empty stack');
+  };
+
+  const open = (
+    token: LexerToken,
+    type: MarkdownNodeType,
+  ): void => {
+    const node: StartedMarkdownNode = {
+      type,
+      children: [],
+      startingToken: token,
+    };
+
+    if (nodeBeingBuilt) {
+      previousNodesBeingBuilt.push(nodeBeingBuilt);
+    }
+
+    previousNodes.push(nodes);
+    nodes = node.children;
+    nodeBeingBuilt = node;
+  };
+
+  const push = (node: MarkdownNode): void => {
+    nodes.push(node);
+  };
+
+  const close = (type?: MarkdownNodeType): void => {
+    if (nodeBeingBuilt) {
+      if (nodeBeingBuilt.type !== type) {
+        throw new Error(
+          `Expected "${nodeBeingBuilt.type}" to be "${type}".`,
+        );
+      }
+      nodes = previousNodes.pop();
+      nodes.push(addEnd(nodeBeingBuilt));
+      nodeBeingBuilt = previousNodesBeingBuilt.pop();
+    } else if (type) {
+      throw new Error(`Unexpected closing of "${type}".`);
+    }
+  };
+
+  const currentType = (): MarkdownNodeType => {
+    if (nodeBeingBuilt) {
+      return nodeBeingBuilt.type;
+    }
+
+    return (peekNode() ? peekNode().type : undefined);
+  };
 
   for (let tIndex = 0; tIndex < tokens.length; tIndex += 1) {
     const token = tokens[tIndex];
-
-    console.log({ token });
+    // console.log(token);
 
     const fail = (...msgParts: string[]): never => {
       const preMsg = msgParts.join(' ');
@@ -90,31 +163,22 @@ const buildTree = (
 
       const type = openerClosers[t];
 
-      if (!currentNode) {
-        currentNode = {
-          type,
-          value: '',
-          start: token.start,
-          token,
-        };
-
+      if (currentType() === type) {
+        close(type);
         return true;
       }
 
-      if (currentNode.type !== type) {
-        fail(
-          `unexpected "${type}" token`,
-          'in a node of type',
-          `"${currentNode.type}"`,
-        );
+      if (currentType() === 'quote') {
+        push({
+          type: 'literal',
+          value: token.value,
+          start: token.start,
+          end: token.end,
+        });
+        return true;
       }
 
-      nodes.push({
-        ...currentNode,
-        start: token.start,
-        end: token.end,
-      });
-      currentNode = undefined;
+      open(token, type);
       return true;
     };
 
@@ -124,17 +188,14 @@ const buildTree = (
         return false;
       }
 
-      if (currentNode) {
-        nodes.push(addEnd(currentNode));
-        currentNode = undefined;
-      }
+      close();
 
       const children: MarkdownNode[] = [];
       while (
-        nodes.length > 0
-        && nodes[nodes.length - 1].end.line === token.start.line - 1
+        peekNode()
+        && peekNode().end.line === token.start.line - 1
       ) {
-        children.push(nodes.pop());
+        children.push(popNode());
       }
 
       if (children.length === 0) {
@@ -143,14 +204,12 @@ const buildTree = (
         );
       }
 
-      nodes.push({
+      push({
         type: token.type,
         children,
         start: children[0].start,
         end: children[children.length - 1].end,
-        token,
       });
-      currentNode = undefined;
       return true;
     };
 
@@ -158,8 +217,7 @@ const buildTree = (
       const node: StartedMarkdownNode = {
         type: 'function-call',
         value: token.value,
-        start: token.start,
-        token,
+        startingToken: token,
       };
 
       let argName: string | undefined;
@@ -183,7 +241,6 @@ const buildTree = (
               type: 'function-call-arg',
               value: argValue,
               start: argStart.start,
-              token: argStart,
               end,
             });
             argValue = '';
@@ -215,10 +272,13 @@ const buildTree = (
 
       conclude(newToken.end);
 
-      nodes.push({ ...node, end: newToken.end });
+      push({
+        ...omit(node, 'startingToken'),
+        end: newToken.end,
+      });
     };
 
-    if (currentNode && currentNode.type === 'blockquote') {
+    if (currentType() === 'blockquote') {
       if (token.type !== 'literal') {
         fail(
           'unexpected token of type',
@@ -226,48 +286,25 @@ const buildTree = (
           'in a "blockquote"',
         );
       }
-
-      currentNode.children.push({
+      push({
         type: 'literal',
         value: token.value,
         start: token.start,
         end: token.end,
-        token,
       });
     } else if (token.type === 'literal') {
-      nodes.push({ ...token, token });
+      push(token);
     } else if (token.type === 'blockquote-start') {
-      if (currentNode) {
-        nodes.push({
-          ...currentNode,
-          end: token.start,
-        });
-      }
-
-      currentNode = {
-        type: 'blockquote',
-        children: [],
-        token,
-        start: token.start,
-      };
+      close();
+      open(token, 'blockquote');
     } else if (token.type === 'blockquote-end') {
-      if (!currentNode || currentNode.type !== 'blockquote') {
-        throw new Error(
-          'Unexpected blockquote-end token.',
-        );
-      }
-      nodes.push({ ...currentNode, end: token.end });
-      currentNode = undefined;
+      close('blockquote');
     } else if (
       !handleOpenerClosers()
       && !handleHeadings()
     ) {
       if (token.type !== 'function-call') {
         fail('unexpected token', `${token.type}`);
-      }
-      if (currentNode) {
-        nodes.push({ ...currentNode, end: token.start });
-        currentNode = undefined;
       }
       buildFunctionCall();
     }
@@ -289,10 +326,7 @@ export const parser = async (
     children,
     start: children[0].start,
     end: children[children.length - 1].end,
-    token: tokens[0],
   };
-
-  inspect(doc);
 
   return doc;
 };
