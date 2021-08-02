@@ -1,7 +1,7 @@
 La Fascinante *IA* *Copilot* de *GitHub* pour les *Codeurs*
 ===========================================================
 
-@NAV(
+@@SUBPAGES(
   sub-pages
   ./Copilot/introduction.md
   ./Copilot/mdParser.md

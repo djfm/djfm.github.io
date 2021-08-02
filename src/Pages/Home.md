@@ -117,3 +117,5 @@ N'hésitez pas non plus à
 pour toute autre raison, comme par exemple si vous voulez
 me payer très cher pour travailler sur un projet très chouette.
 
+@@Img(/tmp/test/png alt="ma couille")
+
