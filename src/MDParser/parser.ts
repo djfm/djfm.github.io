@@ -517,7 +517,7 @@ const buildTree = (
       };
 
       let argName: string | undefined;
-      let argValue = '';
+      let argValue: string[] = [];
       let argStart: LexerToken | undefined;
 
       const conclude = (end: Pos) => {
@@ -526,20 +526,24 @@ const buildTree = (
             if (!node.props) {
               node.props = {};
             }
-            node.props[argName] = argValue;
+            node.props[argName] = argValue.join('');
             argName = undefined;
-            argValue = '';
+            argValue = [];
           } else if (argValue.length > 0) {
             if (!node.children) {
               node.children = [];
             }
-            node.children.push({
-              type: 'function-call-arg',
-              value: argValue,
-              start: argStart.start,
-              end,
+
+            argValue.forEach((value) => {
+              node.children.push({
+                type: 'function-call-arg',
+                value,
+                start: argStart.start,
+                end,
+              });
             });
-            argValue = '';
+
+            argValue = [];
           }
         }
       };
@@ -561,7 +565,7 @@ const buildTree = (
           conclude(nextToken.end);
           argName = nextToken.value;
         } else {
-          argValue += nextToken.value;
+          argValue.push(nextToken.value);
         }
       }
       const newToken = tokens[tIndex];
