@@ -5,6 +5,7 @@ type LexerTokenType =
   | 'quote'
   | 'bold'
   | 'idiomatic'
+  | 'bold-idiomatic-close'
   | 'heading-1'
   | 'heading-2'
   | 'function-call'
@@ -180,6 +181,10 @@ const lexLine = (
     }
 
     return eat(lineSrc);
+  }
+
+  if (lineSrc.startsWith('***')) {
+    return consume('bold-idiomatic-close', '***');
   }
 
   if (lineSrc.startsWith('**')) {

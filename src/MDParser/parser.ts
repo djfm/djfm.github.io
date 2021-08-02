@@ -109,17 +109,19 @@ const buildTree = (
     nodes.push(node);
   };
 
-  const close = (type?: MarkdownNodeType): void => {
+  const close = (type: MarkdownNodeType | 'anything'): void => {
     if (nodeBeingBuilt) {
-      if (nodeBeingBuilt.type !== type) {
-        throw new Error(
-          `Expected "${nodeBeingBuilt.type}" to be "${type}".`,
-        );
+      while (nodeBeingBuilt) {
+        if (type !== 'anything' && nodeBeingBuilt.type !== type) {
+          throw new Error(
+            `Expected "${nodeBeingBuilt.type}" to be "${type}".`,
+          );
+        }
+        nodes = previousNodes.pop();
+        nodes.push(addEnd(nodeBeingBuilt));
+        nodeBeingBuilt = previousNodesBeingBuilt.pop();
       }
-      nodes = previousNodes.pop();
-      nodes.push(addEnd(nodeBeingBuilt));
-      nodeBeingBuilt = previousNodesBeingBuilt.pop();
-    } else if (type) {
+    } else if (type !== 'anything') {
       throw new Error(`Unexpected closing of "${type}".`);
     }
   };
@@ -134,8 +136,6 @@ const buildTree = (
 
   for (let tIndex = 0; tIndex < tokens.length; tIndex += 1) {
     const token = tokens[tIndex];
-    // console.log(token);
-
     const fail = (...msgParts: string[]): never => {
       const preMsg = msgParts.join(' ');
       const msg = `${
@@ -188,7 +188,7 @@ const buildTree = (
         return false;
       }
 
-      close();
+      close('anything');
 
       const children: MarkdownNode[] = [];
       while (
@@ -295,10 +295,12 @@ const buildTree = (
     } else if (token.type === 'literal') {
       push(token);
     } else if (token.type === 'blockquote-start') {
-      close();
+      close('anything');
       open(token, 'blockquote');
     } else if (token.type === 'blockquote-end') {
       close('blockquote');
+    } else if (token.type === 'bold-idiomatic-close') {
+      close('anything');
     } else if (
       !handleOpenerClosers()
       && !handleHeadings()
