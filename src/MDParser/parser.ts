@@ -90,13 +90,95 @@ const cleanEmptyLines = (nodes: MarkdownNode[]): MarkdownNode[] => {
   return newNodes;
 };
 
-const buildParagraphs = (nodes: MarkdownNode[]): MarkdownNode[] => {
+const adjustLiteralIndent = (node: MarkdownNode): MarkdownNode => {
+  if (node.type !== 'literal' || node.start.column > 0) {
+    return node;
+  }
+
+  const leadingWS = node.value.match(/^\s*/)[0].length;
+
+  return {
+    type: 'literal',
+    value: node.value.slice(leadingWS),
+    start: {
+      line: node.start.line,
+      column: node.start.column + leadingWS,
+    },
+    end: node.end,
+  };
+};
+
+const mergeLiterals = (nodes: MarkdownNode[]): MarkdownNode[] => {
   const newNodes: MarkdownNode[] = [];
-  const currentParagraph: MarkdownNode[] = [];
+  let currentLiteral: MarkdownNode | undefined;
+
+  const pushLiteral = () => {
+    if (currentLiteral) {
+      newNodes.push(currentLiteral);
+      currentLiteral = undefined;
+    }
+  };
 
   for (const node of nodes) {
-    newNodes.push(node);
+    if (node.type !== 'literal') {
+      pushLiteral();
+      newNodes.push(node);
+    } else if (!currentLiteral) {
+      currentLiteral = node;
+    } else {
+      currentLiteral.value = `${currentLiteral.value} ${node.value}`;
+      currentLiteral.end = node.end;
+    }
   }
+
+  pushLiteral();
+
+  return newNodes;
+};
+
+const buildParagraphs = (nodes: MarkdownNode[]): MarkdownNode[] => {
+  const newNodes: MarkdownNode[] = [];
+  let currentParagraph: MarkdownNode[] = [];
+
+  const closeParagraph = () => {
+    if (currentParagraph.length > 0) {
+      const preChildren = currentParagraph.map(adjustLiteralIndent).filter(
+        (node) => (node.type !== 'paragraph' || node.value.length > 0),
+      );
+
+      const children = mergeLiterals(preChildren);
+
+      newNodes.push({
+        type: 'paragraph',
+        children,
+        start: children[0].start,
+        end: children[children.length - 1].end,
+      });
+      currentParagraph = [];
+    }
+  };
+
+  for (const node of nodes) {
+    if (node.type === 'empty-lines') {
+      closeParagraph();
+    } else {
+      const pTypes = [
+        'literal',
+        'bold',
+        'idiomatic',
+        'quote',
+      ];
+
+      if (pTypes.includes(node.type)) {
+        currentParagraph.push(node);
+      } else {
+        closeParagraph();
+        newNodes.push(node);
+      }
+    }
+  }
+
+  closeParagraph();
 
   return newNodes;
 };

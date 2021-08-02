@@ -53,7 +53,7 @@ Pour ce site,
 - Je ne veux pas payer un seul centime pour l'hébergement
   et avoir quand même une performance au top.
 
-  C'est pas que je sois radin, mais il faut bien s'imposer des contraintes pour innover.
+  **C'est pas que je sois radin**, mais il faut bien s'imposer des contraintes pour innover.
 
   Du coup, un grand merci à
   [GitHub Pages] qui héberge ce site gratuitement - possible
@@ -73,7 +73,8 @@ Pour ce site,
 
 - Je veux utiliser des technos super chouettes.
 
-- Je voudrais essayer que ça ne soit pas complètement moche, même si le design n'est clairement pas mon point fort.
+- Je voudrais essayer que ça ne soit pas complètement moche,
+  même si le design n'est clairement pas mon point fort.
 
 - J'aimerais que ça puisse éventuellement intéresser quelques lecteurs.
 
