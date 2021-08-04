@@ -1,6 +1,7 @@
 import {
   lexer,
   LexerToken,
+  LexerTokenType,
   Pos,
 } from './lexer';
 
@@ -13,620 +14,285 @@ const openerClosers: readonly string[] = [
 type MarkdownNodeType =
  | 'blockquote'
  | 'literal'
- | 'heading-1'
- | 'heading-2'
+ | 'heading'
  | 'function-call'
- | 'function-call-arg'
  | 'paragraph'
  | 'section'
  | 'document'
- | 'empty-lines'
- | 'list-item-start'
- | 'list-item'
  | 'list'
  | typeof openerClosers[number]
 
-type WithStartingTokenOrNode = {
-  startingToken: LexerToken | MarkdownNode
-};
-
-type BaseMarkdownNode = {
+export type MarkdownNode = {
   type: MarkdownNodeType
   value?: string
   children?: MarkdownNode[]
   props?: Record<string, string | number>
-};
-
-type StartedMarkdownNode =
-  BaseMarkdownNode & WithStartingTokenOrNode;
-
-export type MarkdownNode = BaseMarkdownNode & {
   start: Pos
   end: Pos
 }
 
-const omit = <
-  T extends Record<string, unknown>,
-  Del extends keyof T,
-  U = { [Key in Exclude<keyof T, Del>]: T[Key] }
-> (obj: T, ...props: Del[]): U =>
-    Object.entries(obj).reduce((acc, [key, value]): U => {
-      for (const del of props) {
-        if (del === key) {
-          return acc;
-        }
-      }
-      return { ...acc, [key]: value };
-    }, {} as U);
-
-const compose = <T> (...fns: ((x: T) => T)[]) =>
-  (x: T) => fns.reduce((res, fn) => fn(res), x);
-
-const toMarkdownNode = (node: StartedMarkdownNode): MarkdownNode => {
-  const { startingToken, ...rest } = node;
-  return {
-    ...rest,
-    start: startingToken.start,
-    end: node.children
-      ? node.children[node.children.length - 1].end
-      : node.startingToken.end,
-  };
-};
-
-const cleanEmptyLines = (nodes: MarkdownNode[]): MarkdownNode[] => {
-  const newNodes = [];
-  let lastNode: MarkdownNode | undefined;
-
-  for (const node of nodes) {
-    if (node.type !== 'empty-lines') {
-      newNodes.push(node);
-      lastNode = node;
-    } else if (lastNode) {
-      if (lastNode.type === 'empty-lines') {
-        lastNode.value += `\n${node.value}`;
-        lastNode.end = node.end;
-      } else if (!lastNode.type.startsWith('heading-')) {
-        newNodes.push(node);
-        lastNode = node;
-      }
-    }
-  }
-
-  return newNodes;
-};
-
-const adjustLiteralIndent = (node: MarkdownNode): MarkdownNode => {
-  if (node.type !== 'literal' || node.start.column > 0) {
-    return node;
-  }
-
-  const leadingWS = node.value.match(/^\s*/)[0].length;
-
-  return {
-    type: 'literal',
-    value: node.value.slice(leadingWS),
-    start: {
-      line: node.start.line,
-      column: node.start.column + leadingWS,
-    },
-    end: node.end,
-  };
-};
-
-const mergeLiterals = (nodes: MarkdownNode[]): MarkdownNode[] => {
-  const newNodes: MarkdownNode[] = [];
-  let currentLiteral: MarkdownNode | undefined;
-
-  const pushLiteral = () => {
-    if (currentLiteral) {
-      newNodes.push(currentLiteral);
-      currentLiteral = undefined;
-    }
-  };
-
-  for (const node of nodes) {
-    if (node.type !== 'literal') {
-      pushLiteral();
-      newNodes.push(node);
-    } else if (!currentLiteral) {
-      currentLiteral = node;
-    } else {
-      currentLiteral.value = `${currentLiteral.value} ${node.value}`;
-      currentLiteral.end = node.end;
-    }
-  }
-
-  pushLiteral();
-
-  return newNodes;
-};
-
-const parseSections = (
-  nodes: MarkdownNode[],
-  level: number,
-  heading: MarkdownNode | undefined,
-): [
-  // analyzed
+type Parser = (tokens: LexerToken[]) => [
   MarkdownNode[],
+  LexerToken[]
+];
 
-  // left
-  MarkdownNode[],
+type ParserTransformer = (...p: Parser[]) => Parser
 
-  // next heading
-  MarkdownNode | undefined
-] => {
-  if (nodes.length === 0) {
-    return [[], [], undefined];
-  }
+type TokenPredicate =
+  LexerTokenType
+  | ((token: LexerToken) => boolean)
 
-  const newSection = (): StartedMarkdownNode => ({
-    type: 'section',
-    children: [],
-    startingToken: nodes[0],
-    props: {
-      level,
-    },
-  });
-
-  const newNodes: MarkdownNode[] = [];
-
-  let section: StartedMarkdownNode = newSection();
-
-  const pushSection = () => {
-    if (section.children.length > 0) {
-      newNodes.push(toMarkdownNode(section));
-      section = newSection();
-    }
-  };
-
-  if (heading) {
-    section.children.push(heading);
-  }
-
-  let n = 0;
-  while (n < nodes.length && !nodes[n].type.startsWith('heading-')) {
-    section.children.push(nodes[n]);
-    n += 1;
-  }
-
-  if (n === nodes.length) {
-    pushSection();
-    return [newNodes, [], undefined];
-  }
-
-  const headingLevel = parseInt(nodes[n].type.split('-')[1], 10);
-
-  if (headingLevel > level) {
-    const [sections, unParsed] = parseSections(
-      nodes.slice(n + 1),
-      headingLevel,
-      nodes[n],
-    );
-    section.children.push(...sections);
-    pushSection();
-    return [newNodes, unParsed, nodes[n]];
-  }
-
-  if (headingLevel === level) {
-    pushSection();
-    const [sections, unParsed] = parseSections(
-      nodes.slice(n + 1),
-      level,
-      nodes[n],
-    );
-    newNodes.push(...sections);
-    return [newNodes, unParsed, nodes[n]];
-  }
-
-  pushSection();
-  return [newNodes, nodes.slice(n + 1), nodes[n]];
-};
-
-const buildSections = (
-  nodes: MarkdownNode[],
-): MarkdownNode[] => {
-  const parsed: MarkdownNode[] = [];
-  let leftToParse = nodes;
-  let heading: MarkdownNode | undefined;
-
-  while (leftToParse.length > 0) {
-    const [
-      sections,
-      unParsed,
-      nextHeading,
-    ] = parseSections(leftToParse, 0, heading);
-
-    parsed.push(...sections);
-    leftToParse = unParsed;
-    heading = nextHeading;
-  }
-
-  return parsed;
-};
-
-const groupListItems = (nodes: MarkdownNode[]): MarkdownNode[] => {
-  const newNodes: MarkdownNode[] = [];
-  let currentList: StartedMarkdownNode | undefined;
-
-  const pushList = () => {
-    if (currentList) {
-      newNodes.push(toMarkdownNode(currentList));
-      currentList = undefined;
-    }
-  };
-
-  for (const node of nodes) {
-    if (node.type === 'list-item') {
-      if (!currentList) {
-        currentList = {
-          type: 'list',
-          children: [],
-          startingToken: node,
-        };
-      }
-
-      currentList.children.push(node);
-    } else {
-      pushList();
-      newNodes.push(node);
-    }
-  }
-
-  pushList();
-
-  return newNodes;
-};
-
-const buildListItems = (nodes: MarkdownNode[]): MarkdownNode[] => {
-  if (nodes.length === 0) {
+const skip = (
+  tokens: LexerToken[],
+  p: TokenPredicate,
+): LexerToken[] => {
+  if (tokens.length === 0) {
     return [];
   }
 
-  const [node, ...nextNodes] = nodes;
-  const builtNext = buildListItems(nextNodes);
+  const [token, ...nextTokens] = tokens;
 
-  if (node.type !== 'list-item-start') {
-    return [node, ...builtNext];
-  }
-
-  const indent = node.value.match(/^\s*/)[0].length;
-
-  const children: MarkdownNode[] = [];
-  let n = 0;
-  while (
-    n < builtNext.length
-    && builtNext[n].start.column === node.end.column
+  if (
+    typeof p === 'string'
+    && token.type === p
   ) {
-    children.push(builtNext[n]);
-    n += 1;
+    return skip(nextTokens, p);
   }
 
-  const listItem: MarkdownNode = {
-    type: 'list-item',
-    children: groupListItems(children),
-    start: {
-      line: node.start.line,
-      column: indent,
-    },
-    end: children[children.length - 1].end,
-  };
+  if (
+    typeof p === 'function'
+    && p(token)
+  ) {
+    return skip(nextTokens, p);
+  }
 
-  return [listItem, ...builtNext.slice(children.length)];
+  return tokens;
 };
 
-const buildParagraphs = (nodes: MarkdownNode[]): MarkdownNode[] => {
-  const newNodes: MarkdownNode[] = [];
-  let currentParagraph: MarkdownNode[] = [];
+const parseMany: ParserTransformer = (parser: Parser) =>
+  (tokens: LexerToken[]) => {
+    const [nodes, remainingTokens] = parser(tokens);
+    if (remainingTokens.length === 0 || nodes.length === 0) {
+      return [nodes, remainingTokens];
+    }
+    const then = parseMany(parser)(remainingTokens);
+    return [nodes.concat(then[0]), then[1]];
+  };
 
-  const closeParagraph = () => {
-    if (currentParagraph.length > 0) {
-      const preChildren = currentParagraph.map(adjustLiteralIndent).filter(
-        (node) => (node.type !== 'paragraph' || node.value.length > 0),
+const parseSequence: ParserTransformer = (a: Parser, b: Parser) =>
+  (tokens: LexerToken[]) => {
+    const [aNodes, nextTokens] = a(tokens);
+    if (aNodes.length === 0) {
+      return [[], tokens];
+    }
+    const [bNodes, restTokens] = b(nextTokens);
+    if (bNodes.length === 0) {
+      return [[], tokens];
+    }
+    return [aNodes.concat(bNodes), restTokens];
+  };
+
+const parseEither: ParserTransformer = (...parsers: Parser[]) =>
+  (tokens: LexerToken[]) => {
+    for (const parser of parsers) {
+      const [nodes, remainingTokens] = parser(tokens);
+      if (nodes.length > 0) {
+        return [nodes, remainingTokens];
+      }
+    }
+    return [[], tokens];
+  };
+
+const parseParagraph: Parser = (tokens) => {
+  const [
+    children,
+    nextTokens,
+  ] = parseMany(parseText)(
+    skip(tokens, 'empty-line'),
+  );
+
+  if (children.length === 0) {
+    return [[], tokens];
+  }
+
+  const next = skip(nextTokens, 'empty-line');
+
+  if (
+    next.length > 0
+    && next[0].type.startsWith('heading-')
+  ) {
+    return [[], tokens];
+  }
+
+  return [[{
+    type: 'paragraph',
+    children,
+    start: children[0].start,
+    end: children[children.length - 1].end,
+  }], next];
+};
+
+const parseList: Parser = ([token, ...tokens]) => {
+  if (token.type !== 'list-item-start') {
+    return [[], tokens];
+  }
+};
+
+const parseBlockQuote: Parser = ([token, ...tokens]) => {
+  if (token.type !== 'blockquote-start') {
+    return [[], tokens];
+  }
+
+  const [
+    children,
+    [end, ...rest],
+  ] = parseMany(parseLiteral)(tokens);
+
+  if (
+    children.length === 0
+    || end.type !== 'blockquote-end'
+  ) {
+    return [[], tokens];
+  }
+
+  return [[{
+    type: 'blockquote',
+    children,
+    start: token.start,
+    end: end.end,
+  }], rest];
+};
+
+const parseHeading: (level: number) => Parser = (level) =>
+  (tokens) => {
+    const [
+      litNodes,
+      [token, ...nextTokens],
+    ] = parseText(tokens);
+
+    if (
+      litNodes.length === 0
+      || !token
+      || token.type !== `heading-${level}`
+    ) {
+      return [[], tokens];
+    }
+
+    return [[{
+      type: 'heading',
+      props: {
+        level,
+      },
+      children: litNodes,
+      start: litNodes[0].start,
+      end: litNodes[litNodes.length - 1].end,
+    }], nextTokens];
+  };
+
+const parseLiteral: Parser = ([token, ...tokens]) => {
+  if (token.type === 'literal') {
+    return [[{
+      type: 'literal',
+      value: token.value,
+      start: token.start,
+      end: token.end,
+    }], tokens];
+  }
+
+  return [[], [token, ...tokens]];
+};
+
+const parseIdiomatic: Parser = (tokens) => {
+  if (
+    tokens.length > 0
+    && tokens[0].type === 'idiomatic'
+  ) {
+    return [[{
+      type: 'idiomatic',
+      value: tokens[0].value,
+      start: tokens[0].start,
+      end: tokens[0].end,
+    }], tokens.slice(1)];
+  }
+
+  return [[], tokens];
+};
+
+const parseText: Parser = parseEither(
+  parseLiteral,
+  parseIdiomatic,
+);
+
+const parseSection = (
+  level: number,
+): Parser =>
+  (tokens: LexerToken[]) => {
+    const parseContents = parseMany(
+      parseEither(
+        parseSection(level + 1),
+        parseParagraph,
+        parseList,
+        parseBlockQuote,
+      ),
+    );
+
+    const sectionParser = level === 0
+      ? parseContents
+      : parseSequence(
+        parseHeading(level),
+        parseContents,
       );
 
-      const children = mergeLiterals(preChildren);
+    const [children, nextTokens] = sectionParser(tokens);
 
-      newNodes.push({
-        type: 'paragraph',
-        children,
-        start: children[0].start,
-        end: children[children.length - 1].end,
-      });
-      currentParagraph = [];
+    if (children.length === 0) {
+      return [[], tokens];
     }
+
+    return [[{
+      type: 'section',
+      props: {
+        level,
+      },
+      children,
+      start: children[0].start,
+      end: children[children.length - 1].end,
+    }], nextTokens];
   };
 
-  for (const node of nodes) {
-    if (node.type === 'empty-lines') {
-      closeParagraph();
-    } else {
-      const pTypes = [
-        'literal',
-        'bold',
-        'idiomatic',
-        'quote',
-      ];
+const parseDocument = (tokens: LexerToken[]): MarkdownNode => {
+  console.dir(
+    tokens, {
+      colors: true,
+      depth: null,
+    },
+  );
 
-      if (pTypes.includes(node.type)) {
-        currentParagraph.push(node);
-      } else {
-        closeParagraph();
-        newNodes.push(node);
-      }
-    }
+  const [children, nextTokens] = parseSection(0)(tokens);
+
+  if (children.length === 0) {
+    throw new Error('empty document');
   }
 
-  closeParagraph();
-
-  return newNodes;
-};
-
-const buildTree = (
-  tokens:Array<LexerToken>,
-  directory: string,
-): MarkdownNode[] => {
-  const previousNodes: MarkdownNode[][] = [];
-  const previousNodesBeingBuilt: StartedMarkdownNode[] = [];
-
-  let nodes: MarkdownNode[] = [];
-  let nodeBeingBuilt: StartedMarkdownNode | undefined;
-
-  const peekNode = (): MarkdownNode | undefined =>
-    nodes[nodes.length - 1];
-
-  const popNode = (): MarkdownNode | never => {
-    const node = nodes.pop();
-    if (node) {
-      return node;
-    }
-    throw new Error('popNode called on empty stack');
-  };
-
-  const open = (
-    token: LexerToken,
-    type: MarkdownNodeType,
-  ): void => {
-    const node: StartedMarkdownNode = {
-      type,
-      children: [],
-      startingToken: token,
-    };
-
-    if (nodeBeingBuilt) {
-      previousNodesBeingBuilt.push(nodeBeingBuilt);
-    }
-
-    previousNodes.push(nodes);
-    nodes = node.children;
-    nodeBeingBuilt = node;
-  };
-
-  const push = (node: MarkdownNode): void => {
-    nodes.push(node);
-  };
-
-  const close = (type: MarkdownNodeType | 'anything'): void => {
-    if (nodeBeingBuilt) {
-      while (nodeBeingBuilt) {
-        if (type !== 'anything' && nodeBeingBuilt.type !== type) {
-          throw new Error(
-            `Expected "${nodeBeingBuilt.type}" to be "${type}".`,
-          );
-        }
-        nodes = previousNodes.pop();
-        nodes.push(toMarkdownNode(nodeBeingBuilt));
-        nodeBeingBuilt = previousNodesBeingBuilt.pop();
-      }
-    } else if (type !== 'anything') {
-      throw new Error(`Unexpected closing of "${type}".`);
-    }
-  };
-
-  const currentType = (): MarkdownNodeType => {
-    if (nodeBeingBuilt) {
-      return nodeBeingBuilt.type;
-    }
-
-    return undefined;
-  };
-
-  for (let tIndex = 0; tIndex < tokens.length; tIndex += 1) {
-    const token = tokens[tIndex];
-    const fail = (...msgParts: string[]): never => {
-      const preMsg = msgParts.join(' ');
-      const msg = `${
-        preMsg[0].toLocaleUpperCase()
-      }${
-        preMsg.slice(1)
-      } at (${
-        token.start.line
-      }:${
-        token.start.column
-      }-${
-        token.end.line
-      }:${
-        token.end.column
-      }).`;
-
-      throw new Error(msg);
-    };
-
-    const handleOpenerClosers = (): boolean => {
-      const t = openerClosers.indexOf(token.type);
-      if (t === -1) {
-        return false;
-      }
-
-      const type = openerClosers[t];
-
-      if (currentType() === type) {
-        close(type);
-        return true;
-      }
-
-      if (currentType() === 'quote') {
-        push({
-          type: 'literal',
-          value: token.value,
-          start: token.start,
-          end: token.end,
-        });
-        return true;
-      }
-
-      open(token, type);
-      return true;
-    };
-
-    const handleHeadings = (): boolean => {
-      const types = ['heading-1', 'heading-2'];
-      if (!types.includes(token.type)) {
-        return false;
-      }
-
-      close('anything');
-
-      const children: MarkdownNode[] = [];
-      while (
-        peekNode()
-        && peekNode().end.line === token.start.line - 1
-      ) {
-        children.push(popNode());
-      }
-
-      if (children.length === 0) {
-        fail(
-          'missing text before heading',
-        );
-      }
-
-      push({
-        type: token.type,
+  if (nextTokens.length > 0) {
+    console.dir(
+      {
+        nextToken: nextTokens[0],
         children,
-        start: children[0].start,
-        end: children[children.length - 1].end,
-      });
-      return true;
-    };
-
-    const buildFunctionCall = (): void => {
-      const node: StartedMarkdownNode = {
-        type: 'function-call',
-        value: token.value,
-        startingToken: token,
-      };
-
-      let argName: string | undefined;
-      let argValue: string[] = [];
-      let argStart: LexerToken | undefined;
-
-      const conclude = (end: Pos) => {
-        if (argValue.length > 0) {
-          if (argName && argValue.length > 0) {
-            if (!node.props) {
-              node.props = {};
-            }
-            node.props[argName] = argValue.join('');
-            argName = undefined;
-            argValue = [];
-          } else if (argValue.length > 0) {
-            if (!node.children) {
-              node.children = [];
-            }
-
-            argValue.forEach((value) => {
-              node.children.push({
-                type: 'function-call-arg',
-                value,
-                start: argStart.start,
-                end,
-              });
-            });
-
-            argValue = [];
-          }
-        }
-      };
-
-      while (
-        tIndex + 1 < tokens.length
-        && tokens[tIndex + 1].type.startsWith(
-          'function-call-args',
-        )
-      ) {
-        tIndex += 1;
-        const nextToken = tokens[tIndex];
-
-        if (!argStart) {
-          argStart = nextToken;
-        }
-
-        if (nextToken.type === 'function-call-args-name') {
-          conclude(nextToken.end);
-          argName = nextToken.value;
-        } else {
-          argValue.push(nextToken.value);
-        }
-      }
-      const newToken = tokens[tIndex];
-
-      conclude(newToken.end);
-
-      push({
-        ...omit(node, 'startingToken'),
-        end: newToken.end,
-      });
-    };
-
-    if (currentType() === 'blockquote') {
-      if (token.type === 'blockquote-end') {
-        close('blockquote');
-      } else if (token.type !== 'literal') {
-        fail(
-          'unexpected token of type',
-          `"${token.type}"`,
-          'in a "blockquote"',
-        );
-      } else {
-        push({
-          type: 'literal',
-          value: token.value,
-          start: token.start,
-          end: token.end,
-        });
-      }
-    } else if (token.type === 'literal') {
-      push(token);
-    } else if (token.type === 'blockquote-start') {
-      close('anything');
-      open(token, 'blockquote');
-    } else if (token.type === 'bold-idiomatic-close') {
-      close('anything');
-    } else if (token.type === 'list-item-start') {
-      push(token);
-    } else if (
-      !handleOpenerClosers()
-      && !handleHeadings()
-    ) {
-      if (token.type === 'empty-line') {
-        push({ ...token, type: 'empty-lines' });
-      } else if (token.type === 'function-call') {
-        buildFunctionCall();
-      } else {
-        fail('unexpected token', `${token.type}`);
-      }
-    }
+      }, {
+        depth: null,
+        colors: true,
+      },
+    );
+    throw new Error('incomplete parse of document');
   }
 
-  close('anything');
-
-  return compose(
-    cleanEmptyLines,
-    buildParagraphs,
-    buildListItems,
-    groupListItems,
-    buildSections,
-  )(nodes);
+  return {
+    type: 'document',
+    children,
+    start: children[0].start,
+    end: children[children.length - 1].end,
+  };
 };
 
 export const parser = async (
@@ -635,14 +301,7 @@ export const parser = async (
 ):Promise<MarkdownNode> => {
   const tokens = lexer(source);
 
-  const children = buildTree(tokens, directory);
-
-  const doc: MarkdownNode = {
-    type: 'document',
-    children,
-    start: children[0].start,
-    end: children[children.length - 1].end,
-  };
+  const doc = parseDocument(tokens);
 
   return doc;
 };

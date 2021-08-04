@@ -1,4 +1,4 @@
-type LexerTokenType =
+export type LexerTokenType =
     'literal'
   | 'blockquote-start'
   | 'blockquote-end'
@@ -9,9 +9,8 @@ type LexerTokenType =
   | 'heading-1'
   | 'heading-2'
   | 'function-call'
-  | 'function-call-args'
-  | 'function-call-args-name'
-  | 'function-call-args-value'
+  | 'function-call-arg-name'
+  | 'function-call-arg-value'
   | 'empty-line'
   | 'list-item-start'
 
@@ -30,8 +29,8 @@ export type LexerToken = {
 type LexerState =
   | 'default'
   | 'blockquote'
-  | 'function-call-args'
-  | 'quoted-function-call-args-value'
+  | 'function-call'
+  | 'function-call-arg-value'
 
 const lexLine = (
   lineNumber: number,
@@ -99,11 +98,6 @@ const lexLine = (
       updatedState,
     )(lineSrc.slice(columns));
 
-  const empty = lineSrc.match(/^\s*$/);
-  if (empty) {
-    return [[createToken('empty-line', empty[0], empty[0].length)], state];
-  }
-
   if (state === 'blockquote') {
     if (lineSrc.startsWith('```')) {
       return consume(
@@ -117,71 +111,68 @@ const lexLine = (
     return consume('literal', lineSrc);
   }
 
-  if (state === 'function-call-args') {
-    if (lineSrc[0] === ')') {
-      return skip(1);
+  if (state === 'function-call') {
+    const whiteLine = lineSrc.match(/^\s*$/);
+    if (whiteLine) {
+      return [[], state];
     }
 
-    const ws = lineSrc.match(/^\s+/);
-    if (ws) {
-      return skip(ws[0].length);
+    const done = lineSrc.match(/^\s*\)/);
+    if (done) {
+      return skip(done[0].length, 'default');
     }
 
-    const namedArg = lineSrc.match(/^(\w+)\s*=\s*"/);
+    const namedArg = lineSrc.match(/^\s*(\w+)\s*=\s*"/);
+
     if (namedArg) {
       return consume(
-        'function-call-args-name',
+        'function-call-arg-name',
         namedArg[1],
         namedArg[0].length,
-        'quoted-function-call-args-value',
+        'function-call-arg-value',
       );
     }
 
-    const argValue = lineSrc.match(/^([^)\s$]+)/);
-    if (argValue) {
+    const arg = lineSrc.match(/^\s*([^\s)]+)/);
+    if (arg) {
       return consume(
-        'function-call-args-value',
-        argValue[1],
-        argValue[0].length,
+        'function-call-arg-value',
+        arg[1],
+        arg[0].length,
       );
     }
 
-    return skip(0, 'default');
+    throw new Error('could not lex function call');
   }
 
-  if (state === 'quoted-function-call-args-value') {
-    const eat = (str: string, len?: number) =>
-      consume(
-        'function-call-args-value',
-        str,
-        len || str.length,
+  if (state === 'function-call-arg-value') {
+    const val = lineSrc.match(/^([^"]*)+"/);
+
+    if (val) {
+      return consume(
+        'function-call-arg-value',
+        val[1],
+        val[0].length,
+        'function-call',
       );
-
-    if (lineSrc.startsWith('\\"')) {
-      return eat('"', 2);
     }
 
-    if (lineSrc.startsWith('"')) {
-      return skip(1, 'function-call-args');
-    }
-
-    const escapedQuoteIndex = lineSrc.indexOf('\\"');
-    if (escapedQuoteIndex !== -1) {
-      return eat(lineSrc.slice(0, escapedQuoteIndex));
-    }
-
-    const quoteIndex = lineSrc.indexOf('"');
-    if (quoteIndex !== -1) {
-      return eat(lineSrc.slice(0, quoteIndex));
-    }
-
-    return eat(lineSrc);
+    throw new Error('could not lex function arg value');
   }
 
   if (columnNumber === 0) {
-    const init = lineSrc.match(/^(\s*[-*>]\s)[^s]/);
-    if (init && init.length % 2 === 0) {
-      return consume('list-item-start', init[1]);
+    const mbListInit = lineSrc.match(/^(\s*-\s)[^\s]/);
+    if (mbListInit && mbListInit.length % 2 === 0) {
+      return consume('list-item-start', mbListInit[1]);
+    }
+
+    const leadingWhitespace = lineSrc.match(/^\s*/);
+    if (leadingWhitespace[0].length > 0) {
+      return skip(leadingWhitespace[0].length);
+    }
+
+    if (leadingWhitespace[0].length === lineSrc.length) {
+      return consume('empty-line', lineSrc);
     }
   }
 
@@ -222,7 +213,7 @@ const lexLine = (
   }
 
   if (lineSrc.startsWith('@@')) {
-    const m = lineSrc.match(/^@@(\w+)\s*(\()?/);
+    const m = lineSrc.match(/^@@\s*(\w+)\s*(\()?/);
     if (m) {
       const fnValue = m[1];
       const hasArguments = m[2] === '(';
@@ -230,7 +221,7 @@ const lexLine = (
         'function-call',
         fnValue,
         m[0].length,
-        hasArguments ? 'function-call-args' : state,
+        hasArguments ? 'function-call' : state,
       );
     }
   }
