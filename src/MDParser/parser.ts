@@ -31,9 +31,14 @@ export type MarkdownNode = {
   end: Pos
 }
 
-type Parser = (tokens: LexerToken[]) => [
+type ParserState = {
+  idiomatic: boolean
+}
+
+type Parser = (tokens: LexerToken[], state: ParserState) => [
   MarkdownNode[],
-  LexerToken[]
+  LexerToken[],
+  ParserState,
 ];
 
 type ParserTransformer = (...p: Parser[]) => Parser
@@ -70,49 +75,59 @@ const skip = (
 };
 
 const parseMany: ParserTransformer = (parser: Parser) =>
-  (tokens: LexerToken[]) => {
-    const [nodes, remainingTokens] = parser(tokens);
-    if (remainingTokens.length === 0 || nodes.length === 0) {
-      return [nodes, remainingTokens];
+  (tokens, state) => {
+    const [nodes, remainingTokens, newState] = parser(tokens, state);
+    if (
+      (remainingTokens.length === 0 || nodes.length === 0)
+      && (newState === state)
+    ) {
+      return [nodes, remainingTokens, newState];
     }
-    const then = parseMany(parser)(remainingTokens);
-    return [nodes.concat(then[0]), then[1]];
+    const then = parseMany(parser)(remainingTokens, newState);
+    return [nodes.concat(then[0]), then[1], then[2]];
   };
 
 const parseSequence: ParserTransformer = (a: Parser, b: Parser) =>
-  (tokens: LexerToken[]) => {
-    const [aNodes, nextTokens] = a(tokens);
-    if (aNodes.length === 0) {
-      return [[], tokens];
+  (tokens, state) => {
+    const [aNodes, nextTokens, newState] = a(tokens, state);
+    if (aNodes.length === 0 && newState === state) {
+      return [[], tokens, state];
     }
-    const [bNodes, restTokens] = b(nextTokens);
-    if (bNodes.length === 0) {
-      return [[], tokens];
+    const [bNodes, restTokens, finalState] = b(nextTokens, newState);
+    if (bNodes.length === 0 && finalState === newState) {
+      return [[], tokens, state];
     }
-    return [aNodes.concat(bNodes), restTokens];
+    return [aNodes.concat(bNodes), restTokens, finalState];
   };
 
 const parseEither: ParserTransformer = (...parsers: Parser[]) =>
-  (tokens: LexerToken[]) => {
+  (tokens, state) => {
     for (const parser of parsers) {
-      const [nodes, remainingTokens] = parser(tokens);
-      if (nodes.length > 0) {
-        return [nodes, remainingTokens];
+      const [
+        nodes,
+        remainingTokens,
+        newState,
+      ] = parser(tokens, state);
+
+      if (nodes.length > 0 || newState !== state) {
+        return [nodes, remainingTokens, newState];
       }
     }
-    return [[], tokens];
+    return [[], tokens, state];
   };
 
-const parseParagraph: Parser = (tokens) => {
+const parseParagraph: Parser = (tokens, state) => {
   const [
     children,
     nextTokens,
+    newState,
   ] = parseMany(parseText)(
     skip(tokens, 'empty-line'),
+    state,
   );
 
   if (children.length === 0) {
-    return [[], tokens];
+    return [[], tokens, state];
   }
 
   const next = skip(nextTokens, 'empty-line');
@@ -121,38 +136,38 @@ const parseParagraph: Parser = (tokens) => {
     next.length > 0
     && next[0].type.startsWith('heading-')
   ) {
-    return [[], tokens];
+    return [[], tokens, state];
   }
 
   return [[{
     type: 'paragraph',
     children,
-    start: children[0].start,
+    start: tokens[0].start,
     end: children[children.length - 1].end,
-  }], next];
+  }], next, newState];
 };
 
-const parseList: Parser = ([token, ...tokens]) => {
-  if (token.type !== 'list-item-start') {
-    return [[], tokens];
-  }
+// eslint-disable-next-line arrow-body-style
+const parseList: Parser = (tokens, state) => {
+  return [[], tokens, state];
 };
 
-const parseBlockQuote: Parser = ([token, ...tokens]) => {
+const parseBlockQuote: Parser = ([token, ...tokens], state) => {
   if (token.type !== 'blockquote-start') {
-    return [[], tokens];
+    return [[], tokens, state];
   }
 
   const [
     children,
     [end, ...rest],
-  ] = parseMany(parseLiteral)(tokens);
+    newState,
+  ] = parseMany(parseLiteral)(tokens, state);
 
   if (
     children.length === 0
     || end.type !== 'blockquote-end'
   ) {
-    return [[], tokens];
+    return [[], tokens, state];
   }
 
   return [[{
@@ -160,22 +175,23 @@ const parseBlockQuote: Parser = ([token, ...tokens]) => {
     children,
     start: token.start,
     end: end.end,
-  }], rest];
+  }], rest, newState];
 };
 
 const parseHeading: (level: number) => Parser = (level) =>
-  (tokens) => {
+  (tokens, state) => {
     const [
       litNodes,
       [token, ...nextTokens],
-    ] = parseText(tokens);
+      newState,
+    ] = parseText(tokens, state);
 
     if (
       litNodes.length === 0
       || !token
       || token.type !== `heading-${level}`
     ) {
-      return [[], tokens];
+      return [[], tokens, state];
     }
 
     return [[{
@@ -186,36 +202,50 @@ const parseHeading: (level: number) => Parser = (level) =>
       children: litNodes,
       start: litNodes[0].start,
       end: litNodes[litNodes.length - 1].end,
-    }], nextTokens];
+    }], nextTokens, newState];
   };
 
-const parseLiteral: Parser = ([token, ...tokens]) => {
+const parseLiteral: Parser = ([token, ...tokens], state) => {
   if (token.type === 'literal') {
     return [[{
       type: 'literal',
       value: token.value,
       start: token.start,
       end: token.end,
-    }], tokens];
+    }], tokens, state];
   }
 
-  return [[], [token, ...tokens]];
+  return [[], [token, ...tokens], state];
 };
 
-const parseIdiomatic: Parser = (tokens) => {
+const parseIdiomatic: Parser = (tokens, state) => {
   if (
     tokens.length > 0
     && tokens[0].type === 'idiomatic'
   ) {
+    if (state.idiomatic) {
+      return [[], tokens.slice(1), {
+        ...state,
+        idiomatic: false,
+      }];
+    }
+
+    const [children, nextTokens, nextState] = parseText(
+      tokens.slice(1), {
+        ...state,
+        idiomatic: true,
+      },
+    );
+
     return [[{
       type: 'idiomatic',
-      value: tokens[0].value,
+      children,
       start: tokens[0].start,
-      end: tokens[0].end,
-    }], tokens.slice(1)];
+      end: children[children.length - 1].end,
+    }], nextTokens, nextState];
   }
 
-  return [[], tokens];
+  return [[], tokens, state];
 };
 
 const parseText: Parser = parseEither(
@@ -226,7 +256,7 @@ const parseText: Parser = parseEither(
 const parseSection = (
   level: number,
 ): Parser =>
-  (tokens: LexerToken[]) => {
+  (tokens: LexerToken[], state) => {
     const parseContents = parseMany(
       parseEither(
         parseSection(level + 1),
@@ -243,10 +273,14 @@ const parseSection = (
         parseContents,
       );
 
-    const [children, nextTokens] = sectionParser(tokens);
+    const [
+      children,
+      nextTokens,
+      nextState,
+    ] = sectionParser(tokens, state);
 
     if (children.length === 0) {
-      return [[], tokens];
+      return [[], tokens, state];
     }
 
     return [[{
@@ -257,7 +291,7 @@ const parseSection = (
       children,
       start: children[0].start,
       end: children[children.length - 1].end,
-    }], nextTokens];
+    }], nextTokens, nextState];
   };
 
 const parseDocument = (tokens: LexerToken[]): MarkdownNode => {
@@ -268,7 +302,11 @@ const parseDocument = (tokens: LexerToken[]): MarkdownNode => {
     },
   );
 
-  const [children, nextTokens] = parseSection(0)(tokens);
+  const [children, nextTokens] = parseSection(0)(
+    tokens, {
+      idiomatic: false,
+    },
+  );
 
   if (children.length === 0) {
     throw new Error('empty document');
