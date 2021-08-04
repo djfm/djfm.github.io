@@ -9,6 +9,7 @@
   "scripts": {
     "tmp": "yarn ts-node src/MDParser/tmp.ts",
     "test": "yarn jest",
+    "tdd": "yarn jest --watch",
     "base-start": "echo \"STARTING LOCAL SERVER IN <$NODE_ENV>\" &&ts-node-dev src/server/server.ts",
     "pre-build": "echo 'GENERATING LIGHTER VERSION OF <highlight.js> LIBRARY' && node src/highlight.js/generateIndex.js",
     "base-build": "yarn buildWorker && echo \"BUILDING FOR <$NODE_ENV>\" && yarn pre-build && echo 'COMPILING, TRANSPILING, OPTIMIZING, AND BUNDLING THE ASSETS' && yarn webpack && yarn render",
@@ -36,6 +37,7 @@
     "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
     "@types/express": "^4.17.12",
     "@types/highlight.js": "^10.1.0",
+    "@types/jest": "^26.0.24",
     "@types/mini-css-extract-plugin": "^2.0.0",
     "@types/node": "^15.6.1",
     "@types/react": "^17.0.13",
