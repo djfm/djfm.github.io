@@ -33,6 +33,7 @@ export type MarkdownNode = {
 
 type ParserState = {
   idiomatic: boolean
+  bold: boolean
 }
 
 type Parser = (tokens: LexerToken[], state: ParserState) => [
@@ -46,6 +47,16 @@ type ParserTransformer = (...p: Parser[]) => Parser
 type TokenPredicate =
   LexerTokenType
   | ((token: LexerToken) => boolean)
+
+const fail = (token: LexerToken, ...msgParts: string[]): never => {
+  const msg = msgParts.concat(
+    'at', `"${token.value}"`,
+    `${token.start.line}:${token.start.column}`,
+    '-',
+    `${token.end.line}:${token.end.column}`,
+  ).join(' ');
+  throw new Error(msg);
+};
 
 const skip = (
   tokens: LexerToken[],
@@ -121,7 +132,7 @@ const parseParagraph: Parser = (tokens, state) => {
     children,
     nextTokens,
     newState,
-  ] = parseMany(parseText)(
+  ] = parseText(
     skip(tokens, 'empty-line'),
     state,
   );
@@ -153,7 +164,7 @@ const parseList: Parser = (tokens, state) => {
 };
 
 const parseBlockQuote: Parser = ([token, ...tokens], state) => {
-  if (token.type !== 'blockquote-start') {
+  if (!token || token.type !== 'blockquote-start') {
     return [[], tokens, state];
   }
 
@@ -206,7 +217,7 @@ const parseHeading: (level: number) => Parser = (level) =>
   };
 
 const parseLiteral: Parser = ([token, ...tokens], state) => {
-  if (token.type === 'literal') {
+  if (token && token.type === 'literal') {
     return [[{
       type: 'literal',
       value: token.value,
@@ -230,7 +241,11 @@ const parseIdiomatic: Parser = (tokens, state) => {
       }];
     }
 
-    const [children, nextTokens, nextState] = parseText(
+    const [
+      [child, ...children],
+      nextTokens,
+      nextState,
+    ] = parseText(
       tokens.slice(1), {
         ...state,
         idiomatic: true,
@@ -239,6 +254,36 @@ const parseIdiomatic: Parser = (tokens, state) => {
 
     return [[{
       type: 'idiomatic',
+      children: [child],
+      start: tokens[0].start,
+      end: child.end,
+    }, ...children], nextTokens, nextState];
+  }
+
+  return [[], tokens, state];
+};
+
+const parseBold: Parser = (tokens, state) => {
+  if (
+    tokens.length > 0
+    && tokens[0].type === 'bold'
+  ) {
+    if (state.bold) {
+      return [[], tokens.slice(1), {
+        ...state,
+        bold: false,
+      }];
+    }
+
+    const [children, nextTokens, nextState] = parseText(
+      tokens.slice(1), {
+        ...state,
+        bold: true,
+      },
+    );
+
+    return [[{
+      type: 'bold',
       children,
       start: tokens[0].start,
       end: children[children.length - 1].end,
@@ -248,10 +293,11 @@ const parseIdiomatic: Parser = (tokens, state) => {
   return [[], tokens, state];
 };
 
-const parseText: Parser = parseEither(
+const parseText: Parser = parseMany(parseEither(
   parseLiteral,
   parseIdiomatic,
-);
+  parseBold,
+));
 
 const parseSection = (
   level: number,
@@ -305,6 +351,7 @@ const parseDocument = (tokens: LexerToken[]): MarkdownNode => {
   const [children, nextTokens] = parseSection(0)(
     tokens, {
       idiomatic: false,
+      bold: false,
     },
   );
 
@@ -322,7 +369,7 @@ const parseDocument = (tokens: LexerToken[]): MarkdownNode => {
         colors: true,
       },
     );
-    throw new Error('incomplete parse of document');
+    fail(nextTokens[0], 'incomplete parse of document');
   }
 
   return {

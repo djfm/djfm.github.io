@@ -77,4 +77,73 @@ describe('the Markdown parser', () => {
       ],
     });
   });
+
+  it('parses strong content', async () => {
+    const doc = await parser('**hello world**', '');
+    expect(doc).toMatchObject({
+      type: 'document',
+      children: [
+        {
+          type: 'section',
+          children: [
+            {
+              type: 'paragraph',
+              children: [
+                {
+                  type: 'bold',
+                  children: [
+                    {
+                      type: 'literal',
+                      value: 'hello world',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+  });
+
+  it('parses nested strong and idiomatic content', async () => {
+    const doc = await parser('**hello *my* world**', '');
+    expect(doc).toMatchObject({
+      type: 'document',
+      children: [
+        {
+          type: 'section',
+          children: [
+            {
+              type: 'paragraph',
+              children: [
+                {
+                  type: 'bold',
+                  children: [
+                    {
+                      type: 'literal',
+                      value: 'hello ',
+                    },
+                    {
+                      type: 'idiomatic',
+                      children: [
+                        {
+                          type: 'literal',
+                          value: 'my',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'literal',
+                      value: ' world',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+  });
 });
