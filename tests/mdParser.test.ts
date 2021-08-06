@@ -79,7 +79,6 @@ describe('the Markdown parser', () => {
   });
 
   it('parses strong content', async () => {
-    debugger;
     const doc = await parser('**hello world**', '');
     expect(doc).toMatchObject({
       type: 'document',
