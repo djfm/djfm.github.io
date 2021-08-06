@@ -79,6 +79,7 @@ describe('the Markdown parser', () => {
   });
 
   it('parses strong content', async () => {
+    debugger;
     const doc = await parser('**hello world**', '');
     expect(doc).toMatchObject({
       type: 'document',
@@ -106,7 +107,7 @@ describe('the Markdown parser', () => {
     });
   });
 
-  it('parses nested strong and idiomatic content', async () => {
+  it('parses nested idiomatic within strong content', async () => {
     const doc = await parser('**hello *my* world**', '');
     expect(doc).toMatchObject({
       type: 'document',
@@ -126,6 +127,47 @@ describe('the Markdown parser', () => {
                     },
                     {
                       type: 'idiomatic',
+                      children: [
+                        {
+                          type: 'literal',
+                          value: 'my',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'literal',
+                      value: ' world',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+  });
+
+  it('parses nested strong content within idiomatic content', async () => {
+    const doc = await parser('*hello **my** world*', '');
+    expect(doc).toMatchObject({
+      type: 'document',
+      children: [
+        {
+          type: 'section',
+          children: [
+            {
+              type: 'paragraph',
+              children: [
+                {
+                  type: 'idiomatic',
+                  children: [
+                    {
+                      type: 'literal',
+                      value: 'hello ',
+                    },
+                    {
+                      type: 'bold',
                       children: [
                         {
                           type: 'literal',
