@@ -20,6 +20,7 @@ type MarkdownNodeType =
  | 'section'
  | 'document'
  | 'list'
+ | 'list-item'
  | typeof openerClosers[number]
 
 export type MarkdownNode = {
@@ -202,8 +203,67 @@ const parseParagraph: Parser = (tokens, state) => {
   }], next, newState];
 };
 
-// eslint-disable-next-line arrow-body-style
+const parseListItem: Parser = (tokens, state) => {
+  if (tokens.length === 0) {
+    return [[], tokens, state];
+  }
+
+  if (tokens[0].type === 'list-item-start') {
+    const indent = tokens[0].start.column - tokens[0].value.length;
+
+    const [itemContents, next] = splitUntil(
+      tokens.slice(1),
+      (token) => (
+        token.type === 'list-item-start'
+        || token.type === 'blockquote-start'
+        || token.start.column < indent
+      ),
+    );
+
+    const [children, rest] = parseMany(
+      parseEither(
+        parseParagraph,
+        parseList,
+      ),
+    )(itemContents, state);
+
+    if (rest.length > 0) {
+      fail(rest[0], 'unexpected token');
+    }
+
+    const listItem: MarkdownNode = {
+      type: 'list-item',
+      props: {
+        indent,
+      },
+      children,
+      start: tokens[0].start,
+      end: children[children.length - 1].end,
+    };
+
+    return [[listItem], next, state];
+  }
+
+  return [[], tokens, state];
+};
+
 const parseList: Parser = (tokens, state) => {
+  const [children, afterList] = parseMany(
+    parseListItem,
+  )(tokens, state);
+
+  if (children.length > 0) {
+    return [[{
+      type: 'list',
+      children,
+      start: tokens[0].start,
+      end: children[children.length - 1].end,
+    }],
+    afterList,
+    state,
+    ];
+  }
+
   return [[], tokens, state];
 };
 
