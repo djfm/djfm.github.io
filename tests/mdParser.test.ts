@@ -503,4 +503,66 @@ describe('the Markdown parser', () => {
       ],
     });
   });
+
+  it('parses a list with multi-paragraph items', async () => {
+    const doc = await parser([
+      '- one',
+      '',
+      '  still-one',
+      ' - two',
+    ].join('\n'), '');
+
+    expect(doc).toMatchObject({
+      type: 'document',
+      children: [
+        {
+          type: 'section',
+          children: [
+            {
+              type: 'list',
+              children: [
+                {
+                  type: 'list-item',
+                  children: [
+                    {
+                      type: 'paragraph',
+                      children: [
+                        {
+                          type: 'literal',
+                          value: 'one',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'paragraph',
+                      children: [
+                        {
+                          type: 'literal',
+                          value: 'still-one',
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  type: 'list-item',
+                  children: [
+                    {
+                      type: 'paragraph',
+                      children: [
+                        {
+                          type: 'literal',
+                          value: 'two',
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+  });
 });
