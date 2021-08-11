@@ -78,6 +78,240 @@ describe('the Markdown parser', () => {
     });
   });
 
+  it('parses complex sections', async () => {
+    const doc = await parser([
+      'Introduction',
+      '============',
+      '',
+      'This is an introduction.',
+      '',
+      'This is Subsection A',
+      '--------------------',
+      '',
+      'subsection A text',
+      '',
+      'This is Subsection B',
+      '--------------------',
+      'subsection B text',
+      '',
+      'this is another paragraph in B',
+      '',
+      'Part 1',
+      '=======',
+      '',
+      'intro 1',
+      '',
+      'This is subsection 1',
+      '-------------------',
+      '',
+      'subsection 1 text',
+      '',
+      'This is subsection 2',
+      '-------------------',
+      '',
+      'subsection 2 text',
+    ].join('\n'), '');
+
+    console.dir(doc, { depth: null, colors: true });
+
+    expect(doc).toMatchObject({
+      type: 'document',
+      children: [
+        {
+          type: 'section',
+          props: {
+            level: 0,
+          },
+          children: [
+            {
+              type: 'section',
+              props: {
+                level: 1,
+              },
+              children: [
+                {
+                  type: 'heading',
+                  props: {
+                    level: 1,
+                  },
+                  children: [
+                    {
+                      type: 'literal',
+                      value: 'Introduction',
+                    },
+                  ],
+                },
+                {
+                  type: 'paragraph',
+                  children: [
+                    {
+                      type: 'literal',
+                      value: 'This is an introduction.',
+                    },
+                  ],
+                },
+                {
+                  type: 'section',
+                  props: {
+                    level: 2,
+                  },
+                  children: [
+                    {
+                      type: 'heading',
+                      props: {
+                        level: 2,
+                      },
+                      children: [
+                        {
+                          type: 'literal',
+                          value: 'This is Subsection A',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'paragraph',
+                      children: [
+                        {
+                          type: 'literal',
+                          value: 'subsection A text',
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  type: 'section',
+                  props: {
+                    level: 2,
+                  },
+                  children: [
+                    {
+                      type: 'heading',
+                      props: {
+                        level: 2,
+                      },
+                      children: [
+                        {
+                          type: 'literal',
+                          value: 'This is Subsection B',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'paragraph',
+                      children: [
+                        {
+                          type: 'literal',
+                          value: 'subsection B text',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'paragraph',
+                      children: [
+                        {
+                          type: 'literal',
+                          value: 'this is another paragraph in B',
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: 'section',
+              props: {
+                level: 1,
+              },
+              children: [
+                {
+                  type: 'heading',
+                  props: {
+                    level: 1,
+                  },
+                  children: [
+                    {
+                      type: 'literal',
+                      value: 'Part 1',
+                    },
+                  ],
+                },
+                {
+                  type: 'paragraph',
+                  children: [
+                    {
+                      type: 'literal',
+                      value: 'intro 1',
+                    },
+                  ],
+                },
+                {
+                  type: 'section',
+                  props: {
+                    level: 2,
+                  },
+                  children: [
+                    {
+                      type: 'heading',
+                      props: {
+                        level: 2,
+                      },
+                      children: [
+                        {
+                          type: 'literal',
+                          value: 'This is subsection 1',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'paragraph',
+                      children: [
+                        {
+                          type: 'literal',
+                          value: 'subsection 1 text',
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  type: 'section',
+                  props: {
+                    level: 2,
+                  },
+                  children: [
+                    {
+                      type: 'heading',
+                      props: {
+                        level: 2,
+                      },
+                      children: [
+                        {
+                          type: 'literal',
+                          value: 'This is subsection 2',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'paragraph',
+                      children: [
+                        {
+                          type: 'literal',
+                          value: 'subsection 2 text',
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+  });
+
   it('parses strong content', async () => {
     const doc = await parser('**hello world**', '');
     expect(doc).toMatchObject({
