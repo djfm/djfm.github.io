@@ -112,8 +112,6 @@ describe('the Markdown parser', () => {
       'subsection 2 text',
     ].join('\n'), '');
 
-    console.dir(doc, { depth: null, colors: true });
-
     expect(doc).toMatchObject({
       type: 'document',
       children: [
