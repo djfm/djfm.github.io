@@ -206,9 +206,18 @@ const lexLine = (
   }
 
   if (lineSrc.startsWith('`')) {
+    const endQuote = lineSrc.indexOf('`', 1);
+    if (endQuote === -1) {
+      return consume(
+        'literal',
+        '`',
+      );
+    }
+    const text = lineSrc.slice(1, endQuote);
     return consume(
       'quote',
-      '`',
+      text,
+      endQuote + 1,
     );
   }
 

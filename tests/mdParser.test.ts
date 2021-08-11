@@ -187,4 +187,27 @@ describe('the Markdown parser', () => {
       ],
     });
   });
+
+  it('parses quoted text', async () => {
+    const doc = await parser('`hi *world*`', '');
+    expect(doc).toMatchObject({
+      type: 'document',
+      children: [
+        {
+          type: 'section',
+          children: [
+            {
+              type: 'paragraph',
+              children: [
+                {
+                  type: 'quote',
+                  value: 'hi *world*',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+  });
 });

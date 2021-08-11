@@ -327,9 +327,23 @@ const parseIdiomaticOrBold: Parser = (
   return [[], [], state];
 };
 
+const parseQuote: Parser = (tokens, state) => {
+  if (tokens.length === 0 || tokens[0].type !== 'quote') {
+    return [[], tokens, state];
+  }
+
+  return [[{
+    type: 'quote',
+    value: tokens[0].value,
+    start: tokens[0].start,
+    end: tokens[0].end,
+  }], tokens.slice(1), state];
+};
+
 const parseText: Parser = parseEither(
   parseIdiomaticOrBold,
   parseLiteral,
+  parseQuote,
 );
 
 const parseSection = (
