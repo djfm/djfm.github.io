@@ -305,6 +305,7 @@ const parseBlockQuote: Parser = ([token, ...tokens]) => {
 
   if (
     children.length === 0
+    || !end
     || end.type !== 'blockquote-end'
   ) {
     return [[], tokens];
