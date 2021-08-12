@@ -763,4 +763,80 @@ describe('the Markdown parser', () => {
       ],
     });
   });
+
+  it('parses a blockquote', async () => {
+    const doc = await parser('```hello\nabc\ndef\n```', '');
+    expect(doc).toMatchObject({
+      type: 'document',
+      children: [
+        {
+          type: 'section',
+          children: [
+            {
+              type: 'blockquote',
+              props: {
+                syntax: 'hello',
+              },
+              children: [
+                {
+                  type: 'literal',
+                  value: 'abc',
+                },
+                {
+                  type: 'literal',
+                  value: 'def',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+  });
+
+  it('parses a blockquote followed by a paragraph', async () => {
+    const doc = await parser([
+      '```js',
+      'const x = 4;',
+      'console.log(x);',
+      '```',
+      '',
+      'hello world',
+    ].join('\n'), '');
+    expect(doc).toMatchObject({
+      type: 'document',
+      children: [
+        {
+          type: 'section',
+          children: [
+            {
+              type: 'blockquote',
+              props: {
+                syntax: 'js',
+              },
+              children: [
+                {
+                  type: 'literal',
+                  value: 'const x = 4;',
+                },
+                {
+                  type: 'literal',
+                  value: 'console.log(x);',
+                },
+              ],
+            },
+            {
+              type: 'paragraph',
+              children: [
+                {
+                  type: 'literal',
+                  value: 'hello world',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+  });
 });
