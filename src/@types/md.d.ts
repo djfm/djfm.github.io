@@ -1,17 +1,17 @@
 type ParserNodeType =
-  'document'
-  | 'section'
-  | 'heading-1'
-  | 'heading-2'
-  | 'literal'
-  | 'paragraph'
-  | 'bold'
-  | 'idiomatic'
+  'literal'
   | 'blockquote'
+  | 'heading'
+  | 'function-call'
+  | 'paragraph'
+  | 'section'
+  | 'document'
   | 'list'
   | 'list-item'
-  | 'function-call'
-  | 'function-call-arg'
+  | 'whitespace'
+  | 'quote'
+  | 'bold'
+  | 'idiomatic'
 
 type ParserNode = {
   type: ParserNodeType
