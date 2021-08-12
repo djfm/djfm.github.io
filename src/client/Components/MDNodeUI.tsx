@@ -139,13 +139,18 @@ export const MDNodeUI: React.FC<WithNode> = ({
     return <MDBlockquoteUI node={node} />;
   }
 
-  const body = node.type;
+  if (node.type === 'function-call') {
+    if (node.value === 'META') {
+      // ignore this
+      return null;
+    }
+  }
 
-  return (
-    <>
-      Unsupported node type &quot;{body}&quot;
-    </>
-  );
+  // eslint-disable-next-line no-console
+  console.error(`Unsupported node type: ${node.type}.`);
+  // eslint-disable-next-line no-console
+  console.dir(node, { depth: null, colors: true });
+  return null;
 };
 
 export default MDNodeUI;
