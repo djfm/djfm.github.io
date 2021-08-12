@@ -26,6 +26,70 @@ describe('the Markdown parser', () => {
     });
   });
 
+  it([
+    'merges consecutive lines into a single',
+    'paragraph with appropriate whitespace',
+  ].join(' '), async () => {
+    const doc = await parser('hello\n  beloved \nworld\n', '');
+    expect(doc).toMatchObject({
+      type: 'document',
+      children: [
+        {
+          type: 'section',
+          children: [
+            {
+              type: 'paragraph',
+              children: [
+                {
+                  type: 'literal',
+                  value: 'hello beloved world',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+  });
+
+  it(
+    'does not mess up with formatting on single line', async () => {
+      const doc = await parser('hello *dearest* world', '');
+      expect(doc).toMatchObject({
+        type: 'document',
+        children: [
+          {
+            type: 'section',
+            children: [
+              {
+                type: 'paragraph',
+                children: [
+                  {
+                    type: 'literal',
+                    value: 'hello ',
+                  },
+                  {
+                    type: 'idiomatic',
+                    children: [
+                      {
+                        type: 'literal',
+                        value: 'dearest',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'literal',
+                    value: ' world',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+    },
+  );
+
   it('parses a section followed by a paragraph', async () => {
     const doc = await parser([
       'Introduction',
@@ -612,11 +676,7 @@ describe('the Markdown parser', () => {
                               children: [
                                 {
                                   type: 'literal',
-                                  value: 'nested one',
-                                },
-                                {
-                                  type: 'literal',
-                                  value: 'still in one',
+                                  value: 'nested one still in one',
                                 },
                               ],
                             },

@@ -21,6 +21,7 @@ type MarkdownNodeType =
  | 'document'
  | 'list'
  | 'list-item'
+ | 'whitespace'
  | typeof openerClosers[number]
 
 export type MarkdownNode = {
@@ -172,11 +173,76 @@ const parseEither: ParserTransformer = (...parsers: Parser[]) => {
   return eitherParser;
 };
 
+const normalizeWhitespace: ParserTransformer = (parser: Parser) => {
+  const whitespaceRestorer: Parser = (tokens) => {
+    const [nodes, remainingTokens] = parser(tokens);
+
+    const updatedNodes = nodes.reduce(
+      (nodeList: MarkdownNode[], nextNode) => {
+        if (nodeList.length === 0) {
+          return [nextNode];
+        }
+
+        const prevNode = nodeList[nodeList.length - 1];
+
+        // if there is no line difference between the nodes,
+        // whitespace is not altered
+        if (nextNode.start.line - prevNode.end.line > 1) {
+          return nodeList.concat(nextNode);
+        }
+
+        // if we can act on the text of the previousNode, do so
+        if (prevNode.type === 'literal') {
+          const prevNodeValue = `${prevNode.value.trim()} `;
+
+          if (nextNode.type !== 'literal') {
+            return nodeList.slice(0, -1).concat({
+              ...prevNode,
+              value: prevNodeValue,
+            }, nextNode);
+          }
+
+          // so now both prev and next are literal
+          const value = `${prevNodeValue}${nextNode.value.trim()}`;
+
+          return nodeList.slice(0, -1).concat({
+            ...nextNode,
+            value,
+            start: prevNode.start,
+            end: nextNode.end,
+          });
+        }
+
+        if (nextNode.type === 'literal') {
+          return nodeList.concat({
+            ...nextNode,
+            value: ` ${nextNode.value.trim()}`,
+            start: prevNode.end,
+            end: nextNode.end,
+          });
+        }
+
+        return nodeList.concat({
+          type: 'whitespace',
+          value: ' ',
+          start: prevNode.end,
+          end: nextNode.start,
+        }, nextNode);
+      },
+      [],
+    );
+
+    return [updatedNodes, remainingTokens];
+  };
+
+  return whitespaceRestorer;
+};
+
 const parseParagraph: Parser = (tokens) => {
   const [
     children,
     nextTokens,
-  ] = parseMany(parseText)(
+  ] = normalizeWhitespace(parseMany(parseText))(
     skip(tokens, 'empty-line'),
   );
 
@@ -324,7 +390,7 @@ const parseHeading: (level: number) => Parser = (level) => {
     const [
       litNodes,
       [token, ...nextTokens],
-    ] = parseText(tokens);
+    ] = normalizeWhitespace(parseMany(parseText))(tokens);
 
     if (
       litNodes.length === 0
