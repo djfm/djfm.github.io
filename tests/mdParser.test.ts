@@ -509,7 +509,7 @@ describe('the Markdown parser', () => {
       '- one',
       '',
       '  still-one',
-      ' - two',
+      '- two',
     ].join('\n'), '');
 
     expect(doc).toMatchObject({
@@ -553,6 +553,92 @@ describe('the Markdown parser', () => {
                         {
                           type: 'literal',
                           value: 'two',
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+  });
+
+  it('parses a nested list', async () => {
+    const doc = await parser([
+      '- top level one',
+      '  - nested one',
+      '  - nested two',
+      '- top level two',
+    ].join('\n'), '');
+
+    expect(doc).toMatchObject({
+      type: 'document',
+      children: [
+        {
+          type: 'section',
+          children: [
+            {
+              type: 'list',
+              children: [
+                {
+                  type: 'list-item',
+                  children: [
+                    {
+                      type: 'paragraph',
+                      children: [
+                        {
+                          type: 'literal',
+                          value: 'top level one',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'list',
+                      children: [
+                        {
+                          type: 'list-item',
+                          children: [
+                            {
+                              type: 'paragraph',
+                              children: [
+                                {
+                                  type: 'literal',
+                                  value: 'nested one',
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          type: 'list-item',
+                          children: [
+                            {
+                              type: 'paragraph',
+                              children: [
+                                {
+                                  type: 'literal',
+                                  value: 'nested two',
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  type: 'list-item',
+                  children: [
+                    {
+                      type: 'paragraph',
+                      children: [
+                        {
+                          type: 'literal',
+                          value: 'top level two',
                         },
                       ],
                     },

@@ -50,7 +50,7 @@ type TokenPredicate =
   LexerTokenType
   | ((token: LexerToken) => boolean)
 
-const fail = (token: LexerToken | undefined, ...msgParts: string[]): never => {
+const fail = (token: LexerToken | MarkdownNode | undefined, ...msgParts: string[]): never => {
   const msg = token
     ? msgParts.concat(
       'at', `"${token.value}"`,
@@ -103,16 +103,19 @@ const splitUntil = (
   return [[tokens[0], ...splat], rest];
 };
 
-const parseMany: ParserTransformer = (parser: Parser) => {
+const parseMany: ParserTransformer = (
+  parser: Parser,
+) => {
   const manyParser: Parser = (
     tokens,
     state,
   ) => {
+    if (tokens.length === 0) {
+      return [[], [], state];
+    }
     const [nodes, remainingTokens, newState] = parser(tokens, state);
-    if (
-      (remainingTokens.length === 0 || nodes.length === 0)
-      && (newState === state)
-    ) {
+    if ((remainingTokens.length === 0 || nodes.length === 0)
+          && (newState === state)) {
       return [nodes, remainingTokens, newState];
     }
     const then = parseMany(parser)(remainingTokens, newState);
@@ -203,68 +206,99 @@ const parseParagraph: Parser = (tokens, state) => {
   }], next, newState];
 };
 
-const parseListItem: Parser = (tokens, state) => {
-  if (tokens.length === 0) {
-    return [[], tokens, state];
-  }
+const parseListItem: (level: number) => Parser = (level) => {
+  const getIndent = (token: LexerToken): number => {
+    if (token.type === 'list-item-start') {
+      return (token.value.length - 2) / 2 + 1;
+    }
+    if (token.type === 'empty-line') {
+      return Infinity;
+    }
+    return token.start.column;
+  };
 
-  if (tokens[0].type === 'list-item-start') {
-    const indent = tokens[0].start.column - tokens[0].value.length;
+  const listItemParser: Parser = (tokens, state) => {
+    const noop: ReturnType<Parser> = [[], tokens, state];
 
-    const [itemContents, next] = splitUntil(
-      tokens.slice(1),
-      (token) => (
-        token.type === 'list-item-start'
-        || token.type === 'blockquote-start'
-        || token.start.column < indent
-      ),
-    );
-
-    const [children, rest] = parseMany(
-      parseEither(
-        parseParagraph,
-        parseList,
-      ),
-    )(itemContents, state);
-
-    if (rest.length > 0) {
-      fail(rest[0], 'unexpected token');
+    if (tokens.length === 0) {
+      return noop;
     }
 
-    const listItem: MarkdownNode = {
-      type: 'list-item',
-      props: {
-        indent,
-      },
-      children,
-      start: tokens[0].start,
-      end: children[children.length - 1].end,
-    };
+    if (tokens[0].type === 'list-item-start') {
+      const indent = getIndent(tokens[0]);
 
-    return [[listItem], next, state];
-  }
+      if (indent < level + 1) {
+        return noop;
+      }
 
-  return [[], tokens, state];
+      const [itemContents, next] = splitUntil(
+        tokens.slice(1),
+        (token) => (
+          token.type === 'blockquote-start'
+          || getIndent(token) <= indent
+        ),
+      );
+
+      const [children, rest] = parseMany(
+        parseEither(
+          parseList(level + 1),
+          parseParagraph,
+        ),
+      )(itemContents, state);
+
+      if (rest.length > 0) {
+        fail(rest[0], 'unexpected token');
+      }
+
+      const listItem: MarkdownNode = {
+        type: 'list-item',
+        props: {
+          indent,
+        },
+        children,
+        start: tokens[0].start,
+        end: children[children.length - 1].end,
+      };
+
+      return [[listItem], next, state];
+    }
+
+    return noop;
+  };
+
+  Object.defineProperty(listItemParser, 'name', {
+    value: `listItem(${level})`,
+  });
+
+  return listItemParser;
 };
 
-const parseList: Parser = (tokens, state) => {
-  const [children, afterList] = parseMany(
-    parseListItem,
-  )(tokens, state);
+const parseList: (level: number) => Parser = (level) => {
+  const listParser: Parser = (tokens, state) => {
+    const [children, afterList] = parseMany(
+      parseListItem(level),
+    )(tokens, state);
 
-  if (children.length > 0) {
-    return [[{
-      type: 'list',
-      children,
-      start: tokens[0].start,
-      end: children[children.length - 1].end,
-    }],
-    afterList,
-    state,
-    ];
-  }
+    if (children.length > 0) {
+      return [[{
+        type: 'list',
+        children,
+        start: tokens[0].start,
+        end: children[children.length - 1].end,
+      }],
+      afterList,
+      state,
+      ];
+    }
 
-  return [[], tokens, state];
+    return [[], tokens, state];
+  };
+
+  Object.defineProperty(listParser, 'name', {
+    value: `list(${level})`,
+  });
+
+  return listParser;
 };
 
 const parseBlockQuote: Parser = ([token, ...tokens], state) => {
@@ -417,8 +451,8 @@ const parseSection = (
       parseEither(
         parseSection(level + 1),
         parseParagraph,
-        parseList,
         parseBlockQuote,
+        parseList(0),
       ),
     );
 
