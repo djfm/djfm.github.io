@@ -73,6 +73,29 @@ const MDListItemUI: React.FC<WithNode> = ({
   </>
 );
 
+const MDBlockquoteUI: React.FC<WithNode> = ({
+  node,
+}) => {
+  const contents = node.children.map((child, i) => (
+    <React.Fragment key={child.key}>
+      <MDNodeUI node={child} />
+      {i < node.children.length - 1 && '\n'}
+    </React.Fragment>
+  ));
+
+  if (node.value) {
+    return (
+      <pre>
+        <code>
+          {contents}
+        </code>
+      </pre>
+    );
+  }
+
+  return (<pre>{contents}</pre>);
+};
+
 const MDLiteralUI: React.FC<WithNode> = ({
   node,
 }) => <>{node.value}</>;
@@ -110,6 +133,10 @@ export const MDNodeUI: React.FC<WithNode> = ({
 
   if (node.type === 'list-item') {
     return <MDListItemUI node={node} />;
+  }
+
+  if (node.type === 'blockquote') {
+    return <MDBlockquoteUI node={node} />;
   }
 
   const body = node.type;
