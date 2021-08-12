@@ -1,3 +1,7 @@
+@@META(
+  anchor="lexer"
+)
+
 Construction du *Lexer*
 =======================
 

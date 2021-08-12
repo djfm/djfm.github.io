@@ -1,25 +1,12 @@
+@@META(
+  anchor=""
+  title="Accueil"
+)
+
 Introduction
 ============
 
-@@META(
-  bob/lol
-  anchor=""
-  title="fmdj.fr"
-)
-
 Qu'est-ce que ce site ?
-
-- list level 1 item 1
-  part of list level 1
-
-  *still part of list level 1*
-  - list level 2 item 1
-
-    list level 2 item 1 cont
-
-  - list level 2 item 2
-
-- list level 1 item 2
 
 Avant tout je précise que le site est en construction !
 
@@ -46,9 +33,6 @@ exemplifiée en TypeScript. C'est ma passion du moment.
 Ça fait des années que je programme en *JavaScript*, que ce soit
 du back ou du front, pour le boulot ou en perso, j'adore ce langage.
 
-Test
-----
-
 Mais je ne me suis mis à *TypeScript* que récemment et je découvre encore
 même si je commence à pas si mal me débrouiller.
 
@@ -57,15 +41,10 @@ Et il y aura du *React* aussi ! Ah oui, passionnant ça aussi.
 Sans doute ensuite des choses sur *Linux* et en particulier *Ubuntu*, mon
 OS de prédilection.
 
-Re-Test
--------
-
 ```
 test
 toast
 ```
-
-Sûrement aussi des articles sur les bonnes pratiques de développement...
 
 Le Cahier des charges technique du site
 =======================================
@@ -125,6 +104,3 @@ N'hésitez pas non plus à
 [me contacter](mailto:fm.de.jouvencel@gmail.com)
 pour toute autre raison, comme par exemple si vous voulez
 me payer très cher pour travailler sur un projet très chouette.
-
-@@Img(/tmp/test/png alt="ma couille")
-

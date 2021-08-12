@@ -1,3 +1,8 @@
+@@META(
+  anchor="md-parser-example"
+  title="Exemple de Copilot à l'Oeuvre dans l'Écriture d'un Parser"
+)
+
 Un Cas Pratique : l'Écriture d'un Parser de *Markdown*
 ======================================================
 
@@ -31,7 +36,7 @@ orienté utilisateur et bottom-up.
 
 Alors essayons ça, c'est parti !
 
-@@NAV(
-  sub-pages
-  ./MDParser/Lexer.md
+@@SECTIONS(
+  ./mdParser/lexer.md
+  ./mdParser/unitTests.md
 )

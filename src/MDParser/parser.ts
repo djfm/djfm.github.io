@@ -24,19 +24,21 @@ type MarkdownNodeType =
  | 'whitespace'
  | typeof openerClosers[number]
 
-export type MarkdownNode = {
+export type BaseMarkdownNode = {
   type: MarkdownNodeType
   value?: string
-  children?: MarkdownNode[]
   props?: Record<string, unknown>
-  start: Pos
-  end: Pos
-  state?: ParserState
 }
 
-type ParserState = {
-  idiomatic: boolean
-  bold: boolean
+export type MarkdownNode = BaseMarkdownNode & {
+  children?: MarkdownNode[]
+  start: Pos
+  end: Pos
+}
+
+export type ReactMarkdownNode = BaseMarkdownNode & {
+  children?: ReactMarkdownNode[]
+  key: string,
 }
 
 type Parser = (tokens: LexerToken[]) => [
@@ -193,7 +195,7 @@ const normalizeWhitespace: ParserTransformer = (parser: Parser) => {
 
         // if we can act on the text of the previousNode, do so
         if (prevNode.type === 'literal') {
-          const prevNodeValue = `${prevNode.value.trim()} `;
+          const prevNodeValue = `${prevNode.value.trimEnd()} `;
 
           if (nextNode.type !== 'literal') {
             return nodeList.slice(0, -1).concat({
@@ -203,7 +205,7 @@ const normalizeWhitespace: ParserTransformer = (parser: Parser) => {
           }
 
           // so now both prev and next are literal
-          const value = `${prevNodeValue}${nextNode.value.trim()}`;
+          const value = `${prevNodeValue}${nextNode.value}`;
 
           return nodeList.slice(0, -1).concat({
             ...nextNode,
@@ -216,7 +218,7 @@ const normalizeWhitespace: ParserTransformer = (parser: Parser) => {
         if (nextNode.type === 'literal') {
           return nodeList.concat({
             ...nextNode,
-            value: ` ${nextNode.value.trim()}`,
+            value: ` ${nextNode.value.trimStart()}`,
             start: prevNode.end,
             end: nextNode.end,
           });
@@ -625,6 +627,33 @@ const parseDocument = (tokens: LexerToken[]): MarkdownNode => {
     children,
     start: children[0].start,
     end: children[children.length - 1].end,
+  };
+};
+
+export const cleanUpAndAddKey = (
+  node: MarkdownNode,
+  id: number,
+): ReactMarkdownNode => {
+  const {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    start, end,
+    children,
+    ...cleanedNode
+  } = node;
+
+  if (children) {
+    return {
+      ...cleanedNode,
+      children: children.map(
+        cleanUpAndAddKey,
+      ),
+      key: `${id}`,
+    };
+  }
+
+  return {
+    ...cleanedNode,
+    key: `${id}`,
   };
 };
 

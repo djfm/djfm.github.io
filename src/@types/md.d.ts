@@ -1,4 +1,4 @@
-type ParserNodeType =
+type MDNodeType =
   'literal'
   | 'blockquote'
   | 'heading'
@@ -13,14 +13,25 @@ type ParserNodeType =
   | 'bold'
   | 'idiomatic'
 
-type ParserNode = {
-  type: ParserNodeType
+type MaybeWithMeta = {
+  anchor: string
+  title: string
+}
+
+type MDNode = {
+  type: MDNodeType
   value?: string;
-  children?: ParserNode[]
-  props?: Record<string, string | number>
+  children?: MDNode[]
+  props?: Record<string,
+    string
+    | number
+    | string[]
+    | Record<string, string>
+  > & MaybeWithMeta
+  key: string,
 }
 
 declare module '*.md' {
-  const node: ParserNode;
+  const node: MDNode;
   export default node;
 }

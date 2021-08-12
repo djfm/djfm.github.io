@@ -1,4 +1,7 @@
-import { parser } from '../MDParser/parser';
+import {
+  cleanUpAndAddKey,
+  parser,
+} from '../MDParser/parser';
 
 function mdLoader(
   source: string,
@@ -8,7 +11,18 @@ function mdLoader(
   const callback = this.async();
 
   parser(source, this.context).then(
-    (res) => callback(null, JSON.stringify(res), map, meta),
+    (res) => callback(
+      null,
+      JSON.stringify({
+        ...cleanUpAndAddKey(res, 0),
+        props: {
+          ...res.props,
+          resourcePath: this.resourcePath,
+        },
+      }),
+      map,
+      meta,
+    ),
   ).catch((err) => callback(err, '', map, meta));
 }
 

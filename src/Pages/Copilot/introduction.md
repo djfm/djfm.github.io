@@ -1,6 +1,11 @@
+@@META(
+  anchor="introduction"
+  title="fmdj.fr"
+)
+
 *Copilot* Matérialise très Concrètement
 les Enjeux de l'*IA* à Venir
-========================
+=======================================
 
 Vous en avez sûrement entendu parlé si vous êtes développeur,
 peut-être pas si vous n'évoluez pas
@@ -49,7 +54,7 @@ de contexte.
 En soi, le concept n'est pas nouveau, ce qui est remarquable,
 c'est la qualité d'exécution.
 
-@@Img(
+@@IMG(
   /img/copilot/add.png
   alt="exemple de suggestion par Copilot"
   caption="Voici un exemple de suggestion donnée par Copilot"
