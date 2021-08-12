@@ -38,10 +38,9 @@ type ParserState = {
   bold: boolean
 }
 
-type Parser = (tokens: LexerToken[], state: ParserState) => [
+type Parser = (tokens: LexerToken[]) => [
   MarkdownNode[],
-  LexerToken[],
-  ParserState
+  LexerToken[]
 ]
 
 type ParserTransformer = (...p: Parser[]) => Parser
@@ -108,18 +107,18 @@ const parseMany: ParserTransformer = (
 ) => {
   const manyParser: Parser = (
     tokens,
-    state,
   ) => {
     if (tokens.length === 0) {
-      return [[], [], state];
+      return [[], []];
     }
-    const [nodes, remainingTokens, newState] = parser(tokens, state);
-    if ((remainingTokens.length === 0 || nodes.length === 0)
-          && (newState === state)) {
-      return [nodes, remainingTokens, newState];
+    const [nodes, remainingTokens] = parser(tokens);
+    if (remainingTokens.length === 0 || nodes.length === 0) {
+      return [nodes, remainingTokens];
     }
-    const then = parseMany(parser)(remainingTokens, newState);
-    return [nodes.concat(then[0]), then[1], then[2]];
+    const [nextParsed, nextTokens] = parseMany(parser)(
+      remainingTokens,
+    );
+    return [nodes.concat(nextParsed), nextTokens];
   };
 
   Object.defineProperty(manyParser, 'name', {
@@ -132,17 +131,16 @@ const parseMany: ParserTransformer = (
 const parseSequence: ParserTransformer = (a: Parser, b: Parser) => {
   const sequenceParser: Parser = (
     tokens,
-    state,
   ) => {
-    const [aNodes, nextTokens, newState] = a(tokens, state);
-    if (aNodes.length === 0 && newState === state) {
-      return [[], tokens, state];
+    const [aNodes, nextTokens] = a(tokens);
+    if (aNodes.length === 0) {
+      return [[], tokens];
     }
-    const [bNodes, restTokens, finalState] = b(nextTokens, newState);
-    if (bNodes.length === 0 && finalState === newState) {
-      return [[], tokens, state];
+    const [bNodes, restTokens] = b(nextTokens);
+    if (bNodes.length === 0) {
+      return [[], tokens];
     }
-    return [aNodes.concat(bNodes), restTokens, finalState];
+    return [aNodes.concat(bNodes), restTokens];
   };
 
   Object.defineProperty(sequenceParser, 'name', {
@@ -153,19 +151,18 @@ const parseSequence: ParserTransformer = (a: Parser, b: Parser) => {
 };
 
 const parseEither: ParserTransformer = (...parsers: Parser[]) => {
-  const eitherParser: Parser = (tokens, state) => {
+  const eitherParser: Parser = (tokens) => {
     for (const parser of parsers) {
       const [
         nodes,
         remainingTokens,
-        newState,
-      ] = parser(tokens, state);
+      ] = parser(tokens);
 
-      if (nodes.length > 0 || newState !== state) {
-        return [nodes, remainingTokens, newState];
+      if (nodes.length > 0) {
+        return [nodes, remainingTokens];
       }
     }
-    return [[], tokens, state];
+    return [[], tokens];
   };
 
   Object.defineProperty(eitherParser, 'name', {
@@ -175,27 +172,23 @@ const parseEither: ParserTransformer = (...parsers: Parser[]) => {
   return eitherParser;
 };
 
-const parseParagraph: Parser = (tokens, state) => {
+const parseParagraph: Parser = (tokens) => {
   const [
     children,
     nextTokens,
-    newState,
   ] = parseMany(parseText)(
     skip(tokens, 'empty-line'),
-    state,
   );
 
   if (children.length === 0) {
-    return [[], tokens, state];
+    return [[], tokens];
   }
 
   const next = skip(nextTokens, 'empty-line');
 
-  if (
-    next.length > 0
-    && next[0].type.startsWith('heading-')
-  ) {
-    return [[], tokens, state];
+  if (next.length > 0
+    && next[0].type.startsWith('heading-')) {
+    return [[], tokens];
   }
 
   return [[{
@@ -203,7 +196,7 @@ const parseParagraph: Parser = (tokens, state) => {
     children,
     start: tokens[0].start,
     end: children[children.length - 1].end,
-  }], next, newState];
+  }], next];
 };
 
 const parseListItem: (level: number) => Parser = (level) => {
@@ -217,8 +210,8 @@ const parseListItem: (level: number) => Parser = (level) => {
     return token.start.column;
   };
 
-  const listItemParser: Parser = (tokens, state) => {
-    const noop: ReturnType<Parser> = [[], tokens, state];
+  const listItemParser: Parser = (tokens) => {
+    const noop: ReturnType<Parser> = [[], tokens];
 
     if (tokens.length === 0) {
       return noop;
@@ -244,7 +237,7 @@ const parseListItem: (level: number) => Parser = (level) => {
           parseList(level + 1),
           parseParagraph,
         ),
-      )(itemContents, state);
+      )(itemContents);
 
       if (rest.length > 0) {
         fail(rest[0], 'unexpected token');
@@ -260,7 +253,7 @@ const parseListItem: (level: number) => Parser = (level) => {
         end: children[children.length - 1].end,
       };
 
-      return [[listItem], next, state];
+      return [[listItem], next];
     }
 
     return noop;
@@ -274,10 +267,10 @@ const parseListItem: (level: number) => Parser = (level) => {
 };
 
 const parseList: (level: number) => Parser = (level) => {
-  const listParser: Parser = (tokens, state) => {
+  const listParser: Parser = (tokens) => {
     const [children, afterList] = parseMany(
       parseListItem(level),
-    )(tokens, state);
+    )(tokens);
 
     if (children.length > 0) {
       return [[{
@@ -287,11 +280,10 @@ const parseList: (level: number) => Parser = (level) => {
         end: children[children.length - 1].end,
       }],
       afterList,
-      state,
       ];
     }
 
-    return [[], tokens, state];
+    return [[], tokens];
   };
 
   Object.defineProperty(listParser, 'name', {
@@ -301,22 +293,21 @@ const parseList: (level: number) => Parser = (level) => {
   return listParser;
 };
 
-const parseBlockQuote: Parser = ([token, ...tokens], state) => {
+const parseBlockQuote: Parser = ([token, ...tokens]) => {
   if (!token || token.type !== 'blockquote-start') {
-    return [[], tokens, state];
+    return [[], tokens];
   }
 
   const [
     children,
     [end, ...rest],
-    newState,
-  ] = parseMany(parseLiteral)(tokens, state);
+  ] = parseMany(parseLiteral)(tokens);
 
   if (
     children.length === 0
     || end.type !== 'blockquote-end'
   ) {
-    return [[], tokens, state];
+    return [[], tokens];
   }
 
   return [[{
@@ -324,23 +315,22 @@ const parseBlockQuote: Parser = ([token, ...tokens], state) => {
     children,
     start: token.start,
     end: end.end,
-  }], rest, newState];
+  }], rest];
 };
 
 const parseHeading: (level: number) => Parser = (level) => {
-  const headingParser: Parser = (tokens, state) => {
+  const headingParser: Parser = (tokens) => {
     const [
       litNodes,
       [token, ...nextTokens],
-      newState,
-    ] = parseText(tokens, state);
+    ] = parseText(tokens);
 
     if (
       litNodes.length === 0
       || !token
       || token.type !== `heading-${level}`
     ) {
-      return [[], tokens, state];
+      return [[], tokens];
     }
 
     return [[{
@@ -351,7 +341,7 @@ const parseHeading: (level: number) => Parser = (level) => {
       children: litNodes,
       start: litNodes[0].start,
       end: litNodes[litNodes.length - 1].end,
-    }], nextTokens, newState];
+    }], nextTokens];
   };
 
   Object.defineProperty(headingParser, 'name', {
@@ -361,25 +351,24 @@ const parseHeading: (level: number) => Parser = (level) => {
   return headingParser;
 };
 
-const parseLiteral: Parser = ([token, ...tokens], state) => {
+const parseLiteral: Parser = ([token, ...tokens]) => {
   if (token && token.type === 'literal') {
     return [[{
       type: 'literal',
       value: token.value,
       start: token.start,
       end: token.end,
-    }], tokens, state];
+    }], tokens];
   }
 
-  return [[], [token, ...tokens], state];
+  return [[], [token, ...tokens]];
 };
 
 const parseIdiomaticOrBold: Parser = (
   [token, ...tokens],
-  state,
 ) => {
   if (!token) {
-    return [[], [], state];
+    return [[], []];
   }
 
   if (token.type === 'bold' || token.type === 'idiomatic') {
@@ -396,10 +385,10 @@ const parseIdiomaticOrBold: Parser = (
         value: token.value,
         start: token.start,
         end: token.end,
-      }], tokens.slice(1), state];
+      }], tokens.slice(1)];
     }
 
-    const [children, nt] = parseMany(parseText)(toParse, state);
+    const [children, nt] = parseMany(parseText)(toParse);
 
     if (children.length === 0) {
       fail(token, 'could not recognize text');
@@ -414,15 +403,15 @@ const parseIdiomaticOrBold: Parser = (
       children,
       start: token.start,
       end: children[children.length - 1].end,
-    }], nextTokens.slice(1), state];
+    }], nextTokens.slice(1)];
   }
 
-  return [[], [], state];
+  return [[], []];
 };
 
-const parseQuote: Parser = (tokens, state) => {
+const parseQuote: Parser = (tokens) => {
   if (tokens.length === 0 || tokens[0].type !== 'quote') {
-    return [[], tokens, state];
+    return [[], tokens];
   }
 
   return [[{
@@ -430,7 +419,7 @@ const parseQuote: Parser = (tokens, state) => {
     value: tokens[0].value,
     start: tokens[0].start,
     end: tokens[0].end,
-  }], tokens.slice(1), state];
+  }], tokens.slice(1)];
 };
 
 const parseText: Parser = parseEither(
@@ -444,7 +433,6 @@ const parseSection = (
 ): Parser => {
   const sectionParser: Parser = (
     tokens,
-    state,
   ) => {
     const parseContents = parseMany(
       parseEither(
@@ -465,11 +453,10 @@ const parseSection = (
     const [
       children,
       nextTokens,
-      nextState,
-    ] = innerSectionParser(tokens, state);
+    ] = innerSectionParser(tokens);
 
     if (children.length === 0) {
-      return [[], tokens, state];
+      return [[], tokens];
     }
 
     return [[{
@@ -480,7 +467,7 @@ const parseSection = (
       children,
       start: children[0].start,
       end: children[children.length - 1].end,
-    }], nextTokens, nextState];
+    }], nextTokens];
   };
 
   Object.defineProperty(sectionParser, 'name', {
@@ -492,10 +479,7 @@ const parseSection = (
 
 const parseDocument = (tokens: LexerToken[]): MarkdownNode => {
   const [children, nextTokens] = parseSection(0)(
-    tokens, {
-      idiomatic: false,
-      bold: false,
-    },
+    tokens,
   );
 
   if (children.length === 0) {
