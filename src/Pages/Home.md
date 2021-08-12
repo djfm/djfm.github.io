@@ -85,7 +85,7 @@ Pour ce site,
 - À cause de mon choix d'hébergement, j'ai décidé d'avoir
   un site statique mais avec du **progressive-enhancement**.
 
-- En deux mots : **le site est une *SPA***
+- En deux mots : **le site est une SPA**
   mais au lieu de faire du *Server Side Rendering*,
   je **pré-génère les pages et je les commit** sur GitHub.
 

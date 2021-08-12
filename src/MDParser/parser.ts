@@ -634,7 +634,7 @@ export const parser = async (
 ):Promise<MarkdownNode> => {
   const tokens = lexer(source);
 
-  const doc = parseDocument(tokens);
+  const doc = parseDocument(skip(tokens, 'empty-line'));
 
   return doc;
 };
