@@ -379,6 +379,9 @@ const parseBlockQuote: Parser = ([token, ...tokens]) => {
 
   return [[{
     type: 'blockquote',
+    props: {
+      syntax: token.value,
+    },
     children,
     start: token.start,
     end: end.end,
