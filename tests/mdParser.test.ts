@@ -570,7 +570,13 @@ describe('the Markdown parser', () => {
     const doc = await parser([
       '- top level one',
       '  - nested one',
+      '    still in one',
+      '',
+      '    another paragraph',
+      '',
       '  - nested two',
+      '  - nested three',
+      '    - deep 1',
       '- top level two',
     ].join('\n'), '');
 
@@ -608,6 +614,19 @@ describe('the Markdown parser', () => {
                                   type: 'literal',
                                   value: 'nested one',
                                 },
+                                {
+                                  type: 'literal',
+                                  value: 'still in one',
+                                },
+                              ],
+                            },
+                            {
+                              type: 'paragraph',
+                              children: [
+                                {
+                                  type: 'literal',
+                                  value: 'another paragraph',
+                                },
                               ],
                             },
                           ],
@@ -621,6 +640,39 @@ describe('the Markdown parser', () => {
                                 {
                                   type: 'literal',
                                   value: 'nested two',
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          type: 'list-item',
+                          children: [
+                            {
+                              type: 'paragraph',
+                              children: [
+                                {
+                                  type: 'literal',
+                                  value: 'nested three',
+                                },
+                              ],
+                            },
+                            {
+                              type: 'list',
+                              children: [
+                                {
+                                  type: 'list-item',
+                                  children: [
+                                    {
+                                      type: 'paragraph',
+                                      children: [
+                                        {
+                                          type: 'literal',
+                                          value: 'deep 1',
+                                        },
+                                      ],
+                                    },
+                                  ],
                                 },
                               ],
                             },
