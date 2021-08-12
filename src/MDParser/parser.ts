@@ -379,16 +379,10 @@ const parseIdiomaticOrBold: Parser = (
   state,
 ) => {
   if (!token) {
-    // TODO should maybe throw an error
-    // if we are currently in a bold or idiomatic context
     return [[], [], state];
   }
 
   if (token.type === 'bold' || token.type === 'idiomatic') {
-    if (state.bold || state.idiomatic) {
-      // TODO
-    }
-
     const [toParse, nextTokens] = splitUntil(
       tokens, (t) => (
         t.start.line > token.end.line
@@ -397,7 +391,12 @@ const parseIdiomaticOrBold: Parser = (
     );
 
     if (nextTokens.length === 0 || nextTokens[0].type !== token.type) {
-      // TODO return a literal
+      return [[{
+        type: 'literal',
+        value: token.value,
+        start: token.start,
+        end: token.end,
+      }], tokens.slice(1), state];
     }
 
     const [children, nt] = parseMany(parseText)(toParse, state);
