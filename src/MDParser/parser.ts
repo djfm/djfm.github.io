@@ -28,7 +28,7 @@ export type MarkdownNode = {
   type: MarkdownNodeType
   value?: string
   children?: MarkdownNode[]
-  props?: Record<string, string | number>
+  props?: Record<string, unknown>
   start: Pos
   end: Pos
   state?: ParserState
@@ -242,7 +242,14 @@ const parseParagraph: Parser = (tokens) => {
   const [
     children,
     nextTokens,
-  ] = normalizeWhitespace(parseMany(parseText))(
+  ] = normalizeWhitespace(
+    parseMany(
+      parseEither(
+        parseText,
+        parseFunctionCall,
+      ),
+    ),
+  )(
     skip(tokens, 'empty-line'),
   );
 
@@ -301,6 +308,7 @@ const parseListItem: (level: number) => Parser = (level) => {
       const [children, rest] = parseMany(
         parseEither(
           parseList(level + 1),
+          parseFunctionCall,
           parseParagraph,
         ),
       )(itemContents);
@@ -374,7 +382,7 @@ const parseBlockQuote: Parser = ([token, ...tokens]) => {
     || !end
     || end.type !== 'blockquote-end'
   ) {
-    return [[], tokens];
+    fail(token, 'could not parse block-quote');
   }
 
   return [[{
@@ -393,7 +401,9 @@ const parseHeading: (level: number) => Parser = (level) => {
     const [
       litNodes,
       [token, ...nextTokens],
-    ] = normalizeWhitespace(parseMany(parseText))(tokens);
+    ] = normalizeWhitespace(parseMany(parseText))(
+      skip(tokens, 'empty-line'),
+    );
 
     if (
       litNodes.length === 0
@@ -411,7 +421,7 @@ const parseHeading: (level: number) => Parser = (level) => {
       children: litNodes,
       start: litNodes[0].start,
       end: litNodes[litNodes.length - 1].end,
-    }], nextTokens];
+    }], skip(nextTokens, 'empty-line')];
   };
 
   Object.defineProperty(headingParser, 'name', {
@@ -498,6 +508,55 @@ const parseText: Parser = parseEither(
   parseQuote,
 );
 
+const parseFunctionCall: Parser = (tokens) => {
+  if (tokens.length === 0 || tokens[0].type !== 'function-call') {
+    return [[], tokens];
+  }
+
+  const baseNode = {
+    type: 'function-call',
+    value: tokens[0].value,
+    props: {
+      positionalArgs: [] as string[],
+      namedArgs: {},
+    },
+    start: tokens[0].start,
+    end: undefined,
+  };
+
+  let nameSeen: string | false = false;
+  let i = 1;
+  for (
+    ;
+    i < tokens.length
+      && tokens[i].type.startsWith('function-call-arg-');
+    i += 1
+  ) {
+    const token = tokens[i];
+    baseNode.end = token.end;
+
+    if (token.type === 'function-call-arg-name') {
+      if (nameSeen) {
+        fail(token, 'cannot have multiple named arguments');
+      }
+
+      nameSeen = token.value;
+      baseNode.props.namedArgs[token.value] = [];
+    } else if (token.type === 'function-call-arg-value') {
+      if (nameSeen !== false) {
+        baseNode.props.namedArgs[nameSeen] = token.value;
+        nameSeen = false;
+      } else {
+        baseNode.props.positionalArgs.push(token.value);
+      }
+    } else {
+      fail(token, 'unexpected token in function call');
+    }
+  }
+
+  return [[baseNode], skip(tokens.slice(i), 'empty-line')];
+};
+
 const parseSection = (
   level: number,
 ): Parser => {
@@ -506,6 +565,7 @@ const parseSection = (
   ) => {
     const parseContents = parseMany(
       parseEither(
+        parseFunctionCall,
         parseSection(level + 1),
         parseParagraph,
         parseBlockQuote,

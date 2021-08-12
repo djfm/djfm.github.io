@@ -839,4 +839,115 @@ describe('the Markdown parser', () => {
       ],
     });
   });
+
+  it('parses function calls within sections', async () => {
+    const doc = await parser([
+      '@@META(',
+      '  bob/lol',
+      '  anchor=""',
+      '  title="fmdj.fr"',
+      ')',
+    ].join('\n'), '');
+
+    expect(doc).toMatchObject({
+      type: 'document',
+      children: [
+        {
+          type: 'section',
+          children: [
+            {
+              type: 'function-call',
+              value: 'META',
+              props: {
+                positionalArgs: ['bob/lol'],
+                namedArgs: {
+                  anchor: '',
+                  title: 'fmdj.fr',
+                },
+              },
+            },
+          ],
+        },
+      ],
+    });
+  });
+
+  it('parses function calls within paragraphs', async () => {
+    const doc = await parser([
+      'hello',
+      '@@IMG(/img/cat.png alt="cat")',
+    ].join('\n'), '');
+
+    expect(doc).toMatchObject({
+      type: 'document',
+      children: [
+        {
+          type: 'section',
+          children: [
+            {
+              type: 'paragraph',
+              children: [
+                {
+                  type: 'literal',
+                  value: 'hello ',
+                },
+                {
+                  type: 'function-call',
+                  value: 'IMG',
+                  props: {
+                    positionalArgs: ['/img/cat.png'],
+                    namedArgs: {
+                      alt: 'cat',
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+  });
+
+  it('parses function calls within list items', async () => {
+    const doc = await parser([
+      '- hello',
+      '',
+      '  @@TEST()',
+    ].join('\n'), '');
+
+    expect(doc).toMatchObject({
+      type: 'document',
+      children: [
+        {
+          type: 'section',
+          children: [
+            {
+              type: 'list',
+              children: [
+                {
+                  type: 'list-item',
+                  children: [
+                    {
+                      type: 'paragraph',
+                      children: [
+                        {
+                          type: 'literal',
+                          value: 'hello',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'function-call',
+                      value: 'TEST',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+  });
 });

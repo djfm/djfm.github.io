@@ -91,12 +91,19 @@ const lexLine = (
   const skip = (
     columns: number,
     updatedState = state,
-  ): [LexerToken[], LexerState] =>
-    lexLine(
+  ): [LexerToken[], LexerState] => {
+    const restOfLine = lineSrc.slice(columns);
+
+    if (restOfLine.length === 0) {
+      return [[], updatedState];
+    }
+
+    return lexLine(
       lineNumber,
       columnNumber + columns,
       updatedState,
-    )(lineSrc.slice(columns));
+    )(restOfLine);
+  };
 
   if (state === 'blockquote') {
     if (lineSrc.startsWith('```')) {
