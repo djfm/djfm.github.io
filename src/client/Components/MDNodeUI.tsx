@@ -83,7 +83,7 @@ const MDBlockquoteUI: React.FC<WithNode> = ({
     </React.Fragment>
   ));
 
-  if (node.value) {
+  if (node.props.syntax) {
     return (
       <pre>
         <code>
