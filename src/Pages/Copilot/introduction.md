@@ -14,10 +14,10 @@ mais cette innovation technologique vaut le détour,
 qu'on s'intéresse à la programmation ou non.
 
 
-Je pense que **Copilot est l'une
-des premières manifestations tangibles
+Je pense que **Copilot est l'une**
+**des premières manifestations tangibles**
 de ce que l'avenir nous réserve
-dans nos relations avec les intelligences artificielles**
+au sujet **de nos relations avec les intelligences artificielles**
 , quelles que soient les formes qu'elles
 puissent prendre...
 
@@ -34,8 +34,8 @@ qu'elles-mêmes, on entre dans un cycle de progrès
 technologique exponentiel dont nul ne peut prédire
 l'issue.
 
-Et **avec *Copilot*, on dirait qu'on a fait un grand
-pas vers ce futur**.
+Et **avec *Copilot*, on dirait qu'on a fait un grand**
+**pas vers ce futur**.
 
 
 Je vais essayer, par l'exemple, de vous montrer pourquoi
