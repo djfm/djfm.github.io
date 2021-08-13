@@ -7,6 +7,10 @@ import {
   LexerTokenType,
 } from './lexer';
 
+import {
+  hasProperties,
+} from '../client/util';
+
 type Parser = (tokens: LexerToken[]) => [
   MarkdownNode[],
   LexerToken[]
@@ -597,18 +601,12 @@ export const cleanUpAndAddKey = (
   const {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     start, end,
-    children,
     ...cleanedNode
   } = node;
 
-  const mappedChildren = children
-    ? children.map(
-      cleanUpAndAddKey,
-    ) : undefined;
-
-  if (cleanedNode.type === 'document') {
-    const refs = cleanedNode.refs
-      ? Object.entries(cleanedNode.refs).reduce(
+  if (node.type === 'document') {
+    const refs = node.refs
+      ? Object.entries(node.refs).reduce(
         (acc, [key, value]) => ({
           ...acc,
           [key]: cleanUpAndAddKey(value, id),
@@ -618,17 +616,24 @@ export const cleanUpAndAddKey = (
 
     return {
       ...cleanedNode,
-      children: mappedChildren,
+      children: node.children.map(cleanUpAndAddKey),
       refs,
       key: `${id}`,
-    };
+    } as RMarkdownNode;
+  }
+
+  if (hasProperties(node, 'children')) {
+    return {
+      ...cleanedNode,
+      children: node.children.map(cleanUpAndAddKey),
+      key: `${id}`,
+    } as RMarkdownNode;
   }
 
   return {
     ...cleanedNode,
-    children: mappedChildren,
     key: `${id}`,
-  };
+  } as RMarkdownNode;
 };
 
 const getRefList = (node: MarkdownNode): string[] => {
@@ -639,7 +644,7 @@ const getRefList = (node: MarkdownNode): string[] => {
     }
   }
 
-  if (node.children) {
+  if (hasProperties(node, 'children')) {
     return ([] as string[]).concat(
       ...node.children.map(getRefList),
     );

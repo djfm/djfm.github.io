@@ -1,3 +1,5 @@
+import { hasProperties } from './util';
+
 export type PageRefs = Record<string, DecoratedPage>
 
 export type DecoratedPage = {
@@ -6,27 +8,6 @@ export type DecoratedPage = {
   refs?: PageRefs
   title?: string
 }
-
-const hasProperties = <
-  Keys extends string[]
-> (
-    obj: unknown,
-    props: Keys,
-  ): obj is {
-    [k in Keys[number]]: unknown
-  } => {
-  if (typeof obj !== 'object') {
-    return false;
-  }
-
-  for (const prop of props) {
-    if (!Object.hasOwnProperty.call(obj, prop)) {
-      return false;
-    }
-  }
-
-  return true;
-};
 
 const decorate = (page: RMarkdownNode): DecoratedPage | string => {
   if (page.type !== 'document') {
@@ -50,7 +31,7 @@ const decorate = (page: RMarkdownNode): DecoratedPage | string => {
         return 'META has no arguments';
       }
       const meta = child.namedArgs;
-      if (!hasProperties(meta, ['title', 'anchor'])) {
+      if (!hasProperties(meta, 'title', 'anchor')) {
         return 'META must have title and anchor properties';
       }
       return {

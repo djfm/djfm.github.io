@@ -19,7 +19,9 @@ export type WithNode = {
   node: RMarkdownNode
 }
 
-const MDSectionUI: React.FC<WithNode> = ({
+const MDSectionUI: React.FC<{
+  node: RSectionNode
+}> = ({
   node,
 }) => (
   <section>
@@ -37,42 +39,50 @@ const MDHeadingUI: React.FC<{
 }) => React.createElement(
   `h${node.level}`,
   undefined,
-  ...node.children!.map((child) =>
+  ...node.children.map((child) =>
     <ReactMarkdownNodeUI key={child.key} node={child} />),
 );
 
-const MDBoldUI: React.FC<WithNode> = ({
+const MDBoldUI: React.FC<{
+  node: RBoldNode
+}> = ({
   node,
 }) => React.createElement(
   'strong',
   undefined,
-  ...node.children!.map((child) =>
+  ...node.children.map((child) =>
     <ReactMarkdownNodeUI key={child.key} node={child} />),
 );
 
-const MDIdiomaticUI: React.FC<WithNode> = ({
+const MDIdiomaticUI: React.FC<{
+  node: RIdiomaticNode
+}> = ({
   node,
 }) => React.createElement(
   'i',
   undefined,
-  ...node.children!.map((child) =>
+  ...node.children.map((child) =>
     <ReactMarkdownNodeUI key={child.key} node={child} />),
 );
 
-const MDParagraphUI: React.FC<WithNode> = ({
+const MDParagraphUI: React.FC<{
+  node: RParagraphNode
+}> = ({
   node,
 }) => React.createElement(
   'p',
   undefined,
-  ...node.children!.map((child) =>
+  ...node.children.map((child) =>
     <ReactMarkdownNodeUI key={child.key} node={child} />),
 );
 
-const MDListUI: React.FC<WithNode> = ({
+const MDListUI: React.FC<{
+  node: RListNode,
+}> = ({
   node,
 }) => (
   <ol>
-    {node.children!.map((child) => (
+    {node.children.map((child) => (
       <li key={child.key}>
         <ReactMarkdownNodeUI key={child.key} node={child} />
       </li>
@@ -80,11 +90,13 @@ const MDListUI: React.FC<WithNode> = ({
   </ol>
 );
 
-const MDListItemUI: React.FC<WithNode> = ({
+const MDListItemUI: React.FC<{
+  node: RListItemNode
+}> = ({
   node,
 }) => (
   <>
-    {node.children!.map((child) => (
+    {node.children.map((child) => (
       <ReactMarkdownNodeUI key={child.key} node={child} />
     ))}
   </>
@@ -95,10 +107,10 @@ const MDBlockquoteUI: React.FC<{
 }> = ({
   node,
 }) => {
-  const contents = node.children!.map((child, i) => (
+  const contents = node.children.map((child, i) => (
     <React.Fragment key={child.key}>
       <ReactMarkdownNodeUI node={child} />
-      {i < node.children!.length - 1 && '\n'}
+      {i < node.children.length - 1 && '\n'}
     </React.Fragment>
   ));
 
@@ -123,12 +135,16 @@ const MDLiteralUI: React.FC<{
 
 const MDSubpagesUI: React.FC<{
   paths: string[]
-  refs: PageRefs
+  refs: PageRefs | undefined
 }> = ({
   paths,
   refs,
 }) => {
   const { url } = useRouteMatch();
+
+  if (!refs) {
+    return null;
+  }
 
   const nav = (
     <nav>
@@ -199,8 +215,8 @@ export const ReactMarkdownNodeUI: React.FC<WithNode> = ({
     if (node.name === 'SUBPAGES') {
       return (
         <MDSubpagesUI
-          paths={node.positionalArgs!}
-          refs={context.dPage!.refs!}
+          paths={node.positionalArgs}
+          refs={context.dPage?.refs}
         />
       );
     }

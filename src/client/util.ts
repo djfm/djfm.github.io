@@ -2,6 +2,7 @@ type WithAnchor = {
   anchor: string
 }
 
+// TODO remove
 export const hasOwnProperty = <
   Y extends PropertyKey
 >(obj: unknown, prop: Y):
@@ -12,6 +13,23 @@ export const hasOwnProperty = <
         obj,
         prop,
       );
+
+export const hasProperties = <
+  Keys extends PropertyKey[],
+  T extends Record<PropertyKey, unknown>,
+> (
+    obj: T,
+    ...props: Keys
+  ): obj is {
+    [k in typeof props[number]]: typeof obj[k]
+  } => {
+  for (const prop of props) {
+    if (!Object.hasOwnProperty.call(obj, prop)) {
+      return false;
+    }
+  }
+  return true;
+};
 
 const makeStringTrimmers = () => {
   type StringTrimmer = (str:string) => ({
