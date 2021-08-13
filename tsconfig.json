@@ -9,19 +9,23 @@
     "skipLibCheck": true,
     "lib": ["ESNext", "DOM"],
     "skipDefaultLibCheck": true,
+    "types": [
+      "node",
+      "custom"
+    ],
     "typeRoots": [
-      "./src/@types",
-      "./node_modules/@types"
+      "node_modules/@types/",
+      "./typings",
     ],
     "outDir": "./build"
   },
   "include": [
-    "src/**/*.d.ts",
-    "src/**/*.ts",
-    "src/**/*.tsx"
+    "./**/*.ts",
+    "./**/*.tsx",
   ],
   "exclude": [
     "src/client/worker/**/*",
-    "src/client/builder/**/*"
+    "src/client/builder/**/*",
+    "tests/**/*"
   ]
 }

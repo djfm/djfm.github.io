@@ -103,21 +103,15 @@ describe('the Markdown parser', () => {
       children: [
         {
           type: 'section',
-          props: {
-            level: 0,
-          },
+          level: 0,
           children: [
             {
               type: 'section',
-              props: {
-                level: 1,
-              },
+              level: 1,
               children: [
                 {
                   type: 'heading',
-                  props: {
-                    level: 1,
-                  },
+                  level: 1,
                   children: [
                     {
                       type: 'literal',
@@ -181,21 +175,15 @@ describe('the Markdown parser', () => {
       children: [
         {
           type: 'section',
-          props: {
-            level: 0,
-          },
+          level: 0,
           children: [
             {
               type: 'section',
-              props: {
-                level: 1,
-              },
+              level: 1,
               children: [
                 {
                   type: 'heading',
-                  props: {
-                    level: 1,
-                  },
+                  level: 1,
                   children: [
                     {
                       type: 'literal',
@@ -214,15 +202,11 @@ describe('the Markdown parser', () => {
                 },
                 {
                   type: 'section',
-                  props: {
-                    level: 2,
-                  },
+                  level: 2,
                   children: [
                     {
                       type: 'heading',
-                      props: {
-                        level: 2,
-                      },
+                      level: 2,
                       children: [
                         {
                           type: 'literal',
@@ -243,15 +227,11 @@ describe('the Markdown parser', () => {
                 },
                 {
                   type: 'section',
-                  props: {
-                    level: 2,
-                  },
+                  level: 2,
                   children: [
                     {
                       type: 'heading',
-                      props: {
-                        level: 2,
-                      },
+                      level: 2,
                       children: [
                         {
                           type: 'literal',
@@ -283,15 +263,11 @@ describe('the Markdown parser', () => {
             },
             {
               type: 'section',
-              props: {
-                level: 1,
-              },
+              level: 1,
               children: [
                 {
                   type: 'heading',
-                  props: {
-                    level: 1,
-                  },
+                  level: 1,
                   children: [
                     {
                       type: 'literal',
@@ -310,15 +286,11 @@ describe('the Markdown parser', () => {
                 },
                 {
                   type: 'section',
-                  props: {
-                    level: 2,
-                  },
+                  level: 2,
                   children: [
                     {
                       type: 'heading',
-                      props: {
-                        level: 2,
-                      },
+                      level: 2,
                       children: [
                         {
                           type: 'literal',
@@ -339,15 +311,11 @@ describe('the Markdown parser', () => {
                 },
                 {
                   type: 'section',
-                  props: {
-                    level: 2,
-                  },
+                  level: 2,
                   children: [
                     {
                       type: 'heading',
-                      props: {
-                        level: 2,
-                      },
+                      level: 2,
                       children: [
                         {
                           type: 'literal',
@@ -857,13 +825,11 @@ describe('the Markdown parser', () => {
           children: [
             {
               type: 'function-call',
-              value: 'META',
-              props: {
-                positionalArgs: ['bob/lol'],
-                namedArgs: {
-                  anchor: '',
-                  title: 'fmdj.fr',
-                },
+              name: 'META',
+              positionalArgs: ['bob/lol'],
+              namedArgs: {
+                anchor: '',
+                title: 'fmdj.fr',
               },
             },
           ],
@@ -893,12 +859,10 @@ describe('the Markdown parser', () => {
                 },
                 {
                   type: 'function-call',
-                  value: 'IMG',
-                  props: {
-                    positionalArgs: ['/img/cat.png'],
-                    namedArgs: {
-                      alt: 'cat',
-                    },
+                  name: 'IMG',
+                  positionalArgs: ['/img/cat.png'],
+                  namedArgs: {
+                    alt: 'cat',
                   },
                 },
               ],
@@ -939,7 +903,7 @@ describe('the Markdown parser', () => {
                     },
                     {
                       type: 'function-call',
-                      value: 'TEST',
+                      name: 'TEST',
                     },
                   ],
                 },

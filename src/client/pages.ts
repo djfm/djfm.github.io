@@ -2,7 +2,7 @@ export type PageRefs = Record<string, DecoratedPage>
 
 export type DecoratedPage = {
   anchor: string
-  page: MDNode
+  page: RMarkdownNode
   refs?: PageRefs
   title?: string
 }
@@ -28,7 +28,7 @@ const hasProperties = <
   return true;
 };
 
-const decorate = (page: MDNode): DecoratedPage | string => {
+const decorate = (page: RMarkdownNode): DecoratedPage | string => {
   if (page.type !== 'document') {
     return 'Page must be a document';
   }
@@ -45,11 +45,11 @@ const decorate = (page: MDNode): DecoratedPage | string => {
     return 'Page root section must not be empty';
   }
   for (const child of page.children[0].children) {
-    if (child.type === 'function-call' && child.value === 'META') {
-      if (!child.props || !child.props.namedArgs) {
+    if (child.type === 'function-call' && child.name === 'META') {
+      if (!child.namedArgs) {
         return 'META has no arguments';
       }
-      const meta = child.props.namedArgs;
+      const meta = child.namedArgs;
       if (!hasProperties(meta, ['title', 'anchor'])) {
         return 'META must have title and anchor properties';
       }
@@ -72,7 +72,11 @@ const decorate = (page: MDNode): DecoratedPage | string => {
   return 'Could not find page meta info';
 };
 
-const wrapDecorate = (page: MDNode): DecoratedPage => {
+const wrapDecorate = (page: RMarkdownNode): DecoratedPage => {
+  if (page.type !== 'document') {
+    throw new Error('Expected a document.');
+  }
+
   const mbDecdPage = decorate(page);
   if (typeof mbDecdPage === 'string') {
     throw new Error(
@@ -82,7 +86,7 @@ const wrapDecorate = (page: MDNode): DecoratedPage => {
   return mbDecdPage;
 };
 
-export const decoratePages = (pages: MDNode[]): DecoratedPage[] =>
+export const decoratePages = (pages: RMarkdownNode[]): DecoratedPage[] =>
   pages.map(wrapDecorate);
 
 export default decoratePages;

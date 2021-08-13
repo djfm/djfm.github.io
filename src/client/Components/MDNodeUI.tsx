@@ -16,27 +16,29 @@ import {
 } from '../pages';
 
 export type WithNode = {
-  node: MDNode
+  node: RMarkdownNode
 }
 
 const MDSectionUI: React.FC<WithNode> = ({
   node,
 }) => (
   <section>
-    {node.children.map(
+    {node.children && node.children.map(
       (child) =>
-        <MDNodeUI key={child.key} node={child} />,
+        <ReactMarkdownNodeUI key={child.key} node={child} />,
     )}
   </section>
 );
 
-const MDHeadingUI: React.FC<WithNode> = ({
+const MDHeadingUI: React.FC<{
+  node: RHeadingNode
+}> = ({
   node,
 }) => React.createElement(
-  `h${node.props.level}`,
+  `h${node.level}`,
   undefined,
-  ...node.children.map((child) =>
-    <MDNodeUI key={child.key} node={child} />),
+  ...node.children!.map((child) =>
+    <ReactMarkdownNodeUI key={child.key} node={child} />),
 );
 
 const MDBoldUI: React.FC<WithNode> = ({
@@ -44,8 +46,8 @@ const MDBoldUI: React.FC<WithNode> = ({
 }) => React.createElement(
   'strong',
   undefined,
-  ...node.children.map((child) =>
-    <MDNodeUI key={child.key} node={child} />),
+  ...node.children!.map((child) =>
+    <ReactMarkdownNodeUI key={child.key} node={child} />),
 );
 
 const MDIdiomaticUI: React.FC<WithNode> = ({
@@ -53,8 +55,8 @@ const MDIdiomaticUI: React.FC<WithNode> = ({
 }) => React.createElement(
   'i',
   undefined,
-  ...node.children.map((child) =>
-    <MDNodeUI key={child.key} node={child} />),
+  ...node.children!.map((child) =>
+    <ReactMarkdownNodeUI key={child.key} node={child} />),
 );
 
 const MDParagraphUI: React.FC<WithNode> = ({
@@ -62,17 +64,17 @@ const MDParagraphUI: React.FC<WithNode> = ({
 }) => React.createElement(
   'p',
   undefined,
-  ...node.children.map((child) =>
-    <MDNodeUI key={child.key} node={child} />),
+  ...node.children!.map((child) =>
+    <ReactMarkdownNodeUI key={child.key} node={child} />),
 );
 
 const MDListUI: React.FC<WithNode> = ({
   node,
 }) => (
   <ol>
-    {node.children.map((child) => (
+    {node.children!.map((child) => (
       <li key={child.key}>
-        <MDNodeUI key={child.key} node={child} />
+        <ReactMarkdownNodeUI key={child.key} node={child} />
       </li>
     ))}
   </ol>
@@ -82,23 +84,25 @@ const MDListItemUI: React.FC<WithNode> = ({
   node,
 }) => (
   <>
-    {node.children.map((child) => (
-      <MDNodeUI key={child.key} node={child} />
+    {node.children!.map((child) => (
+      <ReactMarkdownNodeUI key={child.key} node={child} />
     ))}
   </>
 );
 
-const MDBlockquoteUI: React.FC<WithNode> = ({
+const MDBlockquoteUI: React.FC<{
+  node: RBlockquoteNode
+}> = ({
   node,
 }) => {
-  const contents = node.children.map((child, i) => (
+  const contents = node.children!.map((child, i) => (
     <React.Fragment key={child.key}>
-      <MDNodeUI node={child} />
-      {i < node.children.length - 1 && '\n'}
+      <ReactMarkdownNodeUI node={child} />
+      {i < node.children!.length - 1 && '\n'}
     </React.Fragment>
   ));
 
-  if (node.props.syntax) {
+  if (node.syntax) {
     return (
       <pre>
         <code>
@@ -111,7 +115,9 @@ const MDBlockquoteUI: React.FC<WithNode> = ({
   return (<pre>{contents}</pre>);
 };
 
-const MDLiteralUI: React.FC<WithNode> = ({
+const MDLiteralUI: React.FC<{
+  node: RLiteralNode
+}> = ({
   node,
 }) => <>{node.value}</>;
 
@@ -143,7 +149,7 @@ const MDSubpagesUI: React.FC<{
   return nav;
 };
 
-export const MDNodeUI: React.FC<WithNode> = ({
+export const ReactMarkdownNodeUI: React.FC<WithNode> = ({
   node,
 }) => {
   const context = useContext(DPageContext);
@@ -185,16 +191,16 @@ export const MDNodeUI: React.FC<WithNode> = ({
   }
 
   if (node.type === 'function-call') {
-    if (node.value === 'META') {
+    if (node.name === 'META') {
       // ignore this
       return null;
     }
 
-    if (node.value === 'SUBPAGES') {
+    if (node.name === 'SUBPAGES') {
       return (
         <MDSubpagesUI
-          paths={node.props.positionalArgs}
-          refs={context.dPage.refs}
+          paths={node.positionalArgs!}
+          refs={context.dPage!.refs!}
         />
       );
     }
@@ -207,4 +213,4 @@ export const MDNodeUI: React.FC<WithNode> = ({
   return null;
 };
 
-export default MDNodeUI;
+export default ReactMarkdownNodeUI;

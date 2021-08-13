@@ -13,7 +13,7 @@ const main = async () => {
 
   const testFileBuf = await readFile(path.join(rootDir, 'Home.md'));
   const testFile = testFileBuf.toString();
-  const parsed = await parser(testFile, rootDir);
+  const parsed = await parser(testFile, rootDir, '');
   inspect(parsed);
 };
 

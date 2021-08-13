@@ -10,11 +10,13 @@ import MDNodeUI from './MDNodeUI';
 
 import rawPages from '../../Pages';
 
-import decoratePages from '../pages';
+import decoratePages, { DecoratedPage } from '../pages';
 
 const pages = decoratePages(rawPages);
 
-export const DPageContext = React.createContext(null);
+export const DPageContext = React.createContext<{
+  dPage: DecoratedPage | undefined,
+}>({ dPage: undefined });
 
 const App: React.FC = () => {
   const nav = (

@@ -5,99 +5,7 @@ import {
   lexer,
   LexerToken,
   LexerTokenType,
-  Pos,
 } from './lexer';
-
-export interface BaseMarkdownNode <T> {
-  type: MarkdownNode['type']
-  children?: T[]
-}
-
-export interface IMarkdownNode extends BaseMarkdownNode<IMarkdownNode> {
-  start: Pos
-  end: Pos
-}
-
-export type MarkdownNode =
- QuoteNode
- | BoldNode
- | IdiomaticNode
- | BlockquoteNode
- | LiteralNode
- | HeadingNode
- | FunctionCallNode
- | ParagraphNode
- | SectionNode
- | DocumentNode
- | ListNode
- | ListItemNode
- | WhitespaceNode;
-
-export interface QuoteNode extends IMarkdownNode {
-  type: 'quote'
-  value: string
-}
-
-export interface BoldNode extends IMarkdownNode {
-  type: 'bold'
-}
-
-export interface IdiomaticNode extends IMarkdownNode {
-  type: 'idiomatic'
-}
-
-export interface BlockquoteNode extends IMarkdownNode {
-  type: 'blockquote'
-  syntax?: string
-}
-
-export interface LiteralNode extends IMarkdownNode {
-  type: 'literal'
-  value: string
-}
-
-export interface HeadingNode extends IMarkdownNode {
-  type: 'heading'
-  level: number
-}
-
-export interface FunctionCallNode extends IMarkdownNode {
-  type: 'function-call',
-  namedArgs?: { [key: string]: string },
-  positionalArgs?: string[],
-}
-
-export interface ParagraphNode extends IMarkdownNode {
-  type: 'paragraph'
-}
-
-export interface SectionNode extends IMarkdownNode {
-  type: 'section'
-  level: number
-}
-
-export interface DocumentNode extends IMarkdownNode {
-  type: 'document'
-  resourcePath: string
-  refs?: Record<string, MarkdownNode>
-}
-
-export interface ListNode extends IMarkdownNode {
-  type: 'list'
-}
-
-export interface ListItemNode extends IMarkdownNode {
-  type: 'list-item'
-}
-
-export interface WhitespaceNode extends IMarkdownNode {
-  type: 'whitespace'
-  value: string
-}
-
-export interface ReactMarkdownNode extends IMarkdownNode {
-  key: string
-}
 
 type Parser = (tokens: LexerToken[]) => [
   MarkdownNode[],
@@ -568,13 +476,11 @@ const parseFunctionCall: Parser = (tokens) => {
     return [[], tokens];
   }
 
-  const baseNode = {
+  const baseNode: FunctionCallNode = {
     type: 'function-call',
-    value: tokens[0].value,
-    props: {
-      positionalArgs: [] as string[],
-      namedArgs: {},
-    },
+    name: tokens[0].value,
+    positionalArgs: [] as string[],
+    namedArgs: {},
     start: tokens[0].start,
     end: undefined,
   };
@@ -596,13 +502,12 @@ const parseFunctionCall: Parser = (tokens) => {
       }
 
       nameSeen = token.value;
-      baseNode.props.namedArgs[token.value] = [];
     } else if (token.type === 'function-call-arg-value') {
       if (nameSeen !== false) {
-        baseNode.props.namedArgs[nameSeen] = token.value;
+        baseNode.namedArgs[nameSeen] = token.value;
         nameSeen = false;
       } else {
-        baseNode.props.positionalArgs.push(token.value);
+        baseNode.positionalArgs.push(token.value);
       }
     } else {
       fail(token, 'unexpected token in function call');
@@ -646,9 +551,7 @@ const parseSection = (
 
     return [[{
       type: 'section',
-      props: {
-        level,
-      },
+      level,
       children,
       start: children[0].start,
       end: children[children.length - 1].end,
@@ -662,7 +565,10 @@ const parseSection = (
   return sectionParser;
 };
 
-const parseDocument = (tokens: LexerToken[]): MarkdownNode => {
+const parseDocument = (
+  tokens: LexerToken[],
+  resourcePath: string,
+): DocumentNode => {
   const [children, nextTokens] = parseSection(0)(
     tokens,
   );
@@ -677,6 +583,7 @@ const parseDocument = (tokens: LexerToken[]): MarkdownNode => {
 
   return {
     type: 'document',
+    resourcePath,
     children,
     start: children[0].start,
     end: children[children.length - 1].end,
@@ -686,7 +593,7 @@ const parseDocument = (tokens: LexerToken[]): MarkdownNode => {
 export const cleanUpAndAddKey = (
   node: MarkdownNode,
   id: number,
-): ReactMarkdownNode => {
+): RMarkdownNode => {
   const {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     start, end,
@@ -694,37 +601,41 @@ export const cleanUpAndAddKey = (
     ...cleanedNode
   } = node;
 
-  const refs = node.refs ? Object.entries(node.refs).reduce(
-    (acc, [key, value]) => ({
-      ...acc,
-      [key]: cleanUpAndAddKey(value, id),
-    }),
-    {},
-  ) : undefined;
+  const mappedChildren = children
+    ? children.map(
+      cleanUpAndAddKey,
+    ) : undefined;
 
-  if (children) {
+  if (cleanedNode.type === 'document') {
+    const refs = cleanedNode.refs
+      ? Object.entries(cleanedNode.refs).reduce(
+        (acc, [key, value]) => ({
+          ...acc,
+          [key]: cleanUpAndAddKey(value, id),
+        }),
+        {},
+      ) : undefined;
+
     return {
       ...cleanedNode,
-      children: children.map(
-        cleanUpAndAddKey,
-      ),
-      key: `${id}`,
+      children: mappedChildren,
       refs,
+      key: `${id}`,
     };
   }
 
   return {
     ...cleanedNode,
+    children: mappedChildren,
     key: `${id}`,
-    refs,
   };
 };
 
 const getRefList = (node: MarkdownNode): string[] => {
   if (node.type === 'function-call') {
-    if (node.value === 'SUBPAGES'
-    || node.value === 'SECTIONS') {
-      return node.props.positionalArgs;
+    if (node.name === 'SUBPAGES'
+    || node.name === 'SECTIONS') {
+      return node.positionalArgs;
     }
   }
 
@@ -741,13 +652,13 @@ export const parser = async (
   source: string,
   directory: string,
   resourcePath: string,
-):Promise<MarkdownNode> => {
+): Promise<DocumentNode> => {
   const tokens = lexer(source);
 
-  const doc = parseDocument(skip(tokens, 'empty-line'));
-  if (resourcePath) {
-    doc.resourcePath = resourcePath;
-  }
+  const doc = parseDocument(
+    skip(tokens, 'empty-line'),
+    resourcePath,
+  );
   const refList = getRefList(doc);
 
   await Promise.all(refList.map(async (ref) => {
@@ -756,9 +667,6 @@ export const parser = async (
     const buf = await readFile(filePath);
     const txt = buf.toString();
     const refDoc = await parser(txt, dirname, filePath);
-    if (!doc.refs) {
-      doc.refs = {};
-    }
     doc.refs[ref] = refDoc;
   }));
 

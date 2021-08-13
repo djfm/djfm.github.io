@@ -1,7 +1,6 @@
 import {
   cleanUpAndAddKey,
   parser,
-  MarkdownNode,
 } from '../MDParser/parser';
 
 const getDependencies = (node: MarkdownNode): string[] => {
@@ -9,9 +8,7 @@ const getDependencies = (node: MarkdownNode): string[] => {
     const refsDeps: string[] = node.refs
       ? [].concat(...Object.values(node.refs).map(getDependencies))
       : [];
-    return node.resourcePath
-      ? [node.resourcePath, ...refsDeps]
-      : refsDeps;
+    return [node.resourcePath, ...refsDeps];
   }
 
   return [];
