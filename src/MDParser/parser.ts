@@ -667,6 +667,9 @@ export const parser = async (
     const buf = await readFile(filePath);
     const txt = buf.toString();
     const refDoc = await parser(txt, dirname, filePath);
+    if (!doc.refs) {
+      doc.refs = {};
+    }
     doc.refs[ref] = refDoc;
   }));
 

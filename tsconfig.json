@@ -1,4 +1,7 @@
 {
+  "ts-node": {
+    "files": true
+  },
   "compilerOptions": {
     "esModuleInterop": true,
     "sourceMap": true,
@@ -11,7 +14,8 @@
     "skipDefaultLibCheck": true,
     "types": [
       "node",
-      "custom"
+      "jest",
+      "markdown"
     ],
     "typeRoots": [
       "node_modules/@types/",
@@ -20,8 +24,8 @@
     "outDir": "./build"
   },
   "include": [
-    "./**/*.ts",
-    "./**/*.tsx",
+    "src/**/*.ts",
+    "src/**/*.tsx"
   ],
   "exclude": [
     "src/client/worker/**/*",
