@@ -4,7 +4,7 @@ import {
 
 describe('the Markdown parser', () => {
   it('parses a paragraph at document root', async () => {
-    const doc = await parser('hello world', '');
+    const doc = await parser('hello world', '', '');
     expect(doc).toMatchObject({
       type: 'document',
       children: [
@@ -30,7 +30,7 @@ describe('the Markdown parser', () => {
     'merges consecutive lines into a single',
     'paragraph with appropriate whitespace',
   ].join(' '), async () => {
-    const doc = await parser('hello\n  beloved \nworld\n', '');
+    const doc = await parser('hello\n  beloved \nworld\n', '', '');
     expect(doc).toMatchObject({
       type: 'document',
       children: [
@@ -54,7 +54,7 @@ describe('the Markdown parser', () => {
 
   it(
     'does not mess up with formatting on single line', async () => {
-      const doc = await parser('hello *dearest* world', '');
+      const doc = await parser('hello *dearest* world', '', '');
       expect(doc).toMatchObject({
         type: 'document',
         children: [
@@ -96,7 +96,7 @@ describe('the Markdown parser', () => {
       '============',
       '',
       'This is an introduction.',
-    ].join('\n'), '');
+    ].join('\n'), '', '');
 
     expect(doc).toMatchObject({
       type: 'document',
@@ -174,7 +174,7 @@ describe('the Markdown parser', () => {
       '-------------------',
       '',
       'subsection 2 text',
-    ].join('\n'), '');
+    ].join('\n'), '', '');
 
     expect(doc).toMatchObject({
       type: 'document',
@@ -375,7 +375,7 @@ describe('the Markdown parser', () => {
   });
 
   it('parses strong content', async () => {
-    const doc = await parser('**hello world**', '');
+    const doc = await parser('**hello world**', '', '');
     expect(doc).toMatchObject({
       type: 'document',
       children: [
@@ -403,7 +403,7 @@ describe('the Markdown parser', () => {
   });
 
   it('parses nested idiomatic within strong content', async () => {
-    const doc = await parser('**hello *my* world**', '');
+    const doc = await parser('**hello *my* world**', '', '');
     expect(doc).toMatchObject({
       type: 'document',
       children: [
@@ -444,7 +444,7 @@ describe('the Markdown parser', () => {
   });
 
   it('parses nested strong content within idiomatic content', async () => {
-    const doc = await parser('*hello **my** world*', '');
+    const doc = await parser('*hello **my** world*', '', '');
     expect(doc).toMatchObject({
       type: 'document',
       children: [
@@ -485,7 +485,7 @@ describe('the Markdown parser', () => {
   });
 
   it('parses quoted text', async () => {
-    const doc = await parser('`hi *world*`', '');
+    const doc = await parser('`hi *world*`', '', '');
     expect(doc).toMatchObject({
       type: 'document',
       children: [
@@ -508,7 +508,7 @@ describe('the Markdown parser', () => {
   });
 
   it('parses a simple list', async () => {
-    const doc = await parser('- one\n- two\n- three', '');
+    const doc = await parser('- one\n- two\n- three', '', '');
     expect(doc).toMatchObject({
       type: 'document',
       children: [
@@ -574,7 +574,7 @@ describe('the Markdown parser', () => {
       '',
       '  still-one',
       '- two',
-    ].join('\n'), '');
+    ].join('\n'), '', '');
 
     expect(doc).toMatchObject({
       type: 'document',
@@ -642,7 +642,7 @@ describe('the Markdown parser', () => {
       '  - nested three',
       '    - deep 1',
       '- top level two',
-    ].join('\n'), '');
+    ].join('\n'), '', '');
 
     expect(doc).toMatchObject({
       type: 'document',
@@ -765,7 +765,7 @@ describe('the Markdown parser', () => {
   });
 
   it('parses a blockquote', async () => {
-    const doc = await parser('```hello\nabc\ndef\n```', '');
+    const doc = await parser('```hello\nabc\ndef\n```', '', '');
     expect(doc).toMatchObject({
       type: 'document',
       children: [
@@ -802,7 +802,7 @@ describe('the Markdown parser', () => {
       '```',
       '',
       'hello world',
-    ].join('\n'), '');
+    ].join('\n'), '', '');
     expect(doc).toMatchObject({
       type: 'document',
       children: [
@@ -847,7 +847,7 @@ describe('the Markdown parser', () => {
       '  anchor=""',
       '  title="fmdj.fr"',
       ')',
-    ].join('\n'), '');
+    ].join('\n'), '', '');
 
     expect(doc).toMatchObject({
       type: 'document',
@@ -876,7 +876,7 @@ describe('the Markdown parser', () => {
     const doc = await parser([
       'hello',
       '@@IMG(/img/cat.png alt="cat")',
-    ].join('\n'), '');
+    ].join('\n'), '', '');
 
     expect(doc).toMatchObject({
       type: 'document',
@@ -914,7 +914,7 @@ describe('the Markdown parser', () => {
       '- hello',
       '',
       '  @@TEST()',
-    ].join('\n'), '');
+    ].join('\n'), '', '');
 
     expect(doc).toMatchObject({
       type: 'document',

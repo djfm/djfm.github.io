@@ -700,7 +700,7 @@ const getRefList = (node: MarkdownNode): string[] => {
 export const parser = async (
   source: string,
   directory: string,
-  resourcePath?: string,
+  resourcePath: string,
 ):Promise<MarkdownNode> => {
   const tokens = lexer(source);
 
