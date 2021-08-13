@@ -13,22 +13,20 @@ type MDNodeType =
   | 'bold'
   | 'idiomatic'
 
-type MaybeWithMeta = {
-  anchor: string
-  title: string
-}
-
 type MDNode = {
   type: MDNodeType
   value?: string;
   children?: MDNode[]
-  props?: Record<string,
-    string
-    | number
-    | string[]
-    | Record<string, string>
-  > & MaybeWithMeta
+  props?: {
+    syntax?: string
+    positionalArgs?: string[]
+    namedArgs?: { [key: string]: string }
+    level?: number
+    indent?: number
+  }
   key: string,
+  refs?: Record<string, MDNode>
+  resourcePath?: string
 }
 
 declare module '*.md' {

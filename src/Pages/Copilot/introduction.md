@@ -1,6 +1,6 @@
 @@META(
   anchor="introduction"
-  title="fmdj.fr"
+  title="Introduction sur Copilot et GPT-3"
 )
 
 *Copilot* Matérialise très Concrètement

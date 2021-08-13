@@ -1,7 +1,21 @@
 import {
   cleanUpAndAddKey,
   parser,
+  MarkdownNode,
 } from '../MDParser/parser';
+
+const getDependencies = (node: MarkdownNode): string[] => {
+  if (node.type === 'document') {
+    const refsDeps: string[] = node.refs
+      ? [].concat(...Object.values(node.refs).map(getDependencies))
+      : [];
+    return node.resourcePath
+      ? [node.resourcePath, ...refsDeps]
+      : refsDeps;
+  }
+
+  return [];
+};
 
 function mdLoader(
   source: string,
@@ -9,20 +23,23 @@ function mdLoader(
   meta: unknown,
 ): void {
   const callback = this.async();
+  const { resourcePath } = this;
 
-  parser(source, this.context).then(
-    (res) => callback(
-      null,
-      JSON.stringify({
-        ...cleanUpAndAddKey(res, 0),
-        props: {
-          ...res.props,
-          resourcePath: this.resourcePath,
-        },
-      }),
-      map,
-      meta,
-    ),
+  parser(source, this.context, resourcePath).then(
+    (res) => {
+      getDependencies(res).forEach((dep) => {
+        this.addDependency(dep);
+      });
+
+      callback(
+        null,
+        JSON.stringify(
+          cleanUpAndAddKey(res, 0),
+        ),
+        map,
+        meta,
+      );
+    },
   ).catch((err) => callback(err, '', map, meta));
 }
 

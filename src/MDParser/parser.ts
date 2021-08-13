@@ -1,3 +1,6 @@
+import { readFile } from 'fs/promises';
+import path from 'path';
+
 import {
   lexer,
   LexerToken,
@@ -27,7 +30,17 @@ type MarkdownNodeType =
 export type BaseMarkdownNode = {
   type: MarkdownNodeType
   value?: string
-  props?: Record<string, unknown>
+  props?: {
+    syntax?: string
+    positionalArgs?: string[]
+    namedArgs?: { [key: string]: string }
+    level?: number
+    indent?: number
+  }
+  refs?: {
+    [key: string]: MarkdownNode
+  }
+  resourcePath?: string
 }
 
 export type MarkdownNode = BaseMarkdownNode & {
@@ -641,6 +654,14 @@ export const cleanUpAndAddKey = (
     ...cleanedNode
   } = node;
 
+  const refs = node.refs ? Object.entries(node.refs).reduce(
+    (acc, [key, value]) => ({
+      ...acc,
+      [key]: cleanUpAndAddKey(value, id),
+    }),
+    {},
+  ) : undefined;
+
   if (children) {
     return {
       ...cleanedNode,
@@ -648,22 +669,58 @@ export const cleanUpAndAddKey = (
         cleanUpAndAddKey,
       ),
       key: `${id}`,
+      refs,
     };
   }
 
   return {
     ...cleanedNode,
     key: `${id}`,
+    refs,
   };
+};
+
+const getRefList = (node: MarkdownNode): string[] => {
+  if (node.type === 'function-call') {
+    if (node.value === 'SUBPAGES'
+    || node.value === 'SECTIONS') {
+      return node.props.positionalArgs;
+    }
+  }
+
+  if (node.children) {
+    return ([] as string[]).concat(
+      ...node.children.map(getRefList),
+    );
+  }
+
+  return [];
 };
 
 export const parser = async (
   source: string,
   directory: string,
+  resourcePath?: string,
 ):Promise<MarkdownNode> => {
   const tokens = lexer(source);
 
   const doc = parseDocument(skip(tokens, 'empty-line'));
+  if (resourcePath) {
+    doc.resourcePath = resourcePath;
+  }
+  const refList = getRefList(doc);
+
+  await Promise.all(refList.map(async (ref) => {
+    const filePath = path.join(directory, ref);
+    const dirname = path.dirname(filePath);
+    const buf = await readFile(filePath);
+    const txt = buf.toString();
+    const refDoc = await parser(txt, dirname, filePath);
+    if (!doc.refs) {
+      doc.refs = {};
+    }
+    doc.refs[ref] = refDoc;
+  }));
 
   return doc;
 };

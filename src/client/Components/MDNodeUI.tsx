@@ -1,4 +1,19 @@
-import React from 'react';
+import React, {
+  useContext,
+} from 'react';
+
+import {
+  useRouteMatch,
+  NavLink,
+} from 'react-router-dom';
+
+import {
+  DPageContext,
+} from './App';
+
+import {
+  PageRefs,
+} from '../pages';
 
 export type WithNode = {
   node: MDNode
@@ -100,9 +115,39 @@ const MDLiteralUI: React.FC<WithNode> = ({
   node,
 }) => <>{node.value}</>;
 
+const MDSubpagesUI: React.FC<{
+  paths: string[]
+  refs: PageRefs
+}> = ({
+  paths,
+  refs,
+}) => {
+  const { url } = useRouteMatch();
+
+  const nav = (
+    <nav>
+      <ol>
+        {paths.map((path) => (
+          <li key={path}>
+            <NavLink
+              to={`${url}/${refs[path].anchor}`}
+            >
+              {refs[path].title}
+            </NavLink>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  );
+
+  return nav;
+};
+
 export const MDNodeUI: React.FC<WithNode> = ({
   node,
 }) => {
+  const context = useContext(DPageContext);
+
   if (node.type === 'section') {
     return <MDSectionUI node={node} />;
   }
@@ -143,6 +188,15 @@ export const MDNodeUI: React.FC<WithNode> = ({
     if (node.value === 'META') {
       // ignore this
       return null;
+    }
+
+    if (node.value === 'SUBPAGES') {
+      return (
+        <MDSubpagesUI
+          paths={node.props.positionalArgs}
+          refs={context.dPage.refs}
+        />
+      );
     }
   }
 

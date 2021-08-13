@@ -1,5 +1,6 @@
 @@META(
   anchor="lexer"
+  title="le Lexer"
 )
 
 Construction du *Lexer*

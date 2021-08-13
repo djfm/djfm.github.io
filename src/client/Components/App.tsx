@@ -14,6 +14,8 @@ import decoratePages from '../pages';
 
 const pages = decoratePages(rawPages);
 
+export const DPageContext = React.createContext(null);
+
 const App: React.FC = () => {
   const nav = (
     <nav>
@@ -34,15 +36,19 @@ const App: React.FC = () => {
 
   const router = (
     <Switch>
-      {pages.map(({ anchor, page }) => (
-        <Route
-          key="anchor"
-          path={`/${anchor}`}
-          exact={anchor === ''}
-        >
-          <MDNodeUI node={page} />
-        </Route>
-      ))}
+      {pages.map(
+        (dPage) => (
+          <Route
+            key="anchor"
+            path={`/${dPage.anchor}`}
+            exact={dPage.anchor === ''}
+          >
+            <DPageContext.Provider value={{ dPage }}>
+              <MDNodeUI node={dPage.page} />
+            </DPageContext.Provider>
+          </Route>
+        ),
+      )}
     </Switch>
   );
 

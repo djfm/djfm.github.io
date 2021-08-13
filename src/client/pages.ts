@@ -1,7 +1,10 @@
+export type PageRefs = Record<string, DecoratedPage>
+
 export type DecoratedPage = {
-  page: MDNode
-  title?: string
   anchor: string
+  page: MDNode
+  refs?: PageRefs
+  title?: string
 }
 
 const hasProperties = <
@@ -54,21 +57,32 @@ const decorate = (page: MDNode): DecoratedPage | string => {
         anchor: meta.anchor,
         title: meta.title,
         page: page.children[0],
+        refs: !page.refs
+          ? undefined
+          : Object.entries(page.refs).reduce(
+            (acc, [key, value]) => ({
+              ...acc,
+              [key]: wrapDecorate(value),
+            }),
+            {},
+          ),
       };
     }
   }
   return 'Could not find page meta info';
 };
 
+const wrapDecorate = (page: MDNode): DecoratedPage => {
+  const mbDecdPage = decorate(page);
+  if (typeof mbDecdPage === 'string') {
+    throw new Error(
+      `${mbDecdPage} (in "${page.resourcePath}").`,
+    );
+  }
+  return mbDecdPage;
+};
+
 export const decoratePages = (pages: MDNode[]): DecoratedPage[] =>
-  pages.map((page) => {
-    const mbDecdPage = decorate(page);
-    if (typeof mbDecdPage === 'string') {
-      throw new Error(
-        `${mbDecdPage} (in "${page.props.resourcePath}").`,
-      );
-    }
-    return mbDecdPage;
-  });
+  pages.map(wrapDecorate);
 
 export default decoratePages;
