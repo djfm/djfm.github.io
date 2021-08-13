@@ -5,11 +5,11 @@ import React, {
 import {
   useRouteMatch,
   NavLink,
+  Switch,
+  Route,
 } from 'react-router-dom';
 
-import {
-  DPageContext,
-} from './App';
+import { DPageContext } from './App';
 
 import {
   PageRefs,
@@ -140,7 +140,7 @@ const MDSubpagesUI: React.FC<{
   paths,
   refs,
 }) => {
-  const { url } = useRouteMatch();
+  const { url, path } = useRouteMatch();
 
   if (!refs) {
     return null;
@@ -149,12 +149,12 @@ const MDSubpagesUI: React.FC<{
   const nav = (
     <nav>
       <ol>
-        {paths.map((path) => (
-          <li key={path}>
+        {paths.map((p) => (
+          <li key={p}>
             <NavLink
-              to={`${url}/${refs[path].anchor}`}
+              to={`${url}/${refs[p].anchor}`}
             >
-              {refs[path].title}
+              {refs[p].title}
             </NavLink>
           </li>
         ))}
@@ -162,7 +162,29 @@ const MDSubpagesUI: React.FC<{
     </nav>
   );
 
-  return nav;
+  const routes = (
+    <Switch>
+      {paths.map((p) => (
+        <Route
+          key={p}
+          path={`${path}/${refs[p].anchor}`}
+        >
+          <DPageContext.Provider
+            value={{ dPage: refs[p] }}
+          >
+            <ReactMarkdownNodeUI node={refs[p].page} />
+          </DPageContext.Provider>
+        </Route>
+      ))}
+    </Switch>
+  );
+
+  return (
+    <>
+      {nav}
+      {routes}
+    </>
+  );
 };
 
 export const ReactMarkdownNodeUI: React.FC<WithNode> = ({
