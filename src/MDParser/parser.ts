@@ -8,50 +8,95 @@ import {
   Pos,
 } from './lexer';
 
-const openerClosers: readonly string[] = [
-  'quote',
-  'bold',
-  'idiomatic',
-] as const;
-
-type MarkdownNodeType =
- | 'blockquote'
- | 'literal'
- | 'heading'
- | 'function-call'
- | 'paragraph'
- | 'section'
- | 'document'
- | 'list'
- | 'list-item'
- | 'whitespace'
- | typeof openerClosers[number]
-
-export type BaseMarkdownNode = {
-  type: MarkdownNodeType
-  value?: string
-  props?: {
-    syntax?: string
-    positionalArgs?: string[]
-    namedArgs?: { [key: string]: string }
-    level?: number
-    indent?: number
-  }
-  refs?: {
-    [key: string]: MarkdownNode
-  }
-  resourcePath?: string
+export interface BaseMarkdownNode <T> {
+  type: MarkdownNode['type']
+  children?: T[]
 }
 
-export type MarkdownNode = BaseMarkdownNode & {
-  children?: MarkdownNode[]
+export interface IMarkdownNode extends BaseMarkdownNode<IMarkdownNode> {
   start: Pos
   end: Pos
 }
 
-export type ReactMarkdownNode = BaseMarkdownNode & {
-  children?: ReactMarkdownNode[]
-  key: string,
+export type MarkdownNode =
+ QuoteNode
+ | BoldNode
+ | IdiomaticNode
+ | BlockquoteNode
+ | LiteralNode
+ | HeadingNode
+ | FunctionCallNode
+ | ParagraphNode
+ | SectionNode
+ | DocumentNode
+ | ListNode
+ | ListItemNode
+ | WhitespaceNode;
+
+export interface QuoteNode extends IMarkdownNode {
+  type: 'quote'
+  value: string
+}
+
+export interface BoldNode extends IMarkdownNode {
+  type: 'bold'
+}
+
+export interface IdiomaticNode extends IMarkdownNode {
+  type: 'idiomatic'
+}
+
+export interface BlockquoteNode extends IMarkdownNode {
+  type: 'blockquote'
+  syntax?: string
+}
+
+export interface LiteralNode extends IMarkdownNode {
+  type: 'literal'
+  value: string
+}
+
+export interface HeadingNode extends IMarkdownNode {
+  type: 'heading'
+  level: number
+}
+
+export interface FunctionCallNode extends IMarkdownNode {
+  type: 'function-call',
+  namedArgs?: { [key: string]: string },
+  positionalArgs?: string[],
+}
+
+export interface ParagraphNode extends IMarkdownNode {
+  type: 'paragraph'
+}
+
+export interface SectionNode extends IMarkdownNode {
+  type: 'section'
+  level: number
+}
+
+export interface DocumentNode extends IMarkdownNode {
+  type: 'document'
+  resourcePath: string
+  refs?: Record<string, MarkdownNode>
+}
+
+export interface ListNode extends IMarkdownNode {
+  type: 'list'
+}
+
+export interface ListItemNode extends IMarkdownNode {
+  type: 'list-item'
+}
+
+export interface WhitespaceNode extends IMarkdownNode {
+  type: 'whitespace'
+  value: string
+}
+
+export interface ReactMarkdownNode extends IMarkdownNode {
+  key: string
 }
 
 type Parser = (tokens: LexerToken[]) => [
@@ -68,7 +113,7 @@ type TokenPredicate =
 const fail = (token: LexerToken | MarkdownNode | undefined, ...msgParts: string[]): never => {
   const msg = token
     ? msgParts.concat(
-      'at', `"${token.value}"`,
+      'at', `"${'value' in token ? token.value : '?'}"`,
       `${token.start.line}:${token.start.column}`,
       '-',
       `${token.end.line}:${token.end.column}`,
@@ -332,11 +377,8 @@ const parseListItem: (level: number) => Parser = (level) => {
         fail(rest[0], 'unexpected token');
       }
 
-      const listItem: MarkdownNode = {
+      const listItem: ListItemNode = {
         type: 'list-item',
-        props: {
-          indent,
-        },
         children,
         start: tokens[0].start,
         end: children[children.length - 1].end,
@@ -430,9 +472,7 @@ const parseHeading: (level: number) => Parser = (level) => {
 
     return [[{
       type: 'heading',
-      props: {
-        level,
-      },
+      level,
       children: litNodes,
       start: litNodes[0].start,
       end: litNodes[litNodes.length - 1].end,
